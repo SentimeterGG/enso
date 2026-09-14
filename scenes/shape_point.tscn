@@ -1,0 +1,13 @@
+[gd_scene format=3 uid="uid://d34ca4dw4ct0i"]
+
+[ext_resource type="Script" uid="uid://cjc2ip1uq0gg4" path="res://scripts/note/shape/shape_point.gd" id="1_bdgod"]
+
+[node name="shape_point" type="ColorRect" unique_id=1711279368]
+self_modulate = Color(1, 1, 1, 0.039215688)
+offset_right = 70.0
+offset_bottom = 70.0
+script = ExtResource("1_bdgod")
+
+[node name="Line2D" type="Line2D" parent="." unique_id=724274820]
+position = Vector2(13, 19)
+points = PackedVector2Array(0, 0, 40, 0, 40, 40)

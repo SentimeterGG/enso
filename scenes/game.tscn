@@ -1,0 +1,348 @@
+[gd_scene format=3 uid="uid://drpnvwmnb2h4x"]
+
+[ext_resource type="Script" uid="uid://kf6p0lw85s2o" path="res://scripts/game/game.gd" id="1_uwrxv"]
+[ext_resource type="Script" uid="uid://dd7i0f11yksaj" path="res://scripts/accuracy_manager.gd" id="2_lbhrr"]
+[ext_resource type="Script" uid="uid://bil15ch0n2iyd" path="res://scripts/note/shape/target_shape.gd" id="3_gee14"]
+[ext_resource type="Texture2D" uid="uid://6cyl252a43ro" path="res://assets/sprites/circle-outline.svg" id="5_iywne"]
+[ext_resource type="Script" uid="uid://4t7iids2300s" path="res://scripts/note/note_manager.gd" id="5_p57ef"]
+[ext_resource type="Script" uid="uid://3g8m7mw6ywns" path="res://scripts/note/beat/beat_column.gd" id="6_u5sy4"]
+[ext_resource type="Texture2D" uid="uid://drvec743hncum" path="res://assets/sprites/circle.svg" id="8_gee14"]
+[ext_resource type="Theme" uid="uid://cpocn8agag6ib" path="res://resources/theme/Theme.tres" id="9_0tnpc"]
+[ext_resource type="Texture2D" uid="uid://b3v8a03h3ikfs" path="res://assets/sprites/UI/corner.png" id="10_kvpfn"]
+[ext_resource type="PackedScene" uid="uid://b7rlmo61qxu8s" path="res://scenes/draw.tscn" id="10_vtaks"]
+[ext_resource type="Script" uid="uid://3tetr7jpx2oo" path="res://scripts/character.gd" id="11_dinhu"]
+[ext_resource type="Texture2D" uid="uid://bd5lvuolgnyd2" path="res://assets/sprites/Mio-Sheet.png" id="11_kvpfn"]
+
+[sub_resource type="Animation" id="Animation_0tnpc"]
+resource_name = "Intro"
+length = 3.0000000000000004
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("accuracy_manager:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(1.8333338, 2.6000001),
+"transitions": PackedFloat32Array(0.18, 0.18),
+"update": 0,
+"values": [Color(1, 1, 1, 0), Color(1, 1, 1, 1)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("note_manager:modulate")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(1.8000005, 2.6333334),
+"transitions": PackedFloat32Array(0.18, 0.18),
+"update": 0,
+"values": [Color(1, 1, 1, 0), Color(1, 1, 1, 1)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("UI/COUNTDOWN:text")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0, 0.3, 0.53333336, 0.8, 1.1),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1),
+"update": 1,
+"values": ["", "1", "2", "3", "GO"]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("UI/COUNTDOWN:modulate")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(1.4666667, 2.2666667),
+"transitions": PackedFloat32Array(0.30778638, 0.20306318),
+"update": 0,
+"values": [Color(1, 1, 1, 1), Color(1, 1, 1, 0)]
+}
+
+[sub_resource type="Animation" id="Animation_vtaks"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("accuracy_manager:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 1, 1, 0)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("UI/COUNTDOWN:text")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [""]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("UI/COUNTDOWN:modulate")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 1, 1, 0)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_vtaks"]
+_data = {
+&"Intro": SubResource("Animation_0tnpc"),
+&"RESET": SubResource("Animation_vtaks")
+}
+
+[sub_resource type="Animation" id="Animation_kvpfn"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [0]
+}
+
+[sub_resource type="Animation" id="Animation_dinhu"]
+resource_name = "idle"
+length = 3.0
+loop_mode = 1
+step = 0.041666668
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.20833333, 0.41666666, 0.625, 0.8333333, 1.0416667, 1.2500001, 1.4583334, 1.6666667, 1.8333333, 2.0416667, 2.2500002, 2.4583333, 2.6666667, 2.8333333),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1),
+"update": 1,
+"values": [0, 1, 2, 3, 4, 0, 1, 2, 3, 4, 0, 1, 2, 3, 29]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_kvuet"]
+_data = {
+&"RESET": SubResource("Animation_kvpfn"),
+&"idle": SubResource("Animation_dinhu")
+}
+
+[node name="game" type="Node2D" unique_id=1374663414]
+script = ExtResource("1_uwrxv")
+
+[node name="animator" type="AnimationPlayer" parent="." unique_id=751108128]
+libraries/ = SubResource("AnimationLibrary_vtaks")
+
+[node name="accuracy_manager" type="Node2D" parent="." unique_id=1262186888]
+modulate = Color(1, 1, 1, 0)
+position = Vector2(603, 327)
+script = ExtResource("2_lbhrr")
+
+[node name="avg_accuracy" type="Label" parent="accuracy_manager" unique_id=906467398]
+offset_right = 64.0
+offset_bottom = 23.0
+offset_transform_enabled = true
+offset_transform_position_ratio = Vector2(-1, -1)
+theme = ExtResource("9_0tnpc")
+text = "100.00%"
+horizontal_alignment = 2
+
+[node name="target_shape" type="Line2D" parent="." unique_id=129393694]
+position = Vector2(47, 110)
+width = 15.0
+script = ExtResource("3_gee14")
+
+[node name="note_manager" type="Node2D" parent="." unique_id=1684941741]
+position = Vector2(48, 48)
+script = ExtResource("5_p57ef")
+
+[node name="beat_column" type="Node2D" parent="note_manager" unique_id=1656757356]
+script = ExtResource("6_u5sy4")
+
+[node name="beat_receptor" type="Sprite2D" parent="note_manager/beat_column" unique_id=1856949370]
+texture_filter = 1
+position = Vector2(16, 16)
+texture = ExtResource("5_iywne")
+
+[node name="clicked" type="Sprite2D" parent="note_manager/beat_column/beat_receptor" unique_id=1494436509]
+modulate = Color(1, 1, 1, 0.18431373)
+texture_filter = 1
+texture = ExtResource("8_gee14")
+
+[node name="beat_spawner" type="Node2D" parent="note_manager/beat_column" unique_id=1101375677]
+position = Vector2(664, 16)
+
+[node name="shape_column" type="Node2D" parent="note_manager" unique_id=1719142597]
+position = Vector2(0, 58)
+
+[node name="shape_receptor" type="Sprite2D" parent="note_manager/shape_column" unique_id=261669382]
+texture_filter = 1
+position = Vector2(16, 16)
+texture = ExtResource("5_iywne")
+
+[node name="clicked" type="Sprite2D" parent="note_manager/shape_column/shape_receptor" unique_id=1239751886]
+modulate = Color(1, 1, 1, 0.18431373)
+texture_filter = 1
+texture = ExtResource("8_gee14")
+
+[node name="shape_spawner" type="Node2D" parent="note_manager/shape_column" unique_id=1877341765]
+position = Vector2(664, 16)
+
+[node name="music" type="AudioStreamPlayer" parent="." unique_id=1476538572]
+
+[node name="Mio" type="Sprite2D" parent="." unique_id=1114094282]
+position = Vector2(320, 180)
+scale = Vector2(2.0277777, 2.0277777)
+texture = ExtResource("11_kvpfn")
+hframes = 30
+region_rect = Rect2(0, 0, 23, 38)
+script = ExtResource("11_dinhu")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="Mio" unique_id=89011526]
+libraries/ = SubResource("AnimationLibrary_kvuet")
+speed_scale = 1.3
+
+[node name="draw" parent="." unique_id=2118743800 node_paths=PackedStringArray("target_shape") instance=ExtResource("10_vtaks")]
+weight = 0.5
+min_direction_sample = 2.0
+target_shape = NodePath("../target_shape")
+
+[node name="UI" type="Control" parent="." unique_id=1699503938]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 640.0
+offset_bottom = 360.0
+
+[node name="COUNTDOWN" type="Label" parent="UI" unique_id=1208389672]
+modulate = Color(1, 1, 1, 0)
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -20.0
+offset_top = -11.5
+offset_right = 20.0
+offset_bottom = 11.5
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 4
+theme = ExtResource("9_0tnpc")
+theme_override_font_sizes/font_size = 107
+horizontal_alignment = 1
+
+[node name="RB" type="MarginContainer" parent="UI" unique_id=773312028]
+layout_mode = 1
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -193.0
+offset_top = -111.0
+grow_horizontal = 0
+grow_vertical = 0
+theme_override_constants/margin_right = 24
+theme_override_constants/margin_bottom = 24
+
+[node name="RB" type="TextureRect" parent="UI/RB" unique_id=665609910]
+modulate = Color(1, 1, 1, 0.3254902)
+layout_mode = 2
+size_flags_horizontal = 8
+size_flags_vertical = 8
+offset_transform_enabled = true
+offset_transform_scale = Vector2(1.5, 1.5)
+offset_transform_pivot_ratio = Vector2(1, 1)
+texture = ExtResource("10_kvpfn")
+flip_h = true
+
+[node name="LB" type="MarginContainer" parent="UI" unique_id=884428955]
+layout_mode = 1
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_top = -129.0
+offset_right = 323.0
+grow_vertical = 0
+theme_override_constants/margin_left = 24
+theme_override_constants/margin_right = 0
+theme_override_constants/margin_bottom = 24
+
+[node name="LB" type="TextureRect" parent="UI/LB" unique_id=1510864175]
+modulate = Color(1, 1, 1, 0.3254902)
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 8
+offset_transform_enabled = true
+offset_transform_scale = Vector2(1.5, 1.5)
+offset_transform_pivot_ratio = Vector2(0, 1)
+texture = ExtResource("10_kvpfn")
+
+[node name="LT" type="MarginContainer" parent="UI" unique_id=1296225961]
+layout_mode = 0
+offset_right = 193.0
+offset_bottom = 111.0
+theme_override_constants/margin_left = 24
+theme_override_constants/margin_top = 24
+
+[node name="LT" type="TextureRect" parent="UI/LT" unique_id=1725277101]
+modulate = Color(1, 1, 1, 0.3254902)
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 0
+offset_transform_enabled = true
+offset_transform_scale = Vector2(1.5, 1.5)
+offset_transform_pivot_ratio = Vector2(0, 0)
+texture = ExtResource("10_kvpfn")
+flip_v = true
+
+[node name="RT" type="MarginContainer" parent="UI" unique_id=1649601570]
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -193.0
+offset_bottom = 111.0
+grow_horizontal = 0
+theme_override_constants/margin_top = 24
+theme_override_constants/margin_right = 24
+
+[node name="RT" type="TextureRect" parent="UI/RT" unique_id=1529201411]
+modulate = Color(1, 1, 1, 0.3254902)
+layout_mode = 2
+size_flags_horizontal = 8
+size_flags_vertical = 0
+offset_transform_enabled = true
+offset_transform_scale = Vector2(1.5, 1.5)
+offset_transform_pivot_ratio = Vector2(1, 0)
+texture = ExtResource("10_kvpfn")
+flip_h = true
+flip_v = true
+
+[connection signal="animation_finished" from="animator" to="." method="_on_animator_animation_finished"]
+[connection signal="draw_direction_changes" from="draw" to="note_manager/beat_column" method="_on_draw_direction_changes"]
+[connection signal="draw_started" from="draw" to="note_manager/beat_column" method="_on_draw_started"]
+[connection signal="shape_accuracy_ready" from="draw" to="accuracy_manager" method="_on_draw_shape_accuracy_ready"]

@@ -1,0 +1,16 @@
+[gd_scene format=3 uid="uid://b7rlmo61qxu8s"]
+
+[ext_resource type="Script" uid="uid://d1wkv6nyfg561" path="res://scripts/draw/draw.gd" id="1_1feld"]
+[ext_resource type="Script" uid="uid://cunb8lmxfnigo" path="res://scripts/draw/recognizer.gd" id="2_d4hqq"]
+
+[sub_resource type="Resource" id="Resource_yqjtg"]
+script = ExtResource("2_d4hqq")
+metadata/_custom_type_script = "uid://cunb8lmxfnigo"
+
+[node name="draw" type="Line2D" unique_id=2118743800]
+width = 5.0
+joint_mode = 2
+begin_cap_mode = 2
+end_cap_mode = 2
+script = ExtResource("1_1feld")
+recognizer = SubResource("Resource_yqjtg")

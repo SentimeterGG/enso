@@ -1,0 +1,72 @@
+# ============================================================
+# enso level chart
+#
+# SECTIONS
+#   [metadata]  level-wide settings (name, scroll speed, song file)
+#   [notes]     the actual chart data
+#
+# SHAPES
+#   [(name)]   closed shape   -> the end point joins back to the start point
+#                                (a loop, like a square or circle)
+#   [[name]]   open shape     -> does NOT close itself; can be straight lines
+#                                such as an L or U. Mark the final point with "!"
+#   The text inside the brackets is the object id (must be unique).
+#
+# POINT TYPES
+#   @  note point     -> "@ <time> <x> <y>"     has a timestamp (ms) and trigger
+#                                                when that moment in the song hits
+#   !  geometry point -> "! <x> <y>"           no timestamp; only used to shape the
+#                                                outline of an open shape correctly
+#
+# COORDINATES
+#   x, y may be integers or fractions; the engine converts them to floats either way
+#   (0, 0) = top-left of the playfield
+#   (1, 1) = bottom-right of the playfield
+# ============================================================
+
+[metadata]
+name = "Test Song"          # level title shown to the player
+song = ./test-song.mp3       # audio file, relative to this chart
+color_scheme = ["#EEB8C4", "#E6D47B", "#D0574E", "#4061A0"]
+preview_start = 125
+bpm = 80
+beat0 = 400
+
+[notes]
+
+# ms     x  y
+[(square)]
+@ 528 0  0    # top-left corner
+@ 723 0  1    # bottom-left corner
+@ 902 1  1    # bottom-right corner
+@ 1062 1  0    # top-right corner (auto-connects back to top-left)
+
+[[L1]]
+@ 1485 0  0
+@ 1675 0  1
+! 1 1
+
+[[h_line]]
+@ 2078 0 0.5
+! 1 0.5
+
+[[U_square]]
+@ 2422 0  0
+@ 2607 0  1
+@ 2811 1  1
+! 1 0
+
+[[L2]]
+@ 3339 0 0
+@ 3573 0 1
+! 1 1
+
+[[L2_upside]]
+@ 3927 0 0
+@ 4077 1 0
+! 1 1
+
+[[L3]]
+@ 4456 0  0
+@ 4665 0  1
+! 1 1

@@ -1,0 +1,10 @@
+# Godot 4+ specific ignores
+.godot/
+.android/
+# runtime / tool artifacts
+server.pipe
+__pycache__/
+*.pyc
+# generated codebase maps (regenerate via dev/tools/generate_codebase_map.py)
+codebase_map.html
+codebase_map.txt

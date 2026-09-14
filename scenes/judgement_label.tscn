@@ -1,0 +1,11 @@
+[gd_scene format=3 uid="uid://n2mdtxc3nm7q"]
+
+[ext_resource type="Theme" uid="uid://cpocn8agag6ib" path="res://resources/theme/Theme.tres" id="1_r3gdf"]
+[ext_resource type="Script" uid="uid://qlgofa4tdvbk" path="res://scripts/judgement/judgement_label.gd" id="2_cn57b"]
+
+[node name="judgement" type="Label" unique_id=40436041]
+offset_right = 40.0
+offset_bottom = 23.0
+theme = ExtResource("1_r3gdf")
+text = "PERFECT"
+script = ExtResource("2_cn57b")

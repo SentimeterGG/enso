@@ -1,0 +1,31 @@
+Yeah, now that the map shows call directions and return values, a few real code-organization issues jump out — separate from folder/file layout.
+
+**1. `game.gd` is doing too much (God-object risk)**
+Its description lists four distinct jobs: chart loading, music playback, note/shape scheduling, and target-shape display — and it also pulls in `chart_data.gd` + `chart_parser.gd` directly. As the game grows (more chart types, difficulty modes, pause/retry logic), this file becomes the one everyone's afraid to touch. Worth splitting into something like:
+- `chart_loader.gd` — owns loading + `ChartParser`/`ChartData` interaction
+- `music_controller.gd` — owns playback/timing
+- `note_scheduler.gd` — spawns notes at the right time (talks to `note_manager.gd`)
+- `game.gd` — thin coordinator that wires the above together and reacts to Play
+
+**2. `beat_column.gd` mixes three responsibilities**
+Per its description: it spawns notes, judges timing accuracy, *and* drives the receptor flash visual. Judging logic (timing windows, closest-note matching) is the part most likely to need tuning/testing in isolation — bundling it with spawning and visual feedback makes it harder to unit-test the judge independently. Consider splitting into `note_spawner.gd` (spawning) + `hit_judge.gd` (timing/scoring) + keep the receptor-flash as a signal the judge emits, consumed by a small visual script.
+
+**3. `level_list.gd` is carrying too many input paths**
+Mouse drag, touch drag, wheel, and keyboard nav all live in one script alongside the coverflow tweening/selection logic. That's a lot of input-handling surface in a file whose core job is "display and select." Splitting input handling into its own `level_list_input.gd` (which just emits `select_next`/`select_prev`/`select(index)` signals) would let the display/tween logic stay focused, and make it easier to add e.g. gamepad support later without touching selection logic.
+
+**4. `mouse_overlay.gd` shouldn't need 3 instances**
+The map confirms it's stateless (`snaps to global mouse position every frame`) and identical across `@game`/`@levels`/`@menu` — same script, same behavior, zero per-scene state. This is the textbook case for an **autoload singleton** instead of instancing the scene three times. Right now if you ever need to change cursor behavior, you're editing/verifying it in three scene contexts instead of one global one.
+
+**5. `draw.gd` is quietly serving two different jobs through one return contract**
+Its `returns:` is "shape accuracy, guessed shape name and stroke signals" — and it's consumed three different ways:
+- in `game.tscn`: accuracy score against a specific target shape (gameplay judging)
+- in `level_selector.tscn` and `main_menu.tscn`: shape *guess* used purely as a navigation gesture (circle = go somewhere)
+
+These are conceptually different actions — "score my drawing against a target" vs. "recognize which shape I drew as a command" — currently flowing through the same script/method. That's workable now, but if gameplay-mode judging logic grows (e.g. partial credit, combo timing) it'll be tangled with the menu-gesture logic that has nothing to do with scoring. Splitting into `stroke_scorer.gd` (used by `game.tscn`) and `gesture_command.gd` (used by menu/level-selector) would decouple them — both could still use `recognizer.gd` underneath.
+
+**6. No shared scene-navigation piece**
+`main_menu.gd` returns "route to the level selector," `level_selector.gd` returns "route back to main menu" — each implementing its own transition logic independently. If transitions ever need a shared effect (fade, sound, loading screen), you'd be editing it in two places. A small `scene_router.gd` autoload (`go_to(scene_path)`) would centralize that and remove the duplicated pattern the map is now making visible.
+
+**What's already fine, for contrast:** `chart_data.gd`/`chart_parser.gd` (clean parser-vs-model split), `note_manager.gd` (genuinely thin facade), `accuracy_manager.gd` (single clear job), `recognizer.gd` as a shared stateless `class_name` util — these are good reference points for the granularity you're aiming for elsewhere.
+
+Want me to start with one of these (I'd suggest #4, the mouse_overlay singleton, as the easiest low-risk win) if you upload the actual `.gd` files?

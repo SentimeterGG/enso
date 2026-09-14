@@ -1,0 +1,13 @@
+[gd_scene format=3 uid="uid://cucwpd4ow8kvh"]
+
+[ext_resource type="Texture2D" uid="uid://drvec743hncum" path="res://assets/sprites/circle.svg" id="1_yuxxm"]
+[ext_resource type="Script" uid="uid://tsfmwm144poe" path="res://scripts/note/beat/beat_point.gd" id="2_j2e2l"]
+[ext_resource type="AudioStream" uid="uid://dybpytxnyej66" path="res://assets/sound/osu-hit-sound.mp3" id="3_j2e2l"]
+
+[node name="beat_point" type="Sprite2D" unique_id=1586565524]
+texture = ExtResource("1_yuxxm")
+script = ExtResource("2_j2e2l")
+
+[node name="HitSound" type="AudioStreamPlayer" parent="." unique_id=1538775191]
+stream = ExtResource("3_j2e2l")
+volume_db = 10.0

@@ -1,0 +1,9 @@
+[gd_resource type="Theme" format=3 uid="uid://cpocn8agag6ib"]
+
+[ext_resource type="StyleBox" uid="uid://e8ten8qcpkj4" path="res://resources/theme/level_select_button.tres" id="1_23v3e"]
+[ext_resource type="FontFile" uid="uid://bprqivnp1xsie" path="res://assets/fonts/ttf/PixelCode-Medium.ttf" id="1_yd3fu"]
+
+[resource]
+default_font = ExtResource("1_yd3fu")
+Panel/styles/panel = ExtResource("1_23v3e")
+VBoxContainer/constants/separation = 0
