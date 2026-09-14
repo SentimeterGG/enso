@@ -210,8 +210,6 @@ texture = ExtResource("8_gee14")
 [node name="shape_spawner" type="Node2D" parent="note_manager/shape_column" unique_id=1877341765]
 position = Vector2(664, 16)
 
-[node name="music" type="AudioStreamPlayer" parent="." unique_id=1476538572]
-
 [node name="Mio" type="Sprite2D" parent="." unique_id=1114094282]
 position = Vector2(320, 180)
 scale = Vector2(2.0277777, 2.0277777)

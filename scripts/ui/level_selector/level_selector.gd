@@ -70,12 +70,9 @@ func _on_l_side_mouse_exited() -> void:
 func _physics_process(_delta: float) -> void:
 	if _current_bpm <= 0.0 or draw_here_label == null:
 		return
-	if not has_node("/root/BgMusic"):
+	if BgMusic == null or not BgMusic.playing:
 		return
-	var bg := get_node("/root/BgMusic") as AudioStreamPlayer
-	if bg == null or not bg.playing:
-		return
-	var audio_time := bg.get_playback_position() - _current_offset
+	var audio_time := BgMusic.get_playback_position() - _current_offset
 	if audio_time < 0.0:
 		return
 	var beat_duration := 1.0 / _current_bpm

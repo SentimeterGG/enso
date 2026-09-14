@@ -95,9 +95,7 @@ func _on_draw_started() -> void:
 
 
 func get_song_time() -> float:
-	# Replace this with however your song manager exposes
-	# the current playback position.
-	return $"/root/game/music".get_playback_position()
+	return BgMusic.get_playback_position()
 
 
 func _flash_clicked() -> void:
