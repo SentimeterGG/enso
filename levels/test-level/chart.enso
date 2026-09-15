@@ -31,6 +31,7 @@ color_scheme = ["#EEB8C4", "#E6D47B", "#D0574E", "#4061A0"]
 preview_start = 125
 bpm = 80
 beat0 = 400
+overall_difficulty = 3
 
 [notes]
 

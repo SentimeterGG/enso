@@ -5,7 +5,7 @@
 [ext_resource type="FontFile" uid="uid://bprqivnp1xsie" path="res://assets/fonts/ttf/PixelCode-Medium.ttf" id="2_gkmvm"]
 [ext_resource type="Theme" uid="uid://cpocn8agag6ib" path="res://resources/theme/Theme.tres" id="3_rqfkl"]
 [ext_resource type="Texture2D" uid="uid://sqv5pjrdcpvd" path="res://assets/sprites/UI/shape/play.png" id="3_vj03c"]
-[ext_resource type="Texture2D" uid="uid://qomfanbbtnmo" path="res://assets/sprites/UI/shape/circle.png" id="5_hjtau"]
+[ext_resource type="Texture2D" uid="uid://dnnjjgvh1pcgl" path="res://assets/sprites/UI/shape/circle_outline.png" id="6_v1k4p"]
 [ext_resource type="PackedScene" uid="uid://cpdx84l3ertd6" path="res://scenes/level_item.tscn" id="7_2ec5i"]
 [ext_resource type="Script" uid="uid://b8lss2my82vt3" path="res://scripts/ui/level_selector/level_list.gd" id="9_ax7y8"]
 [ext_resource type="AudioStream" uid="uid://dybpytxnyej66" path="res://assets/sound/osu-hit-sound.mp3" id="10_ljvb0"]
@@ -449,7 +449,7 @@ modulate = Color(1, 0.18431373, 0.039215688, 1)
 layout_mode = 2
 size_flags_horizontal = 0
 size_flags_vertical = 8
-texture = ExtResource("5_hjtau")
+texture = ExtResource("6_v1k4p")
 
 [node name="Label" type="Label" parent="Main Content/HBoxContainer/LSide/VBoxContainer/HBoxContainer3" unique_id=1511001177]
 layout_mode = 2

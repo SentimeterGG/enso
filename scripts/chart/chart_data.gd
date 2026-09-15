@@ -144,3 +144,7 @@ func get_bpm() -> float:
 
 func beat_offset() -> float:
 	return float(metadata.get("beat0", 0.0)) / 1000.0
+
+
+func get_od() -> float:
+	return float(metadata.get("overall_difficulty", 0.0)) / 1000.0

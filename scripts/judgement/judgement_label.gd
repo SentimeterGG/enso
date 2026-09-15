@@ -1,7 +1,7 @@
 extends Label
 
 const LIFT := 60.0
-const DURATION := 0.5
+const DURATION := 0.8
 
 
 func _ready() -> void:

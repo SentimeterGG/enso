@@ -9,7 +9,9 @@ var receptor_x: float = 0.0
 var px_per_sec: float = 600.0
 var song_time: Callable
 @export var jump_height := 40.0
+
 var _judged := false
+var _pending_free := false
 
 @export var fade_duration := 0.3
 
@@ -19,18 +21,25 @@ var _judged := false
 func _process(_delta: float) -> void:
 	position.x = receptor_x + (hit_time - song_time.call()) * px_per_sec
 
+	if _pending_free and _is_outside_viewport():
+		queue_free()
+
 
 func is_judged() -> bool:
 	return _judged
 
 
-func hit(judgment: String) -> void:
+func miss() -> void:
 	if _judged:
 		return
+	_judged = true  # flips immediately — beat_column stops calling miss() next frame
+	_pending_free = true  # actual queue_free() deferred until off-screen
 
+
+func hit() -> void:
+	if _judged:
+		return
 	_judged = true
-
-	print("Judgment: ", judgment)
 
 	hitsound.play()
 
@@ -59,3 +68,9 @@ func hit(judgment: String) -> void:
 		await hitsound.finished
 
 	queue_free()
+
+
+func _is_outside_viewport() -> bool:
+	var viewport_width := get_viewport_rect().size.x
+	# Notes scroll along x toward receptor_x, so check x bounds with a small margin.
+	return position.x < -100.0 or position.x > viewport_width + 100.0

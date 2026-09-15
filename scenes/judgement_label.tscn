@@ -7,5 +7,5 @@
 offset_right = 40.0
 offset_bottom = 23.0
 theme = ExtResource("1_r3gdf")
-text = "PERFECT"
+text = "MISS"
 script = ExtResource("2_cn57b")

@@ -1,12 +1,15 @@
 [gd_scene format=3 uid="uid://drpnvwmnb2h4x"]
 
 [ext_resource type="Script" uid="uid://kf6p0lw85s2o" path="res://scripts/game/game.gd" id="1_uwrxv"]
-[ext_resource type="Script" uid="uid://dd7i0f11yksaj" path="res://scripts/accuracy_manager.gd" id="2_lbhrr"]
+[ext_resource type="Script" uid="uid://dd7i0f11yksaj" path="res://scripts/judgement/accuracy_manager.gd" id="2_lbhrr"]
 [ext_resource type="Script" uid="uid://bil15ch0n2iyd" path="res://scripts/note/shape/target_shape.gd" id="3_gee14"]
+[ext_resource type="Script" uid="uid://bw45dflr7vand" path="res://scripts/judgement/judge_spawner.gd" id="3_rysoc"]
 [ext_resource type="Texture2D" uid="uid://6cyl252a43ro" path="res://assets/sprites/circle-outline.svg" id="5_iywne"]
 [ext_resource type="Script" uid="uid://4t7iids2300s" path="res://scripts/note/note_manager.gd" id="5_p57ef"]
 [ext_resource type="Script" uid="uid://3g8m7mw6ywns" path="res://scripts/note/beat/beat_column.gd" id="6_u5sy4"]
+[ext_resource type="Texture2D" uid="uid://dnnjjgvh1pcgl" path="res://assets/sprites/UI/shape/circle_outline.png" id="7_ca42v"]
 [ext_resource type="Texture2D" uid="uid://drvec743hncum" path="res://assets/sprites/circle.svg" id="8_gee14"]
+[ext_resource type="Texture2D" uid="uid://qomfanbbtnmo" path="res://assets/sprites/UI/shape/circle.png" id="8_ir15t"]
 [ext_resource type="Theme" uid="uid://cpocn8agag6ib" path="res://resources/theme/Theme.tres" id="9_0tnpc"]
 [ext_resource type="Script" uid="uid://bh3hkt7fb36kw" path="res://scripts/note/shape/shape_column.gd" id="9_kvuet"]
 [ext_resource type="Texture2D" uid="uid://b3v8a03h3ikfs" path="res://assets/sprites/UI/corner.png" id="10_kvpfn"]
@@ -166,9 +169,15 @@ modulate = Color(1, 1, 1, 0)
 position = Vector2(603, 327)
 script = ExtResource("2_lbhrr")
 
+[node name="judge_spawner" type="Node2D" parent="accuracy_manager" unique_id=1982392806]
+unique_name_in_owner = true
+position = Vector2(-537, -125)
+script = ExtResource("3_rysoc")
+
 [node name="avg_accuracy" type="Label" parent="accuracy_manager" unique_id=906467398]
-offset_right = 64.0
-offset_bottom = 23.0
+offset_top = -96.0
+offset_right = 75.0
+offset_bottom = -73.0
 offset_transform_enabled = true
 offset_transform_position_ratio = Vector2(-1, -1)
 theme = ExtResource("9_0tnpc")
@@ -176,6 +185,7 @@ text = "100.00%"
 horizontal_alignment = 2
 
 [node name="target_shape" type="Line2D" parent="." unique_id=129393694]
+visible = false
 position = Vector2(295, 155)
 width = 5.0
 script = ExtResource("3_gee14")
@@ -190,12 +200,12 @@ script = ExtResource("6_u5sy4")
 [node name="beat_receptor" type="Sprite2D" parent="note_manager/beat_column" unique_id=1856949370]
 texture_filter = 1
 position = Vector2(16, 16)
-texture = ExtResource("5_iywne")
+scale = Vector2(3, 3)
+texture = ExtResource("7_ca42v")
 
 [node name="clicked" type="Sprite2D" parent="note_manager/beat_column/beat_receptor" unique_id=1494436509]
-modulate = Color(1, 1, 1, 0.18431373)
 texture_filter = 1
-texture = ExtResource("8_gee14")
+texture = ExtResource("8_ir15t")
 
 [node name="beat_spawner" type="Node2D" parent="note_manager/beat_column" unique_id=1101375677]
 position = Vector2(664, 16)
@@ -219,7 +229,7 @@ texture = ExtResource("8_gee14")
 position = Vector2(664, 16)
 
 [node name="Mio" type="Sprite2D" parent="." unique_id=1114094282]
-position = Vector2(320, 180)
+position = Vector2(573.99994, 281)
 scale = Vector2(2.0277777, 2.0277777)
 texture = ExtResource("11_kvpfn")
 hframes = 30
@@ -352,6 +362,7 @@ flip_h = true
 flip_v = true
 
 [connection signal="animation_finished" from="animator" to="." method="_on_animator_animation_finished"]
+[connection signal="beat_hit" from="note_manager/beat_column" to="accuracy_manager/judge_spawner" method="_on_beat_column_beat_hit"]
 [connection signal="draw_direction_changes" from="draw" to="note_manager/beat_column" method="_on_draw_direction_changes"]
 [connection signal="draw_started" from="draw" to="note_manager/beat_column" method="_on_draw_started"]
 [connection signal="shape_accuracy_ready" from="draw" to="accuracy_manager" method="_on_draw_shape_accuracy_ready"]
