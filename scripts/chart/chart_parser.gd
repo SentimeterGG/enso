@@ -73,16 +73,20 @@ static func load(path: String) -> ChartData:
 			pts.append(Vector2(p.x, p.y))
 		chart.shapes.append(pts)
 		chart.shape_times.append([shape.start_time, shape.hit_time])
+		chart.shape_ids.append(str(shape.get("name", "")))
 	chart.metadata = metadata
 	chart.notes = note_points
 	chart.build_shape_colors()
+	chart.build_runtime_index()
 	return chart
 
 
 static func _shape_name(header: String) -> String:
-	return header.strip_edges().trim_prefix("[(]").trim_prefix("[[").trim_suffix(")]").trim_suffix(
+	# Closed shapes open with "[(" and close with ")]"; open shapes use
+	# "[[" / "]]". Strip the two-char affixes (not three) and any padding.
+	return header.strip_edges().trim_prefix("[(").trim_prefix("[[").trim_suffix(")]").trim_suffix(
 		"]]"
-	)
+	).strip_edges()
 
 
 ## Cuts inline comments, but only at line start or after whitespace so values

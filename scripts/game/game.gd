@@ -26,6 +26,6 @@ func _on_animator_animation_finished(anim_name: StringName) -> void:
 			Global.current_chart = LevelLoader.load_chart(CHART_PATH)
 		BgMusic.change_song(load(Global.current_chart.song_path()))
 		target_shape.clear_points()
-		note_scheduler.start()
+		note_scheduler.start(note_manager)
 		draw_manager.start()
 	pass  # Replace with function body.

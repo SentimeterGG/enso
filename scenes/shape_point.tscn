@@ -4,10 +4,14 @@
 
 [node name="shape_point" type="ColorRect" unique_id=1711279368]
 self_modulate = Color(1, 1, 1, 0.039215688)
-offset_right = 70.0
-offset_bottom = 70.0
+offset_right = 42.0
+offset_bottom = 42.0
+offset_transform_enabled = true
+offset_transform_position = Vector2(-21, -21)
+offset_transform_pivot_ratio = Vector2(0, 0)
 script = ExtResource("1_bdgod")
 
 [node name="Line2D" type="Line2D" parent="." unique_id=724274820]
-position = Vector2(13, 19)
+position = Vector2(11, 12.000001)
+scale = Vector2(0.48333332, 0.48333332)
 points = PackedVector2Array(0, 0, 40, 0, 40, 40)

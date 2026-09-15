@@ -8,7 +8,7 @@ var hit_time: float = 0.0
 var receptor_x: float = 0.0
 var px_per_sec: float = 600.0
 var song_time: Callable
-
+@export var jump_height := 40.0
 var _judged := false
 
 @export var fade_duration := 0.3
@@ -17,9 +17,6 @@ var _judged := false
 
 
 func _process(_delta: float) -> void:
-	if _judged:
-		return
-
 	position.x = receptor_x + (hit_time - song_time.call()) * px_per_sec
 
 
@@ -37,8 +34,24 @@ func hit(judgment: String) -> void:
 
 	hitsound.play()
 
+	var start_y := position.y
+
 	var tween := create_tween()
+	tween.set_parallel(true)
+
 	tween.tween_property(self, "modulate:a", 0.0, fade_duration)
+	(
+		tween
+		. tween_property(self, "position:y", start_y - jump_height, fade_duration)
+		. set_ease(Tween.EASE_OUT)
+		. set_trans(Tween.TRANS_QUAD)
+	)
+	(
+		tween
+		. tween_property(self, "scale", Vector2.ONE * 2, fade_duration)
+		. set_ease(Tween.EASE_OUT)
+		. set_trans(Tween.TRANS_QUAD)
+	)
 
 	await tween.finished
 

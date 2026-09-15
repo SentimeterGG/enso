@@ -11,6 +11,13 @@ var shapes: Array = []
 var shape_times: Array = []
 var shape_colors: Dictionary = {}
 var chart_path := ""
+# Parallel to shapes/shape_times: shape_ids[i] is the id for shapes[i].
+var shape_ids: Array = []
+# id -> index into shapes/shape_times/shape_ids. Built once at load.
+var shape_index_by_id: Dictionary = {}
+# id -> {shape_idx, start_ms, end_ms, color, count}. Built once at load so
+# the scheduler never filters/scans notes at runtime.
+var shape_groups: Dictionary = {}
 
 
 func is_empty() -> bool:
@@ -64,6 +71,58 @@ func shape_time(index: int) -> Array:
 	if index < 0 or index >= shape_times.size():
 		return [0.0, 0.0]
 	return shape_times[index]
+
+
+## One-time runtime index built at load: id -> shape lookup + per-shape
+## start/end/color/count. Single O(n) pass so gameplay never scans.
+func build_runtime_index() -> void:
+	shape_index_by_id.clear()
+	shape_groups.clear()
+	for i in range(shapes.size()):
+		var sid := str(shape_ids[i]) if i < shape_ids.size() else ""
+		# First occurrence wins; ids must be unique per chart spec.
+		if not sid.is_empty() and not shape_index_by_id.has(sid):
+			shape_index_by_id[sid] = i
+	var counts := {}
+	for note in notes:
+		var nid := str((note as Dictionary).get("id", ""))
+		counts[nid] = int(counts.get(nid, 0)) + 1
+	for sid in shape_index_by_id:
+		var idx: int = shape_index_by_id[sid]
+		var st: Array = shape_time(idx)
+		shape_groups[sid] = {
+			"shape_idx": idx,
+			"start_ms": float(st[0]),
+			"end_ms": float(st[1]),
+			"color": shape_colors.get(sid, Color.WHITE),
+			"count": int(counts.get(sid, 0)),
+		}
+
+
+func note_count() -> int:
+	return notes.size()
+
+
+func shape_count() -> int:
+	return shapes.size()
+
+
+func get_note(index: int) -> Dictionary:
+	return notes[index] as Dictionary
+
+
+func shape_points_at(index: int) -> PackedVector2Array:
+	return shapes[index] as PackedVector2Array
+
+
+func shape_points_by_id(shape_id: String) -> PackedVector2Array:
+	if not shape_index_by_id.has(shape_id):
+		return PackedVector2Array()
+	return shapes[int(shape_index_by_id[shape_id])] as PackedVector2Array
+
+
+func shape_group(shape_id: String) -> Dictionary:
+	return shape_groups.get(shape_id, {}) as Dictionary
 
 
 func song_path() -> String:

@@ -33,7 +33,7 @@ func spawn_beat(
 	beat_point.receptor_x = receptor_x
 	beat_point.px_per_sec = px_per_sec
 	beat_point.song_time = get_song_time
-	beat_point.modulate = color
+	beat_point.self_modulate = color
 	beat_point.position = $beat_spawner.position
 
 	add_child(beat_point)
