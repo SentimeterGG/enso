@@ -10,9 +10,11 @@ const FLASH_DURATION := 0.1
 
 @onready var beat_rec_clicked = $beat_receptor/clicked
 @onready var judge_spawner = %judge_spawner
+@export var input_cooldown_sec := 0.05  # tune this — smaller = more spam-tolerant, larger = stricter
 signal beat_hit(error_ms: float)
 var click := false
 
+var _last_input_time := -INF
 var _flash_tween: Tween
 
 
@@ -52,29 +54,32 @@ func spawn_beat(
 
 
 func _try_hit_note(input_time: float) -> void:
+	# Debounce: ignore attempts that come in faster than a human could
+	# realistically intend as separate hits.
+	if input_time - _last_input_time < input_cooldown_sec:
+		return
+
 	var best: Node2D = null
 	var best_error := INF
 
 	for beat in get_children():
 		if not beat.has_method("hit"):
 			continue
-
 		if beat.is_judged():
 			continue
 
 		var timing_error: float = input_time - beat.hit_time
 		var error := absf(timing_error)
 
-		# Don't accept input outside the largest judgment window.
-		if error > judge_spawner.get_bad_window_ms() / 1000.0:  # originally error > bad_window_ms / 1000.0
+		if error > judge_spawner.get_bad_window_ms() / 1000.0:
 			continue
 
-		# Find the note closest to the player's input time.
 		if error < best_error:
 			best = beat
 			best_error = error
 
 	if best != null:
+		_last_input_time = input_time  # only update cooldown on an actual judged attempt
 		var timing_error: float = input_time - best.hit_time
 		emit_signal("beat_hit", timing_error)
 		best.hit()

@@ -2,6 +2,7 @@ extends Node2D
 
 const judgement_label := preload("res://scenes/judgement_label.tscn")
 var overall_difficulty: float
+@onready var accuracy_manager: Node2D = %accuracy_manager
 
 
 func _ready() -> void:
@@ -32,10 +33,14 @@ func _on_beat_column_beat_hit(error_ms: float) -> void:
 	add_child(label)
 	if timing_error <= get_excellent_window_ms():
 		label.text = "PERFECT"
+		accuracy_manager.add_to_avg(100.0)
 	elif timing_error <= get_good_window_ms():
 		label.text = "OK"
+		accuracy_manager.add_to_avg(66.67)
 	elif timing_error <= get_bad_window_ms():
 		label.text = "BAD"
+		accuracy_manager.add_to_avg(33.34)
 	else:
 		label.text = "MISS"
+		accuracy_manager.add_to_avg(0.0)
 	pass  # Replace with function body.

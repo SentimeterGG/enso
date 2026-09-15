@@ -7,8 +7,17 @@ extends Node2D
 var accuracies := []
 
 
-func _on_draw_shape_accuracy_ready(accuracy: float) -> void:
-	accuracies.append(accuracy)
+func update():
 	var total: float = accuracies.reduce(func(accum, number): return accum + number, 0.0)
 	var mean: float = total / accuracies.size() if accuracies.size() > 0 else 0.0
 	avg_accuracy_label.text = ("%.2f" % mean) + "%"
+
+
+func add_to_avg(val: float):
+	print(val)
+	accuracies.append(val)
+	update()
+
+
+func _on_draw_shape_accuracy_ready(accuracy: float) -> void:
+	add_to_avg(accuracy)
