@@ -14,7 +14,6 @@ func update():
 
 
 func add_to_avg(val: float):
-	print(val)
 	accuracies.append(val)
 	update()
 
