@@ -10,10 +10,12 @@ config_version=5
 
 [application]
 
-config/name="ENSO 1.1"
+config/name="ENSO"
+config/description="A rythm game where the player draws shapes in time with the music."
+config/version="1.1"
 run/main_scene="uid://ql5w4t6kd2jq"
 config/features=PackedStringArray("4.7", "GL Compatibility")
-config/icon="res://icon.svg"
+config/icon="uid://cqo66i0uuqvhe"
 
 [autoload]
 
@@ -21,14 +23,16 @@ BgMusic="*uid://duq2fwlnqfig3"
 MouseOverlay="*uid://c5wwclkmmhr4o"
 Global="*uid://b2lm1gfd8he8s"
 WorldEnvironmentGlobal="*uid://dqpsyw3cjxcat"
+DiscordRPC="*uid://b77wtogjkq60c"
 
 [display]
 
 window/size/viewport_width=640
 window/size/viewport_height=360
+window/size/mode=3
 window/size/window_width_override=1280
 window/size/window_height_override=720
-window/stretch/mode="viewport"
+window/stretch/mode="canvas_items"
 window/vsync/vsync_mode=0
 mouse_cursor/custom_image="uid://du47isly8o2yr"
 
