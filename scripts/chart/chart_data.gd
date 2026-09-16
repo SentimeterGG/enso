@@ -148,3 +148,15 @@ func beat_offset() -> float:
 
 func get_od() -> float:
 	return float(metadata.get("overall_difficulty", 0.0)) / 1000.0
+
+
+func get_song_title() -> String:
+	return metadata.get("name", "")
+
+
+func get_song_source() -> String:
+	return metadata.get("source", "")
+
+
+func get_mapper() -> String:
+	return metadata.get("mapper", "")

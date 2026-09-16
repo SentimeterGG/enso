@@ -1,5 +1,7 @@
 [metadata]
-name = "Doppleganger"
+name = Doppleganger
+source = kessoku band
+mapper = ENSO Team
 song = ./doppleganger.mp3
 color_scheme = ["#EEB8C4", "#E6D47B", "#D0574E", "#4061A0"]
 preview_start = 121451

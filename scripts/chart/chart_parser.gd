@@ -81,12 +81,59 @@ static func load(path: String) -> ChartData:
 	return chart
 
 
+## Lightweight [metadata]-only parse (no notes/shapes) so lists stay fast.
+## Returns keys lowercased with surrounding quotes stripped from values.
+## Mirrors load() comment handling via _strip_comment().
+static func parse_metadata(path: String) -> Dictionary:
+	var metadata := {}
+	var f := FileAccess.open(path, FileAccess.READ)
+	if f == null:
+		push_error("Could not open chart: " + path)
+		return metadata
+	var section := ""
+	for raw_line in f.get_as_text().split("\n"):
+		var line := _strip_comment(raw_line).strip_edges()
+		if line.is_empty():
+			continue
+		if line.begins_with("[") and line.ends_with("]") and line.length() > 2:
+			if line.begins_with("[(") or line.begins_with("[["):
+				if section.to_lower() == "metadata":
+					break
+				continue
+			if section.to_lower() == "metadata" and not metadata.is_empty():
+				break
+			section = line.substr(1, line.length() - 2).strip_edges()
+			continue
+		if section.to_lower() != "metadata":
+			continue
+		var kv := line.split("=", true, 1)
+		if kv.size() == 2:
+			metadata[kv[0].strip_edges().to_lower()] = _unquote_value(kv[1].strip_edges())
+	return metadata
+
+
+static func _unquote_value(value: String) -> String:
+	var v := value.strip_edges()
+	if v.length() >= 2:
+		var first := v[0]
+		var last := v[v.length() - 1]
+		if (first == '"' and last == '"') or (first == "'" and last == "'"):
+			return v.substr(1, v.length() - 2)
+	return v
+
+
 static func _shape_name(header: String) -> String:
 	# Closed shapes open with "[(" and close with ")]"; open shapes use
 	# "[[" / "]]". Strip the two-char affixes (not three) and any padding.
-	return header.strip_edges().trim_prefix("[(").trim_prefix("[[").trim_suffix(")]").trim_suffix(
-		"]]"
-	).strip_edges()
+	return (
+		header
+		. strip_edges()
+		. trim_prefix("[(")
+		. trim_prefix("[[")
+		. trim_suffix(")]")
+		. trim_suffix("]]")
+		. strip_edges()
+	)
 
 
 ## Cuts inline comments, but only at line start or after whitespace so values

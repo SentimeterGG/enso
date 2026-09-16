@@ -25,7 +25,9 @@
 # ============================================================
 
 [metadata]
-name = "Test Song"          # level title shown to the player
+name = Test Song          # level title shown to the player
+source = Remoon Music
+mapper = ENSO Team
 song = ./test-song.mp3       # audio file, relative to this chart
 color_scheme = ["#EEB8C4", "#E6D47B", "#D0574E", "#4061A0"]
 preview_start = 125

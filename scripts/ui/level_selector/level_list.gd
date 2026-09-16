@@ -100,10 +100,9 @@ func _clear_items() -> void:
 func _discover_levels() -> Array[Dictionary]:
 	var by_folder: Dictionary = {}
 	for base_dir: String in [BUILTIN_LEVELS_DIR, USER_LEVELS_DIR]:
-		var is_user: bool = base_dir == USER_LEVELS_DIR
 		for chart_path in _find_charts_in(base_dir):
 			var key := _dedupe_key(chart_path, base_dir)
-			by_folder[key] = _make_entry(chart_path, is_user)
+			by_folder[key] = _make_entry(chart_path)
 	var out: Array[Dictionary] = []
 	for key in by_folder:
 		out.append(by_folder[key])
@@ -155,62 +154,21 @@ func _ensure_dir(path: String) -> void:
 	DirAccess.make_dir_recursive_absolute(path)
 
 
-func _make_entry(chart_path: String, is_user: bool) -> Dictionary:
+func _make_entry(chart_path: String) -> Dictionary:
 	var meta := _read_chart_metadata(chart_path)
-	var folder_name := chart_path.get_base_dir().get_file()
-	var title := str(meta.get("name", "")).strip_edges()
-	if title.is_empty():
-		title = folder_name.replace("_", " ").replace("-", " ").strip_edges().capitalize()
-	var subtitle := ""
-	for key in SUBTITLE_KEYS:
-		if str(meta.get(key, "")).strip_edges() != "":
-			subtitle = str(meta[key]).strip_edges()
-			break
-	if subtitle.is_empty():
-		if title.to_lower() != folder_name.to_lower():
-			subtitle = folder_name
-		else:
-			subtitle = "CUSTOM" if is_user else "ENSO TEAM"
-	return {"title": title, "subtitle": subtitle, "chart_path": chart_path, "is_user": is_user}
+	var title := (
+		str(meta.get("name", "")).strip_edges() + " by " + str(meta.get("source", "")).strip_edges()
+	)
+	var subtitle := "MAPPED BY " + str(meta.get("mapper", "")).strip_edges()
+	return {"title": title, "subtitle": subtitle, "chart_path": chart_path}
 
 
 ## Lightweight [metadata]-only parse (no note loading) so the list stays fast.
 ## Mirrors ChartParser comment handling: "#" starts a comment only at line
 ## start or after whitespace, so hex colors like "#EEB8C4" survive.
 func _read_chart_metadata(chart_path: String) -> Dictionary:
-	var meta: Dictionary = {}
-	var f := FileAccess.open(chart_path, FileAccess.READ)
-	if f == null:
-		push_warning("level_list: could not open chart: " + chart_path)
-		return meta
-	var in_metadata := false
-	for raw_line in f.get_as_text().split("\n"):
-		var line := ChartParser._strip_comment(raw_line).strip_edges()
-		if line.is_empty():
-			continue
-		if line.begins_with("[") and line.ends_with("]") and line.length() > 2:
-			if line.begins_with("[(") or line.begins_with("[["):
-				if in_metadata:
-					break
-				continue
-			in_metadata = line.substr(1, line.length() - 2).strip_edges().to_lower() == "metadata"
-			continue
-		if not in_metadata:
-			continue
-		var kv := line.split("=", true, 1)
-		if kv.size() == 2:
-			meta[kv[0].strip_edges().to_lower()] = _unquote(kv[1].strip_edges())
+	var meta: Dictionary = ChartParser.parse_metadata(chart_path)
 	return meta
-
-
-func _unquote(value: String) -> String:
-	var v := value.strip_edges()
-	if v.length() >= 2:
-		var first := v[0]
-		var last := v[v.length() - 1]
-		if (first == '"' and last == '"') or (first == "'" and last == "'"):
-			return v.substr(1, v.length() - 2)
-	return v
 
 
 func is_dragged() -> bool:
