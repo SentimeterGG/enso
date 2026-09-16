@@ -2,13 +2,30 @@ extends Node2D
 
 const judgement_label := preload("res://scenes/judgement_label.tscn")
 
-const COLOR_PERFECT := Color(1.0, 0.84, 0.30) # gold
+const COLOR_PERFECT := Color(0.0, 0.906, 0.969, 1.0) # gold
 const COLOR_OK := Color(0.35, 0.95, 0.55) # green
 const COLOR_BAD := Color(1.0, 0.60, 0.20) # orange
 const COLOR_MISS := Color(1.0, 0.30, 0.35) # red
 var overall_difficulty: float
 var combo: int = 0
 @onready var accuracy_manager: Node2D = %accuracy_manager
+
+enum HitAccuracy {
+	PERFECT,
+	OKAY,
+	BAD,
+	MISS
+}
+
+var perfect: int = 0
+var okay: int = 0
+var bad: int = 0
+var miss: int = 0
+
+@onready var perfect_count: Label = $"../../UI/HitCounter/PerfectCount"
+@onready var okay_count: Label = $"../../UI/HitCounter/OkayCount"
+@onready var bad_count: Label = $"../../UI/HitCounter/BadCount"
+@onready var miss_count: Label = $"../../UI/HitCounter/MissCount"
 
 
 func _ready() -> void:
@@ -42,21 +59,25 @@ func _on_beat_column_beat_hit(error_ms: float) -> void:
 		label.modulate = COLOR_PERFECT
 		accuracy_manager.add_to_avg(100.0)
 		add_combo()
+		hit_counter(HitAccuracy.PERFECT)
 	elif timing_error <= get_good_window_ms():
 		label.text = "OK"
 		label.modulate = COLOR_OK
 		accuracy_manager.add_to_avg(66.67)
 		add_combo()
+		hit_counter(HitAccuracy.OKAY)
 	elif timing_error <= get_bad_window_ms():
 		label.text = "BAD"
 		label.modulate = COLOR_BAD
 		accuracy_manager.add_to_avg(33.34)
 		add_combo()
+		hit_counter(HitAccuracy.BAD)
 	else:
 		label.text = "MISS"
 		label.modulate = COLOR_MISS
 		accuracy_manager.add_to_avg(0.0)
 		reset_combo()
+		hit_counter(HitAccuracy.MISS)
 	pass  # Replace with function body.
 
 
@@ -71,3 +92,18 @@ func reset_combo():
 	%ComboCounter.text = str(combo)+"x"
 	%ComboAnims.stop()
 	%ComboAnims.play("miss_anim")
+	
+
+func hit_counter(accuracy: HitAccuracy):
+	if accuracy == HitAccuracy.PERFECT:
+		perfect += 1
+		perfect_count.text = "PERFECT: " + str(perfect)
+	elif accuracy == HitAccuracy.OKAY:
+		okay += 1
+		okay_count.text = "OKAY: " + str(okay)
+	elif accuracy == HitAccuracy.BAD:
+		bad += 1
+		bad_count.text = "BAD: " + str(bad)
+	elif accuracy == HitAccuracy.MISS:
+		miss += 1
+		miss_count.text = "MISS: " + str(miss)
