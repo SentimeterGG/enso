@@ -24,6 +24,14 @@ func _on_animator_animation_finished(anim_name: StringName) -> void:
 	if anim_name == "Intro":
 		if Global.current_chart == null:
 			Global.current_chart = LevelLoader.load_chart(CHART_PATH)
+			DiscordRPC.set_activity(
+				"Drawing Shape",
+				(
+					Global.current_chart.get_song_title()
+					+ " - "
+					+ Global.current_chart.get_song_source()
+				)
+			)
 		BgMusic.change_song(load(Global.current_chart.song_path()))
 		target_shape.clear_points()
 		note_scheduler.start(note_manager)
