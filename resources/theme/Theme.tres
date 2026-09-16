@@ -2,11 +2,29 @@
 
 [ext_resource type="StyleBox" uid="uid://e8ten8qcpkj4" path="res://resources/theme/level_select_button.tres" id="1_23v3e"]
 [ext_resource type="Texture2D" uid="uid://h3fj6ejtqrfs" path="res://assets/sprites/UI/grabber/grabber.png" id="1_iliax"]
+[ext_resource type="Texture2D" uid="uid://br35tpyooae8a" path="res://assets/sprites/UI/button.png" id="1_p17ma"]
 [ext_resource type="FontFile" uid="uid://bprqivnp1xsie" path="res://assets/fonts/ttf/PixelCode-Medium.ttf" id="1_yd3fu"]
+[ext_resource type="StyleBox" uid="uid://yvojdh1r13vp" path="res://resources/theme/pixelart_button.tres" id="2_arryu"]
 [ext_resource type="Texture2D" uid="uid://dm4my8biseefb" path="res://assets/sprites/UI/grabber/grabber_highlight.png" id="2_bjrgy"]
 [ext_resource type="Texture2D" uid="uid://bcj37nuabykpk" path="res://assets/sprites/UI/slider/slider.png" id="3_0103d"]
 [ext_resource type="Texture2D" uid="uid://2bqs6d5gjr6d" path="res://assets/sprites/UI/slider/grabber_area.png" id="3_ikunk"]
 [ext_resource type="Texture2D" uid="uid://m3iobgvexxts" path="res://assets/sprites/UI/slider/grabber_area_highlight.png" id="4_ukpo5"]
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_arryu"]
+texture = ExtResource("1_p17ma")
+texture_margin_left = 12.0
+texture_margin_top = 12.0
+texture_margin_right = 12.0
+texture_margin_bottom = 12.0
+modulate_color = Color(0.28485027, 0.28485027, 0.28485027, 1)
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_5s8bg"]
+texture = ExtResource("1_p17ma")
+texture_margin_left = 12.0
+texture_margin_top = 12.0
+texture_margin_right = 12.0
+texture_margin_bottom = 12.0
+modulate_color = Color(0.07284262, 0.072842635, 0.072842605, 1)
 
 [sub_resource type="StyleBoxTexture" id="StyleBoxTexture_ikunk"]
 texture = ExtResource("3_ikunk")
@@ -35,6 +53,9 @@ axis_stretch_vertical = 1
 
 [resource]
 default_font = ExtResource("1_yd3fu")
+Button/styles/hover = SubResource("StyleBoxTexture_arryu")
+Button/styles/normal = ExtResource("2_arryu")
+Button/styles/pressed = SubResource("StyleBoxTexture_5s8bg")
 HSlider/icons/grabber = ExtResource("1_iliax")
 HSlider/icons/grabber_highlight = ExtResource("2_bjrgy")
 HSlider/styles/grabber_area = SubResource("StyleBoxTexture_ikunk")
