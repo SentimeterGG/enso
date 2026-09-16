@@ -1,9 +1,44 @@
 [gd_resource type="Theme" format=3 uid="uid://cpocn8agag6ib"]
 
 [ext_resource type="StyleBox" uid="uid://e8ten8qcpkj4" path="res://resources/theme/level_select_button.tres" id="1_23v3e"]
+[ext_resource type="Texture2D" uid="uid://h3fj6ejtqrfs" path="res://assets/sprites/UI/grabber/grabber.png" id="1_iliax"]
 [ext_resource type="FontFile" uid="uid://bprqivnp1xsie" path="res://assets/fonts/ttf/PixelCode-Medium.ttf" id="1_yd3fu"]
+[ext_resource type="Texture2D" uid="uid://dm4my8biseefb" path="res://assets/sprites/UI/grabber/grabber_highlight.png" id="2_bjrgy"]
+[ext_resource type="Texture2D" uid="uid://bcj37nuabykpk" path="res://assets/sprites/UI/slider/slider.png" id="3_0103d"]
+[ext_resource type="Texture2D" uid="uid://2bqs6d5gjr6d" path="res://assets/sprites/UI/slider/grabber_area.png" id="3_ikunk"]
+[ext_resource type="Texture2D" uid="uid://m3iobgvexxts" path="res://assets/sprites/UI/slider/grabber_area_highlight.png" id="4_ukpo5"]
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_ikunk"]
+texture = ExtResource("3_ikunk")
+texture_margin_left = 14.0
+texture_margin_top = 6.0
+texture_margin_right = 14.0
+texture_margin_bottom = 6.0
+axis_stretch_horizontal = 1
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_ukpo5"]
+texture = ExtResource("4_ukpo5")
+texture_margin_left = 14.0
+texture_margin_top = 6.0
+texture_margin_right = 14.0
+texture_margin_bottom = 6.0
+axis_stretch_horizontal = 1
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_00hb6"]
+texture = ExtResource("3_0103d")
+texture_margin_left = 14.0
+texture_margin_top = 6.0
+texture_margin_right = 6.0
+texture_margin_bottom = 6.0
+axis_stretch_horizontal = 1
+axis_stretch_vertical = 1
 
 [resource]
 default_font = ExtResource("1_yd3fu")
+HSlider/icons/grabber = ExtResource("1_iliax")
+HSlider/icons/grabber_highlight = ExtResource("2_bjrgy")
+HSlider/styles/grabber_area = SubResource("StyleBoxTexture_ikunk")
+HSlider/styles/grabber_area_highlight = SubResource("StyleBoxTexture_ukpo5")
+HSlider/styles/slider = SubResource("StyleBoxTexture_00hb6")
 Panel/styles/panel = ExtResource("1_23v3e")
 VBoxContainer/constants/separation = 0

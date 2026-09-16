@@ -10,6 +10,7 @@ shader = ExtResource("3_4g7os")
 [node name="cursor" type="CanvasLayer" unique_id=1694284669]
 
 [node name="cursor" type="Sprite2D" parent="." unique_id=1746320675]
+unique_name_in_owner = true
 material = SubResource("ShaderMaterial_4g7os")
 scale = Vector2(0.5, 0.5)
 texture = ExtResource("3_f2dtw")

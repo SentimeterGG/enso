@@ -1,0 +1,144 @@
+[gd_scene format=3 uid="uid://b3a4x7kuktiyl"]
+
+[ext_resource type="Script" uid="uid://0krpbqv2xwhd" path="res://scripts/volume_popup.gd" id="1_ea6kh"]
+[ext_resource type="Theme" uid="uid://cpocn8agag6ib" path="res://resources/theme/Theme.tres" id="1_ikcgv"]
+
+[node name="volume_popup" type="CanvasLayer" unique_id=1643796485]
+layer = 2
+
+[node name="volume_popup" type="Control" parent="." unique_id=1567621822]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_ea6kh")
+
+[node name="CenterContainer" type="CenterContainer" parent="volume_popup" unique_id=2137844673]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="volume_popup/CenterContainer" unique_id=1554622032]
+custom_minimum_size = Vector2(250, 0)
+layout_mode = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="volume_popup/CenterContainer/VBoxContainer" unique_id=16875418]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="volume_popup/CenterContainer/VBoxContainer/VBoxContainer" unique_id=1320675608]
+layout_mode = 2
+theme = ExtResource("1_ikcgv")
+text = "MUSIC"
+
+[node name="HBoxContainer" type="HBoxContainer" parent="volume_popup/CenterContainer/VBoxContainer/VBoxContainer" unique_id=32899487]
+layout_mode = 2
+theme_override_constants/separation = 13
+
+[node name="Music" type="HSlider" parent="volume_popup/CenterContainer/VBoxContainer/VBoxContainer/HBoxContainer" unique_id=1646365300]
+custom_minimum_size = Vector2(0, 0.88)
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 1
+offset_transform_enabled = true
+theme = ExtResource("1_ikcgv")
+value = 100.0
+
+[node name="Label" type="Label" parent="volume_popup/CenterContainer/VBoxContainer/VBoxContainer/HBoxContainer" unique_id=694286987]
+custom_minimum_size = Vector2(43, 0)
+layout_mode = 2
+theme = ExtResource("1_ikcgv")
+text = "100%"
+horizontal_alignment = 2
+
+[node name="VBoxContainer2" type="VBoxContainer" parent="volume_popup/CenterContainer/VBoxContainer" unique_id=1829119477]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="volume_popup/CenterContainer/VBoxContainer/VBoxContainer2" unique_id=1893642973]
+layout_mode = 2
+theme = ExtResource("1_ikcgv")
+text = "MASTER"
+
+[node name="HBoxContainer" type="HBoxContainer" parent="volume_popup/CenterContainer/VBoxContainer/VBoxContainer2" unique_id=2035536758]
+layout_mode = 2
+theme_override_constants/separation = 13
+
+[node name="Music" type="HSlider" parent="volume_popup/CenterContainer/VBoxContainer/VBoxContainer2/HBoxContainer" unique_id=1266641151]
+custom_minimum_size = Vector2(0, 0.88)
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 1
+offset_transform_enabled = true
+theme = ExtResource("1_ikcgv")
+value = 100.0
+
+[node name="Label" type="Label" parent="volume_popup/CenterContainer/VBoxContainer/VBoxContainer2/HBoxContainer" unique_id=1717978263]
+custom_minimum_size = Vector2(43, 0)
+layout_mode = 2
+theme = ExtResource("1_ikcgv")
+text = "100%"
+horizontal_alignment = 2
+
+[node name="VBoxContainer3" type="VBoxContainer" parent="volume_popup/CenterContainer/VBoxContainer" unique_id=1625199342]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="volume_popup/CenterContainer/VBoxContainer/VBoxContainer3" unique_id=1992969532]
+layout_mode = 2
+theme = ExtResource("1_ikcgv")
+text = "EFFECTS"
+
+[node name="HBoxContainer" type="HBoxContainer" parent="volume_popup/CenterContainer/VBoxContainer/VBoxContainer3" unique_id=980164041]
+layout_mode = 2
+theme_override_constants/separation = 13
+
+[node name="Music" type="HSlider" parent="volume_popup/CenterContainer/VBoxContainer/VBoxContainer3/HBoxContainer" unique_id=831573882]
+custom_minimum_size = Vector2(0, 0.88)
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 1
+offset_transform_enabled = true
+theme = ExtResource("1_ikcgv")
+value = 100.0
+
+[node name="Label" type="Label" parent="volume_popup/CenterContainer/VBoxContainer/VBoxContainer3/HBoxContainer" unique_id=1231743218]
+custom_minimum_size = Vector2(43, 0)
+layout_mode = 2
+theme = ExtResource("1_ikcgv")
+text = "100%"
+horizontal_alignment = 2
+
+[node name="ColorRect" type="ColorRect" parent="volume_popup" unique_id=1754008013]
+z_index = -1
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+mouse_behavior_recursive = 1
+color = Color(0, 0, 0, 0.4509804)
+
+[node name="Label" type="Label" parent="volume_popup" unique_id=1093649235]
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -216.0
+offset_top = -71.0
+offset_right = 216.0
+offset_bottom = -48.0
+grow_horizontal = 2
+grow_vertical = 0
+theme = ExtResource("1_ikcgv")
+theme_override_colors/font_color = Color(0.64, 0.64, 0.64, 1)
+theme_override_font_sizes/font_size = 10
+text = "TIP: You can use your scroll wheel to change the volume"
+horizontal_alignment = 1
+vertical_alignment = 1

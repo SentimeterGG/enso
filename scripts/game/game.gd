@@ -12,7 +12,10 @@ var note_scheduler: NoteScheduler = NoteScheduler.new()
 
 
 func _ready():
+	MouseOverlay.process_mode = Node.PROCESS_MODE_DISABLED
+	MouseOverlay.hide()
 	BgMusic.change_song(null)
+	Input.set_custom_mouse_cursor(SkinManager.cursor_sprite, Input.CURSOR_ARROW, Vector2(12,12))
 	animator.play("Intro")
 
 
