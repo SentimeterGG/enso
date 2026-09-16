@@ -81,6 +81,18 @@ tracks/4/keys = {
 "update": 0,
 "values": [Color(1, 1, 1, 0), Color(1, 1, 1, 0.47058824)]
 }
+tracks/5/type = "value"
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/path = NodePath("UI/HitCounter:modulate")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/keys = {
+"times": PackedFloat32Array(1.8333333, 2.6333334),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 0), Color(1, 1, 1, 1)]
+}
 
 [sub_resource type="Animation" id="Animation_vtaks"]
 length = 0.001
@@ -127,6 +139,18 @@ tracks/3/path = NodePath("UI/ComboCounter:modulate")
 tracks/3/interp = 1
 tracks/3/loop_wrap = true
 tracks/3/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 1, 1, 0)]
+}
+tracks/4/type = "value"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath("UI/HitCounter:modulate")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/keys = {
 "times": PackedFloat32Array(0),
 "transitions": PackedFloat32Array(1),
 "update": 0,
@@ -371,6 +395,81 @@ anchors_preset = 0
 offset_right = 640.0
 offset_bottom = 360.0
 
+[node name="HitCounter" type="Control" parent="UI" unique_id=324871254]
+modulate = Color(1, 1, 1, 0)
+layout_mode = 1
+anchors_preset = 4
+anchor_top = 0.5
+anchor_bottom = 0.5
+offset_top = 106.0
+offset_bottom = 106.0
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="PerfectCount" type="Label" parent="UI/HitCounter" unique_id=687221423]
+modulate = Color(0, 0.90588236, 0.96862745, 1)
+layout_mode = 1
+anchors_preset = 4
+anchor_top = 0.5
+anchor_bottom = 0.5
+offset_left = 43.0
+offset_top = -36.0
+offset_right = 117.0
+offset_bottom = -20.0
+grow_vertical = 2
+theme = ExtResource("9_0tnpc")
+theme_override_font_sizes/font_size = 11
+text = "PERFECT: 0"
+vertical_alignment = 1
+
+[node name="OkayCount" type="Label" parent="UI/HitCounter" unique_id=56532913]
+modulate = Color(0.34901962, 0.9490196, 0.54901963, 1)
+layout_mode = 1
+anchors_preset = 4
+anchor_top = 0.5
+anchor_bottom = 0.5
+offset_left = 43.0
+offset_top = -20.0
+offset_right = 83.0
+offset_bottom = -3.0
+grow_vertical = 2
+theme = ExtResource("9_0tnpc")
+theme_override_font_sizes/font_size = 12
+text = "OK: 0"
+vertical_alignment = 1
+
+[node name="BadCount" type="Label" parent="UI/HitCounter" unique_id=797208269]
+modulate = Color(1, 0.6, 0.2, 1)
+layout_mode = 1
+anchors_preset = 4
+anchor_top = 0.5
+anchor_bottom = 0.5
+offset_left = 43.0
+offset_top = -2.0
+offset_right = 91.0
+offset_bottom = 15.0
+grow_vertical = 2
+theme = ExtResource("9_0tnpc")
+theme_override_font_sizes/font_size = 12
+text = "BAD: 0"
+vertical_alignment = 1
+
+[node name="MissCount" type="Label" parent="UI/HitCounter" unique_id=1312980306]
+modulate = Color(1, 0.29803923, 0.34901962, 1)
+layout_mode = 1
+anchors_preset = 4
+anchor_top = 0.5
+anchor_bottom = 0.5
+offset_left = 43.0
+offset_top = 15.0
+offset_right = 99.0
+offset_bottom = 32.0
+grow_vertical = 2
+theme = ExtResource("9_0tnpc")
+theme_override_font_sizes/font_size = 12
+text = "MISS: 0"
+vertical_alignment = 1
+
 [node name="COUNTDOWN" type="Label" parent="UI" unique_id=1208389672]
 modulate = Color(1, 1, 1, 0)
 layout_mode = 1
@@ -387,7 +486,7 @@ grow_horizontal = 2
 grow_vertical = 2
 size_flags_horizontal = 4
 theme = ExtResource("9_0tnpc")
-theme_override_font_sizes/font_size = 107
+theme_override_font_sizes/font_size = 54
 horizontal_alignment = 1
 
 [node name="ComboCounter" type="Label" parent="UI" unique_id=1706335590]
