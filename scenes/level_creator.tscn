@@ -51,43 +51,6 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="HBoxContainer" type="HBoxContainer" parent="." unique_id=1104214773]
-layout_mode = 1
-anchors_preset = 7
-anchor_left = 0.5
-anchor_top = 1.0
-anchor_right = 0.5
-anchor_bottom = 1.0
-offset_left = -81.0
-offset_top = -62.0
-offset_right = 81.0
-offset_bottom = -16.0
-grow_horizontal = 2
-grow_vertical = 0
-theme_override_constants/separation = 12
-
-[node name="go_to_start" type="Button" parent="HBoxContainer" unique_id=81704370]
-custom_minimum_size = Vector2(46, 0)
-layout_mode = 2
-size_flags_horizontal = 0
-theme = ExtResource("1_evwkm")
-text = "<"
-
-[node name="start" type="Button" parent="HBoxContainer" unique_id=2072190154]
-custom_minimum_size = Vector2(46, 0)
-layout_mode = 2
-size_flags_horizontal = 0
-theme = ExtResource("1_evwkm")
-icon = ExtResource("1_0xnud")
-icon_alignment = 1
-
-[node name="go_to_end" type="Button" parent="HBoxContainer" unique_id=926839668]
-custom_minimum_size = Vector2(46, 0)
-layout_mode = 2
-size_flags_horizontal = 0
-theme = ExtResource("1_evwkm")
-text = ">"
-
 [node name="TABS" type="HBoxContainer" parent="." unique_id=287608255]
 layout_mode = 1
 anchors_preset = 5
@@ -107,7 +70,7 @@ layout_mode = 2
 size_flags_horizontal = 3
 theme = ExtResource("1_evwkm")
 theme_override_font_sizes/font_size = 10
-text = "METADAATA"
+text = "METADATA"
 icon_alignment = 1
 
 [node name="MAPPING" type="Button" parent="TABS" unique_id=1799756107]
@@ -228,8 +191,45 @@ texture = ExtResource("4_ik5ql")
 flip_h = true
 flip_v = true
 
-[node name="Label" type="Label" parent="." unique_id=968918794]
-layout_mode = 1
+[node name="CanvasLayer" type="CanvasLayer" parent="." unique_id=164125496]
+
+[node name="HBoxContainer" type="HBoxContainer" parent="CanvasLayer" unique_id=1104214773]
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -81.0
+offset_top = -62.0
+offset_right = 81.0
+offset_bottom = -16.0
+grow_horizontal = 2
+grow_vertical = 0
+theme_override_constants/separation = 12
+
+[node name="go_to_start" type="Button" parent="CanvasLayer/HBoxContainer" unique_id=81704370]
+custom_minimum_size = Vector2(46, 0)
+layout_mode = 2
+size_flags_horizontal = 0
+theme = ExtResource("1_evwkm")
+text = "<"
+
+[node name="start" type="Button" parent="CanvasLayer/HBoxContainer" unique_id=2072190154]
+custom_minimum_size = Vector2(46, 0)
+layout_mode = 2
+size_flags_horizontal = 0
+theme = ExtResource("1_evwkm")
+icon = ExtResource("1_0xnud")
+icon_alignment = 1
+
+[node name="go_to_end" type="Button" parent="CanvasLayer/HBoxContainer" unique_id=926839668]
+custom_minimum_size = Vector2(46, 0)
+layout_mode = 2
+size_flags_horizontal = 0
+theme = ExtResource("1_evwkm")
+text = ">"
+
+[node name="Label" type="Label" parent="CanvasLayer" unique_id=968918794]
 anchors_preset = 2
 anchor_top = 1.0
 anchor_bottom = 1.0
@@ -244,31 +244,31 @@ text = "PRESS M/N TO
 SPAWA BEAT"
 vertical_alignment = 2
 
-[node name="Line2D" type="Line2D" parent="." unique_id=462632309]
+[node name="Line2D" type="Line2D" parent="CanvasLayer" unique_id=462632309]
 position = Vector2(144, -6)
 points = PackedVector2Array(0, 0, 0, 370)
 width = 1.0
 default_color = Color(0.62152386, 0.62152386, 0.6215238, 1)
 
-[node name="note_manager" type="Node2D" parent="." unique_id=1995089584]
+[node name="note_manager" type="Node2D" parent="CanvasLayer" unique_id=1995089584]
 position = Vector2(144, 115)
 
-[node name="beat_column" type="Node2D" parent="note_manager" unique_id=1107222869]
+[node name="beat_column" type="Node2D" parent="CanvasLayer/note_manager" unique_id=1107222869]
 
-[node name="beat_spawner" type="Node2D" parent="note_manager/beat_column" unique_id=1331948016]
+[node name="beat_spawner" type="Node2D" parent="CanvasLayer/note_manager/beat_column" unique_id=1331948016]
 
-[node name="shape_column" type="Node2D" parent="note_manager" unique_id=218202540]
+[node name="shape_column" type="Node2D" parent="CanvasLayer/note_manager" unique_id=218202540]
 position = Vector2(0, 74)
 
-[node name="shape_spawner" type="Node2D" parent="note_manager/shape_column" unique_id=30479691]
+[node name="shape_spawner" type="Node2D" parent="CanvasLayer/note_manager/shape_column" unique_id=30479691]
 
-[node name="Border" type="Line2D" parent="note_manager" unique_id=934328302]
+[node name="Border" type="Line2D" parent="CanvasLayer/note_manager" unique_id=934328302]
 position = Vector2(-165, -32)
 points = PackedVector2Array(0, 0, 680, 0, 680, 130, 0, 130, 0, 0)
 width = 1.0
 default_color = Color(0.62152386, 0.62152386, 0.6215238, 1)
 
-[node name="Border2" type="Line2D" parent="note_manager/Border" unique_id=507072306]
+[node name="Border2" type="Line2D" parent="CanvasLayer/note_manager/Border" unique_id=507072306]
 points = PackedVector2Array(0, 65, 680, 65)
 width = 1.0
 default_color = Color(0.62152386, 0.62152386, 0.6215238, 1)
