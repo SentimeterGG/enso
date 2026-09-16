@@ -121,7 +121,7 @@ grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 2
 mouse_behavior_recursive = 1
-color = Color(0, 0, 0, 0.4509804)
+color = Color(0, 0, 0, 0.7176471)
 
 [node name="Label" type="Label" parent="volume_popup" unique_id=1093649235]
 layout_mode = 1
