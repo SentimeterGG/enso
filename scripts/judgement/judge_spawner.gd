@@ -1,6 +1,11 @@
 extends Node2D
 
 const judgement_label := preload("res://scenes/judgement_label.tscn")
+
+const COLOR_PERFECT := Color(1.0, 0.84, 0.30) # gold
+const COLOR_OK := Color(0.35, 0.95, 0.55) # green
+const COLOR_BAD := Color(1.0, 0.60, 0.20) # orange
+const COLOR_MISS := Color(1.0, 0.30, 0.35) # red
 var overall_difficulty: float
 var combo: int = 0
 @onready var accuracy_manager: Node2D = %accuracy_manager
@@ -34,18 +39,22 @@ func _on_beat_column_beat_hit(error_ms: float) -> void:
 	add_child(label)
 	if timing_error <= get_excellent_window_ms():
 		label.text = "PERFECT"
+		label.modulate = COLOR_PERFECT
 		accuracy_manager.add_to_avg(100.0)
 		add_combo()
 	elif timing_error <= get_good_window_ms():
 		label.text = "OK"
+		label.modulate = COLOR_OK
 		accuracy_manager.add_to_avg(66.67)
 		add_combo()
 	elif timing_error <= get_bad_window_ms():
 		label.text = "BAD"
+		label.modulate = COLOR_BAD
 		accuracy_manager.add_to_avg(33.34)
 		add_combo()
 	else:
 		label.text = "MISS"
+		label.modulate = COLOR_MISS
 		accuracy_manager.add_to_avg(0.0)
 		reset_combo()
 	pass  # Replace with function body.

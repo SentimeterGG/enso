@@ -14,6 +14,7 @@ jump_height = 60.0
 [node name="HitSound" type="AudioStreamPlayer" parent="." unique_id=1538775191]
 stream = ExtResource("3_j2e2l")
 volume_db = 10.0
+bus = &"Effect"
 
 [node name="CircleOutline" type="Sprite2D" parent="." unique_id=787556392]
 texture = ExtResource("4_4106b")

@@ -8,7 +8,8 @@ extends Node2D
 const BEAT_POINT := preload("res://scenes/beat_point.tscn")
 const FLASH_DURATION := 0.1
 
-@onready var beat_rec_clicked = $beat_receptor/clicked
+@onready var beat_receptor = $beat_receptor
+@onready var beat_receptor_clicked = $beat_receptor_clicked
 @onready var judge_spawner = %judge_spawner
 @export var input_cooldown_sec := 0.05  # tune this — smaller = more spam-tolerant, larger = stricter
 signal beat_hit(error_ms: float)
@@ -19,7 +20,9 @@ var _flash_tween: Tween
 
 
 func _ready() -> void:
-	beat_rec_clicked.hide()
+	beat_receptor.texture = SkinManager.beat_receptor
+	beat_receptor_clicked.texture = SkinManager.beat_receptor_clicked
+	beat_receptor_clicked.hide()
 
 
 func _process(_delta: float) -> void:
@@ -104,12 +107,14 @@ func _flash_clicked() -> void:
 		_flash_tween.kill()
 
 	click = true
-	beat_rec_clicked.show()
+	beat_receptor.hide()
+	beat_receptor_clicked.show()
 
 	_flash_tween = create_tween()
 	_flash_tween.tween_interval(FLASH_DURATION)
 	_flash_tween.tween_callback(
 		func():
-			beat_rec_clicked.hide()
+			beat_receptor_clicked.hide()
+			beat_receptor.show()
 			click = false
 	)

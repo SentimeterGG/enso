@@ -9,9 +9,9 @@
 [ext_resource type="Script" uid="uid://3g8m7mw6ywns" path="res://scripts/note/beat/beat_column.gd" id="6_u5sy4"]
 [ext_resource type="Texture2D" uid="uid://dnnjjgvh1pcgl" path="res://assets/sprites/UI/shape/circle_outline.png" id="7_ca42v"]
 [ext_resource type="Texture2D" uid="uid://drvec743hncum" path="res://assets/sprites/circle.svg" id="8_gee14"]
-[ext_resource type="Texture2D" uid="uid://qomfanbbtnmo" path="res://assets/sprites/UI/shape/circle.png" id="8_ir15t"]
 [ext_resource type="Theme" uid="uid://cpocn8agag6ib" path="res://resources/theme/Theme.tres" id="9_0tnpc"]
 [ext_resource type="Script" uid="uid://bh3hkt7fb36kw" path="res://scripts/note/shape/shape_column.gd" id="9_kvuet"]
+[ext_resource type="Texture2D" uid="uid://c57tsdrlvc70s" path="res://assets/sprites/circle.png" id="9_rysoc"]
 [ext_resource type="Texture2D" uid="uid://b3v8a03h3ikfs" path="res://assets/sprites/UI/corner.png" id="10_kvpfn"]
 [ext_resource type="PackedScene" uid="uid://b7rlmo61qxu8s" path="res://scenes/draw.tscn" id="10_vtaks"]
 [ext_resource type="Script" uid="uid://3tetr7jpx2oo" path="res://scripts/character.gd" id="11_dinhu"]
@@ -318,9 +318,11 @@ position = Vector2(16, 16)
 scale = Vector2(3, 3)
 texture = ExtResource("7_ca42v")
 
-[node name="clicked" type="Sprite2D" parent="note_manager/beat_column/beat_receptor" unique_id=1494436509]
+[node name="beat_receptor_clicked" type="Sprite2D" parent="note_manager/beat_column" unique_id=659919077]
 texture_filter = 1
-texture = ExtResource("8_ir15t")
+position = Vector2(16, 16)
+scale = Vector2(3, 3)
+texture = ExtResource("9_rysoc")
 
 [node name="beat_spawner" type="Node2D" parent="note_manager/beat_column" unique_id=1101375677]
 position = Vector2(664, 16)

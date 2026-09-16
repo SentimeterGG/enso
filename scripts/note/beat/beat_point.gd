@@ -16,8 +16,11 @@ var _pending_free := false
 @export var fade_duration := 0.3
 
 @onready var hitsound: AudioStreamPlayer = $HitSound
+@onready var outline : Sprite2D = $CircleOutline
 
-
+func _ready() -> void:
+	texture = SkinManager.beat_point_bg
+	outline.texture = SkinManager.beat_point_outline
 func _process(_delta: float) -> void:
 	position.x = receptor_x + (hit_time - song_time.call()) * px_per_sec
 
