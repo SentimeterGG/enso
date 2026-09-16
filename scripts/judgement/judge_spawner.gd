@@ -2,6 +2,7 @@ extends Node2D
 
 const judgement_label := preload("res://scenes/judgement_label.tscn")
 var overall_difficulty: float
+var combo: int = 0
 @onready var accuracy_manager: Node2D = %accuracy_manager
 
 
@@ -34,13 +35,30 @@ func _on_beat_column_beat_hit(error_ms: float) -> void:
 	if timing_error <= get_excellent_window_ms():
 		label.text = "PERFECT"
 		accuracy_manager.add_to_avg(100.0)
+		add_combo()
 	elif timing_error <= get_good_window_ms():
 		label.text = "OK"
 		accuracy_manager.add_to_avg(66.67)
+		add_combo()
 	elif timing_error <= get_bad_window_ms():
 		label.text = "BAD"
 		accuracy_manager.add_to_avg(33.34)
+		add_combo()
 	else:
 		label.text = "MISS"
 		accuracy_manager.add_to_avg(0.0)
+		reset_combo()
 	pass  # Replace with function body.
+
+
+func add_combo():
+	combo += 1
+	%ComboCounter.text = str(combo)+"x"
+	%ComboAnims.stop()
+	%ComboAnims.play("hit_anim")
+
+func reset_combo():
+	combo = 0
+	%ComboCounter.text = str(combo)+"x"
+	%ComboAnims.stop()
+	%ComboAnims.play("miss_anim")
