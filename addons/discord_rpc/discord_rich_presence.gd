@@ -126,7 +126,12 @@ func _try_connect() -> void:
 	if bridge.is_empty():
 		return
 	for path: String in _unix_socket_paths():
-		var spawned: Dictionary = OS.execute_with_pipe(bridge, ["-U", path], false)
+		# Skip non-sockets cheaply: DirAccess.get_files_at() does not
+		# reliably list unix sockets, and spawning nc for every candidate
+		# would attach to a dead bridge (only retried every 20s).
+		if not _is_socket(path):
+			continue
+		var spawned: Dictionary = OS.execute_with_pipe(bridge, _bridge_args(bridge, path), false)
 		if spawned.is_empty():
 			continue
 		# If nothing listens on the socket, netcat exits at once and the
@@ -142,37 +147,94 @@ func _attach(pipe: FileAccess) -> void:
 	_send(_OP_HANDSHAKE, {"v": 1, "client_id": app_id})
 
 
-## macOS ships nc; on Linux any netcat with unix socket support works.
+## macOS ships OpenBSD nc (has -U); on Linux the bridge must support unix
+## sockets. NOTE: GNU netcat (/usr/bin/nc -> netcat 0.7.1 on Arch) has NO
+## unix-socket support ("nc: invalid option -- 'U'"), while ncat and socat
+## do. So prefer ncat/socat and only accept nc if its help shows -U/unix.
+## socat uses different args, see _bridge_args.
 func _find_bridge() -> String:
-	for name: String in ["nc", "ncat"]:
+	for name: String in ["ncat", "socat", "nc"]:
 		var output: Array = []
-		if OS.execute("which", [name], output) == 0:
-			return str(output[0]).strip_edges()
+		if OS.execute("which", [name], output) != 0:
+			continue
+		var bridge: String = str(output[0]).strip_edges()
+		if bridge.is_empty():
+			continue
+		if _bridge_supports_unix(bridge):
+			return bridge
 	return ""
 
 
-## Discord puts its socket in the first set directory of this env list,
-## or /tmp. Flatpak and snap builds use a subdirectory of the runtime dir.
+## Probe whether a bridge binary can carry a unix socket.
+func _bridge_supports_unix(bridge: String) -> bool:
+	var base: String = bridge.get_file()
+	if base == "socat" or base == "ncat":
+		return true
+	var output: Array = []
+	# OpenBSD nc prints "-U" in usage; GNU netcat does not. Try -h/--help.
+	if OS.execute(bridge, ["-h"], output) != 0 and OS.execute(bridge, ["--help"], output) != 0:
+		return false
+	var text: String = "\n".join(PackedStringArray(output)).to_lower()
+	return text.contains("-u") and (text.contains("unix") or text.contains("unixsock"))
+
+
+## Args for the bridge process: nc/ncat use "-U path",
+## socat uses "STDIO UNIX-CONNECT:path".
+func _bridge_args(bridge: String, path: String) -> PackedStringArray:
+	if bridge.get_file() == "socat":
+		return PackedStringArray(["STDIO", "UNIX-CONNECT:" + path])
+	return PackedStringArray(["-U", path])
+
+
+## test -S returns 0 only for sockets. FileAccess.file_exists and
+## DirAccess.get_files_at do NOT reliably see unix sockets, so use this.
+func _is_socket(path: String) -> bool:
+	if OS.get_name() == "Windows":
+		return false
+	return OS.execute("test", ["-S", path]) == 0
+
+
+## Discord resolves the socket dir as XDG_RUNTIME_DIR, TMPDIR, TMP, TEMP,
+## then /tmp. Native arRPC (Vesktop) listens at $XDG_RUNTIME_DIR/discord-ipc-0.
+## Flatpak Discord uses a subdirectory of the runtime dir; the Vesktop
+## Flatpak socket appears on the host at .flatpak/dev.vencord.Vesktop/xdg-run.
+## Build direct discord-ipc-0..9 candidates (no directory-listing dependency)
+## plus any extra discord-ipc-* names found via guarded listing.
 func _unix_socket_paths() -> PackedStringArray:
 	var dirs: PackedStringArray = []
 	for env: String in ["XDG_RUNTIME_DIR", "TMPDIR", "TMP", "TEMP"]:
 		var value: String = OS.get_environment(env)
-		if not value.is_empty():
-			dirs.append(value)
-			break
-	if dirs.is_empty():
+		if value.is_empty() or dirs.has(value):
+			continue
+		dirs.append(value)
+	if not dirs.has("/tmp"):
 		dirs.append("/tmp")
 	var runtime: String = OS.get_environment("XDG_RUNTIME_DIR")
 	if not runtime.is_empty():
-		dirs.append(runtime.path_join("app/com.discordapp.Discord"))
-		dirs.append(runtime.path_join("snap.discord"))
+		for sub: String in [
+			"app/com.discordapp.Discord",
+			"snap.discord",
+			".flatpak/dev.vencord.Vesktop/xdg-run",
+		]:
+			var full: String = runtime.path_join(sub)
+			if not dirs.has(full):
+				dirs.append(full)
 	var paths: PackedStringArray = []
 	for dir: String in dirs:
-		# Sockets are not files for FileAccess.file_exists, but directory
-		# listing sees them.
-		for file: String in DirAccess.get_files_at(dir):
+		for index: int in _MAX_PIPE_INDEX + 1:
+			var candidate: String = dir.path_join("discord-ipc-%d" % index)
+			if not paths.has(candidate):
+				paths.append(candidate)
+		# Supplement with listing for non-standard names. Guarded so a
+		# missing Flatpak dir no longer logs "Couldn't open directory".
+		if not DirAccess.dir_exists_absolute(dir):
+			continue
+		var files: PackedStringArray = DirAccess.get_files_at(dir)
+		for file: String in files:
 			if file.begins_with("discord-ipc-"):
-				paths.append(dir.path_join(file))
+				var listed: String = dir.path_join(file)
+				if not paths.has(listed):
+					paths.append(listed)
 	return paths
 
 
