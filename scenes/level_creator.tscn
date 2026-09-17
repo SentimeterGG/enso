@@ -2,6 +2,7 @@
 
 [ext_resource type="Texture2D" uid="uid://sqv5pjrdcpvd" path="res://assets/sprites/UI/shape/play.png" id="1_0xnud"]
 [ext_resource type="Theme" uid="uid://cpocn8agag6ib" path="res://resources/theme/Theme.tres" id="1_evwkm"]
+[ext_resource type="Script" uid="uid://bsweodsn26075" path="res://scripts/ui/level_creator/metadata.gd" id="3_m4iti"]
 [ext_resource type="FontFile" uid="uid://o0cdle58rn3j" path="res://assets/fonts/ithaca.medium.ttf" id="3_mjqih"]
 [ext_resource type="Texture2D" uid="uid://b3v8a03h3ikfs" path="res://assets/sprites/UI/corner.png" id="4_ik5ql"]
 [ext_resource type="Texture2D" uid="uid://cgruk4xoapf0n" path="res://assets/sprites/UI/folder_icon.png" id="4_m4iti"]
@@ -51,6 +52,29 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+
+[node name="ExportPopup" type="FileDialog" parent="." unique_id=16765379]
+unique_name_in_owner = true
+editor_description = "save to file chart.enso"
+oversampling_override = 1.0
+title = "Chose export location"
+position = Vector2i(0, 36)
+ok_button_text = "Select"
+file_mode = 2
+access = 2
+use_native_dialog = true
+
+[node name="LoadSong" type="FileDialog" parent="." unique_id=1729529952]
+unique_name_in_owner = true
+editor_description = "save to file chart.enso"
+oversampling_override = 1.0
+title = "Choose a Song File"
+position = Vector2i(0, 36)
+popup_window = true
+file_mode = 0
+access = 2
+filters = PackedStringArray("*.mp3", "*.ogg", "*.wav")
+use_native_dialog = true
 
 [node name="RB" type="MarginContainer" parent="." unique_id=1103346126]
 layout_mode = 1
@@ -172,8 +196,16 @@ grow_horizontal = 2
 grow_vertical = 2
 
 [node name="METADATA" type="Control" parent="HBoxContainer" unique_id=299311291]
+unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
+script = ExtResource("3_m4iti")
+
+[node name="PreviewPlayer" type="AudioStreamPlayer" parent="HBoxContainer/METADATA" unique_id=1525354318]
+bus = &"Music"
+
+[node name="BeatPlayer" type="AudioStreamPlayer" parent="HBoxContainer/METADATA" unique_id=699933190]
+bus = &"Music"
 
 [node name="ScrollContainer" type="ScrollContainer" parent="HBoxContainer/METADATA" unique_id=767517152]
 clip_contents = false
@@ -207,7 +239,8 @@ theme = ExtResource("1_evwkm")
 theme_override_font_sizes/font_size = 12
 text = "Song Name"
 
-[node name="LineEdit" type="LineEdit" parent="HBoxContainer/METADATA/ScrollContainer/MarginContainer/VBoxContainer/song_name" unique_id=1220992723]
+[node name="SongNameEdit" type="LineEdit" parent="HBoxContainer/METADATA/ScrollContainer/MarginContainer/VBoxContainer/song_name" unique_id=1220992723]
+unique_name_in_owner = true
 layout_mode = 2
 theme = ExtResource("1_evwkm")
 
@@ -220,7 +253,8 @@ theme = ExtResource("1_evwkm")
 theme_override_font_sizes/font_size = 12
 text = "Song Author"
 
-[node name="LineEdit" type="LineEdit" parent="HBoxContainer/METADATA/ScrollContainer/MarginContainer/VBoxContainer/song_author" unique_id=157001413]
+[node name="SongAuthorEdit" type="LineEdit" parent="HBoxContainer/METADATA/ScrollContainer/MarginContainer/VBoxContainer/song_author" unique_id=157001413]
+unique_name_in_owner = true
 layout_mode = 2
 theme = ExtResource("1_evwkm")
 
@@ -233,7 +267,8 @@ theme = ExtResource("1_evwkm")
 theme_override_font_sizes/font_size = 12
 text = "Mapper Name"
 
-[node name="LineEdit" type="LineEdit" parent="HBoxContainer/METADATA/ScrollContainer/MarginContainer/VBoxContainer/mapper" unique_id=1653855920]
+[node name="MapperEdit" type="LineEdit" parent="HBoxContainer/METADATA/ScrollContainer/MarginContainer/VBoxContainer/mapper" unique_id=1653855920]
+unique_name_in_owner = true
 layout_mode = 2
 theme = ExtResource("1_evwkm")
 
@@ -250,12 +285,14 @@ text = "Song Path"
 layout_mode = 2
 theme_override_constants/separation = 10
 
-[node name="LineEdit" type="LineEdit" parent="HBoxContainer/METADATA/ScrollContainer/MarginContainer/VBoxContainer/song_path/HBoxContainer" unique_id=1420392858]
+[node name="SongPathEdit" type="LineEdit" parent="HBoxContainer/METADATA/ScrollContainer/MarginContainer/VBoxContainer/song_path/HBoxContainer" unique_id=1420392858]
+unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
 theme = ExtResource("1_evwkm")
 
-[node name="Button" type="Button" parent="HBoxContainer/METADATA/ScrollContainer/MarginContainer/VBoxContainer/song_path/HBoxContainer" unique_id=1019752748]
+[node name="BrowseSongButton" type="Button" parent="HBoxContainer/METADATA/ScrollContainer/MarginContainer/VBoxContainer/song_path/HBoxContainer" unique_id=1019752748]
+unique_name_in_owner = true
 layout_mode = 2
 icon = ExtResource("4_m4iti")
 
@@ -272,6 +309,7 @@ text = "Color Scheme"
 layout_mode = 2
 
 [node name="ColorPicker" type="ColorPicker" parent="HBoxContainer/METADATA/ScrollContainer/MarginContainer/VBoxContainer/color_scheme/VBoxContainer" unique_id=1542034726]
+unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 0
@@ -281,7 +319,8 @@ color_modes_visible = false
 sliders_visible = false
 presets_visible = false
 
-[node name="Button" type="Button" parent="HBoxContainer/METADATA/ScrollContainer/MarginContainer/VBoxContainer/color_scheme/VBoxContainer" unique_id=1684224302]
+[node name="AddColorButton" type="Button" parent="HBoxContainer/METADATA/ScrollContainer/MarginContainer/VBoxContainer/color_scheme/VBoxContainer" unique_id=1684224302]
+unique_name_in_owner = true
 custom_minimum_size = Vector2(30, 0)
 layout_mode = 2
 size_flags_vertical = 8
@@ -294,6 +333,7 @@ custom_minimum_size = Vector2(0, 50)
 layout_mode = 2
 
 [node name="list_colorscheme" type="HBoxContainer" parent="HBoxContainer/METADATA/ScrollContainer/MarginContainer/VBoxContainer/color_scheme/ScrollContainer" unique_id=499023474]
+unique_name_in_owner = true
 editor_description = "spawn bunch of 50x50 color rect horizontally with a color selected from Color Picker"
 layout_mode = 2
 size_flags_horizontal = 3
@@ -301,18 +341,6 @@ size_flags_vertical = 3
 offset_transform_scale = Vector2(0.5, 0.5)
 offset_transform_pivot_ratio = Vector2(0, 0)
 theme_override_constants/separation = 7
-
-[node name="ColorRect" type="ColorRect" parent="HBoxContainer/METADATA/ScrollContainer/MarginContainer/VBoxContainer/color_scheme/ScrollContainer/list_colorscheme" unique_id=1364759805]
-custom_minimum_size = Vector2(50, 50)
-layout_mode = 2
-
-[node name="ColorRect2" type="ColorRect" parent="HBoxContainer/METADATA/ScrollContainer/MarginContainer/VBoxContainer/color_scheme/ScrollContainer/list_colorscheme" unique_id=385615684]
-custom_minimum_size = Vector2(50, 50)
-layout_mode = 2
-
-[node name="ColorRect3" type="ColorRect" parent="HBoxContainer/METADATA/ScrollContainer/MarginContainer/VBoxContainer/color_scheme/ScrollContainer/list_colorscheme" unique_id=1411348827]
-custom_minimum_size = Vector2(50, 50)
-layout_mode = 2
 
 [node name="preview_start" type="VBoxContainer" parent="HBoxContainer/METADATA/ScrollContainer/MarginContainer/VBoxContainer" unique_id=1191473743]
 layout_mode = 2
@@ -330,13 +358,16 @@ layout_mode = 2
 layout_mode = 2
 theme_override_constants/separation = 21
 
-[node name="playback_position" type="HSlider" parent="HBoxContainer/METADATA/ScrollContainer/MarginContainer/VBoxContainer/preview_start/VBoxContainer/HBoxContainer" unique_id=731248572]
+[node name="PreviewSlider" type="HSlider" parent="HBoxContainer/METADATA/ScrollContainer/MarginContainer/VBoxContainer/preview_start/VBoxContainer/HBoxContainer" unique_id=731248572]
+unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 4
 theme = ExtResource("1_evwkm")
+max_value = 300000.0
 
-[node name="playback_position_label" type="Label" parent="HBoxContainer/METADATA/ScrollContainer/MarginContainer/VBoxContainer/preview_start/VBoxContainer/HBoxContainer" unique_id=1219075354]
+[node name="PreviewLabel" type="Label" parent="HBoxContainer/METADATA/ScrollContainer/MarginContainer/VBoxContainer/preview_start/VBoxContainer/HBoxContainer" unique_id=1219075354]
+unique_name_in_owner = true
 layout_mode = 2
 theme = ExtResource("1_evwkm")
 text = "0:00"
@@ -346,21 +377,24 @@ layout_mode = 2
 size_flags_horizontal = 4
 size_flags_vertical = 4
 
-[node name="Button" type="Button" parent="HBoxContainer/METADATA/ScrollContainer/MarginContainer/VBoxContainer/preview_start/VBoxContainer/control_button" unique_id=976421060]
+[node name="PreviewGotoStart" type="Button" parent="HBoxContainer/METADATA/ScrollContainer/MarginContainer/VBoxContainer/preview_start/VBoxContainer/control_button" unique_id=976421060]
+unique_name_in_owner = true
 custom_minimum_size = Vector2(30, 0)
 layout_mode = 2
 theme = ExtResource("1_evwkm")
 text = "<"
 icon_alignment = 1
 
-[node name="Button2" type="Button" parent="HBoxContainer/METADATA/ScrollContainer/MarginContainer/VBoxContainer/preview_start/VBoxContainer/control_button" unique_id=1804480215]
+[node name="PreviewPlay" type="Button" parent="HBoxContainer/METADATA/ScrollContainer/MarginContainer/VBoxContainer/preview_start/VBoxContainer/control_button" unique_id=1804480215]
+unique_name_in_owner = true
 custom_minimum_size = Vector2(30, 0)
 layout_mode = 2
 theme = ExtResource("1_evwkm")
 icon = ExtResource("1_0xnud")
 icon_alignment = 1
 
-[node name="Button3" type="Button" parent="HBoxContainer/METADATA/ScrollContainer/MarginContainer/VBoxContainer/preview_start/VBoxContainer/control_button" unique_id=1152356043]
+[node name="PreviewGotoEnd" type="Button" parent="HBoxContainer/METADATA/ScrollContainer/MarginContainer/VBoxContainer/preview_start/VBoxContainer/control_button" unique_id=1152356043]
+unique_name_in_owner = true
 custom_minimum_size = Vector2(30, 0)
 layout_mode = 2
 theme = ExtResource("1_evwkm")
@@ -383,13 +417,16 @@ layout_mode = 2
 layout_mode = 2
 theme_override_constants/separation = 21
 
-[node name="playback_position" type="HSlider" parent="HBoxContainer/METADATA/ScrollContainer/MarginContainer/VBoxContainer/start_beat/VBoxContainer/HBoxContainer" unique_id=1486360989]
+[node name="BeatSlider" type="HSlider" parent="HBoxContainer/METADATA/ScrollContainer/MarginContainer/VBoxContainer/start_beat/VBoxContainer/HBoxContainer" unique_id=1486360989]
+unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 4
 theme = ExtResource("1_evwkm")
+max_value = 10000.0
 
-[node name="playback_position_label" type="Label" parent="HBoxContainer/METADATA/ScrollContainer/MarginContainer/VBoxContainer/start_beat/VBoxContainer/HBoxContainer" unique_id=660600851]
+[node name="BeatLabel" type="Label" parent="HBoxContainer/METADATA/ScrollContainer/MarginContainer/VBoxContainer/start_beat/VBoxContainer/HBoxContainer" unique_id=660600851]
+unique_name_in_owner = true
 layout_mode = 2
 theme = ExtResource("1_evwkm")
 text = "0:00"
@@ -399,21 +436,24 @@ layout_mode = 2
 size_flags_horizontal = 4
 size_flags_vertical = 4
 
-[node name="Button" type="Button" parent="HBoxContainer/METADATA/ScrollContainer/MarginContainer/VBoxContainer/start_beat/VBoxContainer/control_button" unique_id=590459419]
+[node name="BeatGotoStart" type="Button" parent="HBoxContainer/METADATA/ScrollContainer/MarginContainer/VBoxContainer/start_beat/VBoxContainer/control_button" unique_id=590459419]
+unique_name_in_owner = true
 custom_minimum_size = Vector2(30, 0)
 layout_mode = 2
 theme = ExtResource("1_evwkm")
 text = "<"
 icon_alignment = 1
 
-[node name="Button2" type="Button" parent="HBoxContainer/METADATA/ScrollContainer/MarginContainer/VBoxContainer/start_beat/VBoxContainer/control_button" unique_id=1584163019]
+[node name="BeatPlay" type="Button" parent="HBoxContainer/METADATA/ScrollContainer/MarginContainer/VBoxContainer/start_beat/VBoxContainer/control_button" unique_id=1584163019]
+unique_name_in_owner = true
 custom_minimum_size = Vector2(30, 0)
 layout_mode = 2
 theme = ExtResource("1_evwkm")
 icon = ExtResource("1_0xnud")
 icon_alignment = 1
 
-[node name="Button3" type="Button" parent="HBoxContainer/METADATA/ScrollContainer/MarginContainer/VBoxContainer/start_beat/VBoxContainer/control_button" unique_id=2051192508]
+[node name="BeatGotoEnd" type="Button" parent="HBoxContainer/METADATA/ScrollContainer/MarginContainer/VBoxContainer/start_beat/VBoxContainer/control_button" unique_id=2051192508]
+unique_name_in_owner = true
 custom_minimum_size = Vector2(30, 0)
 layout_mode = 2
 theme = ExtResource("1_evwkm")
@@ -428,9 +468,12 @@ layout_mode = 2
 theme = ExtResource("1_evwkm")
 text = "BPM: "
 
-[node name="SpinBox" type="SpinBox" parent="HBoxContainer/METADATA/ScrollContainer/MarginContainer/VBoxContainer/BPM" unique_id=137845918]
+[node name="BpmSpin" type="SpinBox" parent="HBoxContainer/METADATA/ScrollContainer/MarginContainer/VBoxContainer/BPM" unique_id=137845918]
+unique_name_in_owner = true
 layout_mode = 2
 theme = ExtResource("1_evwkm")
+max_value = 999.0
+value = 120.0
 
 [node name="Difficulty" type="HBoxContainer" parent="HBoxContainer/METADATA/ScrollContainer/MarginContainer/VBoxContainer" unique_id=1194917548]
 layout_mode = 2
@@ -444,11 +487,14 @@ layout_mode = 2
 theme = ExtResource("1_evwkm")
 text = "Difficulty: "
 
-[node name="SpinBox" type="SpinBox" parent="HBoxContainer/METADATA/ScrollContainer/MarginContainer/VBoxContainer/Difficulty/HBoxContainer" unique_id=349440324]
+[node name="DiffSpin" type="SpinBox" parent="HBoxContainer/METADATA/ScrollContainer/MarginContainer/VBoxContainer/Difficulty/HBoxContainer" unique_id=349440324]
+unique_name_in_owner = true
 layout_mode = 2
 theme = ExtResource("1_evwkm")
+max_value = 10.0
 
-[node name="Difficulty_label" type="Label" parent="HBoxContainer/METADATA/ScrollContainer/MarginContainer/VBoxContainer/Difficulty" unique_id=330354383]
+[node name="DiffLabel" type="Label" parent="HBoxContainer/METADATA/ScrollContainer/MarginContainer/VBoxContainer/Difficulty" unique_id=330354383]
+unique_name_in_owner = true
 editor_description = "For Showing 0 mean easy 4 - 6 mean medium
 6 - 10 mean hard
 
@@ -594,7 +640,8 @@ theme = ExtResource("1_evwkm")
 theme_override_font_sizes/font_size = 10
 text = "MAPPING"
 
-[node name="Button" type="Button" parent="." unique_id=1996282401]
+[node name="ExportButton" type="Button" parent="." unique_id=1996282401]
+unique_name_in_owner = true
 layout_mode = 1
 anchors_preset = 3
 anchor_left = 1.0
@@ -609,3 +656,19 @@ grow_horizontal = 0
 grow_vertical = 0
 theme = ExtResource("1_evwkm")
 text = "EXPORT TO FILE"
+
+[connection signal="dir_selected" from="ExportPopup" to="HBoxContainer/METADATA" method="_on_save_dir_selected"]
+[connection signal="file_selected" from="LoadSong" to="HBoxContainer/METADATA" method="_on_song_file_selected"]
+[connection signal="text_submitted" from="HBoxContainer/METADATA/ScrollContainer/MarginContainer/VBoxContainer/song_path/HBoxContainer/SongPathEdit" to="HBoxContainer/METADATA" method="_on_song_text_submitted"]
+[connection signal="pressed" from="HBoxContainer/METADATA/ScrollContainer/MarginContainer/VBoxContainer/song_path/HBoxContainer/BrowseSongButton" to="HBoxContainer/METADATA" method="_on_browse_pressed"]
+[connection signal="pressed" from="HBoxContainer/METADATA/ScrollContainer/MarginContainer/VBoxContainer/color_scheme/VBoxContainer/AddColorButton" to="HBoxContainer/METADATA" method="_on_add_color"]
+[connection signal="value_changed" from="HBoxContainer/METADATA/ScrollContainer/MarginContainer/VBoxContainer/preview_start/VBoxContainer/HBoxContainer/PreviewSlider" to="HBoxContainer/METADATA" method="_on_preview_changed"]
+[connection signal="pressed" from="HBoxContainer/METADATA/ScrollContainer/MarginContainer/VBoxContainer/preview_start/VBoxContainer/control_button/PreviewGotoStart" to="HBoxContainer/METADATA" method="_on_preview_nudge_minus"]
+[connection signal="pressed" from="HBoxContainer/METADATA/ScrollContainer/MarginContainer/VBoxContainer/preview_start/VBoxContainer/control_button/PreviewPlay" to="HBoxContainer/METADATA" method="_on_preview_play"]
+[connection signal="pressed" from="HBoxContainer/METADATA/ScrollContainer/MarginContainer/VBoxContainer/preview_start/VBoxContainer/control_button/PreviewGotoEnd" to="HBoxContainer/METADATA" method="_on_preview_nudge_plus"]
+[connection signal="value_changed" from="HBoxContainer/METADATA/ScrollContainer/MarginContainer/VBoxContainer/start_beat/VBoxContainer/HBoxContainer/BeatSlider" to="HBoxContainer/METADATA" method="_on_beat_changed"]
+[connection signal="pressed" from="HBoxContainer/METADATA/ScrollContainer/MarginContainer/VBoxContainer/start_beat/VBoxContainer/control_button/BeatGotoStart" to="HBoxContainer/METADATA" method="_on_beat_nudge_minus"]
+[connection signal="pressed" from="HBoxContainer/METADATA/ScrollContainer/MarginContainer/VBoxContainer/start_beat/VBoxContainer/control_button/BeatPlay" to="HBoxContainer/METADATA" method="_on_beat_play"]
+[connection signal="pressed" from="HBoxContainer/METADATA/ScrollContainer/MarginContainer/VBoxContainer/start_beat/VBoxContainer/control_button/BeatGotoEnd" to="HBoxContainer/METADATA" method="_on_beat_nudge_plus"]
+[connection signal="value_changed" from="HBoxContainer/METADATA/ScrollContainer/MarginContainer/VBoxContainer/Difficulty/HBoxContainer/DiffSpin" to="HBoxContainer/METADATA" method="_on_diff_changed"]
+[connection signal="pressed" from="ExportButton" to="HBoxContainer/METADATA" method="_on_export_pressed"]
