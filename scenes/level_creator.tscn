@@ -4,6 +4,7 @@
 [ext_resource type="Theme" uid="uid://cpocn8agag6ib" path="res://resources/theme/Theme.tres" id="1_evwkm"]
 [ext_resource type="FontFile" uid="uid://o0cdle58rn3j" path="res://assets/fonts/ithaca.medium.ttf" id="3_mjqih"]
 [ext_resource type="Texture2D" uid="uid://b3v8a03h3ikfs" path="res://assets/sprites/UI/corner.png" id="4_ik5ql"]
+[ext_resource type="Texture2D" uid="uid://cgruk4xoapf0n" path="res://assets/sprites/UI/folder_icon.png" id="4_m4iti"]
 
 [sub_resource type="Animation" id="Animation_rtw2f"]
 length = 0.001
@@ -43,43 +44,13 @@ _data = {
 &"idle": SubResource("Animation_8ln24")
 }
 
-[node name="Control" type="Control" unique_id=1506574995]
+[node name="level_creator" type="Control" unique_id=1506574995]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-
-[node name="TABS" type="HBoxContainer" parent="." unique_id=287608255]
-layout_mode = 1
-anchors_preset = 5
-anchor_left = 0.5
-anchor_right = 0.5
-offset_left = -100.75
-offset_top = 8.0
-offset_right = 100.75
-offset_bottom = 50.42
-grow_horizontal = 2
-offset_transform_enabled = true
-theme_override_constants/separation = 12
-
-[node name="METADATA" type="Button" parent="TABS" unique_id=696873533]
-custom_maximum_size = Vector2(-1, 32)
-layout_mode = 2
-size_flags_horizontal = 3
-theme = ExtResource("1_evwkm")
-theme_override_font_sizes/font_size = 10
-text = "METADATA"
-icon_alignment = 1
-
-[node name="MAPPING" type="Button" parent="TABS" unique_id=1799756107]
-custom_maximum_size = Vector2(-1, 32)
-layout_mode = 2
-size_flags_horizontal = 3
-theme = ExtResource("1_evwkm")
-theme_override_font_sizes/font_size = 10
-text = "MAPPING"
 
 [node name="RB" type="MarginContainer" parent="." unique_id=1103346126]
 layout_mode = 1
@@ -191,30 +162,342 @@ texture = ExtResource("4_ik5ql")
 flip_h = true
 flip_v = true
 
-[node name="CanvasLayer" type="CanvasLayer" parent="." unique_id=164125496]
+[node name="HBoxContainer" type="HBoxContainer" parent="." unique_id=1541542562]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_right = 640.0
+grow_horizontal = 2
+grow_vertical = 2
 
-[node name="HBoxContainer" type="HBoxContainer" parent="CanvasLayer" unique_id=1104214773]
+[node name="METADATA" type="Control" parent="HBoxContainer" unique_id=299311291]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="ScrollContainer" type="ScrollContainer" parent="HBoxContainer/METADATA" unique_id=767517152]
+clip_contents = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 42.0
+offset_top = 51.0
+offset_right = -244.0
+offset_bottom = -31.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="HBoxContainer/METADATA/ScrollContainer" unique_id=806335454]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/margin_right = 12
+
+[node name="VBoxContainer" type="VBoxContainer" parent="HBoxContainer/METADATA/ScrollContainer/MarginContainer" unique_id=1115699162]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 9
+
+[node name="song_name" type="VBoxContainer" parent="HBoxContainer/METADATA/ScrollContainer/MarginContainer/VBoxContainer" unique_id=318250181]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="HBoxContainer/METADATA/ScrollContainer/MarginContainer/VBoxContainer/song_name" unique_id=1554212525]
+layout_mode = 2
+theme = ExtResource("1_evwkm")
+theme_override_font_sizes/font_size = 12
+text = "Song Name"
+
+[node name="LineEdit" type="LineEdit" parent="HBoxContainer/METADATA/ScrollContainer/MarginContainer/VBoxContainer/song_name" unique_id=1220992723]
+layout_mode = 2
+theme = ExtResource("1_evwkm")
+
+[node name="song_author" type="VBoxContainer" parent="HBoxContainer/METADATA/ScrollContainer/MarginContainer/VBoxContainer" unique_id=400180455]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="HBoxContainer/METADATA/ScrollContainer/MarginContainer/VBoxContainer/song_author" unique_id=310098334]
+layout_mode = 2
+theme = ExtResource("1_evwkm")
+theme_override_font_sizes/font_size = 12
+text = "Song Author"
+
+[node name="LineEdit" type="LineEdit" parent="HBoxContainer/METADATA/ScrollContainer/MarginContainer/VBoxContainer/song_author" unique_id=157001413]
+layout_mode = 2
+theme = ExtResource("1_evwkm")
+
+[node name="mapper" type="VBoxContainer" parent="HBoxContainer/METADATA/ScrollContainer/MarginContainer/VBoxContainer" unique_id=1012508364]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="HBoxContainer/METADATA/ScrollContainer/MarginContainer/VBoxContainer/mapper" unique_id=1454625537]
+layout_mode = 2
+theme = ExtResource("1_evwkm")
+theme_override_font_sizes/font_size = 12
+text = "Mapper Name"
+
+[node name="LineEdit" type="LineEdit" parent="HBoxContainer/METADATA/ScrollContainer/MarginContainer/VBoxContainer/mapper" unique_id=1653855920]
+layout_mode = 2
+theme = ExtResource("1_evwkm")
+
+[node name="song_path" type="VBoxContainer" parent="HBoxContainer/METADATA/ScrollContainer/MarginContainer/VBoxContainer" unique_id=894258968]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="HBoxContainer/METADATA/ScrollContainer/MarginContainer/VBoxContainer/song_path" unique_id=1246709385]
+layout_mode = 2
+theme = ExtResource("1_evwkm")
+theme_override_font_sizes/font_size = 12
+text = "Song Path"
+
+[node name="HBoxContainer" type="HBoxContainer" parent="HBoxContainer/METADATA/ScrollContainer/MarginContainer/VBoxContainer/song_path" unique_id=1478537011]
+layout_mode = 2
+theme_override_constants/separation = 10
+
+[node name="LineEdit" type="LineEdit" parent="HBoxContainer/METADATA/ScrollContainer/MarginContainer/VBoxContainer/song_path/HBoxContainer" unique_id=1420392858]
+layout_mode = 2
+size_flags_horizontal = 3
+theme = ExtResource("1_evwkm")
+
+[node name="Button" type="Button" parent="HBoxContainer/METADATA/ScrollContainer/MarginContainer/VBoxContainer/song_path/HBoxContainer" unique_id=1019752748]
+layout_mode = 2
+icon = ExtResource("4_m4iti")
+
+[node name="color_scheme" type="VBoxContainer" parent="HBoxContainer/METADATA/ScrollContainer/MarginContainer/VBoxContainer" unique_id=1877701402]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="HBoxContainer/METADATA/ScrollContainer/MarginContainer/VBoxContainer/color_scheme" unique_id=1693622114]
+layout_mode = 2
+theme = ExtResource("1_evwkm")
+theme_override_font_sizes/font_size = 12
+text = "Color Scheme"
+
+[node name="VBoxContainer" type="VBoxContainer" parent="HBoxContainer/METADATA/ScrollContainer/MarginContainer/VBoxContainer/color_scheme" unique_id=951422558]
+layout_mode = 2
+
+[node name="ColorPicker" type="ColorPicker" parent="HBoxContainer/METADATA/ScrollContainer/MarginContainer/VBoxContainer/color_scheme/VBoxContainer" unique_id=1542034726]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 0
+theme = ExtResource("1_evwkm")
+sampler_visible = false
+color_modes_visible = false
+sliders_visible = false
+presets_visible = false
+
+[node name="Button" type="Button" parent="HBoxContainer/METADATA/ScrollContainer/MarginContainer/VBoxContainer/color_scheme/VBoxContainer" unique_id=1684224302]
+custom_minimum_size = Vector2(30, 0)
+layout_mode = 2
+size_flags_vertical = 8
+theme = ExtResource("1_evwkm")
+text = "Add
+"
+
+[node name="ScrollContainer" type="ScrollContainer" parent="HBoxContainer/METADATA/ScrollContainer/MarginContainer/VBoxContainer/color_scheme" unique_id=1483987402]
+custom_minimum_size = Vector2(0, 50)
+layout_mode = 2
+
+[node name="list_colorscheme" type="HBoxContainer" parent="HBoxContainer/METADATA/ScrollContainer/MarginContainer/VBoxContainer/color_scheme/ScrollContainer" unique_id=499023474]
+editor_description = "spawn bunch of 50x50 color rect horizontally with a color selected from Color Picker"
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+offset_transform_scale = Vector2(0.5, 0.5)
+offset_transform_pivot_ratio = Vector2(0, 0)
+theme_override_constants/separation = 7
+
+[node name="ColorRect" type="ColorRect" parent="HBoxContainer/METADATA/ScrollContainer/MarginContainer/VBoxContainer/color_scheme/ScrollContainer/list_colorscheme" unique_id=1364759805]
+custom_minimum_size = Vector2(50, 50)
+layout_mode = 2
+
+[node name="ColorRect2" type="ColorRect" parent="HBoxContainer/METADATA/ScrollContainer/MarginContainer/VBoxContainer/color_scheme/ScrollContainer/list_colorscheme" unique_id=385615684]
+custom_minimum_size = Vector2(50, 50)
+layout_mode = 2
+
+[node name="ColorRect3" type="ColorRect" parent="HBoxContainer/METADATA/ScrollContainer/MarginContainer/VBoxContainer/color_scheme/ScrollContainer/list_colorscheme" unique_id=1411348827]
+custom_minimum_size = Vector2(50, 50)
+layout_mode = 2
+
+[node name="preview_start" type="VBoxContainer" parent="HBoxContainer/METADATA/ScrollContainer/MarginContainer/VBoxContainer" unique_id=1191473743]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="HBoxContainer/METADATA/ScrollContainer/MarginContainer/VBoxContainer/preview_start" unique_id=1503000190]
+layout_mode = 2
+theme = ExtResource("1_evwkm")
+theme_override_font_sizes/font_size = 12
+text = "Preview Song Position"
+
+[node name="VBoxContainer" type="VBoxContainer" parent="HBoxContainer/METADATA/ScrollContainer/MarginContainer/VBoxContainer/preview_start" unique_id=1101866889]
+layout_mode = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="HBoxContainer/METADATA/ScrollContainer/MarginContainer/VBoxContainer/preview_start/VBoxContainer" unique_id=1918971998]
+layout_mode = 2
+theme_override_constants/separation = 21
+
+[node name="playback_position" type="HSlider" parent="HBoxContainer/METADATA/ScrollContainer/MarginContainer/VBoxContainer/preview_start/VBoxContainer/HBoxContainer" unique_id=731248572]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 4
+theme = ExtResource("1_evwkm")
+
+[node name="playback_position_label" type="Label" parent="HBoxContainer/METADATA/ScrollContainer/MarginContainer/VBoxContainer/preview_start/VBoxContainer/HBoxContainer" unique_id=1219075354]
+layout_mode = 2
+theme = ExtResource("1_evwkm")
+text = "0:00"
+
+[node name="control_button" type="HBoxContainer" parent="HBoxContainer/METADATA/ScrollContainer/MarginContainer/VBoxContainer/preview_start/VBoxContainer" unique_id=1423006387]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+
+[node name="Button" type="Button" parent="HBoxContainer/METADATA/ScrollContainer/MarginContainer/VBoxContainer/preview_start/VBoxContainer/control_button" unique_id=976421060]
+custom_minimum_size = Vector2(30, 0)
+layout_mode = 2
+theme = ExtResource("1_evwkm")
+text = "<"
+icon_alignment = 1
+
+[node name="Button2" type="Button" parent="HBoxContainer/METADATA/ScrollContainer/MarginContainer/VBoxContainer/preview_start/VBoxContainer/control_button" unique_id=1804480215]
+custom_minimum_size = Vector2(30, 0)
+layout_mode = 2
+theme = ExtResource("1_evwkm")
+icon = ExtResource("1_0xnud")
+icon_alignment = 1
+
+[node name="Button3" type="Button" parent="HBoxContainer/METADATA/ScrollContainer/MarginContainer/VBoxContainer/preview_start/VBoxContainer/control_button" unique_id=1152356043]
+custom_minimum_size = Vector2(30, 0)
+layout_mode = 2
+theme = ExtResource("1_evwkm")
+text = ">"
+icon_alignment = 1
+
+[node name="start_beat" type="VBoxContainer" parent="HBoxContainer/METADATA/ScrollContainer/MarginContainer/VBoxContainer" unique_id=318760927]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="HBoxContainer/METADATA/ScrollContainer/MarginContainer/VBoxContainer/start_beat" unique_id=2106961786]
+layout_mode = 2
+theme = ExtResource("1_evwkm")
+theme_override_font_sizes/font_size = 12
+text = "Start Beat"
+
+[node name="VBoxContainer" type="VBoxContainer" parent="HBoxContainer/METADATA/ScrollContainer/MarginContainer/VBoxContainer/start_beat" unique_id=1024380266]
+layout_mode = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="HBoxContainer/METADATA/ScrollContainer/MarginContainer/VBoxContainer/start_beat/VBoxContainer" unique_id=994468183]
+layout_mode = 2
+theme_override_constants/separation = 21
+
+[node name="playback_position" type="HSlider" parent="HBoxContainer/METADATA/ScrollContainer/MarginContainer/VBoxContainer/start_beat/VBoxContainer/HBoxContainer" unique_id=1486360989]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 4
+theme = ExtResource("1_evwkm")
+
+[node name="playback_position_label" type="Label" parent="HBoxContainer/METADATA/ScrollContainer/MarginContainer/VBoxContainer/start_beat/VBoxContainer/HBoxContainer" unique_id=660600851]
+layout_mode = 2
+theme = ExtResource("1_evwkm")
+text = "0:00"
+
+[node name="control_button" type="HBoxContainer" parent="HBoxContainer/METADATA/ScrollContainer/MarginContainer/VBoxContainer/start_beat/VBoxContainer" unique_id=1712943746]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+
+[node name="Button" type="Button" parent="HBoxContainer/METADATA/ScrollContainer/MarginContainer/VBoxContainer/start_beat/VBoxContainer/control_button" unique_id=590459419]
+custom_minimum_size = Vector2(30, 0)
+layout_mode = 2
+theme = ExtResource("1_evwkm")
+text = "<"
+icon_alignment = 1
+
+[node name="Button2" type="Button" parent="HBoxContainer/METADATA/ScrollContainer/MarginContainer/VBoxContainer/start_beat/VBoxContainer/control_button" unique_id=1584163019]
+custom_minimum_size = Vector2(30, 0)
+layout_mode = 2
+theme = ExtResource("1_evwkm")
+icon = ExtResource("1_0xnud")
+icon_alignment = 1
+
+[node name="Button3" type="Button" parent="HBoxContainer/METADATA/ScrollContainer/MarginContainer/VBoxContainer/start_beat/VBoxContainer/control_button" unique_id=2051192508]
+custom_minimum_size = Vector2(30, 0)
+layout_mode = 2
+theme = ExtResource("1_evwkm")
+text = ">"
+icon_alignment = 1
+
+[node name="BPM" type="HBoxContainer" parent="HBoxContainer/METADATA/ScrollContainer/MarginContainer/VBoxContainer" unique_id=1075658131]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="HBoxContainer/METADATA/ScrollContainer/MarginContainer/VBoxContainer/BPM" unique_id=904310464]
+layout_mode = 2
+theme = ExtResource("1_evwkm")
+text = "BPM: "
+
+[node name="SpinBox" type="SpinBox" parent="HBoxContainer/METADATA/ScrollContainer/MarginContainer/VBoxContainer/BPM" unique_id=137845918]
+layout_mode = 2
+theme = ExtResource("1_evwkm")
+
+[node name="Difficulty" type="HBoxContainer" parent="HBoxContainer/METADATA/ScrollContainer/MarginContainer/VBoxContainer" unique_id=1194917548]
+layout_mode = 2
+theme_override_constants/separation = 18
+
+[node name="HBoxContainer" type="HBoxContainer" parent="HBoxContainer/METADATA/ScrollContainer/MarginContainer/VBoxContainer/Difficulty" unique_id=1092718316]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="HBoxContainer/METADATA/ScrollContainer/MarginContainer/VBoxContainer/Difficulty/HBoxContainer" unique_id=1942885836]
+layout_mode = 2
+theme = ExtResource("1_evwkm")
+text = "Difficulty: "
+
+[node name="SpinBox" type="SpinBox" parent="HBoxContainer/METADATA/ScrollContainer/MarginContainer/VBoxContainer/Difficulty/HBoxContainer" unique_id=349440324]
+layout_mode = 2
+theme = ExtResource("1_evwkm")
+
+[node name="Difficulty_label" type="Label" parent="HBoxContainer/METADATA/ScrollContainer/MarginContainer/VBoxContainer/Difficulty" unique_id=330354383]
+editor_description = "For Showing 0 mean easy 4 - 6 mean medium
+6 - 10 mean hard
+
+this label will change text"
+layout_mode = 2
+theme = ExtResource("1_evwkm")
+text = "EASY"
+
+[node name="MAPPING" type="Control" parent="HBoxContainer" unique_id=401597931]
+clip_contents = true
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="HSlider" type="HSlider" parent="HBoxContainer/MAPPING" unique_id=629242798]
+layout_mode = 1
+anchors_preset = 12
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 138.0
+offset_top = -96.0
+offset_right = -145.0
+offset_bottom = -80.0
+grow_horizontal = 2
+grow_vertical = 0
+
+[node name="HBoxContainer" type="HBoxContainer" parent="HBoxContainer/MAPPING" unique_id=1104214773]
+layout_mode = 1
 anchors_preset = 7
 anchor_left = 0.5
 anchor_top = 1.0
 anchor_right = 0.5
 anchor_bottom = 1.0
 offset_left = -81.0
-offset_top = -62.0
+offset_top = -78.0
 offset_right = 81.0
-offset_bottom = -16.0
+offset_bottom = -32.0
 grow_horizontal = 2
 grow_vertical = 0
 theme_override_constants/separation = 12
 
-[node name="go_to_start" type="Button" parent="CanvasLayer/HBoxContainer" unique_id=81704370]
+[node name="go_to_start" type="Button" parent="HBoxContainer/MAPPING/HBoxContainer" unique_id=81704370]
 custom_minimum_size = Vector2(46, 0)
 layout_mode = 2
 size_flags_horizontal = 0
 theme = ExtResource("1_evwkm")
 text = "<"
 
-[node name="start" type="Button" parent="CanvasLayer/HBoxContainer" unique_id=2072190154]
+[node name="start" type="Button" parent="HBoxContainer/MAPPING/HBoxContainer" unique_id=2072190154]
 custom_minimum_size = Vector2(46, 0)
 layout_mode = 2
 size_flags_horizontal = 0
@@ -222,21 +505,22 @@ theme = ExtResource("1_evwkm")
 icon = ExtResource("1_0xnud")
 icon_alignment = 1
 
-[node name="go_to_end" type="Button" parent="CanvasLayer/HBoxContainer" unique_id=926839668]
+[node name="go_to_end" type="Button" parent="HBoxContainer/MAPPING/HBoxContainer" unique_id=926839668]
 custom_minimum_size = Vector2(46, 0)
 layout_mode = 2
 size_flags_horizontal = 0
 theme = ExtResource("1_evwkm")
 text = ">"
 
-[node name="Label" type="Label" parent="CanvasLayer" unique_id=968918794]
+[node name="Label" type="Label" parent="HBoxContainer/MAPPING" unique_id=968918794]
+layout_mode = 1
 anchors_preset = 2
 anchor_top = 1.0
 anchor_bottom = 1.0
-offset_left = 16.0
-offset_top = -63.0
-offset_right = 117.0
-offset_bottom = -16.0
+offset_left = 37.0
+offset_top = -77.0
+offset_right = 138.0
+offset_bottom = -30.0
 grow_vertical = 0
 theme = ExtResource("1_evwkm")
 theme_override_font_sizes/font_size = 12
@@ -244,31 +528,84 @@ text = "PRESS M/N TO
 SPAWA BEAT"
 vertical_alignment = 2
 
-[node name="Line2D" type="Line2D" parent="CanvasLayer" unique_id=462632309]
+[node name="Line2D" type="Line2D" parent="HBoxContainer/MAPPING" unique_id=462632309]
 position = Vector2(144, -6)
 points = PackedVector2Array(0, 0, 0, 370)
 width = 1.0
 default_color = Color(0.62152386, 0.62152386, 0.6215238, 1)
 
-[node name="note_manager" type="Node2D" parent="CanvasLayer" unique_id=1995089584]
+[node name="note_manager" type="Node2D" parent="HBoxContainer/MAPPING" unique_id=1995089584]
 position = Vector2(144, 115)
 
-[node name="beat_column" type="Node2D" parent="CanvasLayer/note_manager" unique_id=1107222869]
+[node name="beat_column" type="Node2D" parent="HBoxContainer/MAPPING/note_manager" unique_id=1107222869]
 
-[node name="beat_spawner" type="Node2D" parent="CanvasLayer/note_manager/beat_column" unique_id=1331948016]
+[node name="beat_spawner" type="Node2D" parent="HBoxContainer/MAPPING/note_manager/beat_column" unique_id=1331948016]
 
-[node name="shape_column" type="Node2D" parent="CanvasLayer/note_manager" unique_id=218202540]
+[node name="shape_column" type="Node2D" parent="HBoxContainer/MAPPING/note_manager" unique_id=218202540]
 position = Vector2(0, 74)
 
-[node name="shape_spawner" type="Node2D" parent="CanvasLayer/note_manager/shape_column" unique_id=30479691]
+[node name="shape_spawner" type="Node2D" parent="HBoxContainer/MAPPING/note_manager/shape_column" unique_id=30479691]
 
-[node name="Border" type="Line2D" parent="CanvasLayer/note_manager" unique_id=934328302]
+[node name="Border" type="Line2D" parent="HBoxContainer/MAPPING/note_manager" unique_id=934328302]
 position = Vector2(-165, -32)
 points = PackedVector2Array(0, 0, 680, 0, 680, 130, 0, 130, 0, 0)
 width = 1.0
 default_color = Color(0.62152386, 0.62152386, 0.6215238, 1)
 
-[node name="Border2" type="Line2D" parent="CanvasLayer/note_manager/Border" unique_id=507072306]
+[node name="Border2" type="Line2D" parent="HBoxContainer/MAPPING/note_manager/Border" unique_id=507072306]
 points = PackedVector2Array(0, 65, 680, 65)
 width = 1.0
 default_color = Color(0.62152386, 0.62152386, 0.6215238, 1)
+
+[node name="ColorRect" type="ColorRect" parent="." unique_id=157878358]
+layout_mode = 1
+anchors_preset = 10
+anchor_right = 1.0
+offset_bottom = 5.0
+grow_horizontal = 2
+color = Color(0, 0, 0, 1)
+
+[node name="TABS" type="HBoxContainer" parent="ColorRect" unique_id=287608255]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -100.75
+offset_right = 100.75
+offset_bottom = 42.42
+grow_horizontal = 2
+offset_transform_enabled = true
+theme_override_constants/separation = 7
+
+[node name="METADATA" type="Button" parent="ColorRect/TABS" unique_id=696873533]
+custom_maximum_size = Vector2(-1, 32)
+layout_mode = 2
+size_flags_horizontal = 3
+theme = ExtResource("1_evwkm")
+theme_override_font_sizes/font_size = 10
+text = "METADATA"
+icon_alignment = 1
+
+[node name="MAPPING" type="Button" parent="ColorRect/TABS" unique_id=1799756107]
+custom_maximum_size = Vector2(-1, 32)
+layout_mode = 2
+size_flags_horizontal = 3
+theme = ExtResource("1_evwkm")
+theme_override_font_sizes/font_size = 10
+text = "MAPPING"
+
+[node name="Button" type="Button" parent="." unique_id=1996282401]
+layout_mode = 1
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -217.0
+offset_top = -61.0
+offset_right = -32.0
+offset_bottom = -24.0
+grow_horizontal = 0
+grow_vertical = 0
+theme = ExtResource("1_evwkm")
+text = "EXPORT TO FILE"
