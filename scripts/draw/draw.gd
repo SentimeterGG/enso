@@ -96,9 +96,9 @@ func _track_direction(pos: Vector2) -> void:
 func _input(event: InputEvent) -> void:
 	if not can_draw:
 		return
-	if event.is_action_pressed("fire"):
+	if Input.is_action_just_pressed("fire") and not drawing:
 		begin(get_global_mouse_position())
-	elif event.is_action_released("fire"):
+	elif Input.is_action_just_released("fire") and drawing:
 		end()
 	elif event is InputEventMouseMotion:
 		motion(event.position)
