@@ -8,6 +8,8 @@ const CHART_PATH := "res://levels/doppleganger/chart.enso"
 @onready var note_manager: Node2D = $note_manager
 @onready var target_shape: Line2D = $target_shape
 @onready var animator: AnimationPlayer = $animator
+@onready var video_player: VideoStreamPlayer = $VideoStreamPlayer
+@onready var bg_sprite : TextureRect = %BG
 var note_scheduler: NoteScheduler = NoteScheduler.new()
 
 
@@ -27,6 +29,8 @@ func _on_animator_animation_finished(anim_name: StringName) -> void:
 	if anim_name == "Intro":
 		if Global.current_chart == null:
 			Global.current_chart = LevelLoader.load_chart(CHART_PATH)
+			video_player.stream = load(Global.current_chart.get_video_background())
+			bg_sprite.texture = load(Global.current_chart.get_bg())
 			DiscordRPC.set_activity(
 				"Drawing Shape",
 				(

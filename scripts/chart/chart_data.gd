@@ -160,3 +160,19 @@ func get_song_source() -> String:
 
 func get_mapper() -> String:
 	return metadata.get("mapper", "")
+
+func get_video_background() -> String:
+	var video_bg := str(metadata.get("video_bg", ""))
+	if video_bg.is_empty() or video_bg.begins_with("res://") or video_bg.begins_with("user://"):
+		return video_bg
+	if chart_path.is_empty():
+		return video_bg
+	return chart_path.get_base_dir().path_join(video_bg)
+
+func get_bg() -> String:
+	var bg := str(metadata.get("bg", ""))
+	if bg.is_empty() or bg.begins_with("res://") or bg.begins_with("user://"):
+		return bg
+	if chart_path.is_empty():
+		return bg
+	return chart_path.get_base_dir().path_join(bg)
