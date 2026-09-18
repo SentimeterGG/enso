@@ -2,6 +2,7 @@
 
 [ext_resource type="Texture2D" uid="uid://sqv5pjrdcpvd" path="res://assets/sprites/UI/shape/play.png" id="1_0xnud"]
 [ext_resource type="Theme" uid="uid://cpocn8agag6ib" path="res://resources/theme/Theme.tres" id="1_evwkm"]
+[ext_resource type="Script" uid="uid://ckfp2ghdvbb8t" path="res://scripts/ui/level_creator/level_creator.gd" id="1_qesna"]
 [ext_resource type="Script" uid="uid://bsweodsn26075" path="res://scripts/ui/level_creator/metadata.gd" id="3_m4iti"]
 [ext_resource type="FontFile" uid="uid://o0cdle58rn3j" path="res://assets/fonts/ithaca.medium.ttf" id="3_mjqih"]
 [ext_resource type="Texture2D" uid="uid://b3v8a03h3ikfs" path="res://assets/sprites/UI/corner.png" id="4_ik5ql"]
@@ -52,6 +53,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+script = ExtResource("1_qesna")
 
 [node name="ExportPopup" type="FileDialog" parent="." unique_id=16765379]
 unique_name_in_owner = true
@@ -73,7 +75,19 @@ position = Vector2i(0, 36)
 popup_window = true
 file_mode = 0
 access = 2
-filters = PackedStringArray("*.mp3", "*.ogg", "*.wav")
+filters = PackedStringArray("*.wav")
+use_native_dialog = true
+
+[node name="ImportPopup" type="FileDialog" parent="." unique_id=2084226550]
+unique_name_in_owner = true
+editor_description = "save to file chart.enso"
+oversampling_override = 1.0
+title = "Import chart"
+position = Vector2i(0, 36)
+popup_window = true
+file_mode = 0
+access = 2
+filters = PackedStringArray("*.enso")
 use_native_dialog = true
 
 [node name="RB" type="MarginContainer" parent="." unique_id=1103346126]
@@ -676,6 +690,7 @@ text = "IMPORT"
 
 [connection signal="dir_selected" from="ExportPopup" to="HBoxContainer/METADATA" method="_on_save_dir_selected"]
 [connection signal="file_selected" from="LoadSong" to="HBoxContainer/METADATA" method="_on_song_file_selected"]
+[connection signal="file_selected" from="ImportPopup" to="HBoxContainer/METADATA" method="_on_import_popup_file_selected"]
 [connection signal="text_submitted" from="HBoxContainer/METADATA/ScrollContainer/MarginContainer/VBoxContainer/song_path/HBoxContainer/SongPathEdit" to="HBoxContainer/METADATA" method="_on_song_text_submitted"]
 [connection signal="pressed" from="HBoxContainer/METADATA/ScrollContainer/MarginContainer/VBoxContainer/song_path/HBoxContainer/BrowseSongButton" to="HBoxContainer/METADATA" method="_on_browse_pressed"]
 [connection signal="pressed" from="HBoxContainer/METADATA/ScrollContainer/MarginContainer/VBoxContainer/color_scheme/VBoxContainer/AddColorButton" to="HBoxContainer/METADATA" method="_on_add_color"]
@@ -689,4 +704,4 @@ text = "IMPORT"
 [connection signal="pressed" from="HBoxContainer/METADATA/ScrollContainer/MarginContainer/VBoxContainer/start_beat/VBoxContainer/control_button/BeatGotoEnd" to="HBoxContainer/METADATA" method="_on_beat_nudge_plus"]
 [connection signal="value_changed" from="HBoxContainer/METADATA/ScrollContainer/MarginContainer/VBoxContainer/Difficulty/HBoxContainer/DiffSpin" to="HBoxContainer/METADATA" method="_on_diff_changed"]
 [connection signal="pressed" from="ExportButton" to="HBoxContainer/METADATA" method="_on_export_pressed"]
-[connection signal="pressed" from="ImportFile" to="HBoxContainer/METADATA" method="_on_export_pressed"]
+[connection signal="pressed" from="ImportFile" to="HBoxContainer/METADATA" method="_on_import_file_pressed"]

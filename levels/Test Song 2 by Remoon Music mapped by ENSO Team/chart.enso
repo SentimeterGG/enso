@@ -1,0 +1,12 @@
+[metadata]
+name = Test Song 2
+source = Remoon Music
+mapper = ENSO Team
+song = ./test-song.mp3
+color_scheme = ["#AD008E", "#1423C3"]
+preview_start = 60422
+bpm = 80
+beat0 = 1059
+overall_difficulty = 3
+
+[notes]

@@ -14,12 +14,14 @@ extends Control
 @onready var _diff_label: Label = %DiffLabel
 @onready var _save_dialog: FileDialog = %ExportPopup
 @onready var _load_dialog: FileDialog = %LoadSong
+@onready var _import_dialog: FileDialog = %ImportPopup
 @onready var _preview_player: AudioStreamPlayer = $PreviewPlayer
 @onready var _beat_player: AudioStreamPlayer = $BeatPlayer
 const NUDGE_MS := 10
 const AUDITION_SEC := 0.05
 var _preview_audition_state := {"active": false}
 var _beat_audition_state := {"active": false}
+
 
 func _ready() -> void:
 	_on_preview_changed(_preview_slider.value)
@@ -32,11 +34,13 @@ func _ready() -> void:
 	if not initial_song.is_empty():
 		_load_song(initial_song)
 
+
 func _process(_delta: float) -> void:
 	_sync_slider(_preview_player, _preview_slider, _preview_label)
 	_sync_slider(_beat_player, _beat_slider, _beat_label)
 	_check_audition_end(_preview_player, _preview_audition_state, _preview_slider)
 	_check_audition_end(_beat_player, _beat_audition_state, _beat_slider)
+
 
 func _sync_slider(player: AudioStreamPlayer, slider: HSlider, label: Label) -> void:
 	if player == null or slider == null:
@@ -48,6 +52,7 @@ func _sync_slider(player: AudioStreamPlayer, slider: HSlider, label: Label) -> v
 		ms = clampi(ms, int(slider.min_value), int(slider.max_value))
 		slider.set_value_no_signal(ms)
 		label.text = _format_ms(ms)
+
 
 func _check_audition_end(player: AudioStreamPlayer, state: Dictionary, slider: HSlider) -> void:
 	if not state.get("active", false):
@@ -63,19 +68,24 @@ func _check_audition_end(player: AudioStreamPlayer, state: Dictionary, slider: H
 		_stop_audition(player)
 		state["active"] = false
 
+
 func _stop_audition(player: AudioStreamPlayer) -> void:
 	if player.playing:
 		player.stop()
 
+
 func _on_browse_pressed() -> void:
 	_load_dialog.popup_centered(Vector2i(600, 400))
+
 
 func _on_song_file_selected(path: String) -> void:
 	_song_edit.text = path
 	_load_song(path)
 
+
 func _on_song_text_submitted(path: String) -> void:
 	_load_song(path.strip_edges())
+
 
 func _load_song(path: String) -> void:
 	var p := path.strip_edges()
@@ -99,6 +109,7 @@ func _load_song(path: String) -> void:
 	_beat_slider.set_value_no_signal(clampi(int(_beat_slider.value), 0, dur_ms))
 	_preview_label.text = _format_ms(int(_preview_slider.value))
 	_beat_label.text = _format_ms(int(_beat_slider.value))
+
 
 func _load_audio_stream(path: String) -> AudioStream:
 	var read_path := _resolve_song_abs(path)
@@ -133,11 +144,14 @@ func _load_audio_stream(path: String) -> AudioStream:
 				return AudioStreamWAV.load_from_buffer(b_wav)
 	return null
 
+
 func _on_preview_play() -> void:
 	_toggle(_preview_player, _beat_player, _preview_slider)
 
+
 func _on_beat_play() -> void:
 	_toggle(_beat_player, _preview_player, _beat_slider)
+
 
 func _toggle(player: AudioStreamPlayer, other: AudioStreamPlayer, slider: HSlider) -> void:
 	if player.stream == null:
@@ -149,26 +163,39 @@ func _toggle(player: AudioStreamPlayer, other: AudioStreamPlayer, slider: HSlide
 		other.stop()
 	if player.stream_paused:
 		player.stream_paused = false
-		var start_ms := int(clampi(floor(slider.value), floor(slider.min_value), floor(slider.max_value)))
+		var start_ms := int(
+			clampi(floor(slider.value), floor(slider.min_value), floor(slider.max_value))
+		)
 		player.play(float(start_ms) / 1000.0)
 	else:
-		var start_ms := int(clampi(floor(slider.value), floor(slider.min_value), floor(slider.max_value)))
+		var start_ms := int(
+			clampi(floor(slider.value), floor(slider.min_value), floor(slider.max_value))
+		)
 		player.play(float(start_ms) / 1000.0)
+
 
 func _on_preview_nudge_minus() -> void:
 	_do_nudge(_preview_slider, _preview_label, _preview_player, _preview_audition_state, -1.0)
 
+
 func _on_preview_nudge_plus() -> void:
 	_do_nudge(_preview_slider, _preview_label, _preview_player, _preview_audition_state, 1.0)
+
 
 func _on_beat_nudge_minus() -> void:
 	_do_nudge(_beat_slider, _beat_label, _beat_player, _beat_audition_state, -1.0)
 
+
 func _on_beat_nudge_plus() -> void:
 	_do_nudge(_beat_slider, _beat_label, _beat_player, _beat_audition_state, 1.0)
 
-func _do_nudge(slider: HSlider, label: Label, player: AudioStreamPlayer, state: Dictionary, dir: float) -> void:
-	slider.value = clampi(int(slider.value) + int(NUDGE_MS * dir), int(slider.min_value), int(slider.max_value))
+
+func _do_nudge(
+	slider: HSlider, label: Label, player: AudioStreamPlayer, state: Dictionary, dir: float
+) -> void:
+	slider.value = clampi(
+		int(slider.value) + int(NUDGE_MS * dir), int(slider.min_value), int(slider.max_value)
+	)
 	label.text = _format_ms(int(slider.value))
 	if player.stream == null:
 		return
@@ -196,6 +223,7 @@ func _do_nudge(slider: HSlider, label: Label, player: AudioStreamPlayer, state: 
 		player.stop()
 	state["active"] = false
 
+
 func _format_ms(ms: int) -> String:
 	var total_s := floori(ms / 1000.0)
 	var m := floori(total_s / 60.0)
@@ -203,18 +231,26 @@ func _format_ms(ms: int) -> String:
 	var left := ms % 1000
 	return "%d:%02d.%03d" % [m, s, left]
 
+
 func _on_preview_changed(v: float) -> void:
 	_preview_label.text = _format_ms(int(v))
-	if _preview_player.stream != null and _preview_player.playing and not _preview_player.stream_paused:
+	if (
+		_preview_player.stream != null
+		and _preview_player.playing
+		and not _preview_player.stream_paused
+	):
 		_preview_player.play(float(v) / 1000.0)
+
 
 func _on_beat_changed(v: float) -> void:
 	_beat_label.text = _format_ms(int(v))
 	if _beat_player.stream != null and _beat_player.playing and not _beat_player.stream_paused:
 		_beat_player.play(float(v) / 1000.0)
 
+
 func _on_export_pressed() -> void:
 	_save_dialog.popup_centered(Vector2i(600, 400))
+
 
 func _on_save_dir_selected(base_dir: String) -> void:
 	var song_name := _name_edit.text.strip_edges()
@@ -226,7 +262,9 @@ func _on_save_dir_selected(base_dir: String) -> void:
 		song_author = "unknown"
 	if mapper.is_empty():
 		mapper = "unknown"
-	var folder_name := _sanitize_folder_name("%s by %s mapped by %s" % [song_name, song_author, mapper])
+	var folder_name := _sanitize_folder_name(
+		"%s by %s mapped by %s" % [song_name, song_author, mapper]
+	)
 	var out_dir := base_dir.path_join(folder_name)
 	if not DirAccess.dir_exists_absolute(out_dir):
 		var err := DirAccess.make_dir_recursive_absolute(out_dir)
@@ -242,16 +280,20 @@ func _on_save_dir_selected(base_dir: String) -> void:
 	var chart_path := out_dir.path_join("chart.enso")
 	var f := FileAccess.open(chart_path, FileAccess.WRITE)
 	if f == null:
-		push_error("Failed to write chart: " + chart_path + " " + error_string(FileAccess.get_open_error()))
+		push_error(
+			"Failed to write chart: " + chart_path + " " + error_string(FileAccess.get_open_error())
+		)
 		return
 	f.store_string(text)
 	f.close()
+
 
 func _resolve_song_filename(src: String) -> String:
 	var s := src.strip_edges()
 	if s.begins_with("res://") or s.begins_with("user://"):
 		return s.get_file()
 	return s.get_file().strip_edges()
+
 
 func _resolve_song_abs(src: String) -> String:
 	var s := src.strip_edges()
@@ -267,6 +309,7 @@ func _resolve_song_abs(src: String) -> String:
 			return proj
 		return ProjectSettings.globalize_path(s) if s.begins_with("res://") else s
 	return s
+
 
 func _copy_song_into(src: String, dst: String) -> void:
 	var abs_src := _resolve_song_abs(src)
@@ -291,6 +334,7 @@ func _copy_song_into(src: String, dst: String) -> void:
 	out.store_buffer(data)
 	out.close()
 
+
 func _sanitize_folder_name(raw: String) -> String:
 	var bad := ["/", "\\", ":", "*", "?", '"', "<", ">", "|"]
 	var out := raw.strip_edges()
@@ -305,6 +349,7 @@ func _sanitize_folder_name(raw: String) -> String:
 		out = out.substr(0, 120).strip_edges()
 	return out
 
+
 func _build_metadata_text(song_value: String) -> String:
 	var name_song := _name_edit.text.strip_edges() if _name_edit else ""
 	var source := _source_edit.text.strip_edges() if _source_edit else ""
@@ -315,7 +360,11 @@ func _build_metadata_text(song_value: String) -> String:
 	var beat0 := int(_beat_slider.value) if _beat_slider else 0
 	var bpm := int(_bpm_spin.value) if _bpm_spin else 120
 	var od := int(_diff_spin.value) if _diff_spin else 0
-	return "[metadata]\nname = %s\nsource = %s\nmapper = %s\nsong = %s\ncolor_scheme = %s\npreview_start = %d\nbpm = %d\nbeat0 = %d\noverall_difficulty = %d\n\n[notes]\n" % [name_song, source, mapper, song_value, colors_str, preview, bpm, beat0, od]
+	return (
+		"[metadata]\nname = %s\nsource = %s\nmapper = %s\nsong = %s\ncolor_scheme = %s\npreview_start = %d\nbpm = %d\nbeat0 = %d\noverall_difficulty = %d\n\n[notes]\n"
+		% [name_song, source, mapper, song_value, colors_str, preview, bpm, beat0, od]
+	)
+
 
 func _collect_colors() -> Array:
 	var out: Array = []
@@ -324,6 +373,7 @@ func _collect_colors() -> Array:
 			out.append("#" + child.color.to_html(false).to_upper())
 	return out
 
+
 func _on_add_color() -> void:
 	var rect := ColorRect.new()
 	rect.custom_minimum_size = Vector2(50, 50)
@@ -331,15 +381,18 @@ func _on_add_color() -> void:
 	_make_removable(rect)
 	_list.add_child(rect)
 
+
 func _make_removable(rect: ColorRect) -> void:
 	rect.mouse_filter = Control.MOUSE_FILTER_STOP
 	if rect.gui_input.is_connected(_on_rect_gui_input):
 		return
 	rect.gui_input.connect(_on_rect_gui_input.bind(rect))
 
+
 func _on_rect_gui_input(event: InputEvent, rect: ColorRect) -> void:
 	if event is InputEventMouseButton and event.pressed and event.button_index == MOUSE_BUTTON_LEFT:
 		rect.queue_free()
+
 
 func _on_diff_changed(v: float) -> void:
 	var i := int(v)
@@ -349,3 +402,76 @@ func _on_diff_changed(v: float) -> void:
 		_diff_label.text = "MEDIUM"
 	else:
 		_diff_label.text = "HARD"
+
+
+func _on_import_popup_file_selected(path: String) -> void:
+	if path.is_empty() or not FileAccess.file_exists(path):
+		push_error("Invalid chart file: " + path)
+		return
+
+	var metadata := ChartParser.parse_metadata(path)
+	if metadata.is_empty():
+		push_error("No metadata found in chart: " + path)
+		return
+
+	# Fill in all fields from the parsed metadata
+	if metadata.has("name"):
+		_name_edit.text = metadata["name"]
+	if metadata.has("source"):
+		_source_edit.text = metadata["source"]
+	if metadata.has("mapper"):
+		_mapper_edit.text = metadata["mapper"]
+	if metadata.has("song"):
+		# Load the song audio if the path is valid
+		var song_path : String = path.get_base_dir() +"/"+ metadata["song"].strip_edges().get_file()
+		_song_edit.text = song_path
+		if not song_path.is_empty():
+			_load_song(song_path)
+	if metadata.has("preview_start"):
+		var preview := int(metadata["preview_start"])
+		_preview_slider.set_value_no_signal(preview)
+		_preview_label.text = _format_ms(preview)
+	if metadata.has("bpm"):
+		_bpm_spin.value = int(metadata["bpm"])
+	if metadata.has("beat0"):
+		var beat0 := int(metadata["beat0"])
+		_beat_slider.set_value_no_signal(beat0)
+		_beat_label.text = _format_ms(beat0)
+	if metadata.has("overall_difficulty"):
+		_diff_spin.value = int(metadata["overall_difficulty"])
+		_on_diff_changed(_diff_spin.value)
+
+	# Parse and populate color scheme
+	var color_scheme_str = metadata.get("color_scheme", "")
+	if not color_scheme_str.is_empty():
+		# Clear existing color rects
+		for child in _list.get_children():
+			if child is ColorRect:
+				child.queue_free()
+		# Parse color scheme like ["#EEB8C4", "#E6D47B", ...]
+		var colors := _parse_color_scheme(color_scheme_str)
+		for color in colors:
+			var rect := ColorRect.new()
+			rect.custom_minimum_size = Vector2(50, 50)
+			rect.color = color
+			_make_removable(rect)
+			_list.add_child(rect)
+
+
+func _parse_color_scheme(raw: String) -> Array[Color]:
+	var colors: Array[Color] = []
+	var cleaned := raw.trim_prefix("[").trim_suffix("]").strip_edges()
+	if cleaned.is_empty():
+		return colors
+	for part in cleaned.split(",", false):
+		var token := part.strip_edges()
+		token = token.trim_prefix('"').trim_prefix("'")
+		token = token.trim_suffix('"').trim_suffix("'")
+		var c := Color.from_string(token, Color.TRANSPARENT)
+		if c != Color.TRANSPARENT:
+			colors.append(c)
+	return colors
+
+
+func _on_import_file_pressed() -> void:
+	_import_dialog.popup_centered(Vector2i(600, 400))
