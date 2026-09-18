@@ -57,7 +57,7 @@ grow_vertical = 2
 unique_name_in_owner = true
 editor_description = "save to file chart.enso"
 oversampling_override = 1.0
-title = "Chose export location"
+title = "Open a Directory"
 position = Vector2i(0, 36)
 ok_button_text = "Select"
 file_mode = 2
@@ -68,7 +68,7 @@ use_native_dialog = true
 unique_name_in_owner = true
 editor_description = "save to file chart.enso"
 oversampling_override = 1.0
-title = "Choose a Song File"
+title = "Open a File"
 position = Vector2i(0, 36)
 popup_window = true
 file_mode = 0
@@ -655,7 +655,24 @@ offset_bottom = -24.0
 grow_horizontal = 0
 grow_vertical = 0
 theme = ExtResource("1_evwkm")
-text = "EXPORT TO FILE"
+text = "EXPORT"
+
+[node name="ImportFile" type="Button" parent="." unique_id=64372383]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -217.0
+offset_top = -101.0
+offset_right = -32.0
+offset_bottom = -64.0
+grow_horizontal = 0
+grow_vertical = 0
+theme = ExtResource("1_evwkm")
+text = "IMPORT"
 
 [connection signal="dir_selected" from="ExportPopup" to="HBoxContainer/METADATA" method="_on_save_dir_selected"]
 [connection signal="file_selected" from="LoadSong" to="HBoxContainer/METADATA" method="_on_song_file_selected"]
@@ -672,3 +689,4 @@ text = "EXPORT TO FILE"
 [connection signal="pressed" from="HBoxContainer/METADATA/ScrollContainer/MarginContainer/VBoxContainer/start_beat/VBoxContainer/control_button/BeatGotoEnd" to="HBoxContainer/METADATA" method="_on_beat_nudge_plus"]
 [connection signal="value_changed" from="HBoxContainer/METADATA/ScrollContainer/MarginContainer/VBoxContainer/Difficulty/HBoxContainer/DiffSpin" to="HBoxContainer/METADATA" method="_on_diff_changed"]
 [connection signal="pressed" from="ExportButton" to="HBoxContainer/METADATA" method="_on_export_pressed"]
+[connection signal="pressed" from="ImportFile" to="HBoxContainer/METADATA" method="_on_export_pressed"]
