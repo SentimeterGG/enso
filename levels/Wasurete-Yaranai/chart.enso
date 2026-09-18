@@ -8,6 +8,7 @@ preview_start = 121451
 bpm = 184
 beat0 = 308
 overall_difficulty = 6
+video_bg = Wasurete.ogv
 
 [notes]
 
@@ -193,3 +194,26 @@ overall_difficulty = 6
 @ 14344 1 0
 ! 1 1
 
+[(41_Diagonal/)]
+@ 14500 0 1
+! 1 0
+
+[[42_Horizontal]]
+@ 14672 0 0.5
+! 1 0.5
+
+[[43_Diagonal\]]
+@ 14821 0 0
+! 1 1
+
+[[44_Vertical]]
+@ 15140 0.5  0
+! 0.5  1
+
+[(45_Diagonal/)]
+@ 15466 0 1
+! 1 0
+
+[[46_Horizontal]]
+@ 15795 0 0.5
+! 1 0.5

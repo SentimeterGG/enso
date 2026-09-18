@@ -18,6 +18,9 @@
 [ext_resource type="Texture2D" uid="uid://bd5lvuolgnyd2" path="res://assets/sprites/Mio-Sheet.png" id="11_kvpfn"]
 [ext_resource type="Script" uid="uid://cunb8lmxfnigo" path="res://scripts/draw/recognizer.gd" id="13_trtic"]
 
+[sub_resource type="VideoStreamTheora" id="VideoStreamTheora_rysoc"]
+file = "res://levels/Wasurete-Yaranai/WasureteYaranai.ogv"
+
 [sub_resource type="Animation" id="Animation_0tnpc"]
 resource_name = "Intro"
 length = 3.0000000000000004
@@ -157,10 +160,26 @@ tracks/4/keys = {
 "values": [Color(1, 1, 1, 0)]
 }
 
+[sub_resource type="Animation" id="Animation_1kice"]
+resource_name = "bg_fade"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Background:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0.0333333, 0.76666653),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 0), Color(1, 1, 1, 0.16078432)]
+}
+
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_vtaks"]
 _data = {
 &"Intro": SubResource("Animation_0tnpc"),
-&"RESET": SubResource("Animation_vtaks")
+&"RESET": SubResource("Animation_vtaks"),
+&"bg_fade": SubResource("Animation_1kice")
 }
 
 [sub_resource type="Animation" id="Animation_kvpfn"]
@@ -299,6 +318,44 @@ _data = {
 [node name="game" type="Node2D" unique_id=1374663414]
 script = ExtResource("1_uwrxv")
 
+[node name="Background" type="Control" parent="." unique_id=1859568633]
+modulate = Color(1, 1, 1, 0)
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_right = 640.0
+offset_bottom = 360.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="BG" type="TextureRect" parent="Background" unique_id=1441543174]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+expand_mode = 3
+
+[node name="AspectRatioContainer" type="AspectRatioContainer" parent="Background" unique_id=1679564900]
+layout_mode = 0
+offset_right = 640.0
+offset_bottom = 360.0
+ratio = 1.78
+
+[node name="VideoStreamPlayer" type="VideoStreamPlayer" parent="Background/AspectRatioContainer" unique_id=1422143938]
+unique_name_in_owner = true
+layout_mode = 2
+mouse_filter = 2
+stream = SubResource("VideoStreamTheora_rysoc")
+volume_db = -80.0
+expand = true
+metadata/_edit_use_anchors_ = true
+
 [node name="animator" type="AnimationPlayer" parent="." unique_id=751108128]
 libraries/ = SubResource("AnimationLibrary_vtaks")
 
@@ -330,6 +387,7 @@ width = 5.0
 script = ExtResource("3_gee14")
 
 [node name="note_manager" type="Node2D" parent="." unique_id=1684941741]
+modulate = Color(1, 1, 1, 0)
 position = Vector2(48, 48)
 script = ExtResource("5_p57ef")
 
@@ -601,35 +659,6 @@ offset_transform_pivot_ratio = Vector2(1, 0)
 texture = ExtResource("10_kvpfn")
 flip_h = true
 flip_v = true
-
-[node name="Control" type="Control" parent="." unique_id=1859568633]
-layout_mode = 3
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-offset_right = 640.0
-offset_bottom = 360.0
-grow_horizontal = 2
-grow_vertical = 2
-
-[node name="BG" type="TextureRect" parent="Control" unique_id=1441543174]
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-
-[node name="VideoStreamPlayer" type="VideoStreamPlayer" parent="Control" unique_id=1422143938]
-unique_name_in_owner = true
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-volume_db = -80.0
-autoplay = true
 
 [connection signal="animation_finished" from="animator" to="." method="_on_animator_animation_finished"]
 [connection signal="beat_hit" from="note_manager/beat_column" to="accuracy_manager/judge_spawner" method="_on_beat_column_beat_hit"]
