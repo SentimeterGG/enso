@@ -602,6 +602,30 @@ texture = ExtResource("10_kvpfn")
 flip_h = true
 flip_v = true
 
+[node name="VideoStreamPlayer" type="VideoStreamPlayer" parent="." unique_id=1422143938]
+unique_name_in_owner = true
+offset_right = 40.0
+offset_bottom = 40.0
+volume_db = -80.0
+
+[node name="Control" type="Control" parent="." unique_id=1859568633]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_right = 640.0
+offset_bottom = 360.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="BG" type="TextureRect" parent="Control" unique_id=1441543174]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
 [connection signal="animation_finished" from="animator" to="." method="_on_animator_animation_finished"]
 [connection signal="beat_hit" from="note_manager/beat_column" to="accuracy_manager/judge_spawner" method="_on_beat_column_beat_hit"]
 [connection signal="draw_direction_changes" from="draw" to="note_manager/beat_column" method="_on_draw_direction_changes"]
