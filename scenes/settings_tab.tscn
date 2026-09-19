@@ -1,10 +1,71 @@
 [gd_scene format=3 uid="uid://b2povho8pgiw5"]
 
 [ext_resource type="Texture2D" uid="uid://b3v8a03h3ikfs" path="res://assets/sprites/UI/corner.png" id="1_3k7x2"]
+[ext_resource type="Script" uid="uid://bpppcjnbguxtb" path="res://scripts/settings/settings_tab.gd" id="1_vyiek"]
+[ext_resource type="Theme" uid="uid://cpocn8agag6ib" path="res://resources/theme/Theme.tres" id="2_al1eu"]
+[ext_resource type="FontFile" uid="uid://o0cdle58rn3j" path="res://assets/fonts/ithaca.medium.ttf" id="2_pfdp7"]
+[ext_resource type="PackedScene" uid="uid://b7rlmo61qxu8s" path="res://scenes/draw.tscn" id="5_ji3vv"]
+
+[sub_resource type="Animation" id="Animation_rtw2f"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:offset_transform_position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(0, 0)]
+}
+
+[sub_resource type="Animation" id="Animation_8ln24"]
+resource_name = "idle"
+length = 2.0
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:offset_transform_position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.5, 1, 1.5),
+"transitions": PackedFloat32Array(0.5649004, 2.3392866, 0.5649004, 2.3392866),
+"update": 0,
+"values": [Vector2(0, 0), Vector2(0, -3), Vector2(0, 0), Vector2(0, 3)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_vyiek"]
+_data = {
+&"RESET": SubResource("Animation_rtw2f"),
+&"idle": SubResource("Animation_8ln24")
+}
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_3k7x2"]
+bg_color = Color(0.9999623, 0.52128243, 0.4966492, 0.29803923)
+border_width_bottom = 2
+border_color = Color(0.99997383, 0.7008205, 0.6621937, 0.41960785)
+corner_radius_top_left = 3
+corner_radius_top_right = 3
+corner_radius_bottom_right = 3
+corner_radius_bottom_left = 3
+corner_detail = 1
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_al1eu"]
+bg_color = Color(1, 0.38039216, 0.37254903, 0.54901963)
+border_width_bottom = 2
+border_color = Color(0.9999983, 0.56225073, 0.5125317, 0.41960785)
+corner_radius_top_left = 3
+corner_radius_top_right = 3
+corner_radius_bottom_right = 3
+corner_radius_bottom_left = 3
+corner_detail = 1
 
 [sub_resource type="Animation" id="Animation_al1eu"]
 resource_name = "Opening"
-length = 0.5
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
@@ -12,6 +73,18 @@ tracks/0/path = NodePath("setting:modulate")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
+"times": PackedFloat32Array(0.3, 0.8000001),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 0), Color(1, 1, 1, 1)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("RB/MarginContainer/SettingsLabel:modulate")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
 "times": PackedFloat32Array(0, 0.5),
 "transitions": PackedFloat32Array(1, 1),
 "update": 0,
@@ -69,6 +142,30 @@ tracks/3/keys = {
 "update": 0,
 "values": [Vector2(0, 0), Vector2(60, -60)]
 }
+tracks/4/type = "value"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath("RB/MarginContainer/SettingsLabel:modulate")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.26666668),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 1), Color(1, 1, 1, 1), Color(1, 1, 1, 0)]
+}
+tracks/5/type = "value"
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/path = NodePath("setting:modulate")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/keys = {
+"times": PackedFloat32Array(0, 0.16666667),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 1), Color(1, 1, 1, 0)]
+}
 
 [sub_resource type="Animation" id="Animation_pfdp7"]
 length = 0.001
@@ -79,6 +176,18 @@ tracks/0/path = NodePath("setting:modulate")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 1, 1, 0)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("RB/MarginContainer/SettingsLabel:modulate")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
 "times": PackedFloat32Array(0),
 "transitions": PackedFloat32Array(1),
 "update": 0,
@@ -99,6 +208,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+script = ExtResource("1_vyiek")
 
 [node name="RB" type="MarginContainer" parent="." unique_id=1805229628]
 layout_mode = 1
@@ -124,6 +234,24 @@ offset_transform_scale = Vector2(1.5, 1.5)
 offset_transform_pivot_ratio = Vector2(1, 1)
 texture = ExtResource("1_3k7x2")
 flip_h = true
+
+[node name="MarginContainer" type="MarginContainer" parent="RB" unique_id=602752363]
+layout_mode = 2
+theme_override_constants/margin_right = 16
+theme_override_constants/margin_bottom = 6
+
+[node name="SettingsLabel" type="Label" parent="RB/MarginContainer" unique_id=70974480]
+modulate = Color(1, 1, 1, 0)
+layout_mode = 2
+offset_transform_enabled = true
+theme_override_fonts/font = ExtResource("2_pfdp7")
+theme_override_font_sizes/font_size = 49
+text = "SETTINGS"
+horizontal_alignment = 1
+
+[node name="Bobbing" type="AnimationPlayer" parent="RB/MarginContainer/SettingsLabel" unique_id=264798107]
+libraries/ = SubResource("AnimationLibrary_vyiek")
+speed_scale = 0.6
 
 [node name="LB" type="MarginContainer" parent="." unique_id=1814841007]
 layout_mode = 1
@@ -191,24 +319,67 @@ flip_v = true
 [node name="setting" type="Control" parent="." unique_id=1853363398]
 modulate = Color(1, 1, 1, 0)
 layout_mode = 1
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -20.0
-offset_top = -20.0
-offset_right = 20.0
-offset_bottom = 20.0
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="Button" type="Button" parent="setting" unique_id=1731323632]
-layout_mode = 0
-offset_right = 8.0
-offset_bottom = 8.0
-text = "aasdasdasd"
+[node name="ExitButton" type="Button" parent="setting" unique_id=1731323632]
+layout_mode = 1
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -86.0
+offset_top = -137.0
+offset_right = -44.0
+offset_bottom = -96.0
+grow_horizontal = 0
+grow_vertical = 0
+theme = ExtResource("2_al1eu")
+theme_override_font_sizes/font_size = 27
+theme_override_styles/normal = SubResource("StyleBoxFlat_3k7x2")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_3k7x2")
+theme_override_styles/hover = SubResource("StyleBoxFlat_al1eu")
+text = "X"
+icon_alignment = 1
+
+[node name="Fullscreen" type="Label" parent="setting" unique_id=537074567]
+layout_mode = 1
+anchors_preset = 4
+anchor_top = 0.5
+anchor_bottom = 0.5
+offset_left = 56.0
+offset_top = -11.0
+offset_right = 163.0
+offset_bottom = 12.0
+grow_vertical = 2
+theme = ExtResource("2_al1eu")
+text = "FULLSCREEN:"
+
+[node name="FSButton" type="Button" parent="setting" unique_id=758614195]
+layout_mode = 1
+anchors_preset = 4
+anchor_top = 0.5
+anchor_bottom = 0.5
+offset_left = 177.0
+offset_top = -15.0
+offset_right = 228.0
+offset_bottom = 15.0
+grow_vertical = 2
+theme = ExtResource("2_al1eu")
+text = "OFF"
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="." unique_id=281717340]
 libraries/ = SubResource("AnimationLibrary_al1eu")
 autoplay = &"Opening"
+
+[node name="draw" parent="." unique_id=2118743800 instance=ExtResource("5_ji3vv")]
+weight = 0.5
+guess_mode = true
+
+[connection signal="button_down" from="setting/ExitButton" to="." method="_on_exit_button_button_down"]
+[connection signal="button_down" from="setting/FSButton" to="." method="_on_fs_button_button_down"]
+[connection signal="animation_finished" from="AnimationPlayer" to="." method="_on_animation_player_animation_finished"]

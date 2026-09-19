@@ -27,10 +27,21 @@ func _ready() -> void:
 	visible = false
 	modulate.a = 0.0
 	pivot_offset = size / 2.0
+	mouse_filter = Control.MOUSE_FILTER_IGNORE
+	_set_ignore_recursive(self)
 	grab_volume_config()
 	_set_scale(POP_SCALE_START)
 	_connect_sliders()
 	_sync_sliders_to_audio()
+
+
+func _set_ignore_recursive(node: Node) -> void:
+	for child in node.get_children():
+		if child is HSlider:
+			continue # sliders must stay STOP to be draggable
+		if child is Control:
+			child.mouse_filter = Control.MOUSE_FILTER_IGNORE
+		_set_ignore_recursive(child)
 
 func grab_volume_config():
 	_apply_bus_volume("Effect", Global.settingsData.effects_volume)
@@ -47,6 +58,7 @@ func _apply_bus_volume(bus_name: String, value: float) -> void:
 		AudioServer.set_bus_volume_db(idx, _slider_to_db(value))
 
 
+
 func save_volume():
 	Global.settingsData.effects_volume = effects_slider.value
 	Global.settingsData.master_volume = master_slider.value
@@ -55,15 +67,12 @@ func save_volume():
 
 func _unhandled_input(event: InputEvent) -> void:
 	if event is InputEventMouseButton and event.pressed:
-		if event.button_index == MOUSE_BUTTON_WHEEL_UP:
-			if not _mouse_over_slider():
-				_scroll_volume(VOLUME_STEP)
-				
-		elif event.button_index == MOUSE_BUTTON_WHEEL_DOWN:
-			if not _mouse_over_slider():
-				_scroll_volume(-VOLUME_STEP)
-				
-	elif event.is_action_pressed("fire"):
+		if event.button_index == MOUSE_BUTTON_WHEEL_UP and not _mouse_over_slider() and can_popup:
+			_scroll_volume(VOLUME_STEP)
+		elif event.button_index == MOUSE_BUTTON_WHEEL_DOWN and not _mouse_over_slider() and can_popup:
+			_scroll_volume(-VOLUME_STEP)
+	
+	if event.is_action_pressed("fire"):
 		_hide_popup()
 
 

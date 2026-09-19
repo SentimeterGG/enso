@@ -8,6 +8,7 @@ extends Control
 
 
 func _ready() -> void:
+	VolumePopup.can_popup = true
 	$RB/MarginContainer/ENSO/Bobbing.play("idle")
 	$Transition.play("Opening")
 	draw_manager.start()
@@ -26,5 +27,5 @@ func _on_draw_guessed_shape(shape: String) -> void:
 	if shape == "circle":
 		$Transition.play("Out")
 	elif shape == "line":
-		$Transition.play("Out")
+		$Transition.play("Out_settings")
 	pass  # Replace with function body.

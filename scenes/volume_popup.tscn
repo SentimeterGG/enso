@@ -1,11 +1,13 @@
 [gd_scene format=3 uid="uid://b3a4x7kuktiyl"]
 
+[ext_resource type="Script" uid="uid://qlnvwldro40g" path="res://scenes/volume_popup.gd" id="1_00hb6"]
 [ext_resource type="Script" uid="uid://0krpbqv2xwhd" path="res://scripts/volume_popup.gd" id="1_ea6kh"]
 [ext_resource type="Theme" uid="uid://cpocn8agag6ib" path="res://resources/theme/Theme.tres" id="1_ikcgv"]
 [ext_resource type="AudioStream" uid="uid://dybpytxnyej66" path="res://assets/sound/osu-hit-sound.mp3" id="3_k3xnf"]
 
 [node name="volume_popup" type="CanvasLayer" unique_id=1643796485]
 layer = 2
+script = ExtResource("1_00hb6")
 
 [node name="volume_popup" type="Control" parent="." unique_id=1567621822]
 layout_mode = 3
@@ -14,6 +16,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+mouse_filter = 2
 script = ExtResource("1_ea6kh")
 
 [node name="CenterContainer" type="CenterContainer" parent="volume_popup" unique_id=2137844673]
@@ -23,10 +26,12 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+mouse_filter = 2
 
 [node name="VBoxContainer" type="VBoxContainer" parent="volume_popup/CenterContainer" unique_id=1554622032]
 custom_minimum_size = Vector2(250, 0)
 layout_mode = 2
+mouse_filter = 2
 
 [node name="VBoxContainer" type="VBoxContainer" parent="volume_popup/CenterContainer/VBoxContainer" unique_id=16875418]
 layout_mode = 2

@@ -21,11 +21,11 @@ func _ready():
 	animator.play("Intro")
 	if Global.current_chart == null:
 		Global.current_chart = LevelLoader.load_chart(CHART_PATH)
-		if Global.current_chart.get_video_background() != "":
-			video_stream_player.stream = load(Global.current_chart.get_video_background())
-		if Global.current_chart.get_bg() != "":
-			bg_sprite.texture = load(Global.current_chart.get_bg())
-		DiscordRPC.set_activity("Drawing Shape", (Global.current_chart.get_song_title() + " - " + Global.current_chart.get_song_source()))
+	if Global.current_chart.get_video_background() != "":
+		video_stream_player.stream = load(Global.current_chart.get_video_background())
+	if Global.current_chart.get_bg() != "":
+		bg_sprite.texture = load(Global.current_chart.get_bg())
+	DiscordRPC.set_activity("Drawing Shape", (Global.current_chart.get_song_title() + " - " + Global.current_chart.get_song_source()))
 
 
 func _process(_delta: float) -> void:
