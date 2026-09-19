@@ -348,7 +348,6 @@ func _export_shape_points(shape_name: String) -> PackedVector2Array:
 
 
 func _on_draw_guessed_shape(shape: String) -> void:
-	if shape == "circle":
 	pass # Replace with function body.
 
 
