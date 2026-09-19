@@ -763,9 +763,12 @@ position = Vector2(145, 86)
 [node name="AudioStreamPreview" type="TextureRect" parent="LevelCreator/MAPPING/beat_collumn" unique_id=2097105430]
 modulate = Color(1, 1, 1, 0.19215687)
 custom_minimum_size = Vector2(3520, 0)
-offset_top = -4.0
+offset_top = -87.0
 offset_right = 3520.0
-offset_bottom = 60.0
+offset_bottom = 147.0
+offset_transform_enabled = true
+offset_transform_position = Vector2(0, -2)
+offset_transform_scale = Vector2(1, 0.275)
 texture = ExtResource("11_8nwwt")
 expand_mode = 1
 stretch_mode = 1

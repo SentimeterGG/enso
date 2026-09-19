@@ -69,6 +69,10 @@ var _suppress_click := false
 ## Waveform scrub: press-drag on empty waveform seeks like the timeline slider.
 var _wave_scrubbing := false
 var _wave_moved := false
+var _wave_press_pos := Vector2.ZERO
+var _wave_start_time := 0.0
+var _wave_was_playing := false
+const _WAVE_DRAG_THRESHOLD_PX := 4.0
 ## Selected shape index into _shapes (-1 = none). Mutually exclusive with beats.
 var _selected_shape := -1
 ## Base tint of shape nodes (matches editor_shape_point.tscn).
@@ -170,6 +174,15 @@ func _unhandled_input(event: InputEvent) -> void:
 	elif mb.pressed and mb.button_index == MOUSE_BUTTON_WHEEL_DOWN:
 		_zoom_waveform(-1)
 		get_viewport().set_input_as_handled()
+	elif mb.pressed and mb.button_index == MOUSE_BUTTON_LEFT:
+		# Arm beat_column grab: hold and pull left/right like grabbing paper.
+		# Actual seek happens on motion past threshold in _input (relative).
+		if _drag_beat < 0 and not _wave_scrubbing:
+			_wave_scrubbing = true
+			_wave_moved = false
+			_wave_press_pos = mb.position
+			_wave_start_time = current_time()
+			_wave_was_playing = mapping_player.playing and not mapping_player.stream_paused
 	elif not mb.pressed and mb.button_index == MOUSE_BUTTON_LEFT:
 		_set_selected([])
 
@@ -191,14 +204,25 @@ func _on_marker_clicked(beat_ms: int) -> void:
 		_set_selected([beat_ms])
 
 
-## Beat dragging (x only) + waveform scrub share _input: only _input sees
+## Beat dragging (x only) + waveform grab share _input: only _input sees
 ## motion everywhere, so both trackings live here. _input runs before
-## _unhandled_input, so a scrub release can swallow the click-clear below.
+## _unhandled_input, so a grab release can swallow the click-clear below.
 func _input(event: InputEvent) -> void:
 	if event is InputEventMouseMotion:
 		if _wave_scrubbing:
-			seek(_mouse_to_time_sec((event as InputEventMouseMotion).position))
-			_wave_moved = true
+			# Threshold so a plain click (no drag) just clears selection.
+			if not _wave_moved and _wave_press_pos.distance_to((event as InputEventMouseMotion).position) < _WAVE_DRAG_THRESHOLD_PX:
+				return
+			if not _wave_moved:
+				_wave_moved = true
+				Input.set_default_cursor_shape(Input.CURSOR_HSIZE)
+			# Grab semantics: delta in viewport px -> delta in seconds.
+			# Pulling right ( +dx ) moves to earlier time, pulling left to later.
+			var cur := (event as InputEventMouseMotion).position
+			var delta_px := cur.x - _wave_press_pos.x
+			var pps := _px_per_sec()
+			var new_time := _wave_start_time - delta_px / pps if pps > 0.0 else _wave_start_time
+			seek(new_time)
 			return
 		if _drag_beat < 0:
 			return
@@ -213,10 +237,20 @@ func _input(event: InputEvent) -> void:
 		if mb.button_index == MOUSE_BUTTON_LEFT and not mb.pressed:
 			if _wave_scrubbing:
 				var was_scrub := _wave_moved
+				var was_playing := _wave_was_playing
 				_wave_scrubbing = false
 				_wave_moved = false
+				_wave_was_playing = false
+				_wave_start_time = 0.0
+				Input.set_default_cursor_shape(Input.CURSOR_ARROW)
 				if was_scrub:
 					get_viewport().set_input_as_handled()  # keep selection
+					# Stop playback on drop as requested.
+					if was_playing and mapping_player.playing and not mapping_player.stream_paused:
+						mapping_player.stream_paused = true
+				else:
+					# Plain click without drag: clear moved flag, let _unhandled_input clear selection.
+					pass
 			_end_beat_drag()
 
 

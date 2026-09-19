@@ -28,6 +28,7 @@ func _ready() -> void:
 	viewport_size = get_viewport_rect().size
 	viewport_width = viewport_size.x
 	_sync_export_button()
+	DiscordRPC.set_activity("Drawing a map", "")
 
 
 func _process(_delta: float) -> void:
