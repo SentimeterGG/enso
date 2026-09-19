@@ -3,6 +3,7 @@
 [ext_resource type="Texture2D" uid="uid://sqv5pjrdcpvd" path="res://assets/sprites/UI/shape/play.png" id="1_0xnud"]
 [ext_resource type="Theme" uid="uid://cpocn8agag6ib" path="res://resources/theme/Theme.tres" id="1_evwkm"]
 [ext_resource type="Script" uid="uid://ckfp2ghdvbb8t" path="res://scripts/ui/level_creator/level_creator.gd" id="1_qesna"]
+[ext_resource type="PackedScene" uid="uid://b7rlmo61qxu8s" path="res://scenes/draw.tscn" id="2_8nwwt"]
 [ext_resource type="Script" uid="uid://bsweodsn26075" path="res://scripts/ui/level_creator/metadata.gd" id="3_m4iti"]
 [ext_resource type="FontFile" uid="uid://o0cdle58rn3j" path="res://assets/fonts/ithaca.medium.ttf" id="3_mjqih"]
 [ext_resource type="Texture2D" uid="uid://b3v8a03h3ikfs" path="res://assets/sprites/UI/corner.png" id="4_ik5ql"]
@@ -10,6 +11,7 @@
 [ext_resource type="Script" uid="uid://dgs760t2d526n" path="res://scripts/ui/level_creator/mapping.gd" id="8_cixrd"]
 [ext_resource type="PackedScene" uid="uid://btu0bvjb0cc6j" path="res://addons/audio_preview/AudioStreamPreview.tscn" id="9_lki77"]
 [ext_resource type="AudioStream" uid="uid://dybpytxnyej66" path="res://assets/sound/osu-hit-sound.mp3" id="10_2vkcm"]
+[ext_resource type="Texture2D" uid="uid://dnnjjgvh1pcgl" path="res://assets/sprites/UI/shape/circle_outline.png" id="11_7fl6t"]
 
 [sub_resource type="Animation" id="Animation_rtw2f"]
 length = 0.001
@@ -59,6 +61,8 @@ grow_vertical = 2
 mouse_filter = 2
 script = ExtResource("1_qesna")
 
+[node name="draw" parent="." unique_id=2118743800 instance=ExtResource("2_8nwwt")]
+
 [node name="ExportPopup" type="FileDialog" parent="." unique_id=16765379]
 unique_name_in_owner = true
 editor_description = "save to file chart.enso"
@@ -80,6 +84,30 @@ popup_window = true
 file_mode = 0
 access = 2
 filters = PackedStringArray("*.wav")
+use_native_dialog = true
+
+[node name="LoadVideoBG" type="FileDialog" parent="." unique_id=422927780]
+unique_name_in_owner = true
+editor_description = "save to file chart.enso"
+oversampling_override = 1.0
+title = "Open a File"
+position = Vector2i(0, 36)
+popup_window = true
+file_mode = 0
+access = 2
+filters = PackedStringArray("*.ogv")
+use_native_dialog = true
+
+[node name="LoadBG" type="FileDialog" parent="." unique_id=1649807071]
+unique_name_in_owner = true
+editor_description = "save to file chart.enso"
+oversampling_override = 1.0
+title = "Open a File"
+position = Vector2i(0, 36)
+popup_window = true
+file_mode = 0
+access = 2
+filters = PackedStringArray("*.png", "*.jpg", "*.jpeg")
 use_native_dialog = true
 
 [node name="ImportPopup" type="FileDialog" parent="." unique_id=2084226550]
@@ -317,6 +345,52 @@ theme = ExtResource("1_evwkm")
 
 [node name="BrowseSongButton" type="Button" parent="LevelCreator/METADATA/ScrollContainer/MarginContainer/VBoxContainer/song_path/HBoxContainer" unique_id=1019752748]
 unique_name_in_owner = true
+layout_mode = 2
+icon = ExtResource("4_m4iti")
+
+[node name="video_bg_path" type="VBoxContainer" parent="LevelCreator/METADATA/ScrollContainer/MarginContainer/VBoxContainer" unique_id=2060312952]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="LevelCreator/METADATA/ScrollContainer/MarginContainer/VBoxContainer/video_bg_path" unique_id=1693971830]
+layout_mode = 2
+theme = ExtResource("1_evwkm")
+theme_override_font_sizes/font_size = 12
+text = "Video Background (Optional)"
+
+[node name="HBoxContainer" type="HBoxContainer" parent="LevelCreator/METADATA/ScrollContainer/MarginContainer/VBoxContainer/video_bg_path" unique_id=1171729209]
+layout_mode = 2
+theme_override_constants/separation = 10
+
+[node name="VideoBgPathEdit" type="LineEdit" parent="LevelCreator/METADATA/ScrollContainer/MarginContainer/VBoxContainer/video_bg_path/HBoxContainer" unique_id=893545986]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+theme = ExtResource("1_evwkm")
+
+[node name="BrowseVideoBgButton" type="Button" parent="LevelCreator/METADATA/ScrollContainer/MarginContainer/VBoxContainer/video_bg_path/HBoxContainer" unique_id=983336136]
+layout_mode = 2
+icon = ExtResource("4_m4iti")
+
+[node name="bg_path" type="VBoxContainer" parent="LevelCreator/METADATA/ScrollContainer/MarginContainer/VBoxContainer" unique_id=1768155414]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="LevelCreator/METADATA/ScrollContainer/MarginContainer/VBoxContainer/bg_path" unique_id=234171956]
+layout_mode = 2
+theme = ExtResource("1_evwkm")
+theme_override_font_sizes/font_size = 12
+text = "Sprite Background"
+
+[node name="HBoxContainer" type="HBoxContainer" parent="LevelCreator/METADATA/ScrollContainer/MarginContainer/VBoxContainer/bg_path" unique_id=1607132262]
+layout_mode = 2
+theme_override_constants/separation = 10
+
+[node name="BGPath" type="LineEdit" parent="LevelCreator/METADATA/ScrollContainer/MarginContainer/VBoxContainer/bg_path/HBoxContainer" unique_id=771184667]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+theme = ExtResource("1_evwkm")
+
+[node name="BrowseBgPath" type="Button" parent="LevelCreator/METADATA/ScrollContainer/MarginContainer/VBoxContainer/bg_path/HBoxContainer" unique_id=1791783464]
 layout_mode = 2
 icon = ExtResource("4_m4iti")
 
@@ -662,10 +736,10 @@ text = "Add Shape"
 
 [node name="ShapeOption" type="OptionButton" parent="LevelCreator/MAPPING" unique_id=1386991494]
 layout_mode = 0
-offset_left = 270.0
-offset_top = 233.0
-offset_right = 365.0
-offset_bottom = 264.0
+offset_left = 255.0
+offset_top = 232.0
+offset_right = 359.0
+offset_bottom = 263.0
 item_count = 5
 popup/item_0/text = "L"
 popup/item_0/id = 0
@@ -757,15 +831,67 @@ grow_vertical = 0
 theme = ExtResource("1_evwkm")
 text = "IMPORT"
 
+[node name="Draw Area" type="Control" parent="." unique_id=1546263466]
+anchors_preset = 0
+offset_left = 419.0
+offset_top = 28.0
+offset_right = 613.0
+offset_bottom = 222.0
+
+[node name="Label" type="Label" parent="Draw Area" unique_id=2061561535]
+modulate = Color(0.4045111, 0.40451115, 0.4045111, 1)
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -20.0
+offset_top = -11.5
+offset_right = 20.0
+offset_bottom = 11.5
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("1_evwkm")
+text = "Draw Here"
+
+[node name="HBoxContainer3" type="HBoxContainer" parent="." unique_id=199430973]
+layout_mode = 0
+offset_left = 408.0
+offset_top = 309.0
+offset_right = 498.0
+offset_bottom = 329.0
+theme_override_constants/separation = 8
+
+[node name="TextureRect" type="TextureRect" parent="HBoxContainer3" unique_id=2136734277]
+modulate = Color(1, 0.18431373, 0.039215688, 1)
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 8
+texture = ExtResource("11_7fl6t")
+
+[node name="Label" type="Label" parent="HBoxContainer3" unique_id=1864570538]
+layout_mode = 2
+size_flags_horizontal = 0
+theme = ExtResource("1_evwkm")
+theme_override_colors/font_color = Color(0.6344296, 0.6344296, 0.6344295, 1)
+theme_override_font_sizes/font_size = 14
+text = "GO BACK"
+
 [connection signal="chart_imported" from="." to="LevelCreator/METADATA" method="when_import"]
 [connection signal="chart_imported" from="." to="LevelCreator/MAPPING" method="_on_level_creator_chart_imported"]
 [connection signal="export_requested" from="." to="LevelCreator/METADATA" method="when_export"]
+[connection signal="guessed_shape" from="draw" to="." method="_on_draw_guessed_shape"]
 [connection signal="dir_selected" from="ExportPopup" to="." method="_on_export_popup_dir_selected"]
 [connection signal="file_selected" from="LoadSong" to="LevelCreator/METADATA" method="_on_song_file_selected"]
 [connection signal="file_selected" from="LoadSong" to="LevelCreator/MAPPING" method="_on_load_song_file_selected"]
+[connection signal="file_selected" from="LoadVideoBG" to="LevelCreator/METADATA" method="_on_load_video_bg_file_selected"]
+[connection signal="file_selected" from="LoadBG" to="LevelCreator/METADATA" method="_on_load_bg_file_selected"]
 [connection signal="file_selected" from="ImportPopup" to="." method="_on_import_popup_file_selected"]
 [connection signal="text_submitted" from="LevelCreator/METADATA/ScrollContainer/MarginContainer/VBoxContainer/song_path/HBoxContainer/SongPathEdit" to="LevelCreator/METADATA" method="_on_song_text_submitted"]
 [connection signal="pressed" from="LevelCreator/METADATA/ScrollContainer/MarginContainer/VBoxContainer/song_path/HBoxContainer/BrowseSongButton" to="LevelCreator/METADATA" method="_on_browse_pressed"]
+[connection signal="pressed" from="LevelCreator/METADATA/ScrollContainer/MarginContainer/VBoxContainer/video_bg_path/HBoxContainer/BrowseVideoBgButton" to="LevelCreator/METADATA" method="_on_browse_video_bg_button_pressed"]
+[connection signal="pressed" from="LevelCreator/METADATA/ScrollContainer/MarginContainer/VBoxContainer/bg_path/HBoxContainer/BrowseBgPath" to="LevelCreator/METADATA" method="_on_browse_bg_path_pressed"]
 [connection signal="pressed" from="LevelCreator/METADATA/ScrollContainer/MarginContainer/VBoxContainer/color_scheme/VBoxContainer/AddColorButton" to="LevelCreator/METADATA" method="_on_add_color"]
 [connection signal="value_changed" from="LevelCreator/METADATA/ScrollContainer/MarginContainer/VBoxContainer/preview_start/VBoxContainer/HBoxContainer/PreviewSlider" to="LevelCreator/METADATA" method="_on_preview_changed"]
 [connection signal="pressed" from="LevelCreator/METADATA/ScrollContainer/MarginContainer/VBoxContainer/preview_start/VBoxContainer/control_button/PreviewGotoStart" to="LevelCreator/METADATA" method="_on_preview_nudge_minus"]
@@ -781,3 +907,5 @@ text = "IMPORT"
 [connection signal="pressed" from="TopBar/TABS/MappingButton" to="." method="_on_mapping_pressed"]
 [connection signal="pressed" from="ExportButton" to="." method="_on_export_button_pressed"]
 [connection signal="pressed" from="ImportFile" to="." method="_on_import_file_pressed"]
+[connection signal="mouse_entered" from="Draw Area" to="." method="_on_draw_area_mouse_entered"]
+[connection signal="mouse_exited" from="Draw Area" to="." method="_on_draw_area_mouse_exited"]

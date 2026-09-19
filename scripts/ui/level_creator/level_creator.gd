@@ -12,6 +12,9 @@ signal export_requested(dest_dir: String)
 @onready var _save_dialog: FileDialog = %ExportPopup
 @onready var _import_dialog: FileDialog = %ImportPopup
 @onready var metadata_group: Control = %METADATA
+@onready var mapping_group: Control = $LevelCreator/MAPPING
+@onready var _export_button: Button = %ExportButton
+@onready var _draw: Line2D = $draw
 
 var viewport_size: Vector2
 var viewport_width: float
@@ -23,6 +26,11 @@ const SLIDE_DURATION := 0.35
 func _ready() -> void:
 	viewport_size = get_viewport_rect().size
 	viewport_width = viewport_size.x
+	_sync_export_button()
+
+
+func _process(_delta: float) -> void:
+	_sync_export_button()
 
 
 func _on_mapping_pressed() -> void:
@@ -45,6 +53,17 @@ func _slide_to(target_x: float) -> void:
 	_slide_tween.set_trans(Tween.TRANS_CUBIC)
 	_slide_tween.set_ease(Tween.EASE_OUT)
 	_slide_tween.tween_property(level_creator_group, "position:x", target_x, SLIDE_DURATION)
+
+
+## Export stays disabled until every required metadata field is filled
+## (video_bg is the only optional one). Polls metadata so ColorRect
+## add/remove (queue_free) needs no extra signal wiring.
+func _sync_export_button() -> void:
+	if _export_button == null or metadata_group == null:
+		return
+	if not metadata_group.has_method("is_export_ready"):
+		return
+	_export_button.disabled = not metadata_group.is_export_ready()
 
 
 func _on_import_file_pressed() -> void:
@@ -101,7 +120,28 @@ func _on_export_popup_dir_selected(dir: String) -> void:
 	if not src_song.is_empty():
 		song_file = _resolve_song_filename(src_song)
 		_copy_song_into(src_song, out_dir.path_join(song_file))
-	var text := _build_metadata_text(data, "./" + song_file)
+	# Copy optional bg / video_bg next to the chart when they point at real files.
+	var bg_value := ""
+	var src_bg := str(data.get("bg", "")).strip_edges()
+	if not src_bg.is_empty():
+		var bg_file := _resolve_song_filename(src_bg)
+		_copy_song_into(src_bg, out_dir.path_join(bg_file))
+		bg_value = "./" + bg_file
+	var video_value := ""
+	var src_video := str(data.get("video_bg", "")).strip_edges()
+	if not src_video.is_empty():
+		var video_file := _resolve_song_filename(src_video)
+		_copy_song_into(src_video, out_dir.path_join(video_file))
+		video_value = "./" + video_file
+	var mapping_beats: Array = []
+	var mapping_shapes: Array = []
+	if mapping_group != null:
+		if mapping_group.has_method("get_beat_times_ms"):
+			mapping_beats = mapping_group.get_beat_times_ms()
+		if mapping_group.has_method("get_shapes"):
+			mapping_shapes = mapping_group.get_shapes()
+	var text := _build_metadata_text(data, "./" + song_file, bg_value, video_value)
+	text += _build_notes_text(mapping_beats, mapping_shapes)
 	var chart_path := out_dir.path_join("chart.enso")
 	var f := FileAccess.open(chart_path, FileAccess.WRITE)
 	if f == null:
@@ -175,11 +215,13 @@ func _sanitize_folder_name(raw: String) -> String:
 	return out
 
 
-func _build_metadata_text(data: Dictionary, song_value: String) -> String:
+func _build_metadata_text(
+	data: Dictionary, song_value: String, bg_value: String = "", video_value: String = ""
+) -> String:
 	var colors: Array = data.get("color_scheme", [])
 	var colors_str := "[" + ", ".join(colors.map(func(c): return '"' + str(c) + '"')) + "]"
-	return (
-		"[metadata]\nname = %s\nsource = %s\nmapper = %s\nsong = %s\ncolor_scheme = %s\npreview_start = %d\nbpm = %d\nbeat0 = %d\noverall_difficulty = %d\n\n[notes]\n"
+	var text := (
+		"[metadata]\nname = %s\nsource = %s\nmapper = %s\nsong = %s\ncolor_scheme = %s\npreview_start = %d\nbpm = %d\nbeat0 = %d\noverall_difficulty = %d\n"
 		% [
 			str(data.get("name", "")),
 			str(data.get("source", "")),
@@ -192,3 +234,129 @@ func _build_metadata_text(data: Dictionary, song_value: String) -> String:
 			int(data.get("overall_difficulty", 0)),
 		]
 	)
+	if not bg_value.is_empty():
+		text += "bg = %s\n" % bg_value
+	if not video_value.is_empty():
+		text += "video_bg = %s\n" % video_value
+	text += "\n[notes]\n"
+	return text
+
+
+## Serializes editor beats + shapes into the [notes] section.
+## Shapes are sorted by first beat; each gets a unique id; leftover solo
+## beats (not in any shape) are exported as single-note [[solo_N]] shapes
+## so no timing data is lost. Mirrors mapping.gd's _shape_points() geometry.
+func _build_notes_text(beats: Array, shapes: Array) -> String:
+	var out := ""
+	var used: Dictionary = {}
+	var ordered: Array = shapes.duplicate()
+	ordered.sort_custom(
+		func(a: Dictionary, b: Dictionary) -> bool:
+			var ta: Array = a.get("times_ms", [])
+			var tb: Array = b.get("times_ms", [])
+			var fa := int(ta[0]) if not ta.is_empty() else 9223372036854775807
+			var fb := int(tb[0]) if not tb.is_empty() else 9223372036854775807
+			return fa < fb
+	)
+	var id_counts: Dictionary = {}
+	var idx := 0
+	for shape in ordered:
+		idx += 1
+		var shape_name := str(shape.get("shape", "Square"))
+		var times: Array = (shape.get("times_ms", []) as Array).duplicate()
+		times.sort()
+		if times.is_empty():
+			continue
+		var base := shape_name.to_lower().strip_edges().replace(" ", "_")
+		if base.is_empty():
+			base = "shape"
+		var count := int(id_counts.get(base, 0)) + 1
+		id_counts[base] = count
+		var sid := base if count == 1 else "%s_%d" % [base, count]
+		for t in times:
+			used[int(t)] = true
+		out += _shape_block(sid, shape_name, times)
+	var solo := 0
+	var solo_beats: Array = []
+	for b in beats:
+		var bi := int(b)
+		if not used.has(bi):
+			solo_beats.append(bi)
+	solo_beats.sort()
+	for bi in solo_beats:
+		solo += 1
+		out += "[[solo_%d]]\n@ %d 0.5 0.5\n\n" % [solo, bi]
+	if out.is_empty():
+		out = "\n"
+	return out
+
+
+## One shape block: closed [(id)] for Square, open [[id]] otherwise.
+## First N outline points become @ lines (time + x y), the trailing
+## geometry-only point becomes a ! line — matching chart.enso's spec.
+func _shape_block(sid: String, shape_name: String, times: Array) -> String:
+	var pts := _export_shape_points(shape_name)
+	if pts.is_empty():
+		return ""
+	var header := "[[%s]]\n" % sid
+	if shape_name == "Square":
+		header = "[(%s)]\n" % sid
+	var block := header
+	if shape_name == "Square":
+		# Closed: one @ per beat, parser auto-closes the loop.
+		for i in range(times.size()):
+			var p := pts[i] if i < pts.size() else Vector2(0.5, 0.5)
+			block += "@ %d %s %s\n" % [int(times[i]), _fmt_coord(p.x), _fmt_coord(p.y)]
+	else:
+		for i in range(times.size()):
+			var p := pts[i] if i < pts.size() else Vector2(0.5, 0.5)
+			block += "@ %d %s %s\n" % [int(times[i]), _fmt_coord(p.x), _fmt_coord(p.y)]
+		if pts.size() > times.size():
+			var tail: Vector2 = pts[times.size()]
+			block += "! %s %s\n" % [_fmt_coord(tail.x), _fmt_coord(tail.y)]
+	block += "\n"
+	return block
+
+
+func _fmt_coord(v: float) -> String:
+	if is_equal_approx(v, roundf(v)):
+		return str(int(roundf(v)))
+	return ("%.3f" % v).rstrip("0").rstrip(".")
+
+
+## Must stay in sync with mapping.gd's _shape_points().
+func _export_shape_points(shape_name: String) -> PackedVector2Array:
+	match shape_name:
+		"L":
+			return PackedVector2Array([Vector2(0, 0), Vector2(0, 1), Vector2(1, 1)])
+		"U":
+			return PackedVector2Array(
+				[Vector2(0, 0), Vector2(0, 1), Vector2(1, 1), Vector2(1, 0)]
+			)
+		"Square":
+			return PackedVector2Array(
+				[Vector2(0, 0), Vector2(1, 0), Vector2(1, 1), Vector2(0, 1), Vector2(0, 0)]
+			)
+		"HLine":
+			return PackedVector2Array([Vector2(0, 0.5), Vector2(1, 0.5)])
+		"VLine":
+			return PackedVector2Array([Vector2(0.5, 0), Vector2(0.5, 1)])
+	return PackedVector2Array(
+		[Vector2(0, 0), Vector2(1, 0), Vector2(1, 1), Vector2(0, 1), Vector2(0, 0)]
+	)
+
+
+
+func _on_draw_guessed_shape(shape: String) -> void:
+	if shape == "circle":
+	pass # Replace with function body.
+
+
+func _on_draw_area_mouse_entered() -> void:
+	_draw.start()
+	pass # Replace with function body.
+
+
+func _on_draw_area_mouse_exited() -> void:
+	_draw.stop()
+	pass # Replace with function body.

@@ -2,6 +2,8 @@ extends Control
 @onready var _name_edit: LineEdit = %SongNameEdit
 @onready var _source_edit: LineEdit = %SongAuthorEdit
 @onready var _mapper_edit: LineEdit = %MapperEdit
+@onready var _video_bg_edit: LineEdit = %VideoBgPathEdit
+@onready var _bg_edit: LineEdit = %BGPath
 @onready var _song_edit: LineEdit = %SongPathEdit
 @onready var _picker: ColorPicker = %ColorPicker
 @onready var _list: HBoxContainer = %list_colorscheme
@@ -13,6 +15,8 @@ extends Control
 @onready var _diff_spin: SpinBox = %DiffSpin
 @onready var _diff_label: Label = %DiffLabel
 @onready var _load_dialog: FileDialog = %LoadSong
+@onready var _load_video_bg_dialog: FileDialog = %LoadVideoBG
+@onready var _load_bg_dialog: FileDialog = %LoadBG
 @onready var _preview_player: AudioStreamPlayer = $PreviewPlayer
 @onready var _beat_player: AudioStreamPlayer = $BeatPlayer
 const NUDGE_MS := 10
@@ -79,6 +83,10 @@ func when_import(chart: ChartData) -> void:
 		_source_edit.text = str(metadata["source"])
 	if metadata.has("mapper"):
 		_mapper_edit.text = str(metadata["mapper"])
+	if metadata.has("video_bg"):
+		_video_bg_edit.text = str(metadata["video_bg"])
+	if metadata.has("bg"):
+		_bg_edit.text = str(metadata["bg"])
 	if metadata.has("song"):
 		_song_edit.text = chart.song_path()
 		if not _song_edit.text.is_empty():
@@ -105,6 +113,32 @@ func when_import(chart: ChartData) -> void:
 			_add_color_rect(color)
 
 
+## Export gate for level_creator's Export button.
+## Every metadata field is required except video_bg (optional).
+## Sliders/spins always hold a value, so only text fields + color scheme gate.
+func is_export_ready() -> bool:
+	if _name_edit == null or _source_edit == null or _mapper_edit == null:
+		return false
+	if _name_edit.text.strip_edges().is_empty():
+		return false
+	if _source_edit.text.strip_edges().is_empty():
+		return false
+	if _mapper_edit.text.strip_edges().is_empty():
+		return false
+	if _song_edit == null or _song_edit.text.strip_edges().is_empty():
+		return false
+	if _bg_edit == null or _bg_edit.text.strip_edges().is_empty():
+		return false
+	if _bpm_spin != null and int(_bpm_spin.value) <= 0:
+		return false
+	if _list == null:
+		return false
+	for child in _list.get_children():
+		if child is ColorRect:
+			return true
+	return false
+
+
 ## UI getter for level_creator's export flow.
 ## Returns plain data; file/folder IO stays in level_creator.gd.
 func when_export() -> Dictionary:
@@ -112,6 +146,8 @@ func when_export() -> Dictionary:
 		"name": _name_edit.text.strip_edges() if _name_edit else "",
 		"source": _source_edit.text.strip_edges() if _source_edit else "",
 		"mapper": _mapper_edit.text.strip_edges() if _mapper_edit else "",
+		"video_bg": _video_bg_edit.text.strip_edges() if _video_bg_edit else "",
+		"bg": _bg_edit.text.strip_edges() if _bg_edit else "",
 		"song_src": _song_edit.text.strip_edges() if _song_edit else "",
 		"preview_start": int(_preview_slider.value) if _preview_slider else 0,
 		"beat0": int(_beat_slider.value) if _beat_slider else 0,
@@ -301,7 +337,6 @@ func _on_beat_changed(v: float) -> void:
 		_beat_player.play(float(v) / 1000.0)
 
 
-
 func _resolve_song_abs(src: String) -> String:
 	var s := src.strip_edges()
 	if s.is_empty():
@@ -366,3 +401,20 @@ func _parse_color_scheme(raw: String) -> Array[Color]:
 			colors.append(c)
 	return colors
 
+
+func _on_load_bg_file_selected(path: String) -> void:
+	_bg_edit.text = path
+
+
+func _on_load_video_bg_file_selected(path: String) -> void:
+	_video_bg_edit.text = path
+
+
+func _on_browse_video_bg_button_pressed() -> void:
+	_load_video_bg_dialog.popup_centered(Vector2i(600, 400))
+	pass  # Replace with function body.
+
+
+func _on_browse_bg_path_pressed() -> void:
+	_load_bg_dialog.popup_centered(Vector2i(600, 400))
+	pass # Replace with function body.

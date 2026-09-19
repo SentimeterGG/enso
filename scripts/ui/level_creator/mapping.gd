@@ -67,6 +67,15 @@ var beat_times_ms: Array[int] = []
 var _view_pps := 20.0
 ## Currently selected beat times (subset of beat_times_ms).
 var _selected: Array[int] = []
+## Beat being dragged (original ms, -1 = none). Only x changes while dragging.
+var _drag_beat := -1
+## True once the current press actually moved (distinguishes drag from click).
+var _drag_moved := false
+## Consumed by _on_marker_clicked to skip select-toggle after a drag release.
+var _suppress_click := false
+## Waveform scrub: press-drag on empty waveform seeks like the timeline slider.
+var _wave_scrubbing := false
+var _wave_moved := false
 ## Selected shape index into _shapes (-1 = none). Mutually exclusive with beats.
 var _selected_shape := -1
 ## Base tint of shape nodes (matches editor_shape_point.tscn).
@@ -108,7 +117,7 @@ func _ready() -> void:
 	_safe_connect(_btn_add_shape, _on_add_shape_pressed)
 	# Scroll-wheel zoom on the waveform (gui_input only fires while hovering it).
 	if waveform != null:
-		waveform.mouse_filter = Control.MOUSE_FILTER_STOP
+		waveform.mouse_filter = Control.MOUSE_FILTER_PASS
 		if not waveform.gui_input.is_connected(_on_waveform_gui_input):
 			waveform.gui_input.connect(_on_waveform_gui_input)
 		if waveform.has_signal("generation_completed"):
@@ -148,8 +157,10 @@ func _unhandled_key_input(event: InputEvent) -> void:
 
 ## Selection works through each marker's Button (see editor_beat_point.gd):
 ## click = select (click again = unselect), Shift+click = toggle multi-select,
-## click on empty waveform = clear. Marker Buttons consume their own clicks,
-## so only empty-area clicks and wheel events reach _unhandled_input.
+## click on empty waveform = clear. Hold + move drags a beat in time (x only,
+## clamped to the song, blocked onto occupied times). Press-drag on empty
+## waveform scrubs the playhead like the timeline slider. Marker Buttons
+## consume their own presses, so only empty-area presses reach _unhandled_input.
 func _unhandled_input(event: InputEvent) -> void:
 	if waveform == null or not (event is InputEventMouseButton):
 		return
@@ -167,6 +178,9 @@ func _unhandled_input(event: InputEvent) -> void:
 
 
 func _on_marker_clicked(beat_ms: int) -> void:
+	if _suppress_click:
+		_suppress_click = false
+		return # release at the end of a drag, not a real click
 	if Input.is_key_pressed(KEY_SHIFT):
 		var sel := _selected.duplicate()
 		if sel.has(beat_ms):
@@ -178,6 +192,109 @@ func _on_marker_clicked(beat_ms: int) -> void:
 		_set_selected([]) # clicking the selected beat unselects it
 	else:
 		_set_selected([beat_ms])
+
+
+## Beat dragging (x only) + waveform scrub share _input: only _input sees
+## motion everywhere, so both trackings live here. _input runs before
+## _unhandled_input, so a scrub release can swallow the click-clear below.
+func _input(event: InputEvent) -> void:
+	if event is InputEventMouseMotion:
+		if _wave_scrubbing:
+			seek(_mouse_to_time_sec((event as InputEventMouseMotion).position))
+			_wave_moved = true
+			return
+		if _drag_beat < 0:
+			return
+		var target := _mouse_to_beat_ms((event as InputEventMouseMotion).position)
+		if target != _drag_beat and _move_beat(_drag_beat, target):
+			_drag_beat = target
+			if not _drag_moved:
+				_drag_moved = true
+				Input.set_default_cursor_shape(Input.CURSOR_HSIZE)
+	elif event is InputEventMouseButton:
+		var mb := event as InputEventMouseButton
+		if mb.button_index == MOUSE_BUTTON_LEFT and not mb.pressed:
+			if _wave_scrubbing:
+				var was_scrub := _wave_moved
+				_wave_scrubbing = false
+				_wave_moved = false
+				if was_scrub:
+					get_viewport().set_input_as_handled() # keep selection
+			_end_beat_drag()
+
+
+func _on_marker_drag_started(beat_ms: int) -> void:
+	if not _selected.has(beat_ms):
+		return # not selected: ignore the drag, release falls back to select
+	_drag_beat = beat_ms
+	_drag_moved = false
+
+
+func _end_beat_drag() -> void:
+	if _drag_moved:
+		_suppress_click = true # don't toggle selection on the drag release
+		_refresh_shape_option() # selection may have changed count mid-drag
+		Input.set_default_cursor_shape(Input.CURSOR_ARROW)
+	_drag_beat = -1
+	_drag_moved = false
+
+
+## Converts a viewport mouse x into beat ms via the markers' local coords.
+## Clamped to [0, song length] so beats can't leave the waveform.
+func _mouse_to_beat_ms(mouse_pos: Vector2) -> int:
+	return int(round(_mouse_to_time_sec(mouse_pos) * 1000.0))
+
+
+## Same as above as float seconds (for scrub-seek).
+func _mouse_to_time_sec(mouse_pos: Vector2) -> float:
+	if _markers_root == null:
+		return 0.0
+	var to_local: Transform2D = _markers_root.get_global_transform_with_canvas().affine_inverse()
+	var t := (to_local * mouse_pos).x / _px_per_sec()
+	t = maxf(0.0, t)
+	if mapping_player.stream != null:
+		t = minf(t, mapping_player.stream.get_length())
+	return t
+
+
+## Moves a beat to a new time. Returns false when another beat already owns
+## the target (the marker stays put). Updates selection and any shape holding
+## the beat; y is never touched.
+func _move_beat(old_ms: int, new_ms: int) -> bool:
+	if new_ms == old_ms:
+		return true
+	if not beat_times_ms.has(old_ms) or beat_times_ms.has(new_ms):
+		return false
+	beat_times_ms.erase(old_ms)
+	beat_times_ms.append(new_ms)
+	beat_times_ms.sort()
+	var node = _marker_nodes.get(old_ms)
+	if node != null:
+		_marker_nodes.erase(old_ms)
+		_marker_nodes[new_ms] = node
+		node.beat_ms = new_ms
+		node.position = Vector2(float(new_ms) / 1000.0 * _px_per_sec(), MARKER_Y)
+	if _selected.has(old_ms):
+		# Inline selection update (not _set_selected): the option dropdown
+		# refresh is deferred to drag end so it doesn't rebuild per pixel.
+		var sel := _selected.duplicate()
+		sel.erase(old_ms)
+		sel.append(new_ms)
+		sel.sort()
+		_selected = sel
+		_refresh_marker_selection()
+	var shapes_touched := false
+	for shape in _shapes:
+		var times: Array = shape["times_ms"]
+		if times.has(old_ms):
+			times.erase(old_ms)
+			times.append(new_ms)
+			times.sort()
+			shapes_touched = true
+	if shapes_touched:
+		_rebuild_beat_shape_map()
+		_refresh_shapes()
+	return true
 
 
 func _set_selected(times: Array) -> void:
@@ -427,6 +544,15 @@ func add_beat_at_current() -> void:
 func remove_beat_at_current() -> void:
 	if beat_times_ms.is_empty():
 		return
+	if not _selected.is_empty():
+		# N with a selection deletes the whole selection, not the playhead beat.
+		for t in _selected.duplicate():
+			if beat_times_ms.has(t):
+				beat_times_ms.erase(t)
+				_strip_beat_from_shapes(t)
+		_rebuild_markers()
+		_set_selected([])
+		return
 	var now_ms := int(round(current_time() * 1000.0))
 	var best := -1
 	var best_err := int(DELETE_WINDOW_SEC * 1000.0)
@@ -492,10 +618,25 @@ func _on_add_shape_pressed() -> void:
 				% [t, int(_beat_shape_map[t])]
 			)
 			return
+	_create_shape_entry(shape_name, times)
+	_select_shape(_shapes.size() - 1)
+
+
+## Shared constructor for editor shapes (Add button + chart import).
+## Appends the record, spawns/positions the node and rebuilds the beat map.
+## Assumes times are sorted ints and not already used by another shape.
+func _create_shape_entry(shape_name: String, times: Array) -> void:
+	if _shapes_root == null:
+		push_error("mapping: shapes container missing.")
+		return
+	var clean: Array[int] = []
+	for t in times:
+		clean.append(int(t))
+	clean.sort()
 	var shape_node = EDITOR_SHAPE_POINT.instantiate()
-	_position_shape_node(shape_node, times)
+	_position_shape_node(shape_node, clean)
 	var tag := Label.new()
-	tag.text = "%s (%d)" % [shape_name, times.size()]
+	tag.text = "%s (%d)" % [shape_name, clean.size()]
 	tag.theme = load("res://resources/theme/Theme.tres")
 	tag.add_theme_font_size_override("font_size", 10)
 	tag.mouse_filter = Control.MOUSE_FILTER_IGNORE
@@ -503,10 +644,9 @@ func _on_add_shape_pressed() -> void:
 	shape_node.gui_input.connect(_on_shape_gui_input.bind(shape_node))
 	_shapes_root.add_child(shape_node)
 	shape_node.init(_shape_points(shape_name))
-	_shapes.append({"shape": shape_name, "times_ms": times})
+	_shapes.append({"shape": shape_name, "times_ms": clean})
 	_shape_nodes.append(shape_node)
 	_rebuild_beat_shape_map()
-	_select_shape(_shapes.size() - 1)
 
 
 ## Positions/sizes a shape node from its beat times at the current zoom.
@@ -599,6 +739,78 @@ func _on_level_creator_chart_imported(chart: ChartData) -> void:
 	var metadata: Dictionary = chart.metadata
 	if metadata.has("song"):
 		_load_song(chart.song_path())
+	_import_beats_and_shapes(chart)
+
+
+## Rebuilds editor beats + shapes from a parsed ChartData.
+## All @ times become beat markers; notes grouped by shape id become editor
+## shapes with their type inferred from beat count (and H/V geometry for
+## single-beat shapes). Custom/unsupported groups (e.g. 5+ beats, rotated
+## geometry) keep their beats as solo markers so no timing is lost.
+func _import_beats_and_shapes(chart: ChartData) -> void:
+	clear_beats()
+	if chart.notes.is_empty():
+		return
+	# Group note times by shape id, preserving chart sort (by start time).
+	var times_by_id: Dictionary = {}
+	var order: Array = []
+	for note in chart.notes:
+		var n := note as Dictionary
+		var sid := str(n.get("id", ""))
+		var ms := int(round(float(n.get("start_time", n.get("time", 0.0)))))
+		if not times_by_id.has(sid):
+			times_by_id[sid] = []
+			order.append(sid)
+		(times_by_id[sid] as Array).append(ms)
+		if not beat_times_ms.has(ms):
+			beat_times_ms.append(ms)
+	beat_times_ms.sort()
+	# Order shape ids by first beat time (matches parser's shape sort).
+	order.sort_custom(
+		func(a: String, b: String) -> bool:
+			var ta: Array = times_by_id[a]
+			var tb: Array = times_by_id[b]
+			return int((ta as Array)[0]) < int((tb as Array)[0])
+	)
+	for sid in order:
+		var times: Array = (times_by_id[sid] as Array).duplicate()
+		times.sort()
+		var pts := chart.shape_points_by_id(sid)
+		var editor_shape := _infer_editor_shape(times.size(), pts)
+		if editor_shape.is_empty():
+			continue # leave beats ungrouped (solo markers)
+		if times.size() != _shape_required_beats(editor_shape):
+			continue
+		_create_shape_entry(editor_shape, times)
+	_rebuild_markers()
+	_refresh_shapes()
+	_set_selected([])
+	_select_shape(-1)
+	seek(0.0)
+
+
+## Maps a chart shape back to an editor shape type.
+## Count is decisive (Square=4, U=3, L=2); single-beat shapes use geometry
+## (wide => HLine, tall => VLine). Returns "" when not representable.
+func _infer_editor_shape(count: int, pts: PackedVector2Array) -> String:
+	match count:
+		4:
+			return "Square"
+		3:
+			return "U"
+		2:
+			return "L"
+		1:
+			if pts.size() >= 2:
+				var dx := 0.0
+				var dy := 0.0
+				for i in range(1, pts.size()):
+					dx = maxf(dx, absf(pts[i].x - pts[i - 1].x))
+					dy = maxf(dy, absf(pts[i].y - pts[i - 1].y))
+				if dy > dx:
+					return "VLine"
+			return "HLine"
+	return ""
 
 
 func _load_song(path: String) -> void:
@@ -656,6 +868,7 @@ func _update_scroll() -> void:
 func _rebuild_markers() -> void:
 	if _markers_root == null:
 		return
+	_end_beat_drag() # nodes are freed below; a drag can't survive a rebuild
 	for child in _markers_root.get_children():
 		child.queue_free()
 	_marker_nodes.clear()
@@ -665,6 +878,7 @@ func _rebuild_markers() -> void:
 		marker.beat_ms = t
 		_markers_root.add_child(marker)
 		marker.clicked.connect(_on_marker_clicked)
+		marker.drag_started.connect(_on_marker_drag_started)
 		_marker_nodes[t] = marker
 	_refresh_marker_selection()
 
@@ -675,9 +889,6 @@ func _safe_connect(btn: Button, method: Callable) -> void:
 	if not btn.pressed.is_connected(method):
 		btn.pressed.connect(method)
 
-
-func _on_browse_song_button_pressed() -> void:
-	pass # Replace with function body.
 
 
 func _on_load_song_file_selected(path: String) -> void:
