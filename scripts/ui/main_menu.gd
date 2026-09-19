@@ -21,6 +21,8 @@ func _on_transition_animation_finished(anim_name: StringName) -> void:
 		get_tree().change_scene_to_file("res://scenes/level_selector.tscn")
 	elif anim_name == "Out_settings":
 		get_tree().change_scene_to_file("res://scenes/settings_tab.tscn")
+	elif anim_name == "Out_editor":
+		get_tree().change_scene_to_file("res://scenes/level_creator.tscn")
 
 
 func _on_draw_guessed_shape(shape: String) -> void:
@@ -28,4 +30,5 @@ func _on_draw_guessed_shape(shape: String) -> void:
 		$Transition.play("Out")
 	elif shape == "line":
 		$Transition.play("Out_settings")
-	pass  # Replace with function body.
+	elif shape == "square":
+		$Transition.play("Out_editor")
