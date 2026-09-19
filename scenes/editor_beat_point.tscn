@@ -1,0 +1,25 @@
+[gd_scene format=3 uid="uid://slikyk0wg1wc"]
+
+[ext_resource type="Texture2D" uid="uid://qomfanbbtnmo" path="res://assets/sprites/UI/shape/circle.png" id="1_vbyst"]
+[ext_resource type="Script" uid="uid://bce7qhn4vqmqk" path="res://scripts/note/beat/editor_beat_point.gd" id="2_1it7g"]
+[ext_resource type="Texture2D" uid="uid://dnnjjgvh1pcgl" path="res://assets/sprites/UI/shape/circle_outline.png" id="3_1it7g"]
+[ext_resource type="Texture2D" uid="uid://b5e0008e1v2lr" path="res://assets/sprites/UI/select.png" id="4_k20a8"]
+
+[node name="editor_beat_point" type="Sprite2D" unique_id=1586565524]
+scale = Vector2(3, 3)
+texture = ExtResource("1_vbyst")
+script = ExtResource("2_1it7g")
+
+[node name="CircleOutline" type="Sprite2D" parent="." unique_id=787556392]
+texture = ExtResource("3_1it7g")
+
+[node name="Selected" type="Sprite2D" parent="." unique_id=1534044584]
+visible = false
+scale = Vector2(1.415, 1.415)
+texture = ExtResource("4_k20a8")
+
+[node name="Button" type="Button" parent="." unique_id=1057283620]
+offset_left = -8.333334
+offset_top = -8.0
+offset_right = 8.0
+offset_bottom = 8.0

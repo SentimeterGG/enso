@@ -7,8 +7,8 @@ signal generation_progress(normalized_progress)
 const MAX_FREQUENCY: float = 3000.0 # Maximum frequency captured
 const IMAGE_HEIGHT: int = 64
 
-var image_compression: float = 10.0 # How many samples in one pixel
-var background_color = Color(0.2, 0.2, 0.4, 0.5)
+var image_compression: float = 5.0 # How many samples in one pixel
+var background_color = Color(0, 0.0, 0.0, 0.0)
 var foreground_color = Color.SILVER
 
 

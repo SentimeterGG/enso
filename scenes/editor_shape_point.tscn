@@ -1,17 +1,16 @@
-[gd_scene format=3 uid="uid://d34ca4dw4ct0i"]
+[gd_scene format=3 uid="uid://pjltgiropk7o"]
 
-[ext_resource type="Script" uid="uid://cjc2ip1uq0gg4" path="res://scripts/note/shape/shape_point.gd" id="1_bdgod"]
+[ext_resource type="Script" uid="uid://ckapnl3dlktb6" path="res://scripts/note/shape/editor_shape_point.gd" id="1_ioyp3"]
 
 [node name="shape_point" type="ColorRect" unique_id=1711279368]
-self_modulate = Color(1, 1, 1, 0.1882353)
+self_modulate = Color(1, 1, 1, 0.16078432)
 offset_left = -3.0
 offset_top = -3.0
 offset_right = 39.0
 offset_bottom = 39.0
 offset_transform_enabled = true
-offset_transform_position = Vector2(-21, -21)
-offset_transform_pivot_ratio = Vector2(0, 0)
-script = ExtResource("1_bdgod")
+offset_transform_position = Vector2(-21, 0)
+script = ExtResource("1_ioyp3")
 
 [node name="Line2D" type="Line2D" parent="." unique_id=724274820]
 position = Vector2(11, 12.000001)

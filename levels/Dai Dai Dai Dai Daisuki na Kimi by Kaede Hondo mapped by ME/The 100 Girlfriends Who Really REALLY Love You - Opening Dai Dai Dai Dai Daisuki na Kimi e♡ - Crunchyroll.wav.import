@@ -12,7 +12,7 @@ dest_files=["res://.godot/imported/The 100 Girlfriends Who Really REALLY Love Yo
 
 [params]
 
-force/8_bit=false
+force/8_bit=true
 force/mono=false
 force/max_rate=false
 force/max_rate_hz=44100

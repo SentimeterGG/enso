@@ -7,6 +7,9 @@
 [ext_resource type="FontFile" uid="uid://o0cdle58rn3j" path="res://assets/fonts/ithaca.medium.ttf" id="3_mjqih"]
 [ext_resource type="Texture2D" uid="uid://b3v8a03h3ikfs" path="res://assets/sprites/UI/corner.png" id="4_ik5ql"]
 [ext_resource type="Texture2D" uid="uid://cgruk4xoapf0n" path="res://assets/sprites/UI/folder_icon.png" id="4_m4iti"]
+[ext_resource type="Script" uid="uid://dgs760t2d526n" path="res://scripts/ui/level_creator/mapping.gd" id="8_cixrd"]
+[ext_resource type="PackedScene" uid="uid://btu0bvjb0cc6j" path="res://addons/audio_preview/AudioStreamPreview.tscn" id="9_lki77"]
+[ext_resource type="AudioStream" uid="uid://dybpytxnyej66" path="res://assets/sound/osu-hit-sound.mp3" id="10_2vkcm"]
 
 [sub_resource type="Animation" id="Animation_rtw2f"]
 length = 0.001
@@ -53,6 +56,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+mouse_filter = 2
 script = ExtResource("1_qesna")
 
 [node name="ExportPopup" type="FileDialog" parent="." unique_id=16765379]
@@ -101,6 +105,7 @@ offset_left = -209.0
 offset_top = -125.0
 grow_horizontal = 0
 grow_vertical = 0
+mouse_filter = 2
 theme_override_constants/margin_right = 24
 theme_override_constants/margin_bottom = 24
 
@@ -142,6 +147,7 @@ anchor_bottom = 1.0
 offset_top = -129.0
 offset_right = 121.0
 grow_vertical = 0
+mouse_filter = 2
 theme_override_constants/margin_left = 24
 theme_override_constants/margin_right = 0
 theme_override_constants/margin_bottom = 24
@@ -161,6 +167,7 @@ texture = ExtResource("4_ik5ql")
 layout_mode = 0
 offset_right = 193.0
 offset_bottom = 111.0
+mouse_filter = 2
 theme_override_constants/margin_left = 24
 theme_override_constants/margin_top = 24
 
@@ -184,6 +191,7 @@ anchor_right = 1.0
 offset_left = -193.0
 offset_bottom = 111.0
 grow_horizontal = 0
+mouse_filter = 2
 theme_override_constants/margin_top = 24
 theme_override_constants/margin_right = 24
 
@@ -209,6 +217,7 @@ anchor_bottom = 1.0
 offset_right = 640.0
 grow_horizontal = 2
 grow_vertical = 2
+mouse_filter = 2
 
 [node name="METADATA" type="Control" parent="LevelCreator" unique_id=299311291]
 unique_name_in_owner = true
@@ -522,17 +531,23 @@ text = "EASY"
 clip_contents = true
 layout_mode = 2
 size_flags_horizontal = 3
+mouse_filter = 2
+script = ExtResource("8_cixrd")
 
-[node name="HSlider" type="HSlider" parent="LevelCreator/MAPPING" unique_id=629242798]
+[node name="BEATSPAWNER" type="Node2D" parent="LevelCreator/MAPPING" unique_id=947513137]
+position = Vector2(145, 115)
+
+[node name="MappingPreviewCurrentPos" type="HSlider" parent="LevelCreator/MAPPING" unique_id=629242798]
+unique_name_in_owner = true
 layout_mode = 1
 anchors_preset = 12
 anchor_top = 1.0
 anchor_right = 1.0
 anchor_bottom = 1.0
 offset_left = 138.0
-offset_top = -96.0
+offset_top = -88.0
 offset_right = -145.0
-offset_bottom = -80.0
+offset_bottom = -72.0
 grow_horizontal = 2
 grow_vertical = 0
 
@@ -556,6 +571,13 @@ custom_minimum_size = Vector2(34.845, 0)
 layout_mode = 2
 size_flags_horizontal = 0
 theme = ExtResource("1_evwkm")
+text = "<<"
+
+[node name="go_to_prev_beat" type="Button" parent="LevelCreator/MAPPING/HBoxContainer" unique_id=129927762]
+custom_minimum_size = Vector2(34.845, 0)
+layout_mode = 2
+size_flags_horizontal = 0
+theme = ExtResource("1_evwkm")
 text = "<"
 
 [node name="start" type="Button" parent="LevelCreator/MAPPING/HBoxContainer" unique_id=2072190154]
@@ -566,12 +588,19 @@ theme = ExtResource("1_evwkm")
 icon = ExtResource("1_0xnud")
 icon_alignment = 1
 
-[node name="go_to_end" type="Button" parent="LevelCreator/MAPPING/HBoxContainer" unique_id=926839668]
+[node name="go_to_next_beat" type="Button" parent="LevelCreator/MAPPING/HBoxContainer" unique_id=477744090]
 custom_minimum_size = Vector2(34.845, 0)
 layout_mode = 2
 size_flags_horizontal = 0
 theme = ExtResource("1_evwkm")
 text = ">"
+
+[node name="go_to_end" type="Button" parent="LevelCreator/MAPPING/HBoxContainer" unique_id=926839668]
+custom_minimum_size = Vector2(34.845, 0)
+layout_mode = 2
+size_flags_horizontal = 0
+theme = ExtResource("1_evwkm")
+text = ">>"
 
 [node name="Label" type="Label" parent="LevelCreator/MAPPING" unique_id=968918794]
 layout_mode = 1
@@ -585,8 +614,8 @@ offset_bottom = -30.0
 grow_vertical = 0
 theme = ExtResource("1_evwkm")
 theme_override_font_sizes/font_size = 12
-text = "PRESS M/N TO
-SPAWA BEAT"
+text = "M To ADD
+N TO REMOVE"
 vertical_alignment = 2
 
 [node name="Line2D" type="Line2D" parent="LevelCreator/MAPPING" unique_id=462632309]
@@ -595,28 +624,65 @@ points = PackedVector2Array(0, 0, 0, 370)
 width = 1.0
 default_color = Color(0.62152386, 0.62152386, 0.6215238, 1)
 
-[node name="note_manager" type="Node2D" parent="LevelCreator/MAPPING" unique_id=1995089584]
-position = Vector2(144, 115)
-
-[node name="beat_column" type="Node2D" parent="LevelCreator/MAPPING/note_manager" unique_id=1107222869]
-
-[node name="beat_spawner" type="Node2D" parent="LevelCreator/MAPPING/note_manager/beat_column" unique_id=1331948016]
-
-[node name="shape_column" type="Node2D" parent="LevelCreator/MAPPING/note_manager" unique_id=218202540]
-position = Vector2(0, 74)
-
-[node name="shape_spawner" type="Node2D" parent="LevelCreator/MAPPING/note_manager/shape_column" unique_id=30479691]
-
-[node name="Border" type="Line2D" parent="LevelCreator/MAPPING/note_manager" unique_id=934328302]
-position = Vector2(-165, -32)
+[node name="Border" type="Line2D" parent="LevelCreator/MAPPING" unique_id=934328302]
+position = Vector2(-21, 83)
 points = PackedVector2Array(0, 0, 680, 0, 680, 130, 0, 130, 0, 0)
 width = 1.0
 default_color = Color(0.62152386, 0.62152386, 0.6215238, 1)
 
-[node name="Border2" type="Line2D" parent="LevelCreator/MAPPING/note_manager/Border" unique_id=507072306]
+[node name="Border2" type="Line2D" parent="LevelCreator/MAPPING/Border" unique_id=507072306]
 points = PackedVector2Array(0, 65, 680, 65)
 width = 1.0
 default_color = Color(0.62152386, 0.62152386, 0.6215238, 1)
+
+[node name="MappingPreviewPlayer" type="AudioStreamPlayer" parent="LevelCreator/MAPPING" unique_id=1682768576]
+unique_name_in_owner = true
+
+[node name="beat_collumn" type="Node2D" parent="LevelCreator/MAPPING" unique_id=1308920766]
+position = Vector2(145, 86)
+
+[node name="AudioStreamPreview" parent="LevelCreator/MAPPING/beat_collumn" unique_id=2097105430 instance=ExtResource("9_lki77")]
+modulate = Color(1, 1, 1, 0.19215687)
+custom_minimum_size = Vector2(2003, 0)
+offset_left = -1.0
+offset_top = -4.0
+offset_right = 2002.0
+offset_bottom = 60.0
+expand_mode = 1
+px_per_sec = 20.0
+
+[node name="Add Shape" type="Button" parent="LevelCreator/MAPPING" unique_id=1189623053]
+layout_mode = 0
+offset_left = 380.0
+offset_top = 233.0
+offset_right = 484.0
+offset_bottom = 264.0
+theme = ExtResource("1_evwkm")
+text = "Add Shape"
+
+[node name="ShapeOption" type="OptionButton" parent="LevelCreator/MAPPING" unique_id=1386991494]
+layout_mode = 0
+offset_left = 270.0
+offset_top = 233.0
+offset_right = 365.0
+offset_bottom = 264.0
+item_count = 5
+popup/item_0/text = "L"
+popup/item_0/id = 0
+popup/item_1/text = "U"
+popup/item_1/id = 1
+popup/item_2/text = "Square"
+popup/item_2/id = 2
+popup/item_3/text = "HLine"
+popup/item_3/id = 3
+popup/item_4/text = "VLine"
+popup/item_4/id = 4
+
+[node name="HitSound" type="AudioStreamPlayer" parent="LevelCreator/MAPPING" unique_id=784104904]
+unique_name_in_owner = true
+stream = ExtResource("10_2vkcm")
+volume_db = 10.0
+bus = &"Effect"
 
 [node name="TopBar" type="ColorRect" parent="." unique_id=157878358]
 layout_mode = 1
@@ -691,10 +757,13 @@ grow_vertical = 0
 theme = ExtResource("1_evwkm")
 text = "IMPORT"
 
-[connection signal="dir_selected" from="ExportPopup" to="LevelCreator/METADATA" method="_on_save_dir_selected"]
+[connection signal="chart_imported" from="." to="LevelCreator/METADATA" method="when_import"]
+[connection signal="chart_imported" from="." to="LevelCreator/MAPPING" method="_on_level_creator_chart_imported"]
+[connection signal="export_requested" from="." to="LevelCreator/METADATA" method="when_export"]
+[connection signal="dir_selected" from="ExportPopup" to="." method="_on_export_popup_dir_selected"]
 [connection signal="file_selected" from="LoadSong" to="LevelCreator/METADATA" method="_on_song_file_selected"]
+[connection signal="file_selected" from="LoadSong" to="LevelCreator/MAPPING" method="_on_load_song_file_selected"]
 [connection signal="file_selected" from="ImportPopup" to="." method="_on_import_popup_file_selected"]
-[connection signal="file_selected" from="ImportPopup" to="LevelCreator/METADATA" method="_on_import_popup_file_selected"]
 [connection signal="text_submitted" from="LevelCreator/METADATA/ScrollContainer/MarginContainer/VBoxContainer/song_path/HBoxContainer/SongPathEdit" to="LevelCreator/METADATA" method="_on_song_text_submitted"]
 [connection signal="pressed" from="LevelCreator/METADATA/ScrollContainer/MarginContainer/VBoxContainer/song_path/HBoxContainer/BrowseSongButton" to="LevelCreator/METADATA" method="_on_browse_pressed"]
 [connection signal="pressed" from="LevelCreator/METADATA/ScrollContainer/MarginContainer/VBoxContainer/color_scheme/VBoxContainer/AddColorButton" to="LevelCreator/METADATA" method="_on_add_color"]
@@ -707,9 +776,8 @@ text = "IMPORT"
 [connection signal="pressed" from="LevelCreator/METADATA/ScrollContainer/MarginContainer/VBoxContainer/start_beat/VBoxContainer/control_button/BeatPlay" to="LevelCreator/METADATA" method="_on_beat_play"]
 [connection signal="pressed" from="LevelCreator/METADATA/ScrollContainer/MarginContainer/VBoxContainer/start_beat/VBoxContainer/control_button/BeatGotoEnd" to="LevelCreator/METADATA" method="_on_beat_nudge_plus"]
 [connection signal="value_changed" from="LevelCreator/METADATA/ScrollContainer/MarginContainer/VBoxContainer/Difficulty/HBoxContainer/DiffSpin" to="LevelCreator/METADATA" method="_on_diff_changed"]
+[connection signal="pressed" from="LevelCreator/MAPPING/HBoxContainer/start" to="LevelCreator/MAPPING" method="_on_start_pressed"]
 [connection signal="pressed" from="TopBar/TABS/MetadataButton" to="." method="_on_metadata_pressed"]
 [connection signal="pressed" from="TopBar/TABS/MappingButton" to="." method="_on_mapping_pressed"]
 [connection signal="pressed" from="ExportButton" to="." method="_on_export_button_pressed"]
-[connection signal="pressed" from="ExportButton" to="LevelCreator/METADATA" method="_on_export_pressed"]
 [connection signal="pressed" from="ImportFile" to="." method="_on_import_file_pressed"]
-[connection signal="pressed" from="ImportFile" to="LevelCreator/METADATA" method="_on_import_file_pressed"]
