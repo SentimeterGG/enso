@@ -740,7 +740,8 @@ text = "M To ADD
 N TO REMOVE"
 vertical_alignment = 2
 
-[node name="Line2D" type="Line2D" parent="LevelCreator/MAPPING" unique_id=462632309]
+[node name="LineGenerator" type="Line2D" parent="LevelCreator/MAPPING" unique_id=462632309]
+unique_name_in_owner = true
 position = Vector2(144, -6)
 points = PackedVector2Array(0, 0, 0, 370)
 width = 1.0

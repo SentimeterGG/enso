@@ -9,6 +9,9 @@ const EDITOR_SHAPE_POINT := preload("res://scenes/editor_shape_point.tscn")
 @onready var waveform: TextureRect = $beat_collumn/AudioStreamPreview
 @onready var metadata_group: Control = %METADATA
 @onready var hitsound: AudioStreamPlayer = %HitSound
+# Unique access to level_creator.tscn's vertical receptor line (LineGenerator at x=144).
+# Verified in scenes/level_creator.tscn: [node name="LineGenerator" ... unique_name_in_owner = true]
+@onready var _line_generator: Line2D = %LineGenerator
 
 @onready var _btn_start: Button = $HBoxContainer/go_to_start
 @onready var _btn_play: Button = $HBoxContainer/start
@@ -84,6 +87,9 @@ var _markers_root: Node2D = null
 var _shapes_root: Node2D = null
 ## beat time ms -> editor_beat_point instance.
 var _marker_nodes: Dictionary = {}
+## Tracks which beats already triggered hitsound/vibrate when passing LineGenerator.
+## Key = beat_ms (int), value = true. Cleared when the beat moves back ahead of the line (seek/rewind).
+var _hitsound_fired: Dictionary = {}
 
 
 func _ready() -> void:
@@ -130,6 +136,7 @@ func _process(_delta: float) -> void:
 		var pos := mapping_player.get_playback_position()
 		timeline.set_value_no_signal(pos)
 		_update_scroll()
+		_check_beats_passed_line_generator(pos)
 		if pos >= mapping_player.stream.get_length() - 0.05:
 			mapping_player.stop()
 
@@ -1194,6 +1201,34 @@ func _update_scroll() -> void:
 	beat_column.position = Vector2(COLUMN_BASE.x - current_time() * _px_per_sec(), COLUMN_BASE.y)
 
 
+## Called every frame while preview is playing: if an editor_beat_point's
+## x in MAPPING space has just crossed the unique LineGenerator (x=144),
+## play the hitsound (via %HitSound, also unique). Uses geometric check
+## beat_column.x + marker.x <= _line_generator.x so it stays correct at any zoom.
+## _hitsound_fired prevents retrigger until the beat moves ahead again (seek/rewind).
+func _check_beats_passed_line_generator(_pos: float) -> void:
+	if _line_generator == null or beat_column == null or _markers_root == null:
+		return
+	# Unique access verified: level_creator.tscn has %LineGenerator (unique_name_in_owner)
+	var line_x := _line_generator.position.x # MAPPING-local, 144.0
+	var col_x := beat_column.position.x
+	for t in beat_times_ms:
+		var marker = _marker_nodes.get(t)
+		if marker == null or not is_instance_valid(marker):
+			continue
+		# marker.position is in _markers_root-local (which is at 0 inside beat_column)
+		var marker_x_in_mapping : float= col_x + marker.position.x
+		var passed := marker_x_in_mapping <= line_x + 0.1 # tiny epsilon for float/1px mismatch
+		var was_fired: bool = _hitsound_fired.has(t)
+		if passed and not was_fired:
+			# hitsound is also unique (%HitSound) in level_creator.tscn
+			if hitsound != null:
+				hitsound.play()
+			_hitsound_fired[t] = true
+		elif not passed and was_fired:
+			_hitsound_fired.erase(t)
+
+
 ## Sizes the tiling strip to song_length * zoom. It starts at song time 0
 ## in column space, so markers (x = time * pps) always line up with it.
 func _size_waveform_strip() -> void:
@@ -1215,6 +1250,10 @@ func _rebuild_markers() -> void:
 	for child in _markers_root.get_children():
 		child.queue_free()
 	_marker_nodes.clear()
+	# prune fired entries for beats that no longer exist (keeps rewind logic)
+	for k in _hitsound_fired.keys():
+		if not beat_times_ms.has(k):
+			_hitsound_fired.erase(k)
 	for t in beat_times_ms:
 		var marker = EDITOR_BEAT_POINT.instantiate()
 		marker.position = Vector2(float(t) / 1000.0 * _px_per_sec(), MARKER_Y)

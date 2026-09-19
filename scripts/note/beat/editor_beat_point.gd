@@ -15,6 +15,7 @@ var beat_ms: int = 0
 @onready var button: Button = $Button
 
 
+
 func _ready() -> void:
 	button.flat = true
 	button.focus_mode = Control.FOCUS_NONE

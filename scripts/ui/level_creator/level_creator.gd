@@ -24,6 +24,7 @@ const SLIDE_DURATION := 0.35
 
 
 func _ready() -> void:
+	BgMusic.change_song(null)
 	VolumePopup.hide_pop_up()
 	viewport_size = get_viewport_rect().size
 	viewport_width = viewport_size.x
