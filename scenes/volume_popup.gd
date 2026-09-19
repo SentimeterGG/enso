@@ -12,6 +12,3 @@ func change_popup(pop_up_value: bool):
 
 func hide_pop_up():
 	volume_popup._hide_popup()
-
-
-
