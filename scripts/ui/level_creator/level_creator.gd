@@ -279,7 +279,7 @@ func _build_notes_text(beats: Array, shapes: Array) -> String:
 		var sid := base if count == 1 else "%s_%d" % [base, count]
 		for t in times:
 			used[int(t)] = true
-		out += _shape_block(sid, shape_name, times)
+		out += _shape_block(sid, shape_name, times, shape)
 	var solo := 0
 	var solo_beats: Array = []
 	for b in beats:
@@ -295,28 +295,41 @@ func _build_notes_text(beats: Array, shapes: Array) -> String:
 	return out
 
 
-## One shape block: closed [(id)] for Square, open [[id]] otherwise.
+## One shape block: closed [(id)] for Square/Custom-closed, open [[id]] otherwise.
 ## First N outline points become @ lines (time + x y), the trailing
 ## geometry-only point becomes a ! line — matching chart.enso's spec.
-func _shape_block(sid: String, shape_name: String, times: Array) -> String:
-	var pts := _export_shape_points(shape_name)
+## Points are 0..1 normalized (same as mapping.gd:719-735). Custom shapes
+## carry their own points in shape dict; presets fall back to lookup.
+func _shape_block(sid: String, shape_name: String, times: Array, shape_dict: Dictionary = {}) -> String:
+	var pts: PackedVector2Array
+	if shape_dict.has("points") and shape_dict["points"] is PackedVector2Array and (shape_dict["points"] as PackedVector2Array).size() > 0:
+		pts = shape_dict["points"] as PackedVector2Array
+	else:
+		pts = _export_shape_points(shape_name)
 	if pts.is_empty():
 		return ""
+	var closed: bool = bool(shape_dict.get("closed", shape_name == "Square"))
+	# Also treat duplicate-closed geometry as closed (last == first)
+	if not closed and pts.size() >= 3 and pts[0].is_equal_approx(pts[pts.size() - 1]):
+		closed = true
 	var header := "[[%s]]\n" % sid
-	if shape_name == "Square":
+	if closed:
 		header = "[(%s)]\n" % sid
 	var block := header
-	if shape_name == "Square":
-		# Closed: one @ per beat, parser auto-closes the loop.
+	if closed:
+		# Closed: one @ per beat, parser auto-closes the loop. Clamp 0..1.
 		for i in range(times.size()):
 			var p := pts[i] if i < pts.size() else Vector2(0.5, 0.5)
+			p = Vector2(clampf(p.x, 0.0, 1.0), clampf(p.y, 0.0, 1.0))
 			block += "@ %d %s %s\n" % [int(times[i]), _fmt_coord(p.x), _fmt_coord(p.y)]
 	else:
 		for i in range(times.size()):
 			var p := pts[i] if i < pts.size() else Vector2(0.5, 0.5)
+			p = Vector2(clampf(p.x, 0.0, 1.0), clampf(p.y, 0.0, 1.0))
 			block += "@ %d %s %s\n" % [int(times[i]), _fmt_coord(p.x), _fmt_coord(p.y)]
 		if pts.size() > times.size():
 			var tail: Vector2 = pts[times.size()]
+			tail = Vector2(clampf(tail.x, 0.0, 1.0), clampf(tail.y, 0.0, 1.0))
 			block += "! %s %s\n" % [_fmt_coord(tail.x), _fmt_coord(tail.y)]
 	block += "\n"
 	return block
@@ -333,18 +346,36 @@ func _export_shape_points(shape_name: String) -> PackedVector2Array:
 	match shape_name:
 		"L":
 			return PackedVector2Array([Vector2(0, 0), Vector2(0, 1), Vector2(1, 1)])
+		"L90":
+			return PackedVector2Array([Vector2(0, 0), Vector2(1, 0), Vector2(1, 1)])
+		"L180":
+			return PackedVector2Array([Vector2(1, 0), Vector2(1, 1), Vector2(0, 1)])
+		"L270":
+			return PackedVector2Array([Vector2(1, 1), Vector2(0, 1), Vector2(0, 0)])
+		"LFlip":
+			return PackedVector2Array([Vector2(1, 0), Vector2(0, 0), Vector2(0, 1)])
 		"U":
 			return PackedVector2Array(
 				[Vector2(0, 0), Vector2(0, 1), Vector2(1, 1), Vector2(1, 0)]
 			)
+		"UInv":
+			return PackedVector2Array([Vector2(0, 1), Vector2(0, 0), Vector2(1, 0), Vector2(1, 1)])
 		"Square":
 			return PackedVector2Array(
 				[Vector2(0, 0), Vector2(1, 0), Vector2(1, 1), Vector2(0, 1), Vector2(0, 0)]
 			)
+		"Triangle":
+			return PackedVector2Array([Vector2(0.5, 0), Vector2(1, 1), Vector2(0, 1), Vector2(0.5, 0)])
 		"HLine":
 			return PackedVector2Array([Vector2(0, 0.5), Vector2(1, 0.5)])
 		"VLine":
 			return PackedVector2Array([Vector2(0.5, 0), Vector2(0.5, 1)])
+		"Diag":
+			return PackedVector2Array([Vector2(0, 0), Vector2(1, 1)])
+		"DiagInv":
+			return PackedVector2Array([Vector2(1, 0), Vector2(0, 1)])
+		"ZigZag":
+			return PackedVector2Array([Vector2(0, 0), Vector2(1, 0), Vector2(0, 1), Vector2(1, 1)])
 	return PackedVector2Array(
 		[Vector2(0, 0), Vector2(1, 0), Vector2(1, 1), Vector2(0, 1), Vector2(0, 0)]
 	)
