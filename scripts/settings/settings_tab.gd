@@ -3,6 +3,9 @@ extends Control
 @onready var exit_button: Button = $setting/ExitButton
 @onready var animation_player: AnimationPlayer = $AnimationPlayer
 @onready var fs_button: Button = $setting/FSButton
+@onready var bg_button: Button = $setting/BGButton
+
+
 @onready var drawer: Line2D = $draw
 
 @onready var master_slider: HSlider = $setting/Master
@@ -28,6 +31,10 @@ func _ready() -> void:
 		fs_button.text = "ON"
 	else: 
 		fs_button.text = "OFF"
+	if Global.settingsData.video_bg == true:
+		bg_button.text = "ON"
+	else: 
+		bg_button.text = "OFF"
 	grab_volume_config()
 	_connect_sliders()
 	_sync_sliders_to_audio()
@@ -140,3 +147,14 @@ func _on_panel_draw_mouse_entered() -> void:
 
 func _on_panel_draw_mouse_exited() -> void:
 	drawer.stop()
+
+
+func _on_bg_button_button_down() -> void:
+	if Global.settingsData.video_bg == true:
+		Global.settingsData.video_bg = false
+		bg_button.text = "OFF"
+	else: 
+		Global.settingsData.video_bg = true
+		bg_button.text = "ON"
+	Global.save(Global.settingsData, Global.settingsData.save_file_name)
+	%OsuHitSound.play()

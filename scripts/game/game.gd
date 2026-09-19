@@ -14,6 +14,12 @@ var note_scheduler: NoteScheduler = NoteScheduler.new()
 
 
 func _ready():
+	if Global.settingsData.video_bg:
+		%BG.visible = false
+		%VideoStreamPlayer.visible = true
+	else:
+		%BG.visible = true
+		%VideoStreamPlayer.visible = false
 	MouseOverlay.process_mode = Node.PROCESS_MODE_DISABLED
 	MouseOverlay.hide()
 	BgMusic.change_song(null)

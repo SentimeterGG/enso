@@ -315,6 +315,32 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 
+[node name="VideoBG" type="Label" parent="setting" unique_id=1149573645]
+layout_mode = 1
+anchors_preset = 4
+anchor_top = 0.5
+anchor_bottom = 0.5
+offset_left = 56.0
+offset_top = -51.0
+offset_right = 173.0
+offset_bottom = -28.0
+grow_vertical = 2
+theme = ExtResource("2_al1eu")
+text = "VIDEO BG  :"
+
+[node name="BGButton" type="Button" parent="setting" unique_id=1915919062]
+layout_mode = 1
+anchors_preset = 4
+anchor_top = 0.5
+anchor_bottom = 0.5
+offset_left = 177.0
+offset_top = -55.0
+offset_right = 228.0
+offset_bottom = -25.0
+grow_vertical = 2
+theme = ExtResource("2_al1eu")
+text = "OFF"
+
 [node name="Fullscreen" type="Label" parent="setting" unique_id=537074567]
 layout_mode = 1
 anchors_preset = 4
@@ -534,6 +560,7 @@ unique_name_in_owner = true
 stream = ExtResource("6_guu1f")
 bus = &"Effect"
 
+[connection signal="button_down" from="setting/BGButton" to="." method="_on_bg_button_button_down"]
 [connection signal="button_down" from="setting/FSButton" to="." method="_on_fs_button_button_down"]
 [connection signal="mouse_entered" from="setting/PanelDraw" to="." method="_on_panel_draw_mouse_entered"]
 [connection signal="mouse_exited" from="setting/PanelDraw" to="." method="_on_panel_draw_mouse_exited"]
