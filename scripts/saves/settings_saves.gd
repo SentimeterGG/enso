@@ -6,5 +6,6 @@ class_name SettingsData
 @export var effects_volume: float = 100.0
 @export var music_volume: float = 100.0
 @export var fullscreen: bool = true
+@export var video_bg: bool = true
 
 var save_file_name: String = "SettingsData.tres"
