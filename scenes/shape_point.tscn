@@ -3,9 +3,11 @@
 [ext_resource type="Script" uid="uid://cjc2ip1uq0gg4" path="res://scripts/note/shape/shape_point.gd" id="1_bdgod"]
 
 [node name="shape_point" type="ColorRect" unique_id=1711279368]
-self_modulate = Color(1, 1, 1, 0.039215688)
-offset_right = 42.0
-offset_bottom = 42.0
+self_modulate = Color(1, 1, 1, 0.1882353)
+offset_left = -3.0
+offset_top = -3.0
+offset_right = 39.0
+offset_bottom = 39.0
 offset_transform_enabled = true
 offset_transform_position = Vector2(-21, -21)
 offset_transform_pivot_ratio = Vector2(0, 0)

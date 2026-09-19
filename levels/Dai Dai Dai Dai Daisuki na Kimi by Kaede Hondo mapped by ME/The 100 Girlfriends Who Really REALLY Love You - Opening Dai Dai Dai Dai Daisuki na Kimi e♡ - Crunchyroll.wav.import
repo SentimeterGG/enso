@@ -1,0 +1,24 @@
+[remap]
+
+importer="wav"
+type="AudioStreamWAV"
+uid="uid://ca0g0xerk1fjq"
+path="res://.godot/imported/The 100 Girlfriends Who Really REALLY Love You - Opening Dai Dai Dai Dai Daisuki na Kimi e♡ - Crunchyroll.wav-644136a1a8e232080c3ca0879670b43e.sample"
+
+[deps]
+
+source_file="res://levels/Dai Dai Dai Dai Daisuki na Kimi by Kaede Hondo mapped by ME/The 100 Girlfriends Who Really REALLY Love You - Opening Dai Dai Dai Dai Daisuki na Kimi e♡ - Crunchyroll.wav"
+dest_files=["res://.godot/imported/The 100 Girlfriends Who Really REALLY Love You - Opening Dai Dai Dai Dai Daisuki na Kimi e♡ - Crunchyroll.wav-644136a1a8e232080c3ca0879670b43e.sample"]
+
+[params]
+
+force/8_bit=true
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop_mode=0
+edit/loop_begin=0
+edit/loop_end=-1
+compress/mode=2
