@@ -4,11 +4,9 @@
 [ext_resource type="Script" uid="uid://dd7i0f11yksaj" path="res://scripts/judgement/accuracy_manager.gd" id="2_lbhrr"]
 [ext_resource type="Script" uid="uid://bil15ch0n2iyd" path="res://scripts/note/shape/target_shape.gd" id="3_gee14"]
 [ext_resource type="Script" uid="uid://bw45dflr7vand" path="res://scripts/judgement/judge_spawner.gd" id="3_rysoc"]
-[ext_resource type="Texture2D" uid="uid://6cyl252a43ro" path="res://assets/sprites/circle-outline.svg" id="5_iywne"]
 [ext_resource type="Script" uid="uid://4t7iids2300s" path="res://scripts/note/note_manager.gd" id="5_p57ef"]
 [ext_resource type="Script" uid="uid://3g8m7mw6ywns" path="res://scripts/note/beat/beat_column.gd" id="6_u5sy4"]
 [ext_resource type="Texture2D" uid="uid://dnnjjgvh1pcgl" path="res://assets/sprites/UI/shape/circle_outline.png" id="7_ca42v"]
-[ext_resource type="Texture2D" uid="uid://drvec743hncum" path="res://assets/sprites/circle.svg" id="8_gee14"]
 [ext_resource type="Theme" uid="uid://cpocn8agag6ib" path="res://resources/theme/Theme.tres" id="9_0tnpc"]
 [ext_resource type="Script" uid="uid://bh3hkt7fb36kw" path="res://scripts/note/shape/shape_column.gd" id="9_kvuet"]
 [ext_resource type="Texture2D" uid="uid://c57tsdrlvc70s" path="res://assets/sprites/circle.png" id="9_rysoc"]
@@ -848,17 +846,6 @@ position = Vector2(664, 16)
 [node name="shape_column" type="Node2D" parent="note_manager" unique_id=1719142597]
 position = Vector2(0, 58)
 script = ExtResource("9_kvuet")
-
-[node name="shape_receptor" type="Sprite2D" parent="note_manager/shape_column" unique_id=261669382]
-visible = false
-texture_filter = 1
-position = Vector2(16, 16)
-texture = ExtResource("5_iywne")
-
-[node name="clicked" type="Sprite2D" parent="note_manager/shape_column/shape_receptor" unique_id=1239751886]
-modulate = Color(1, 1, 1, 0.18431373)
-texture_filter = 1
-texture = ExtResource("8_gee14")
 
 [node name="shape_spawner" type="Node2D" parent="note_manager/shape_column" unique_id=1877341765]
 position = Vector2(664, 16)
