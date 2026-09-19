@@ -10,6 +10,9 @@ var can_popup: bool = true:
 func change_popup(pop_up_value: bool):
 	volume_popup.can_popup = pop_up_value
 
+func hide_pop_up():
+	volume_popup._hide_popup()
+
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	pass # Replace with function body.

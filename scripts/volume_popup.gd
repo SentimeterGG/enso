@@ -71,9 +71,6 @@ func _unhandled_input(event: InputEvent) -> void:
 			_scroll_volume(VOLUME_STEP)
 		elif event.button_index == MOUSE_BUTTON_WHEEL_DOWN and not _mouse_over_slider() and can_popup:
 			_scroll_volume(-VOLUME_STEP)
-	
-	if event.is_action_pressed("fire"):
-		_hide_popup()
 
 
 func _scroll_volume(delta: float) -> void:
@@ -83,6 +80,7 @@ func _scroll_volume(delta: float) -> void:
 
 
 func _show_popup() -> void:
+	_sync_sliders_to_audio()
 	if _is_visible:
 		return
 	_is_visible = true

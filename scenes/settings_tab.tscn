@@ -5,6 +5,8 @@
 [ext_resource type="Theme" uid="uid://cpocn8agag6ib" path="res://resources/theme/Theme.tres" id="2_al1eu"]
 [ext_resource type="FontFile" uid="uid://o0cdle58rn3j" path="res://assets/fonts/ithaca.medium.ttf" id="2_pfdp7"]
 [ext_resource type="PackedScene" uid="uid://b7rlmo61qxu8s" path="res://scenes/draw.tscn" id="5_ji3vv"]
+[ext_resource type="FontFile" uid="uid://bprqivnp1xsie" path="res://assets/fonts/ttf/PixelCode-Medium.ttf" id="5_ycln1"]
+[ext_resource type="AudioStream" uid="uid://dybpytxnyej66" path="res://assets/sound/osu-hit-sound.mp3" id="6_guu1f"]
 
 [sub_resource type="Animation" id="Animation_rtw2f"]
 length = 0.001
@@ -44,25 +46,13 @@ _data = {
 &"idle": SubResource("Animation_8ln24")
 }
 
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_3k7x2"]
-bg_color = Color(0.9999623, 0.52128243, 0.4966492, 0.29803923)
-border_width_bottom = 2
-border_color = Color(0.99997383, 0.7008205, 0.6621937, 0.41960785)
-corner_radius_top_left = 3
-corner_radius_top_right = 3
-corner_radius_bottom_right = 3
-corner_radius_bottom_left = 3
-corner_detail = 1
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_al1eu"]
-bg_color = Color(1, 0.38039216, 0.37254903, 0.54901963)
-border_width_bottom = 2
-border_color = Color(0.9999983, 0.56225073, 0.5125317, 0.41960785)
-corner_radius_top_left = 3
-corner_radius_top_right = 3
-corner_radius_bottom_right = 3
-corner_radius_bottom_left = 3
-corner_detail = 1
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ksiy8"]
+bg_color = Color(0, 0, 0, 1)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.24477646, 0.2447764, 0.24477625, 1)
 
 [sub_resource type="Animation" id="Animation_al1eu"]
 resource_name = "Opening"
@@ -325,27 +315,6 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="ExitButton" type="Button" parent="setting" unique_id=1731323632]
-layout_mode = 1
-anchors_preset = 3
-anchor_left = 1.0
-anchor_top = 1.0
-anchor_right = 1.0
-anchor_bottom = 1.0
-offset_left = -86.0
-offset_top = -137.0
-offset_right = -44.0
-offset_bottom = -96.0
-grow_horizontal = 0
-grow_vertical = 0
-theme = ExtResource("2_al1eu")
-theme_override_font_sizes/font_size = 27
-theme_override_styles/normal = SubResource("StyleBoxFlat_3k7x2")
-theme_override_styles/pressed = SubResource("StyleBoxFlat_3k7x2")
-theme_override_styles/hover = SubResource("StyleBoxFlat_al1eu")
-text = "X"
-icon_alignment = 1
-
 [node name="Fullscreen" type="Label" parent="setting" unique_id=537074567]
 layout_mode = 1
 anchors_preset = 4
@@ -372,6 +341,186 @@ grow_vertical = 2
 theme = ExtResource("2_al1eu")
 text = "OFF"
 
+[node name="Master" type="HSlider" parent="setting" unique_id=606309898]
+layout_mode = 1
+anchors_preset = 4
+anchor_top = 0.5
+anchor_bottom = 0.5
+offset_left = 56.0
+offset_top = 40.0
+offset_right = 228.0
+offset_bottom = 56.0
+grow_vertical = 2
+theme = ExtResource("2_al1eu")
+step = 8.0
+
+[node name="VolumeText" type="Label" parent="setting/Master" unique_id=1947299930]
+layout_mode = 1
+anchors_preset = 4
+anchor_top = 0.5
+anchor_bottom = 0.5
+offset_top = -25.0
+offset_right = 51.0
+offset_bottom = -9.0
+grow_vertical = 2
+theme = ExtResource("2_al1eu")
+theme_override_font_sizes/font_size = 11
+text = "MASTER:"
+
+[node name="VolumePercent" type="Label" parent="setting/Master" unique_id=804541795]
+layout_mode = 1
+anchors_preset = 4
+anchor_top = 0.5
+anchor_bottom = 0.5
+offset_left = 178.0
+offset_top = -8.0
+offset_right = 229.0
+offset_bottom = 8.0
+grow_vertical = 2
+theme = ExtResource("2_al1eu")
+theme_override_font_sizes/font_size = 11
+text = "100%"
+
+[node name="Music" type="HSlider" parent="setting" unique_id=1234529921]
+layout_mode = 1
+anchors_preset = 4
+anchor_top = 0.5
+anchor_bottom = 0.5
+offset_left = 56.0
+offset_top = 76.0
+offset_right = 228.0
+offset_bottom = 92.0
+grow_vertical = 2
+theme = ExtResource("2_al1eu")
+step = 8.0
+
+[node name="VolumeText" type="Label" parent="setting/Music" unique_id=1150037118]
+layout_mode = 1
+anchors_preset = 4
+anchor_top = 0.5
+anchor_bottom = 0.5
+offset_top = -25.0
+offset_right = 51.0
+offset_bottom = -9.0
+grow_vertical = 2
+theme = ExtResource("2_al1eu")
+theme_override_font_sizes/font_size = 11
+text = "MUSIC:"
+
+[node name="VolumePercent" type="Label" parent="setting/Music" unique_id=877743357]
+layout_mode = 1
+anchors_preset = 4
+anchor_top = 0.5
+anchor_bottom = 0.5
+offset_left = 178.0
+offset_top = -8.0
+offset_right = 229.0
+offset_bottom = 8.0
+grow_vertical = 2
+theme = ExtResource("2_al1eu")
+theme_override_font_sizes/font_size = 11
+text = "100%"
+
+[node name="Effects" type="HSlider" parent="setting" unique_id=1735336814]
+layout_mode = 1
+anchors_preset = 4
+anchor_top = 0.5
+anchor_bottom = 0.5
+offset_left = 56.0
+offset_top = 112.0
+offset_right = 228.0
+offset_bottom = 128.0
+grow_vertical = 2
+theme = ExtResource("2_al1eu")
+step = 8.0
+
+[node name="VolumeText" type="Label" parent="setting/Effects" unique_id=914612418]
+layout_mode = 1
+anchors_preset = 4
+anchor_top = 0.5
+anchor_bottom = 0.5
+offset_top = -25.0
+offset_right = 51.0
+offset_bottom = -9.0
+grow_vertical = 2
+theme = ExtResource("2_al1eu")
+theme_override_font_sizes/font_size = 11
+text = "EFFECTS:"
+
+[node name="VolumePercent" type="Label" parent="setting/Effects" unique_id=968889857]
+layout_mode = 1
+anchors_preset = 4
+anchor_top = 0.5
+anchor_bottom = 0.5
+offset_left = 178.0
+offset_top = -8.0
+offset_right = 229.0
+offset_bottom = 8.0
+grow_vertical = 2
+theme = ExtResource("2_al1eu")
+theme_override_font_sizes/font_size = 11
+text = "100%"
+
+[node name="Circle" type="Label" parent="setting" unique_id=1393450339]
+layout_mode = 0
+offset_left = 373.0
+offset_top = 242.0
+offset_right = 453.0
+offset_bottom = 270.0
+size_flags_horizontal = 8
+size_flags_vertical = 8
+theme_override_colors/font_color = Color(1, 0.18400002, 0.04000002, 1)
+theme_override_fonts/font = ExtResource("5_ycln1")
+theme_override_font_sizes/font_size = 20
+text = "CIRCLE"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="ToExit" type="Label" parent="setting" unique_id=903645198]
+layout_mode = 0
+offset_left = 466.0
+offset_top = 242.0
+offset_right = 600.0
+offset_bottom = 270.0
+size_flags_horizontal = 8
+size_flags_vertical = 8
+theme_override_fonts/font = ExtResource("5_ycln1")
+theme_override_font_sizes/font_size = 20
+text = "TO GO BACK"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="PanelDraw" type="Panel" parent="setting" unique_id=412968617]
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -330.0
+offset_top = 40.0
+offset_right = -43.0
+offset_bottom = 229.0
+grow_horizontal = 0
+theme_override_styles/panel = SubResource("StyleBoxFlat_ksiy8")
+
+[node name="Draw Here" type="Label" parent="setting/PanelDraw" unique_id=1929205077]
+self_modulate = Color(1, 1, 1, 0.39215687)
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -48.0
+offset_top = -11.0
+offset_right = 48.0
+offset_bottom = 11.0
+grow_horizontal = 2
+grow_vertical = 2
+offset_transform_enabled = true
+theme_override_fonts/font = ExtResource("5_ycln1")
+text = "DRAW HERE"
+horizontal_alignment = 1
+
 [node name="AnimationPlayer" type="AnimationPlayer" parent="." unique_id=281717340]
 libraries/ = SubResource("AnimationLibrary_al1eu")
 autoplay = &"Opening"
@@ -380,6 +529,13 @@ autoplay = &"Opening"
 weight = 0.5
 guess_mode = true
 
-[connection signal="button_down" from="setting/ExitButton" to="." method="_on_exit_button_button_down"]
+[node name="OsuHitSound" type="AudioStreamPlayer" parent="." unique_id=929816833]
+unique_name_in_owner = true
+stream = ExtResource("6_guu1f")
+bus = &"Effect"
+
 [connection signal="button_down" from="setting/FSButton" to="." method="_on_fs_button_button_down"]
+[connection signal="mouse_entered" from="setting/PanelDraw" to="." method="_on_panel_draw_mouse_entered"]
+[connection signal="mouse_exited" from="setting/PanelDraw" to="." method="_on_panel_draw_mouse_exited"]
 [connection signal="animation_finished" from="AnimationPlayer" to="." method="_on_animation_player_animation_finished"]
+[connection signal="guessed_shape" from="draw" to="." method="_on_draw_guessed_shape"]

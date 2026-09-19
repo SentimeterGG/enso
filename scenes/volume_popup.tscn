@@ -33,35 +33,6 @@ custom_minimum_size = Vector2(250, 0)
 layout_mode = 2
 mouse_filter = 2
 
-[node name="VBoxContainer" type="VBoxContainer" parent="volume_popup/CenterContainer/VBoxContainer" unique_id=16875418]
-layout_mode = 2
-
-[node name="Label" type="Label" parent="volume_popup/CenterContainer/VBoxContainer/VBoxContainer" unique_id=1320675608]
-layout_mode = 2
-theme = ExtResource("1_ikcgv")
-text = "MUSIC"
-
-[node name="HBoxContainer" type="HBoxContainer" parent="volume_popup/CenterContainer/VBoxContainer/VBoxContainer" unique_id=32899487]
-layout_mode = 2
-theme_override_constants/separation = 13
-
-[node name="Music" type="HSlider" parent="volume_popup/CenterContainer/VBoxContainer/VBoxContainer/HBoxContainer" unique_id=1646365300]
-custom_minimum_size = Vector2(0, 0.88)
-layout_mode = 2
-size_flags_horizontal = 3
-size_flags_vertical = 1
-offset_transform_enabled = true
-theme = ExtResource("1_ikcgv")
-step = 8.0
-value = 100.0
-
-[node name="Label" type="Label" parent="volume_popup/CenterContainer/VBoxContainer/VBoxContainer/HBoxContainer" unique_id=694286987]
-custom_minimum_size = Vector2(43, 0)
-layout_mode = 2
-theme = ExtResource("1_ikcgv")
-text = "100%"
-horizontal_alignment = 2
-
 [node name="VBoxContainer2" type="VBoxContainer" parent="volume_popup/CenterContainer/VBoxContainer" unique_id=1829119477]
 layout_mode = 2
 
@@ -85,6 +56,35 @@ step = 8.0
 value = 100.0
 
 [node name="Label" type="Label" parent="volume_popup/CenterContainer/VBoxContainer/VBoxContainer2/HBoxContainer" unique_id=1717978263]
+custom_minimum_size = Vector2(43, 0)
+layout_mode = 2
+theme = ExtResource("1_ikcgv")
+text = "100%"
+horizontal_alignment = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="volume_popup/CenterContainer/VBoxContainer" unique_id=16875418]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="volume_popup/CenterContainer/VBoxContainer/VBoxContainer" unique_id=1320675608]
+layout_mode = 2
+theme = ExtResource("1_ikcgv")
+text = "MUSIC"
+
+[node name="HBoxContainer" type="HBoxContainer" parent="volume_popup/CenterContainer/VBoxContainer/VBoxContainer" unique_id=32899487]
+layout_mode = 2
+theme_override_constants/separation = 13
+
+[node name="Music" type="HSlider" parent="volume_popup/CenterContainer/VBoxContainer/VBoxContainer/HBoxContainer" unique_id=1646365300]
+custom_minimum_size = Vector2(0, 0.88)
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 1
+offset_transform_enabled = true
+theme = ExtResource("1_ikcgv")
+step = 8.0
+value = 100.0
+
+[node name="Label" type="Label" parent="volume_popup/CenterContainer/VBoxContainer/VBoxContainer/HBoxContainer" unique_id=694286987]
 custom_minimum_size = Vector2(43, 0)
 layout_mode = 2
 theme = ExtResource("1_ikcgv")

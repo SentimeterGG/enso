@@ -7,6 +7,8 @@ var save_file_path = "user://ENSO_FILES/"
 # Settings and Main Menu variables.
 var settingsData = SettingsData.new()
 
+signal toggle_window
+
 func _ready():
 	DirAccess.make_dir_recursive_absolute(save_file_path)
 	load_all_data()
@@ -23,7 +25,17 @@ func load_all_data():
 	settingsData = load_data(SettingsData)
 	
 
-
+func _unhandled_input(event: InputEvent) -> void:
+	if event.is_action_pressed("toggle_window"):
+		toggle_window.emit()
+		if Global.settingsData.fullscreen == true:
+			Global.settingsData.fullscreen = false
+		else:
+			Global.settingsData.fullscreen = true
+		save(settingsData, settingsData.save_file_name)
+		DisplayServer.window_set_mode(
+			DisplayServer.WINDOW_MODE_FULLSCREEN if settingsData.fullscreen else DisplayServer.WINDOW_MODE_WINDOWED
+		)
 
 func load_data(res_class: Resource):
 	var temp = res_class.new()

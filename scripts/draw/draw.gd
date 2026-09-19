@@ -98,6 +98,7 @@ func _input(event: InputEvent) -> void:
 		return
 	if Input.is_action_just_pressed("fire") and not drawing:
 		begin(get_global_mouse_position())
+		VolumePopup.hide_pop_up()
 	elif Input.is_action_just_released("fire") and drawing:
 		end()
 	elif event is InputEventMouseMotion:
