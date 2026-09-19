@@ -20,6 +20,7 @@ const VOLUME_MAX := 0.0
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
+	VolumePopup.hide_pop_up()
 	_sync_sliders_to_audio()
 	Global.toggle_window.connect(fullscreen_changed)
 	VolumePopup.can_popup = false

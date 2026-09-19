@@ -27,6 +27,7 @@ var miss: int = 0
 @onready var bad_count: Label = $"../../UI/HitCounter/BadCount"
 @onready var miss_count: Label = $"../../UI/HitCounter/MissCount"
 
+signal hit_note
 
 func _ready() -> void:
 	if Global.current_chart != null:
@@ -95,6 +96,7 @@ func reset_combo():
 	
 
 func hit_counter(accuracy: HitAccuracy):
+	%Mio.note_hit(accuracy)
 	if accuracy == HitAccuracy.PERFECT:
 		perfect += 1
 		perfect_count.text = "PERFECT: " + str(perfect)
