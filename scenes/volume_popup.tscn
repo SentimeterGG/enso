@@ -2,6 +2,7 @@
 
 [ext_resource type="Script" uid="uid://0krpbqv2xwhd" path="res://scripts/volume_popup.gd" id="1_ea6kh"]
 [ext_resource type="Theme" uid="uid://cpocn8agag6ib" path="res://resources/theme/Theme.tres" id="1_ikcgv"]
+[ext_resource type="AudioStream" uid="uid://dybpytxnyej66" path="res://assets/sound/osu-hit-sound.mp3" id="3_k3xnf"]
 
 [node name="volume_popup" type="CanvasLayer" unique_id=1643796485]
 layer = 2
@@ -46,6 +47,7 @@ size_flags_horizontal = 3
 size_flags_vertical = 1
 offset_transform_enabled = true
 theme = ExtResource("1_ikcgv")
+step = 8.0
 value = 100.0
 
 [node name="Label" type="Label" parent="volume_popup/CenterContainer/VBoxContainer/VBoxContainer/HBoxContainer" unique_id=694286987]
@@ -74,6 +76,7 @@ size_flags_horizontal = 3
 size_flags_vertical = 1
 offset_transform_enabled = true
 theme = ExtResource("1_ikcgv")
+step = 8.0
 value = 100.0
 
 [node name="Label" type="Label" parent="volume_popup/CenterContainer/VBoxContainer/VBoxContainer2/HBoxContainer" unique_id=1717978263]
@@ -102,6 +105,7 @@ size_flags_horizontal = 3
 size_flags_vertical = 1
 offset_transform_enabled = true
 theme = ExtResource("1_ikcgv")
+step = 8.0
 value = 100.0
 
 [node name="Label" type="Label" parent="volume_popup/CenterContainer/VBoxContainer/VBoxContainer3/HBoxContainer" unique_id=1231743218]
@@ -142,3 +146,8 @@ theme_override_font_sizes/font_size = 10
 text = "TIP: You can use your scroll wheel to change the volume"
 horizontal_alignment = 1
 vertical_alignment = 1
+
+[node name="OsuHitSound" type="AudioStreamPlayer" parent="." unique_id=813957005]
+unique_name_in_owner = true
+stream = ExtResource("3_k3xnf")
+bus = &"Effect"
