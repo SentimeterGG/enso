@@ -541,7 +541,6 @@ func add_beat_at_current() -> void:
 	if beat_times_ms.has(ms):
 		return
 	beat_times_ms.append(ms)
-	hitsound.play()
 	beat_times_ms.sort()
 	_rebuild_markers()
 
