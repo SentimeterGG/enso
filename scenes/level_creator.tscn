@@ -9,9 +9,9 @@
 [ext_resource type="Texture2D" uid="uid://b3v8a03h3ikfs" path="res://assets/sprites/UI/corner.png" id="4_ik5ql"]
 [ext_resource type="Texture2D" uid="uid://cgruk4xoapf0n" path="res://assets/sprites/UI/folder_icon.png" id="4_m4iti"]
 [ext_resource type="Script" uid="uid://dgs760t2d526n" path="res://scripts/ui/level_creator/mapping.gd" id="8_cixrd"]
-[ext_resource type="PackedScene" uid="uid://btu0bvjb0cc6j" path="res://addons/audio_preview/AudioStreamPreview.tscn" id="9_lki77"]
 [ext_resource type="AudioStream" uid="uid://dybpytxnyej66" path="res://assets/sound/osu-hit-sound.mp3" id="10_2vkcm"]
 [ext_resource type="Texture2D" uid="uid://dnnjjgvh1pcgl" path="res://assets/sprites/UI/shape/circle_outline.png" id="11_7fl6t"]
+[ext_resource type="Texture2D" uid="uid://bhaq3n5lalrao" path="res://assets/sprites/UI/beat_bg.png" id="11_8nwwt"]
 
 [sub_resource type="Animation" id="Animation_rtw2f"]
 length = 0.001
@@ -51,6 +51,14 @@ _data = {
 &"idle": SubResource("Animation_8ln24")
 }
 
+[sub_resource type="InputEventKey" id="InputEventKey_8nwwt"]
+device = -1
+keycode = 32
+unicode = 32
+
+[sub_resource type="Shortcut" id="Shortcut_8nwwt"]
+events = [SubResource("InputEventKey_8nwwt")]
+
 [node name="level_creator" type="Control" unique_id=1506574995]
 layout_mode = 3
 anchors_preset = 15
@@ -62,6 +70,7 @@ mouse_filter = 2
 script = ExtResource("1_qesna")
 
 [node name="draw" parent="." unique_id=2118743800 instance=ExtResource("2_8nwwt")]
+guess_mode = true
 
 [node name="ExportPopup" type="FileDialog" parent="." unique_id=16765379]
 unique_name_in_owner = true
@@ -464,11 +473,12 @@ size_flags_vertical = 4
 theme = ExtResource("1_evwkm")
 max_value = 300000.0
 
-[node name="PreviewLabel" type="Label" parent="LevelCreator/METADATA/ScrollContainer/MarginContainer/VBoxContainer/preview_start/VBoxContainer/HBoxContainer" unique_id=1219075354]
+[node name="PreviewLabelEdit" type="LineEdit" parent="LevelCreator/METADATA/ScrollContainer/MarginContainer/VBoxContainer/preview_start/VBoxContainer/HBoxContainer" unique_id=628562185]
 unique_name_in_owner = true
+custom_minimum_size = Vector2(80, 0)
 layout_mode = 2
 theme = ExtResource("1_evwkm")
-text = "0:00"
+placeholder_text = "0:00.000"
 
 [node name="control_button" type="HBoxContainer" parent="LevelCreator/METADATA/ScrollContainer/MarginContainer/VBoxContainer/preview_start/VBoxContainer" unique_id=1423006387]
 layout_mode = 2
@@ -523,11 +533,12 @@ size_flags_vertical = 4
 theme = ExtResource("1_evwkm")
 max_value = 10000.0
 
-[node name="BeatLabel" type="Label" parent="LevelCreator/METADATA/ScrollContainer/MarginContainer/VBoxContainer/start_beat/VBoxContainer/HBoxContainer" unique_id=660600851]
+[node name="BeatLabelEdit" type="LineEdit" parent="LevelCreator/METADATA/ScrollContainer/MarginContainer/VBoxContainer/start_beat/VBoxContainer/HBoxContainer" unique_id=1579989425]
 unique_name_in_owner = true
+custom_minimum_size = Vector2(80, 0)
 layout_mode = 2
 theme = ExtResource("1_evwkm")
-text = "0:00"
+placeholder_text = "0:00.000"
 
 [node name="control_button" type="HBoxContainer" parent="LevelCreator/METADATA/ScrollContainer/MarginContainer/VBoxContainer/start_beat/VBoxContainer" unique_id=1712943746]
 layout_mode = 2
@@ -601,6 +612,53 @@ layout_mode = 2
 theme = ExtResource("1_evwkm")
 text = "EASY"
 
+[node name="Draw Area" type="Control" parent="LevelCreator/METADATA" unique_id=1546263466]
+anchors_preset = 0
+offset_left = 419.0
+offset_top = 28.0
+offset_right = 613.0
+offset_bottom = 222.0
+
+[node name="Label" type="Label" parent="LevelCreator/METADATA/Draw Area" unique_id=2061561535]
+modulate = Color(0.4045111, 0.40451115, 0.4045111, 1)
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -20.0
+offset_top = -11.5
+offset_right = 20.0
+offset_bottom = 11.5
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("1_evwkm")
+text = "Draw Here"
+
+[node name="HBoxContainer3" type="HBoxContainer" parent="LevelCreator/METADATA" unique_id=199430973]
+layout_mode = 0
+offset_left = 408.0
+offset_top = 309.0
+offset_right = 498.0
+offset_bottom = 329.0
+theme_override_constants/separation = 8
+
+[node name="TextureRect" type="TextureRect" parent="LevelCreator/METADATA/HBoxContainer3" unique_id=2136734277]
+modulate = Color(1, 0.18431373, 0.039215688, 1)
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 8
+texture = ExtResource("11_7fl6t")
+
+[node name="Label" type="Label" parent="LevelCreator/METADATA/HBoxContainer3" unique_id=1864570538]
+layout_mode = 2
+size_flags_horizontal = 0
+theme = ExtResource("1_evwkm")
+theme_override_colors/font_color = Color(0.6344296, 0.6344296, 0.6344295, 1)
+theme_override_font_sizes/font_size = 14
+text = "GO BACK"
+
 [node name="MAPPING" type="Control" parent="LevelCreator" unique_id=401597931]
 clip_contents = true
 layout_mode = 2
@@ -647,27 +705,14 @@ size_flags_horizontal = 0
 theme = ExtResource("1_evwkm")
 text = "<<"
 
-[node name="go_to_prev_beat" type="Button" parent="LevelCreator/MAPPING/HBoxContainer" unique_id=129927762]
-custom_minimum_size = Vector2(34.845, 0)
-layout_mode = 2
-size_flags_horizontal = 0
-theme = ExtResource("1_evwkm")
-text = "<"
-
 [node name="start" type="Button" parent="LevelCreator/MAPPING/HBoxContainer" unique_id=2072190154]
 custom_minimum_size = Vector2(34.845, 0)
 layout_mode = 2
 size_flags_horizontal = 0
 theme = ExtResource("1_evwkm")
+shortcut = SubResource("Shortcut_8nwwt")
 icon = ExtResource("1_0xnud")
 icon_alignment = 1
-
-[node name="go_to_next_beat" type="Button" parent="LevelCreator/MAPPING/HBoxContainer" unique_id=477744090]
-custom_minimum_size = Vector2(34.845, 0)
-layout_mode = 2
-size_flags_horizontal = 0
-theme = ExtResource("1_evwkm")
-text = ">"
 
 [node name="go_to_end" type="Button" parent="LevelCreator/MAPPING/HBoxContainer" unique_id=926839668]
 custom_minimum_size = Vector2(34.845, 0)
@@ -715,15 +760,15 @@ unique_name_in_owner = true
 [node name="beat_collumn" type="Node2D" parent="LevelCreator/MAPPING" unique_id=1308920766]
 position = Vector2(145, 86)
 
-[node name="AudioStreamPreview" parent="LevelCreator/MAPPING/beat_collumn" unique_id=2097105430 instance=ExtResource("9_lki77")]
+[node name="AudioStreamPreview" type="TextureRect" parent="LevelCreator/MAPPING/beat_collumn" unique_id=2097105430]
 modulate = Color(1, 1, 1, 0.19215687)
-custom_minimum_size = Vector2(2003, 0)
-offset_left = -1.0
+custom_minimum_size = Vector2(3520, 0)
 offset_top = -4.0
-offset_right = 2002.0
+offset_right = 3520.0
 offset_bottom = 60.0
+texture = ExtResource("11_8nwwt")
 expand_mode = 1
-px_per_sec = 20.0
+stretch_mode = 1
 
 [node name="Add Shape" type="Button" parent="LevelCreator/MAPPING" unique_id=1189623053]
 layout_mode = 0
@@ -831,56 +876,8 @@ grow_vertical = 0
 theme = ExtResource("1_evwkm")
 text = "IMPORT"
 
-[node name="Draw Area" type="Control" parent="." unique_id=1546263466]
-anchors_preset = 0
-offset_left = 419.0
-offset_top = 28.0
-offset_right = 613.0
-offset_bottom = 222.0
-
-[node name="Label" type="Label" parent="Draw Area" unique_id=2061561535]
-modulate = Color(0.4045111, 0.40451115, 0.4045111, 1)
-layout_mode = 1
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -20.0
-offset_top = -11.5
-offset_right = 20.0
-offset_bottom = 11.5
-grow_horizontal = 2
-grow_vertical = 2
-theme = ExtResource("1_evwkm")
-text = "Draw Here"
-
-[node name="HBoxContainer3" type="HBoxContainer" parent="." unique_id=199430973]
-layout_mode = 0
-offset_left = 408.0
-offset_top = 309.0
-offset_right = 498.0
-offset_bottom = 329.0
-theme_override_constants/separation = 8
-
-[node name="TextureRect" type="TextureRect" parent="HBoxContainer3" unique_id=2136734277]
-modulate = Color(1, 0.18431373, 0.039215688, 1)
-layout_mode = 2
-size_flags_horizontal = 0
-size_flags_vertical = 8
-texture = ExtResource("11_7fl6t")
-
-[node name="Label" type="Label" parent="HBoxContainer3" unique_id=1864570538]
-layout_mode = 2
-size_flags_horizontal = 0
-theme = ExtResource("1_evwkm")
-theme_override_colors/font_color = Color(0.6344296, 0.6344296, 0.6344295, 1)
-theme_override_font_sizes/font_size = 14
-text = "GO BACK"
-
 [connection signal="chart_imported" from="." to="LevelCreator/METADATA" method="when_import"]
 [connection signal="chart_imported" from="." to="LevelCreator/MAPPING" method="_on_level_creator_chart_imported"]
-[connection signal="export_requested" from="." to="LevelCreator/METADATA" method="when_export"]
 [connection signal="guessed_shape" from="draw" to="." method="_on_draw_guessed_shape"]
 [connection signal="dir_selected" from="ExportPopup" to="." method="_on_export_popup_dir_selected"]
 [connection signal="file_selected" from="LoadSong" to="LevelCreator/METADATA" method="_on_song_file_selected"]
@@ -888,6 +885,8 @@ text = "GO BACK"
 [connection signal="file_selected" from="LoadVideoBG" to="LevelCreator/METADATA" method="_on_load_video_bg_file_selected"]
 [connection signal="file_selected" from="LoadBG" to="LevelCreator/METADATA" method="_on_load_bg_file_selected"]
 [connection signal="file_selected" from="ImportPopup" to="." method="_on_import_popup_file_selected"]
+[connection signal="mouse_entered" from="LevelCreator/METADATA/ScrollContainer" to="." method="_on_scroll_container_mouse_entered"]
+[connection signal="mouse_exited" from="LevelCreator/METADATA/ScrollContainer" to="." method="_on_scroll_container_mouse_exited"]
 [connection signal="text_submitted" from="LevelCreator/METADATA/ScrollContainer/MarginContainer/VBoxContainer/song_path/HBoxContainer/SongPathEdit" to="LevelCreator/METADATA" method="_on_song_text_submitted"]
 [connection signal="pressed" from="LevelCreator/METADATA/ScrollContainer/MarginContainer/VBoxContainer/song_path/HBoxContainer/BrowseSongButton" to="LevelCreator/METADATA" method="_on_browse_pressed"]
 [connection signal="pressed" from="LevelCreator/METADATA/ScrollContainer/MarginContainer/VBoxContainer/video_bg_path/HBoxContainer/BrowseVideoBgButton" to="LevelCreator/METADATA" method="_on_browse_video_bg_button_pressed"]
@@ -902,10 +901,12 @@ text = "GO BACK"
 [connection signal="pressed" from="LevelCreator/METADATA/ScrollContainer/MarginContainer/VBoxContainer/start_beat/VBoxContainer/control_button/BeatPlay" to="LevelCreator/METADATA" method="_on_beat_play"]
 [connection signal="pressed" from="LevelCreator/METADATA/ScrollContainer/MarginContainer/VBoxContainer/start_beat/VBoxContainer/control_button/BeatGotoEnd" to="LevelCreator/METADATA" method="_on_beat_nudge_plus"]
 [connection signal="value_changed" from="LevelCreator/METADATA/ScrollContainer/MarginContainer/VBoxContainer/Difficulty/HBoxContainer/DiffSpin" to="LevelCreator/METADATA" method="_on_diff_changed"]
+[connection signal="mouse_entered" from="LevelCreator/METADATA/Draw Area" to="." method="_on_draw_area_mouse_entered"]
+[connection signal="mouse_exited" from="LevelCreator/METADATA/Draw Area" to="." method="_on_draw_area_mouse_exited"]
+[connection signal="mouse_entered" from="LevelCreator/MAPPING" to="." method="_on_mapping_mouse_entered"]
+[connection signal="mouse_exited" from="LevelCreator/MAPPING" to="." method="_on_mapping_mouse_exited"]
 [connection signal="pressed" from="LevelCreator/MAPPING/HBoxContainer/start" to="LevelCreator/MAPPING" method="_on_start_pressed"]
 [connection signal="pressed" from="TopBar/TABS/MetadataButton" to="." method="_on_metadata_pressed"]
 [connection signal="pressed" from="TopBar/TABS/MappingButton" to="." method="_on_mapping_pressed"]
 [connection signal="pressed" from="ExportButton" to="." method="_on_export_button_pressed"]
 [connection signal="pressed" from="ImportFile" to="." method="_on_import_file_pressed"]
-[connection signal="mouse_entered" from="Draw Area" to="." method="_on_draw_area_mouse_entered"]
-[connection signal="mouse_exited" from="Draw Area" to="." method="_on_draw_area_mouse_exited"]

@@ -3,7 +3,7 @@
 [ext_resource type="Script" path="res://addons/audio_preview/AudioStreamPreview.gd" id="1_iyim8"]
 [ext_resource type="PackedScene" uid="uid://c2fo50owdhh06" path="res://addons/audio_preview/voice_preview_generator.tscn" id="2_mjwvs"]
 
-[node name="AudioStreamPreview" type="TextureRect"]
+[node name="AudioStreamPreview" type="Control"]
 offset_right = 826.0
 offset_bottom = 64.0
 script = ExtResource("1_iyim8")

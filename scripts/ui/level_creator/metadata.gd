@@ -8,9 +8,9 @@ extends Control
 @onready var _picker: ColorPicker = %ColorPicker
 @onready var _list: HBoxContainer = %list_colorscheme
 @onready var _preview_slider: HSlider = %PreviewSlider
-@onready var _preview_label: Label = %PreviewLabel
+@onready var _preview_label: LineEdit = %PreviewLabelEdit
 @onready var _beat_slider: HSlider = %BeatSlider
-@onready var _beat_label: Label = %BeatLabel
+@onready var _beat_label: LineEdit = %BeatLabelEdit
 @onready var _bpm_spin: SpinBox = %BpmSpin
 @onready var _diff_spin: SpinBox = %DiffSpin
 @onready var _diff_label: Label = %DiffLabel
@@ -29,6 +29,10 @@ func _ready() -> void:
 	_on_preview_changed(_preview_slider.value)
 	_on_beat_changed(_beat_slider.value)
 	_on_diff_changed(_diff_spin.value)
+	_preview_label.text_submitted.connect(_on_preview_text_submitted)
+	_preview_label.focus_exited.connect(_on_preview_edit_focus_exited)
+	_beat_label.text_submitted.connect(_on_beat_text_submitted)
+	_beat_label.focus_exited.connect(_on_beat_edit_focus_exited)
 	for child in _list.get_children():
 		if child is ColorRect:
 			_make_removable(child)
@@ -42,11 +46,13 @@ func _process(_delta: float) -> void:
 	_sync_slider(_beat_player, _beat_slider, _beat_label)
 
 
-func _sync_slider(player: AudioStreamPlayer, slider: HSlider, label: Label) -> void:
-	if player == null or slider == null:
+func _sync_slider(player: AudioStreamPlayer, slider: HSlider, label: LineEdit) -> void:
+	if player == null or slider == null or label == null:
 		return
 	if player.stream == null:
 		return
+	if label.has_focus():
+		return # don't clobber what the user is currently typing
 	if player.playing and not player.stream_paused:
 		var ms := int(player.get_playback_position() * 1000.0)
 		ms = clampi(ms, int(slider.min_value), int(slider.max_value))
@@ -141,7 +147,9 @@ func is_export_ready() -> bool:
 
 ## UI getter for level_creator's export flow.
 ## Returns plain data; file/folder IO stays in level_creator.gd.
-func when_export() -> Dictionary:
+## _dest_dir is ignored but accepted so `export_requested` signal (String) can
+## still be connected without error — see level_creator.tscn.
+func when_export(_dest_dir: String = "") -> Dictionary:
 	return {
 		"name": _name_edit.text.strip_edges() if _name_edit else "",
 		"source": _source_edit.text.strip_edges() if _source_edit else "",
@@ -274,7 +282,7 @@ func _on_beat_nudge_plus() -> void:
 ## _on_preview_changed/_on_beat_changed don't re-trigger play()), restart the
 ## player with a single play() (no stop-then-play gap), and let a generation
 ## counter invalidate stale stop-timers so spam-clicking never queues or drops.
-func _do_nudge(slider: HSlider, label: Label, player: AudioStreamPlayer, dir: float) -> void:
+func _do_nudge(slider: HSlider, label: LineEdit, player: AudioStreamPlayer, dir: float) -> void:
 	var marker_ms := clampi(
 		int(slider.value) + int(NUDGE_MS * dir), int(slider.min_value), int(slider.max_value)
 	)
@@ -335,6 +343,69 @@ func _on_beat_changed(v: float) -> void:
 	_beat_label.text = _format_ms(int(v))
 	if _beat_player.stream != null and _beat_player.playing and not _beat_player.stream_paused:
 		_beat_player.play(float(v) / 1000.0)
+
+
+## Typed playback position: Enter (or focus-out) in the time field seeks the
+## slider/player. Accepts "m:ss.mmm" (e.g. 1:23.456), plain milliseconds
+## (e.g. 83456 / 83456ms) or seconds (e.g. 83.456 / 83.456s).
+func _on_preview_text_submitted(text: String) -> void:
+	_apply_typed_time(_preview_label, _preview_slider, _preview_player, text)
+	_preview_label.release_focus()
+
+
+func _on_beat_text_submitted(text: String) -> void:
+	_apply_typed_time(_beat_label, _beat_slider, _beat_player, text)
+	_beat_label.release_focus()
+
+
+func _on_preview_edit_focus_exited() -> void:
+	_apply_typed_time(_preview_label, _preview_slider, _preview_player, _preview_label.text)
+
+
+func _on_beat_edit_focus_exited() -> void:
+	_apply_typed_time(_beat_label, _beat_slider, _beat_player, _beat_label.text)
+
+
+func _apply_typed_time(
+	edit: LineEdit, slider: HSlider, player: AudioStreamPlayer, text: String
+) -> void:
+	if edit == null or slider == null:
+		return
+	var ms := _parse_ms(text)
+	if ms < 0:
+		edit.text = _format_ms(int(slider.value)) # invalid: revert
+		return
+	ms = clampi(ms, int(slider.min_value), int(slider.max_value))
+	slider.value = ms # emits value_changed -> seeks if playing, updates field
+	edit.text = _format_ms(ms)
+	edit.caret_column = edit.text.length()
+
+
+## Parses a user-typed time into milliseconds, or -1 when invalid.
+func _parse_ms(raw: String) -> int:
+	var s := raw.strip_edges().to_lower().replace(",", ".")
+	if s.is_empty():
+		return -1
+	if s.ends_with("ms"):
+		s = s.trim_suffix("ms").strip_edges()
+		return int(s) if s.is_valid_int() else -1
+	if s.ends_with("s"):
+		s = s.trim_suffix("s").strip_edges()
+		return int(round(float(s) * 1000.0)) if s.is_valid_float() else -1
+	if s.contains(":"):
+		var parts := s.split(":")
+		if parts.size() != 2:
+			return -1
+		var mins := parts[0].strip_edges()
+		var secs := parts[1].strip_edges()
+		if not mins.is_valid_int() or not secs.is_valid_float():
+			return -1
+		return int(mins) * 60000 + int(round(float(secs) * 1000.0))
+	if s.is_valid_int():
+		return int(s) # plain number = milliseconds
+	if s.is_valid_float():
+		return int(round(float(s) * 1000.0)) # decimal without unit = seconds
+	return -1
 
 
 func _resolve_song_abs(src: String) -> String:

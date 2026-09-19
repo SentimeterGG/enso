@@ -14,13 +14,14 @@ extends Control
 ##   HBoxContainer/{go_to_start,go_to_prev_beat,start,go_to_next_beat,go_to_end}
 ##   MappingPreviewPlayer (AudioStreamPlayer, unique name)
 ##   beat_collumn (Node2D) ................. scrolled container (note the sic)
-##     AudioStreamPreview (TextureRect) .... waveform, px_per_sec = sec->px
+##     AudioStreamPreview (TextureRect) .... tiling strip sized to
+##       song_length * px_per_sec; your own texture repeats across it
+##       (stretch_mode = TILE), so no giant texture is ever allocated.
 ##   "Add Shape" (Button) + ShapeOption (OptionButton: L/U/Square/HLine/VLine)
 ## RETURN: transport playback + beat_times_ms markers + _shapes via get_shapes()
 
 const EDITOR_BEAT_POINT := preload("res://scenes/editor_beat_point.tscn")
 const EDITOR_SHAPE_POINT := preload("res://scenes/editor_shape_point.tscn")
-
 
 @onready var mapping_player: AudioStreamPlayer = %MappingPreviewPlayer
 @onready var timeline: HSlider = %MappingPreviewCurrentPos
@@ -30,9 +31,7 @@ const EDITOR_SHAPE_POINT := preload("res://scenes/editor_shape_point.tscn")
 @onready var hitsound: AudioStreamPlayer = %HitSound
 
 @onready var _btn_start: Button = $HBoxContainer/go_to_start
-@onready var _btn_prev: Button = $HBoxContainer/go_to_prev_beat
 @onready var _btn_play: Button = $HBoxContainer/start
-@onready var _btn_next: Button = $HBoxContainer/go_to_next_beat
 @onready var _btn_end: Button = $HBoxContainer/go_to_end
 @onready var _btn_add_shape: Button = $"Add Shape"
 @onready var _shape_option: OptionButton = $ShapeOption
@@ -52,19 +51,13 @@ const SHAPE_Y := 70.0
 ## Waveform zoom limits (px per second) for scroll-wheel zoom.
 const MIN_PX_PER_SEC := 5.0
 const MAX_PX_PER_SEC := 600.0
-## At/above this zoom the texture is re-rendered at full resolution; below it
-## we only stretch the existing texture (cheap layout change, no regen).
-const HI_RES_PX_PER_SEC := 200.0
 ## Multiplicative zoom per wheel tick: up = zoom in, down = zoom out.
 const ZOOM_FACTOR := 1.15
-## Fallback scale when the waveform node is missing.
-const FALLBACK_PX_PER_SEC := 20.0
 
 var beat_times_ms: Array[int] = []
-## Effective display zoom (px/sec). May differ from waveform.px_per_sec, which
-## is the NATIVE texture resolution — below HI_RES_PX_PER_SEC we stretch the
-## existing texture instead of re-rendering, so this is what scroll/markers use.
-var _view_pps := 20.0
+## Display zoom (px/sec). The tiling strip is sized to song_length * this,
+## so markers (x = time * pps) always line up with it.
+var _view_pps := 100.0
 ## Currently selected beat times (subset of beat_times_ms).
 var _selected: Array[int] = []
 ## Beat being dragged (original ms, -1 = none). Only x changes while dragging.
@@ -109,21 +102,22 @@ func _ready() -> void:
 	timeline.drag_ended.connect(func(_v: bool) -> void: _scrubbing = false)
 	# `start` is already connected in the .tscn; the rest are wired here.
 	_safe_connect(_btn_start, _on_go_to_start)
-	_safe_connect(_btn_prev, _on_go_to_prev_beat)
-	_safe_connect(_btn_next, _on_go_to_next_beat)
 	_safe_connect(_btn_end, _on_go_to_end)
 	# _btn_play (`start`) may already be connected via the scene; guard doubles.
 	_safe_connect(_btn_play, _on_start_pressed)
 	_safe_connect(_btn_add_shape, _on_add_shape_pressed)
+	# Space is our global play/pause toggle (see _unhandled_key_input). Keep it
+	# away from the widgets: a focused Button would eat Space as its own press
+	# (e.g. Space re-triggering "Add Shape"), so none of them take focus.
+	for c in [_btn_start, _btn_play, _btn_end, _btn_add_shape, timeline, _shape_option]:
+		if c != null and c is Control:
+			(c as Control).focus_mode = Control.FOCUS_NONE
 	# Scroll-wheel zoom on the waveform (gui_input only fires while hovering it).
 	if waveform != null:
 		waveform.mouse_filter = Control.MOUSE_FILTER_PASS
 		if not waveform.gui_input.is_connected(_on_waveform_gui_input):
 			waveform.gui_input.connect(_on_waveform_gui_input)
-		if waveform.has_signal("generation_completed"):
-			if not waveform.generation_completed.is_connected(_on_waveform_regenerated):
-				waveform.generation_completed.connect(_on_waveform_regenerated)
-	_view_pps = _read_waveform_pps()
+	_size_waveform_strip()
 	_sync_timeline_range()
 	_update_scroll()
 	_refresh_shape_option()
@@ -149,6 +143,9 @@ func _unhandled_key_input(event: InputEvent) -> void:
 			KEY_N:
 				remove_beat_at_current()
 				get_viewport().set_input_as_handled()
+			KEY_SPACE:
+				_on_start_pressed()
+				get_viewport().set_input_as_handled()
 			KEY_DELETE, KEY_BACKSPACE:
 				if _selected_shape >= 0:
 					_delete_selected_shape()
@@ -168,7 +165,7 @@ func _unhandled_input(event: InputEvent) -> void:
 	if not waveform.get_global_rect().has_point(mb.position):
 		return
 	if mb.pressed and mb.button_index == MOUSE_BUTTON_WHEEL_UP:
-		_zoom_waveform(1) # marker Buttons ignore wheel, so it falls through here
+		_zoom_waveform(1)  # marker Buttons ignore wheel, so it falls through here
 		get_viewport().set_input_as_handled()
 	elif mb.pressed and mb.button_index == MOUSE_BUTTON_WHEEL_DOWN:
 		_zoom_waveform(-1)
@@ -180,7 +177,7 @@ func _unhandled_input(event: InputEvent) -> void:
 func _on_marker_clicked(beat_ms: int) -> void:
 	if _suppress_click:
 		_suppress_click = false
-		return # release at the end of a drag, not a real click
+		return  # release at the end of a drag, not a real click
 	if Input.is_key_pressed(KEY_SHIFT):
 		var sel := _selected.duplicate()
 		if sel.has(beat_ms):
@@ -189,7 +186,7 @@ func _on_marker_clicked(beat_ms: int) -> void:
 			sel.append(beat_ms)
 		_set_selected(sel)
 	elif _selected == [beat_ms]:
-		_set_selected([]) # clicking the selected beat unselects it
+		_set_selected([])  # clicking the selected beat unselects it
 	else:
 		_set_selected([beat_ms])
 
@@ -219,21 +216,21 @@ func _input(event: InputEvent) -> void:
 				_wave_scrubbing = false
 				_wave_moved = false
 				if was_scrub:
-					get_viewport().set_input_as_handled() # keep selection
+					get_viewport().set_input_as_handled()  # keep selection
 			_end_beat_drag()
 
 
 func _on_marker_drag_started(beat_ms: int) -> void:
 	if not _selected.has(beat_ms):
-		return # not selected: ignore the drag, release falls back to select
+		return  # not selected: ignore the drag, release falls back to select
 	_drag_beat = beat_ms
 	_drag_moved = false
 
 
 func _end_beat_drag() -> void:
 	if _drag_moved:
-		_suppress_click = true # don't toggle selection on the drag release
-		_refresh_shape_option() # selection may have changed count mid-drag
+		_suppress_click = true  # don't toggle selection on the drag release
+		_refresh_shape_option()  # selection may have changed count mid-drag
 		Input.set_default_cursor_shape(Input.CURSOR_ARROW)
 	_drag_beat = -1
 	_drag_moved = false
@@ -414,6 +411,7 @@ func _strip_beat_from_shapes(ms: int) -> void:
 
 # --- transport -------------------------------------------------------------
 
+
 func _on_start_pressed() -> void:
 	if mapping_player.stream == null:
 		return
@@ -434,53 +432,39 @@ func _on_go_to_end() -> void:
 	seek(mapping_player.stream.get_length())
 
 
-func _on_go_to_prev_beat() -> void:
-	var now_ms := int(current_time() * 1000.0)
-	var prev := -1
-	for t in beat_times_ms:
-		if t < now_ms - 1 and t > prev:
-			prev = t
-	if prev >= 0:
-		seek(float(prev) / 1000.0)
-	else:
-		seek(maxf(0.0, current_time() - 1.0))
-
-
-func _on_go_to_next_beat() -> void:
-	var now_ms := int(current_time() * 1000.0)
-	for t in beat_times_ms:
-		if t > now_ms + 1:
-			seek(float(t) / 1000.0)
-			return
-	if mapping_player.stream != null:
-		seek(minf(mapping_player.stream.get_length(), current_time() + 1.0))
-
-
 func seek(time_sec: float) -> void:
 	var clamped := maxf(0.0, time_sec)
 	if mapping_player.stream != null:
 		clamped = clampf(clamped, 0.0, mapping_player.stream.get_length())
 	timeline.set_value_no_signal(clamped)
 	if mapping_player.playing:
+		# NOTE: `playing` stays true while paused, so remember the pause or
+		# every seek would unpause the song (and prev/next would unpause too).
+		var was_paused := mapping_player.stream_paused
 		mapping_player.play(clamped)
+		mapping_player.stream_paused = was_paused
 	_update_scroll()
 
 
 func current_time() -> float:
-	if mapping_player.playing:
+	# While paused the live position is frozen, so the timeline (the actual
+	# seek target) is the truth — otherwise prev/next keep computing from
+	# the same stale head and only ever work once.
+	if mapping_player.playing and not mapping_player.stream_paused:
 		return mapping_player.get_playback_position()
 	return float(timeline.value)
 
 
 func _on_timeline_changed(v: float) -> void:
-	if _scrubbing or not mapping_player.playing:
+	if _scrubbing or not mapping_player.playing or mapping_player.stream_paused:
 		seek(v)
 		return
-	# Click-to-jump while paused: just move the playhead.
+	# While actively playing, dragging would fight _process; just scroll.
 	_update_scroll()
 
 
 # --- waveform zoom -----------------------------------------------------------
+
 
 func _on_waveform_gui_input(event: InputEvent) -> void:
 	if event is InputEventMouseButton and event.pressed:
@@ -494,40 +478,24 @@ func _on_waveform_gui_input(event: InputEvent) -> void:
 
 
 ## Scroll up zooms in (more px per second), scroll down zooms out.
-## Below HI_RES_PX_PER_SEC this only stretches the existing texture (fast);
-## at/above it the preview re-renders at full resolution.
+## Only the strip width changes (song_length * zoom); the repeating texture
+## tiles natively, so zooming never allocates anything big.
 ## The playhead stays anchored: _update_scroll() keeps "now" at RECEPTOR_X.
 func _zoom_waveform(steps: int) -> void:
 	if waveform == null or steps == 0:
-		return
-	if not ("px_per_sec" in waveform):
 		return
 	var target := clampf(_view_pps * pow(ZOOM_FACTOR, steps), MIN_PX_PER_SEC, MAX_PX_PER_SEC)
 	if is_equal_approx(target, _view_pps):
 		return
 	_view_pps = target
-	if target >= HI_RES_PX_PER_SEC or not waveform.has_method("set_display_zoom"):
-		waveform.px_per_sec = target # setter re-renders the preview at full res
-	else:
-		waveform.set_display_zoom(target) # cheap stretch, no regen
+	_size_waveform_strip()
 	_rebuild_markers()
 	_refresh_shapes()
 	_update_scroll()
 
 
-## A finished re-render snaps the rect back to native res — restore the
-## stretched view width when zoomed out below it.
-func _on_waveform_regenerated() -> void:
-	if waveform == null or not waveform.has_method("set_display_zoom"):
-		return
-	if _view_pps < float(waveform.px_per_sec) - 0.01:
-		waveform.set_display_zoom(_view_pps)
-		_rebuild_markers()
-		_refresh_shapes()
-		_update_scroll()
-
-
 # --- beats -----------------------------------------------------------------
+
 
 func add_beat_at_current() -> void:
 	if mapping_player.stream == null:
@@ -595,7 +563,9 @@ func clear_beats() -> void:
 ## the shape's required beats (shape_points.size() - 1).
 func _on_add_shape_pressed() -> void:
 	if _selected.is_empty():
-		push_warning("mapping: select at least one beat first (click a marker, Shift+click for multi).")
+		push_warning(
+			"mapping: select at least one beat first (click a marker, Shift+click for multi)."
+		)
 		return
 	if _shapes_root == null:
 		push_error("mapping: shapes container missing.")
@@ -614,8 +584,10 @@ func _on_add_shape_pressed() -> void:
 	for t in times:
 		if _beat_shape_map.has(t):
 			push_warning(
-				"mapping: beat %d is already used in shape %d, remove that shape first."
-				% [t, int(_beat_shape_map[t])]
+				(
+					"mapping: beat %d is already used in shape %d, remove that shape first."
+					% [t, int(_beat_shape_map[t])]
+				)
 			)
 			return
 	_create_shape_entry(shape_name, times)
@@ -715,9 +687,7 @@ func _shape_points(shape_name: String) -> PackedVector2Array:
 		"L":
 			return PackedVector2Array([Vector2(0, 0), Vector2(0, 1), Vector2(1, 1)])
 		"U":
-			return PackedVector2Array(
-				[Vector2(0, 0), Vector2(0, 1), Vector2(1, 1), Vector2(1, 0)]
-			)
+			return PackedVector2Array([Vector2(0, 0), Vector2(0, 1), Vector2(1, 1), Vector2(1, 0)])
 		"Square":
 			return PackedVector2Array(
 				[Vector2(0, 0), Vector2(1, 0), Vector2(1, 1), Vector2(0, 1), Vector2(0, 0)]
@@ -732,6 +702,7 @@ func _shape_points(shape_name: String) -> PackedVector2Array:
 
 
 # --- chart import / song loading -------------------------------------------
+
 
 func _on_level_creator_chart_imported(chart: ChartData) -> void:
 	if chart == null or chart.metadata.is_empty():
@@ -778,7 +749,7 @@ func _import_beats_and_shapes(chart: ChartData) -> void:
 		var pts := chart.shape_points_by_id(sid)
 		var editor_shape := _infer_editor_shape(times.size(), pts)
 		if editor_shape.is_empty():
-			continue # leave beats ungrouped (solo markers)
+			continue  # leave beats ungrouped (solo markers)
 		if times.size() != _shape_required_beats(editor_shape):
 			continue
 		_create_shape_entry(editor_shape, times)
@@ -827,27 +798,16 @@ func _load_song(path: String) -> void:
 	mapping_player.stop()
 	mapping_player.stream_paused = false
 	mapping_player.stream = stream
-	# Waveform preview only renders .wav; keep old texture for mp3/ogg.
-	if waveform != null and p.to_lower().ends_with(".wav"):
-		waveform.stream_path = p
-	# A new stream re-renders the texture at native res — re-anchor the view.
-	_view_pps = _read_waveform_pps()
+	_size_waveform_strip()
 	_sync_timeline_range()
 	seek(0.0)
 
 
 # --- internals ---------------------------------------------------------------
 
+
 func _px_per_sec() -> float:
 	return _view_pps
-
-
-## Native texture resolution of the preview (may lag behind _view_pps while
-## stretched). Used to (re)sync the view scale after load/regen.
-func _read_waveform_pps() -> float:
-	if waveform != null and "px_per_sec" in waveform:
-		return maxf(1.0, float(waveform.px_per_sec))
-	return FALLBACK_PX_PER_SEC
 
 
 func _sync_timeline_range() -> void:
@@ -865,10 +825,24 @@ func _update_scroll() -> void:
 	beat_column.position = Vector2(COLUMN_BASE.x - current_time() * _px_per_sec(), COLUMN_BASE.y)
 
 
+## Sizes the tiling strip to song_length * zoom. It starts at song time 0
+## in column space, so markers (x = time * pps) always line up with it.
+func _size_waveform_strip() -> void:
+	if waveform == null:
+		return
+	var length := 0.0
+	if mapping_player.stream != null:
+		length = maxf(0.0, mapping_player.stream.get_length())
+	var w := maxf(1.0, length * _view_pps)
+	waveform.position.x = 0.0
+	waveform.size.x = w
+	waveform.custom_minimum_size.x = w
+
+
 func _rebuild_markers() -> void:
 	if _markers_root == null:
 		return
-	_end_beat_drag() # nodes are freed below; a drag can't survive a rebuild
+	_end_beat_drag()  # nodes are freed below; a drag can't survive a rebuild
 	for child in _markers_root.get_children():
 		child.queue_free()
 	_marker_nodes.clear()
@@ -888,7 +862,6 @@ func _safe_connect(btn: Button, method: Callable) -> void:
 		return
 	if not btn.pressed.is_connected(method):
 		btn.pressed.connect(method)
-
 
 
 func _on_load_song_file_selected(path: String) -> void:

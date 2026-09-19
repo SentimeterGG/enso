@@ -34,12 +34,14 @@ func _process(_delta: float) -> void:
 
 
 func _on_mapping_pressed() -> void:
+	VolumePopup.can_popup = false
 	mapping_button.disabled = true
 	metadata_button.disabled = false
 	_slide_to(-viewport_width)
 
 
 func _on_metadata_pressed() -> void:
+	VolumePopup.can_popup = true
 	mapping_button.disabled = false
 	metadata_button.disabled = true
 	_slide_to(0.0)
@@ -348,7 +350,8 @@ func _export_shape_points(shape_name: String) -> PackedVector2Array:
 
 
 func _on_draw_guessed_shape(shape: String) -> void:
-	pass # Replace with function body.
+	if shape == "circle":
+		get_tree().call_deferred("change_scene_to_file", "res://scenes/main_menu.tscn")
 
 
 func _on_draw_area_mouse_entered() -> void:
@@ -358,4 +361,24 @@ func _on_draw_area_mouse_entered() -> void:
 
 func _on_draw_area_mouse_exited() -> void:
 	_draw.stop()
+	pass # Replace with function body.
+
+
+func _on_scroll_container_mouse_entered() -> void:
+	VolumePopup.can_popup = false
+	pass # Replace with function body.
+
+
+func _on_scroll_container_mouse_exited() -> void:
+	VolumePopup.can_popup = true
+	pass # Replace with function body.
+
+
+func _on_mapping_mouse_entered() -> void:
+	VolumePopup.can_popup = false
+	pass # Replace with function body.
+
+
+func _on_mapping_mouse_exited() -> void:
+	VolumePopup.can_popup = true
 	pass # Replace with function body.
