@@ -21,23 +21,50 @@ const HIDE_DELAY := 2.0
 var _is_visible := false
 var _pop_tween: Tween
 var _hide_token := 0
-
+var can_popup: bool = true
 
 func _ready() -> void:
 	visible = false
 	modulate.a = 0.0
 	pivot_offset = size / 2.0
+	grab_volume_config()
 	_set_scale(POP_SCALE_START)
 	_connect_sliders()
 	_sync_sliders_to_audio()
 
+func grab_volume_config():
+	_apply_bus_volume("Effect", Global.settingsData.effects_volume)
+	_update_label(effects_slider, effects_label)
+	_apply_bus_volume("Master", Global.settingsData.master_volume)
+	_update_label(master_slider, master_label)
+	_apply_bus_volume("Music", Global.settingsData.music_volume)
+	_update_label(music_slider, music_label)
+
+# Just pushes to AudioServer — no Global writes, no disk saves.
+func _apply_bus_volume(bus_name: String, value: float) -> void:
+	var idx := AudioServer.get_bus_index(bus_name)
+	if idx != -1:
+		AudioServer.set_bus_volume_db(idx, _slider_to_db(value))
+
+
+func save_volume():
+	Global.settingsData.effects_volume = effects_slider.value
+	Global.settingsData.master_volume = master_slider.value
+	Global.settingsData.music_volume = music_slider.value
+	Global.save(Global.settingsData, Global.settingsData.save_file_name)
 
 func _unhandled_input(event: InputEvent) -> void:
 	if event is InputEventMouseButton and event.pressed:
 		if event.button_index == MOUSE_BUTTON_WHEEL_UP:
-			_scroll_volume(VOLUME_STEP)
+			if not _mouse_over_slider():
+				_scroll_volume(VOLUME_STEP)
+				
 		elif event.button_index == MOUSE_BUTTON_WHEEL_DOWN:
-			_scroll_volume(-VOLUME_STEP)
+			if not _mouse_over_slider():
+				_scroll_volume(-VOLUME_STEP)
+				
+	elif event.is_action_pressed("fire"):
+		_hide_popup()
 
 
 func _scroll_volume(delta: float) -> void:
@@ -119,9 +146,15 @@ func _adjust_master_volume(delta: float) -> void:
 		return
 	var current_db: float = AudioServer.get_bus_volume_db(bus_index)
 	var new_db: float = clamp(current_db + delta, VOLUME_MIN, VOLUME_MAX)
+
+	if new_db == current_db:
+		return
+
 	AudioServer.set_bus_volume_db(bus_index, new_db)
 	master_slider.set_value_no_signal(_db_to_slider(new_db))
 	_update_label(master_slider, master_label)
+	%OsuHitSound.play()
+
 
 
 func _connect_sliders() -> void:
@@ -133,7 +166,7 @@ func _connect_sliders() -> void:
 func _sync_sliders_to_audio() -> void:
 	music_slider.set_value_no_signal(_get_bus_slider_value("Music"))
 	master_slider.set_value_no_signal(_get_bus_slider_value("Master"))
-	effects_slider.set_value_no_signal(_get_bus_slider_value("Effects"))
+	effects_slider.set_value_no_signal(_get_bus_slider_value("Effect"))
 	_update_label(music_slider, music_label)
 	_update_label(master_slider, master_label)
 	_update_label(effects_slider, effects_label)
@@ -142,22 +175,28 @@ func _sync_sliders_to_audio() -> void:
 func _on_music_changed(value: float) -> void:
 	_set_bus_volume("Music", value)
 	_update_label(music_slider, music_label)
+	_restart_hide_timer()
+	%OsuHitSound.play()
 
 
 func _on_master_changed(value: float) -> void:
 	_set_bus_volume("Master", value)
 	_update_label(master_slider, master_label)
+	_restart_hide_timer()
+	%OsuHitSound.play()
 
 
 func _on_effects_changed(value: float) -> void:
-	_set_bus_volume("Effects", value)
+	_set_bus_volume("Effect", value)
 	_update_label(effects_slider, effects_label)
+	_restart_hide_timer()
+	%OsuHitSound.play()
+
 
 
 func _set_bus_volume(bus_name: String, value: float) -> void:
-	var idx := AudioServer.get_bus_index(bus_name)
-	if idx != -1:
-		AudioServer.set_bus_volume_db(idx, _slider_to_db(value))
+	_apply_bus_volume(bus_name, value)
+	save_volume()
 
 
 func _get_bus_slider_value(bus_name: String) -> float:
@@ -165,6 +204,7 @@ func _get_bus_slider_value(bus_name: String) -> float:
 	if idx != -1:
 		return _db_to_slider(AudioServer.get_bus_volume_db(idx))
 	return 100.0
+
 
 
 func _slider_to_db(val: float) -> float:
@@ -181,3 +221,17 @@ func _update_label(slider: HSlider, label: Label) -> void:
 
 func _set_scale(s: float) -> void:
 	scale = Vector2.ONE * s
+
+func _mouse_over_slider() -> bool:
+	var mouse_pos := get_global_mouse_position()
+	
+	if music_slider.get_global_rect().has_point(mouse_pos):
+		return true
+	
+	if master_slider.get_global_rect().has_point(mouse_pos):
+		return true
+	
+	if effects_slider.get_global_rect().has_point(mouse_pos):
+		return true
+	
+	return false

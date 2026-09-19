@@ -440,6 +440,7 @@ joint_mode = 0
 begin_cap_mode = 1
 end_cap_mode = 1
 min_direction_sample = 2.0
+direction_threshold_degrees = 45.0
 recognizer = SubResource("Resource_ir15t")
 target_shape = NodePath("../target_shape")
 

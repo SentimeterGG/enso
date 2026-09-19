@@ -10,16 +10,21 @@ extends Control
 func _ready() -> void:
 	$RB/MarginContainer/ENSO/Bobbing.play("idle")
 	$Transition.play("Opening")
+	draw_manager.start()
 
 
 func _on_transition_animation_finished(anim_name: StringName) -> void:
 	if anim_name == "Opening":
-		draw_manager.start()
+		pass
 	elif anim_name == "Out":
 		get_tree().change_scene_to_file("res://scenes/level_selector.tscn")
+	elif anim_name == "Out_settings":
+		get_tree().change_scene_to_file("res://scenes/settings_tab.tscn")
 
 
 func _on_draw_guessed_shape(shape: String) -> void:
 	if shape == "circle":
+		$Transition.play("Out")
+	elif shape == "line":
 		$Transition.play("Out")
 	pass  # Replace with function body.
