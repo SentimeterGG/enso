@@ -95,7 +95,7 @@ position = Vector2i(0, 36)
 popup_window = true
 file_mode = 0
 access = 2
-filters = PackedStringArray("*.wav")
+filters = PackedStringArray("*.wav", "*.mp3", "*.ogg")
 use_native_dialog = true
 
 [node name="LoadVideoBG" type="FileDialog" parent="." unique_id=422927780]

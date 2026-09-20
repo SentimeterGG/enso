@@ -57,3 +57,4 @@ func _on_animator_animation_finished(anim_name: StringName) -> void:
 			sc.refresh_od()
 			sc.reset()
 	%TransOffset.modulate = Color(1.0, 1.0, 1.0, Global.settingsData.bg_visibilty*0.01)
+
