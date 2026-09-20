@@ -13,7 +13,11 @@ var go_to: GoTo = GoTo.NONE
 func _ready() -> void:
 	VolumePopup.can_popup = true
 	$RB/MarginContainer/ENSO/Bobbing.play("idle")
-	$Transition.play("Opening")
+	if Global.first_time_playing:
+		Global.first_time_playing = false
+		$Transition.play("first_time_opening")
+	else:
+		$Transition.play("Opening")
 	draw_manager.start()
 
 

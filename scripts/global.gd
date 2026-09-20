@@ -1,11 +1,15 @@
 extends Node
 var current_chart: ChartData = null
 
+var first_time_playing: bool = true
+
 var save_file_path = "user://ENSO_FILES/"
 
 
 # Settings and Main Menu variables.
 var settingsData = SettingsData.new()
+
+
 
 signal toggle_window
 
