@@ -1,6 +1,5 @@
 extends Control
 
-@onready var exit_button: Button = $setting/ExitButton
 @onready var animation_player: AnimationPlayer = $AnimationPlayer
 @onready var fs_button: Button = $setting/FSButton
 @onready var bg_button: Button = $setting/BGButton

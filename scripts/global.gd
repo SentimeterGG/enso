@@ -3,7 +3,6 @@ var current_chart: ChartData = null
 
 var save_file_path = "user://ENSO_FILES/"
 
-
 # Settings and Main Menu variables.
 var settingsData = SettingsData.new()
 
@@ -53,3 +52,56 @@ func load_data(res_class: Resource):
 	
 	# ALWAYS return something
 	return temp
+
+func choose_random_chart() -> ChartData:
+	var by_folder: Dictionary = {}
+	for base_dir in ["res://levels", "user://levels"]:
+		for chart_path in _find_charts_in(base_dir):
+			var key := chart_path.get_file()
+			if chart_path.get_base_dir() != base_dir:
+				key = chart_path.get_base_dir().get_file()
+			else:
+				key = "::file::" + key
+			by_folder[key] = chart_path
+	var paths: Array[String] = []
+	for key in by_folder:
+		var candidate := String(by_folder[key])
+		if not ChartParser.has_unsetup_notes(candidate):
+			paths.append(candidate)
+	if paths.is_empty():
+		push_warning("global: no complete charts available for random pick.")
+		return null
+	var picked: String = paths[randi() % paths.size()]
+	var chart := ChartParser.load(picked)
+	if chart == null or chart.is_empty():
+		push_warning("global: failed to load random chart: " + picked)
+		return null
+	current_chart = chart
+	return chart
+
+
+## Same chart scan as level_list._find_charts_in (kept in sync manually).
+func _find_charts_in(base_dir: String) -> Array[String]:
+	var out: Array[String] = []
+	if base_dir == "user://levels" and not DirAccess.dir_exists_absolute(base_dir):
+		DirAccess.make_dir_recursive_absolute(base_dir)
+	if not DirAccess.dir_exists_absolute(base_dir):
+		return out
+	for sub in DirAccess.get_directories_at(base_dir):
+		var folder := base_dir.path_join(sub)
+		var candidates: Array[String] = []
+		for f in DirAccess.get_files_at(folder):
+			if f.get_extension().to_lower() == "enso":
+				candidates.append(f)
+		if candidates.is_empty():
+			continue
+		candidates.sort()
+		var picked := "chart.enso"
+		if not candidates.has(picked):
+			picked = candidates[0]
+		out.append(folder.path_join(picked))
+	for f in DirAccess.get_files_at(base_dir):
+		if f.get_extension().to_lower() == "enso":
+			out.append(base_dir.path_join(f))
+	out.sort()
+	return out
