@@ -53,9 +53,9 @@ func begin(global_mouse_pos: Vector2) -> void:
 
 
 func end() -> void:
-	emit_signal("draw_ended")
 	drawing = false
 	if current_line == null:
+		emit_signal("draw_ended")
 		return
 	var line := current_line
 	#TODO change to target data
@@ -65,6 +65,7 @@ func end() -> void:
 	else:
 		var shape_accuracy := recognizer.compare(line.points, target_shape.points)
 		emit_signal("shape_accuracy_ready", shape_accuracy)
+	emit_signal("draw_ended")
 	current_line = null
 	var tween := owner.create_tween()
 	tween.tween_property(line, "modulate:a", 0.0, fade_duration)

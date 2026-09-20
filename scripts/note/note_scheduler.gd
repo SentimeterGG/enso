@@ -36,7 +36,7 @@ func _refresh_lead(note_manager: Node2D) -> void:
 
 
 func process(
-	note_manager: Node2D, music: AudioStreamPlayer, charts: ChartData, target_shape: Line2D
+	note_manager: Node2D, music: AudioStreamPlayer, charts: ChartData, target_shape: Line2D = null
 ):
 	if playing == false:
 		return
@@ -53,7 +53,7 @@ func process(
 		var current_id := str(note.get("id", ""))
 		var hit_sec: float = float(note.get("start_time", note.get("time", 0.0))) / 1000.0
 		var color: Color = charts.shape_colors.get(current_id, Color.WHITE)
-		note_manager.spawn(hit_sec, color)
+		note_manager.spawn(hit_sec, color, current_id)
 
 		if current_id != last_shape_id:
 			var group: Dictionary = charts.shape_group(current_id)
@@ -69,18 +69,9 @@ func process(
 
 		_note_cursor += 1
 
-	while _shape_cursor < charts.shape_count():
-		var shape_time: Array = charts.shape_time(_shape_cursor)
-
-		if playback_pos >= float(shape_time[0]) / 1000.0 and not _shape_spawned:
-			target_shape.change(charts.shape_points_at(_shape_cursor))
-			_shape_spawned = true
-
-		if playback_pos >= float(shape_time[1]) / 1000.0:
-			_shape_cursor += 1
-			_shape_spawned = false  # reset for the NEXT shape
-		else:
-			break
+	# NOTE: target_shape display is no longer time-driven here.
+	# It is now driven by beat_column.gd:144-148 (_on_draw_started) per locked hit_id,
+	# so we keep _shape_cursor/_shape_spawned unused (reset only on start/end).
 	pass
 
 

@@ -3,7 +3,7 @@
 # RETURN: synced notes, target shape display and music timing for drawing and judging
 extends Node2D
 
-const CHART_PATH := "res://levels/Wasurete-Yaranai/chart.enso"
+@export var CHART_PATH := "res://levels/Wasurete-Yaranai/chart.enso"
 @onready var draw_manager: Line2D = $draw
 @onready var note_manager: Node2D = $note_manager
 @onready var target_shape: Line2D = $target_shape
@@ -46,4 +46,8 @@ func _on_animator_animation_finished(anim_name: StringName) -> void:
 		target_shape.clear_points()
 		note_scheduler.start(note_manager)
 		draw_manager.start()
+		var sc := get_node_or_null("%accuracy_manager")
+		if sc != null and sc.has_method("reset"):
+			sc.refresh_od()
+			sc.reset()
 	pass  # Replace with function body.

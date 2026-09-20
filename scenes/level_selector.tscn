@@ -522,6 +522,7 @@ guess_mode = true
 [node name="beat_sound" type="AudioStreamPlayer" parent="." unique_id=1070158643]
 stream = ExtResource("10_ljvb0")
 volume_db = 24.0
+bus = &"Effect"
 
 [connection signal="mouse_entered" from="Main Content/HBoxContainer/LSide" to="." method="_on_l_side_mouse_entered"]
 [connection signal="mouse_exited" from="Main Content/HBoxContainer/LSide" to="." method="_on_l_side_mouse_exited"]
