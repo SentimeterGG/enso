@@ -73,6 +73,7 @@ mouse_filter = 2
 script = ExtResource("1_qesna")
 
 [node name="draw" parent="." unique_id=2118743800 instance=ExtResource("2_8nwwt")]
+weight = 0.5
 guess_mode = true
 
 [node name="ExportPopup" type="FileDialog" parent="." unique_id=16765379]
@@ -624,6 +625,7 @@ offset_bottom = 222.0
 
 [node name="Label" type="Label" parent="LevelCreator/METADATA/Draw Area" unique_id=2061561535]
 modulate = Color(0.4045111, 0.40451115, 0.4045111, 1)
+z_index = -1
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
@@ -760,6 +762,7 @@ default_color = Color(0.62152386, 0.62152386, 0.6215238, 1)
 
 [node name="MappingPreviewPlayer" type="AudioStreamPlayer" parent="LevelCreator/MAPPING" unique_id=1682768576]
 unique_name_in_owner = true
+bus = &"Music"
 
 [node name="beat_collumn" type="Node2D" parent="LevelCreator/MAPPING" unique_id=1308920766]
 position = Vector2(145, 86)
@@ -1034,7 +1037,9 @@ text = "Confirm"
 [connection signal="file_selected" from="ImportPopup" to="." method="_on_import_popup_file_selected"]
 [connection signal="mouse_entered" from="LevelCreator/METADATA/ScrollContainer" to="." method="_on_scroll_container_mouse_entered"]
 [connection signal="mouse_exited" from="LevelCreator/METADATA/ScrollContainer" to="." method="_on_scroll_container_mouse_exited"]
+[connection signal="text_changed" from="LevelCreator/METADATA/ScrollContainer/MarginContainer/VBoxContainer/song_name/SongNameEdit" to="." method="_on_song_fields_changed"]
 [connection signal="text_submitted" from="LevelCreator/METADATA/ScrollContainer/MarginContainer/VBoxContainer/song_name/SongNameEdit" to="." method="_on_song_name_edit_text_submitted"]
+[connection signal="text_changed" from="LevelCreator/METADATA/ScrollContainer/MarginContainer/VBoxContainer/song_author/SongAuthorEdit" to="." method="_on_song_fields_changed"]
 [connection signal="text_submitted" from="LevelCreator/METADATA/ScrollContainer/MarginContainer/VBoxContainer/song_author/SongAuthorEdit" to="." method="_on_song_author_edit_text_submitted"]
 [connection signal="text_submitted" from="LevelCreator/METADATA/ScrollContainer/MarginContainer/VBoxContainer/song_path/HBoxContainer/SongPathEdit" to="LevelCreator/METADATA" method="_on_song_text_submitted"]
 [connection signal="pressed" from="LevelCreator/METADATA/ScrollContainer/MarginContainer/VBoxContainer/song_path/HBoxContainer/BrowseSongButton" to="LevelCreator/METADATA" method="_on_browse_pressed"]

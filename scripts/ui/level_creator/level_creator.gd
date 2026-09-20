@@ -31,11 +31,6 @@ func _ready() -> void:
 	viewport_size = get_viewport_rect().size
 	viewport_width = viewport_size.x
 	_sync_export_button()
-	DiscordRPC.set_activity("Drawing a map", "")
-	if _name_edit != null and not _name_edit.text_changed.is_connected(_on_song_fields_changed):
-		_name_edit.text_changed.connect(_on_song_fields_changed)
-	if _source_edit != null and not _source_edit.text_changed.is_connected(_on_song_fields_changed):
-		_source_edit.text_changed.connect(_on_song_fields_changed)
 	_update_discord_activity()
 
 
