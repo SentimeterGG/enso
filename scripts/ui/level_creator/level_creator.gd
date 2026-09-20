@@ -32,6 +32,11 @@ func _ready() -> void:
 	viewport_width = viewport_size.x
 	_sync_export_button()
 	DiscordRPC.set_activity("Drawing a map", "")
+	if _name_edit != null and not _name_edit.text_changed.is_connected(_on_song_fields_changed):
+		_name_edit.text_changed.connect(_on_song_fields_changed)
+	if _source_edit != null and not _source_edit.text_changed.is_connected(_on_song_fields_changed):
+		_source_edit.text_changed.connect(_on_song_fields_changed)
+	_update_discord_activity()
 
 
 func _process(_delta: float) -> void:
@@ -88,6 +93,9 @@ func _on_import_popup_file_selected(path: String) -> void:
 		return
 
 	chart_imported.emit(chart)
+	# metadata.when_import() runs synchronously via signal, so LineEdits
+	# are already filled here — refresh Discord state from them.
+	_update_discord_activity()
 
 
 func _on_export_button_pressed() -> void:
@@ -420,11 +428,32 @@ func _on_mapping_mouse_exited() -> void:
 	pass # Replace with function body.
 
 
-func _on_song_name_edit_text_submitted(new_text: String) -> void:
-	DiscordRPC.set_activity("Drawing a map", new_text + " - " + _source_edit.text)
-	pass # Replace with function body.
+func _on_song_name_edit_text_submitted(_new_text: String) -> void:
+	_update_discord_activity()
 
 
-func _on_song_author_edit_text_submitted(new_text: String) -> void:
-	DiscordRPC.set_activity("Drawing a map", _name_edit.text + " - " + new_text)
-	pass # Replace with function body.
+func _on_song_author_edit_text_submitted(_new_text: String) -> void:
+	_update_discord_activity()
+
+
+## Live update while typing (text_changed) + shared helper so the
+## state string is always "%SongNameEdit% - %Source Song%".
+func _on_song_fields_changed(_new_text: String) -> void:
+	_update_discord_activity()
+
+
+func _update_discord_activity() -> void:
+	var song_name := ""
+	var source := ""
+	if _name_edit != null:
+		song_name = _name_edit.text.strip_edges()
+	if _source_edit != null:
+		source = _source_edit.text.strip_edges()
+	var state := ""
+	if not song_name.is_empty() and not source.is_empty():
+		state = song_name + " - " + source
+	elif not song_name.is_empty():
+		state = song_name
+	elif not source.is_empty():
+		state = source
+	DiscordRPC.set_activity("Drawing a map", state)

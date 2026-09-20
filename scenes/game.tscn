@@ -20,6 +20,35 @@
 [ext_resource type="Texture2D" uid="uid://de6i1fsn617lk" path="res://assets/sprites/mio/miss.png" id="15_37s47"]
 [ext_resource type="Texture2D" uid="uid://dw6pufcrm187d" path="res://assets/sprites/mio/ok.png" id="16_bt5mj"]
 [ext_resource type="Texture2D" uid="uid://bphlu7q5n16po" path="res://assets/sprites/mio/perfect.png" id="17_e1j6l"]
+[ext_resource type="Script" uid="uid://cgexcg0nwy5g1" path="res://scripts/ui/pause_screen.gd" id="21_5newe"]
+
+[sub_resource type="Animation" id="Animation_5newe"]
+resource_name = "CountdownAfterPause"
+length = 1.5333333
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("UI/COUNTDOWN:text")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(-2.9802322e-08, 0.3, 0.53333336, 0.8, 1.0999999, 1.5333333),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1),
+"update": 1,
+"values": ["", "1", "2", "3", "GO", ""]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("UI/COUNTDOWN:modulate")
+tracks/1/interp = 0
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0.033333335, 1.5333333),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 1), Color(1, 1, 1, 0)]
+}
 
 [sub_resource type="Animation" id="Animation_0tnpc"]
 resource_name = "Intro"
@@ -27,7 +56,7 @@ length = 3.0000000000000004
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
-tracks/0/path = NodePath("accuracy_manager:modulate")
+tracks/0/path = NodePath("target_shape/accuracy_manager:modulate")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
@@ -55,10 +84,10 @@ tracks/2/path = NodePath("UI/COUNTDOWN:text")
 tracks/2/interp = 1
 tracks/2/loop_wrap = true
 tracks/2/keys = {
-"times": PackedFloat32Array(0, 0.3, 0.53333336, 0.8, 1.1),
-"transitions": PackedFloat32Array(1, 1, 1, 1, 1),
+"times": PackedFloat32Array(0, 0.3, 0.53333336, 0.8, 1.1, 2.7333333),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1),
 "update": 1,
-"values": ["", "1", "2", "3", "GO"]
+"values": ["", "1", "2", "3", "GO", ""]
 }
 tracks/3/type = "value"
 tracks/3/imported = false
@@ -102,7 +131,7 @@ length = 0.001
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
-tracks/0/path = NodePath("accuracy_manager:modulate")
+tracks/0/path = NodePath("target_shape/accuracy_manager:modulate")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
@@ -189,6 +218,7 @@ tracks/0/keys = {
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_vtaks"]
 _data = {
+&"CountdownAfterPause": SubResource("Animation_5newe"),
 &"Intro": SubResource("Animation_0tnpc"),
 &"RESET": SubResource("Animation_vtaks"),
 &"bg_fade": SubResource("Animation_1kice")
@@ -768,6 +798,7 @@ script = ExtResource("1_uwrxv")
 
 [node name="TransOffset" type="Control" parent="." unique_id=532337667]
 unique_name_in_owner = true
+process_mode = 1
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -815,20 +846,30 @@ expand = true
 metadata/_edit_use_anchors_ = true
 
 [node name="animator" type="AnimationPlayer" parent="." unique_id=751108128]
+unique_name_in_owner = true
+process_mode = 3
 libraries/ = SubResource("AnimationLibrary_vtaks")
 
-[node name="accuracy_manager" type="Node2D" parent="." unique_id=1262186888]
+[node name="target_shape" type="Line2D" parent="." unique_id=129393694]
+process_mode = 1
+visible = false
+position = Vector2(295, 155)
+width = 5.0
+script = ExtResource("3_gee14")
+
+[node name="accuracy_manager" type="Node2D" parent="target_shape" unique_id=1262186888]
 unique_name_in_owner = true
+process_mode = 1
 modulate = Color(1, 1, 1, 0)
-position = Vector2(603, 327)
+position = Vector2(308, 172)
 script = ExtResource("2_lbhrr")
 
-[node name="judge_spawner" type="Node2D" parent="accuracy_manager" unique_id=1982392806]
+[node name="judge_spawner" type="Node2D" parent="target_shape/accuracy_manager" unique_id=1982392806]
 unique_name_in_owner = true
 position = Vector2(-537, -125)
 script = ExtResource("3_rysoc")
 
-[node name="avg_accuracy" type="Label" parent="accuracy_manager" unique_id=906467398]
+[node name="avg_accuracy" type="Label" parent="target_shape/accuracy_manager" unique_id=906467398]
 offset_top = -96.0
 offset_right = 75.0
 offset_bottom = -73.0
@@ -838,12 +879,8 @@ theme = ExtResource("9_0tnpc")
 text = "100.00%"
 horizontal_alignment = 2
 
-[node name="target_shape" type="Line2D" parent="." unique_id=129393694]
-position = Vector2(295, 155)
-width = 5.0
-script = ExtResource("3_gee14")
-
 [node name="note_manager" type="Node2D" parent="." unique_id=1684941741]
+process_mode = 1
 modulate = Color(1, 1, 1, 0)
 position = Vector2(48, 48)
 script = ExtResource("5_p57ef")
@@ -875,6 +912,7 @@ position = Vector2(664, 16)
 
 [node name="Mio" type="AnimatedSprite2D" parent="." unique_id=703568689]
 unique_name_in_owner = true
+process_mode = 1
 modulate = Color(1, 1, 1, 0.5647059)
 position = Vector2(573.99994, 281)
 scale = Vector2(2.0277777, 2.0277777)
@@ -888,6 +926,7 @@ libraries/ = SubResource("AnimationLibrary_1yg85")
 
 [node name="draw" parent="." unique_id=2118743800 node_paths=PackedStringArray("target_shape") instance=ExtResource("10_vtaks")]
 unique_name_in_owner = true
+process_mode = 1
 joint_mode = 0
 begin_cap_mode = 1
 end_cap_mode = 1
@@ -1110,11 +1149,64 @@ texture = ExtResource("10_kvpfn")
 flip_h = true
 flip_v = true
 
+[node name="PauseScreen" type="Control" parent="UI" unique_id=737804048]
+process_mode = 3
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("21_5newe")
+
+[node name="ColorRect" type="ColorRect" parent="UI/PauseScreen" unique_id=723814469]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 0.75686276)
+
+[node name="VBoxContainer" type="VBoxContainer" parent="UI/PauseScreen" unique_id=1832175987]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -121.0
+offset_top = -50.5
+offset_right = 121.0
+offset_bottom = 50.5
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Continue" type="Button" parent="UI/PauseScreen/VBoxContainer" unique_id=1308529469]
+layout_mode = 2
+theme = ExtResource("9_0tnpc")
+text = "CONTINUE"
+
+[node name="Restart" type="Button" parent="UI/PauseScreen/VBoxContainer" unique_id=2137682166]
+layout_mode = 2
+theme = ExtResource("9_0tnpc")
+text = "RESTART"
+
+[node name="Quit" type="Button" parent="UI/PauseScreen/VBoxContainer" unique_id=1588165413]
+layout_mode = 2
+theme = ExtResource("9_0tnpc")
+text = "QUIT"
+
 [connection signal="animation_finished" from="animator" to="." method="_on_animator_animation_finished"]
-[connection signal="beat_hit" from="note_manager/beat_column" to="accuracy_manager/judge_spawner" method="_on_beat_column_beat_hit"]
+[connection signal="animation_finished" from="animator" to="UI/PauseScreen" method="_on_animator_animation_finished"]
+[connection signal="beat_hit" from="note_manager/beat_column" to="target_shape/accuracy_manager/judge_spawner" method="_on_beat_column_beat_hit"]
 [connection signal="animation_finished" from="Mio" to="Mio" method="_on_animation_finished"]
 [connection signal="draw_direction_changes" from="draw" to="note_manager/beat_column" method="_on_draw_direction_changes"]
-[connection signal="draw_ended" from="draw" to="accuracy_manager" method="_on_draw_ended"]
+[connection signal="draw_ended" from="draw" to="target_shape/accuracy_manager" method="_on_draw_ended"]
 [connection signal="draw_ended" from="draw" to="note_manager/beat_column" method="_on_draw_draw_ended"]
 [connection signal="draw_started" from="draw" to="note_manager/beat_column" method="_on_draw_started"]
-[connection signal="shape_accuracy_ready" from="draw" to="accuracy_manager" method="_on_draw_shape_accuracy_ready"]
+[connection signal="shape_accuracy_ready" from="draw" to="target_shape/accuracy_manager" method="_on_draw_shape_accuracy_ready"]
+[connection signal="pressed" from="UI/PauseScreen/VBoxContainer/Continue" to="UI/PauseScreen" method="_on_continue_pressed"]
+[connection signal="pressed" from="UI/PauseScreen/VBoxContainer/Restart" to="UI/PauseScreen" method="_on_restart_pressed"]
+[connection signal="pressed" from="UI/PauseScreen/VBoxContainer/Quit" to="UI/PauseScreen" method="_on_quit_pressed"]
