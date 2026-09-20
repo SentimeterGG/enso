@@ -103,6 +103,14 @@ func note_count() -> int:
 	return notes.size()
 
 
+## True when any note belongs to a solo/unsetup shape (incomplete chart).
+func is_incomplete() -> bool:
+	for note in notes:
+		if ChartParser.is_solo_id(str((note as Dictionary).get("id", ""))):
+			return true
+		if str((note as Dictionary).get("id", "")).strip_edges().is_empty():
+			return true
+	return false
 func shape_count() -> int:
 	return shapes.size()
 

@@ -1,0 +1,42 @@
+[gd_scene format=3 uid="uid://ck7x5mmeskxsl"]
+
+[ext_resource type="Script" uid="uid://cfrg4twtv4eun" path="res://scripts/ui/notification.gd" id="1"]
+[ext_resource type="Theme" uid="uid://cpocn8agag6ib" path="res://resources/theme/Theme.tres" id="1_j6hwb"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_j6hwb"]
+bg_color = Color(0.14901961, 0.14901961, 0.14901961, 1)
+border_width_left = 4
+border_width_top = 1
+border_width_right = 4
+border_width_bottom = 1
+border_color = Color(0.43137255, 0.43137255, 0.43137255, 1)
+
+[node name="Notification" type="PanelContainer" unique_id=322623548]
+unique_name_in_owner = true
+z_index = 200
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -152.5
+offset_top = 32.0
+offset_right = 152.5
+offset_bottom = 67.0
+grow_horizontal = 2
+mouse_filter = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_j6hwb")
+script = ExtResource("1")
+
+[node name="Margin" type="MarginContainer" parent="." unique_id=329296419]
+layout_mode = 2
+theme_override_constants/margin_left = 12
+theme_override_constants/margin_top = 8
+theme_override_constants/margin_right = 12
+theme_override_constants/margin_bottom = 8
+
+[node name="Label" type="Label" parent="Margin" unique_id=786106384]
+layout_mode = 2
+theme = ExtResource("1_j6hwb")
+theme_override_font_sizes/font_size = 10
+text = "Notification"
+horizontal_alignment = 1
+autowrap_mode = 3

@@ -17,14 +17,36 @@ var _current_offset: float = 0.0
 var _last_beat: int = -1
 var _pulse_tween: Tween = null
 var _transitioning: bool = false
+## Stream the beat clock is synced to. BgMusic.change_song() swaps the
+## stream ~0.3s after hover (fade tween), so hover-time beat state goes stale
+## on first launch. Re-arming on the real swap keeps beats working.
+var _synced_stream: AudioStream = null
 @onready var draw_here_label: Label = %"Draw Here"
 @onready var beat_sound: AudioStreamPlayer = $"beat_sound"
 @onready var draw_manager: Line2D = $draw
 @onready var level_list: Control = $"Main Content/HBoxContainer/RSide/Level List"
+@onready var _notification: Control = get_node_or_null("%Notification")
 
 
 func _ready() -> void:
 	$AnimationPlayer.play("Opening")
+	call_deferred("_warn_skipped_incomplete")
+
+
+## Toast when level_list hid incomplete (solo-note) charts.
+func _warn_skipped_incomplete() -> void:
+	if level_list == null or not level_list.has_method("get_skipped_incomplete_count"):
+		return
+	var n := int(level_list.call("get_skipped_incomplete_count"))
+	if n <= 0:
+		return
+	var msg := (
+		"%d incomplete level%s hidden (solo notes need setup)." % [n, "" if n == 1 else "s"]
+	)
+	if _notification != null and _notification.has_method("show_message"):
+		_notification.call("show_message", msg, false, 4.0)
+	else:
+		push_warning("level_selector: " + msg)
 
 
 func play_selected() -> void:
@@ -72,11 +94,22 @@ func _physics_process(_delta: float) -> void:
 		return
 	if BgMusic == null or not BgMusic.playing:
 		return
+	var beat_duration := 1.0 / _current_bpm
 	var audio_time := BgMusic.get_playback_position() - _current_offset
 	if audio_time < 0.0:
 		return
-	var beat_duration := 1.0 / _current_bpm
 	var current_beat := int(audio_time / beat_duration)
+	if BgMusic.stream != _synced_stream:
+		# Song actually swapped (post-fade): re-arm from the live position.
+		_synced_stream = BgMusic.stream
+		_transitioning = true
+		_last_beat = current_beat
+		return
+	if not _transitioning and current_beat < _last_beat:
+		# Position jumped backward (seek/replay): re-arm the same way.
+		_transitioning = true
+		_last_beat = current_beat
+		return
 	if _transitioning:
 		if current_beat > _last_beat:
 			_last_beat = current_beat
