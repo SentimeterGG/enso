@@ -7,6 +7,7 @@
 [ext_resource type="Script" uid="uid://bw45dflr7vand" path="res://scripts/judgement/judge_spawner.gd" id="3_rysoc"]
 [ext_resource type="Script" uid="uid://4t7iids2300s" path="res://scripts/note/note_manager.gd" id="5_p57ef"]
 [ext_resource type="Script" uid="uid://3g8m7mw6ywns" path="res://scripts/note/beat/beat_column.gd" id="6_u5sy4"]
+[ext_resource type="AudioStream" uid="uid://ds4tl7n4oqlkk" path="res://assets/sound/miss-sound.mp3" id="7_37s47"]
 [ext_resource type="Texture2D" uid="uid://dnnjjgvh1pcgl" path="res://assets/sprites/UI/shape/circle_outline.png" id="7_ca42v"]
 [ext_resource type="Theme" uid="uid://cpocn8agag6ib" path="res://resources/theme/Theme.tres" id="9_0tnpc"]
 [ext_resource type="Script" uid="uid://bh3hkt7fb36kw" path="res://scripts/note/shape/shape_column.gd" id="9_kvuet"]
@@ -878,6 +879,10 @@ offset_transform_position_ratio = Vector2(-1, -1)
 theme = ExtResource("9_0tnpc")
 text = "100.00%"
 horizontal_alignment = 2
+
+[node name="MissSound" type="AudioStreamPlayer" parent="target_shape/accuracy_manager" unique_id=1275016646]
+stream = ExtResource("7_37s47")
+bus = &"Effect"
 
 [node name="note_manager" type="Node2D" parent="." unique_id=1684941741]
 process_mode = 1
