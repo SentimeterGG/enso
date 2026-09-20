@@ -298,7 +298,7 @@ func guess(points: PackedVector2Array) -> String:
 ## structural data is computed once per recognizer instead of per swipe.
 func _templates() -> Dictionary:
 	if not _templates_ready:
-		for name in ["circle", "square", "triangle"]:
+		for name in ["circle", "square", "triangle", "exit"]:
 			_template_cache[name] = create_target_data(_template_points(name))
 			_template_names.append(name)
 		_templates_ready = true
@@ -326,10 +326,21 @@ func _template_points(kind: String) -> PackedVector2Array:
 		"triangle":
 			return PackedVector2Array(
 				[
-					Vector2(-1, -0.85),
-					Vector2(0, 1.15),
-					Vector2(1, -0.85),
-					Vector2(-1, -0.85),
+					Vector2(1, 1),
+					Vector2(0, -1),
+					Vector2(-1, 1),
+					Vector2(1, 1),
+				]
+			)
+			
+		"exit":
+			return PackedVector2Array(
+				[
+					Vector2(-1, 1),
+					Vector2(1, -1),
+					Vector2(1, 1),
+					Vector2(-1, -1),
+					Vector2(-1, 1),
 				]
 			)
 	return PackedVector2Array()

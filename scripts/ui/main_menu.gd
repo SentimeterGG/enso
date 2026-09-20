@@ -32,3 +32,5 @@ func _on_draw_guessed_shape(shape: String) -> void:
 		$Transition.play("Out_settings")
 	elif shape == "square":
 		$Transition.play("Out_editor")
+	elif shape == "exit":
+		get_tree().quit()
