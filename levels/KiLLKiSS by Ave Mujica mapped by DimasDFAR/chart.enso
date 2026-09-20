@@ -8,7 +8,7 @@ preview_start = 50760
 bpm = 200
 beat0 = 546
 overall_difficulty = 8
-bg = ./killkis.png
+bg = ./Ave_Mujica.jpg
 
 [notes]
 [[vline]]
