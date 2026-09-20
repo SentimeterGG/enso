@@ -589,6 +589,15 @@ func get_shapes() -> Array[Dictionary]:
 	return _shapes.duplicate()
 
 
+## Beats not owned by any shape (solo/unsetup notes, [[solo_N]] on disk).
+func get_solo_beats_ms() -> Array[int]:
+	var out: Array[int] = []
+	for t in beat_times_ms:
+		if not _beat_shape_map.has(t):
+			out.append(t)
+	return out
+
+
 func clear_beats() -> void:
 	beat_times_ms.clear()
 	_delete_all_shapes()
@@ -1051,8 +1060,10 @@ func _on_level_creator_chart_imported(chart: ChartData) -> void:
 ## Rebuilds editor beats + shapes from a parsed ChartData.
 ## All @ times become beat markers; notes grouped by shape id become editor
 ## shapes with their type inferred from beat count (and H/V geometry for
-## single-beat shapes). Custom/unsupported groups (e.g. 5+ beats, rotated
-## geometry) keep their beats as solo markers so no timing is lost.
+## single-beat shapes). Solo/unsetup groups ([[solo_N]], "@ <time>" with no
+## coords, or header-less @) stay as plain beat markers so no timing is lost.
+## Custom/unsupported groups (e.g. 5+ beats, rotated geometry) keep their
+## beats as solo markers so no timing is lost.
 func _import_beats_and_shapes(chart: ChartData) -> void:
 	clear_beats()
 	if chart.notes.is_empty():
@@ -1081,6 +1092,8 @@ func _import_beats_and_shapes(chart: ChartData) -> void:
 	for sid in order:
 		var times: Array = (times_by_id[sid] as Array).duplicate()
 		times.sort()
+		if ChartParser.is_solo_id(sid) or sid.strip_edges().is_empty():
+			continue  # unsetup/solo notes stay as plain beats, not shapes
 		var pts := chart.shape_points_by_id(sid)
 		# Normalize imported pts to 0..1 already stored that way.
 		var editor_shape := _infer_editor_shape(times.size(), pts)

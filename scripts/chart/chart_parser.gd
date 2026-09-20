@@ -44,12 +44,17 @@ static func load(path: String) -> ChartData:
 			"notes":
 				var tokens := line.split(" ", false)
 				match tokens[0]:
-					"@":  # note point: @ <time_ms> <x> <y>
-						if tokens.size() >= 4:
+					"@":  # note point: @ <time_ms> [<x> <y>]; solo/unsetup notes may omit coords (default 0.5 0.5)
+						if tokens.size() >= 2:
+							var px := 0.5
+							var py := 0.5
+							if tokens.size() >= 4:
+								px = float(tokens[2])
+								py = float(tokens[3])
 							var point := {
 								"time": float(tokens[1]),
-								"x": float(tokens[2]),
-								"y": float(tokens[3]),
+								"x": px,
+								"y": py,
 								"id": str(current_shape.get("name", "")),
 							}
 							note_points.append(point)
@@ -176,3 +181,37 @@ static func _close_shape(shape: Dictionary) -> void:
 	if Vector2(first.x, first.y).is_equal_approx(Vector2(last.x, last.y)):
 		return
 	pts.append(first.duplicate())
+
+
+## Solo/unsetup shape ids (exported as [[solo_N]]) mean incomplete charts.
+## Centralized here so parser, editor import and level list agree.
+static func is_solo_id(shape_id: String) -> bool:
+	return shape_id.strip_edges().to_lower().begins_with("solo")
+
+
+## Fast incomplete check without a full load: true when the [notes] section
+## holds a [[solo_*]] header or a header-less @ note (both = unsetup timing).
+static func has_unsetup_notes(path: String) -> bool:
+	var f := FileAccess.open(path, FileAccess.READ)
+	if f == null:
+		return false
+	var section := ""
+	var in_shape := false
+	for raw_line in f.get_as_text().split("\n"):
+		var line := _strip_comment(raw_line).strip_edges()
+		if line.is_empty():
+			continue
+		if line.begins_with("[") and line.ends_with("]") and line.length() > 2:
+			if line.begins_with("[[") or line.begins_with("[("):
+				if section == "notes":
+					if is_solo_id(_shape_name(line)):
+						return true
+					in_shape = true
+				continue
+			section = line.substr(1, line.length() - 2).strip_edges().to_lower()
+			in_shape = false
+			continue
+		if section == "notes" and (line == "@" or line.begins_with("@ ")):
+			if not in_shape:
+				return true
+	return false

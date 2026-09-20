@@ -12,6 +12,7 @@
 [ext_resource type="AudioStream" uid="uid://dybpytxnyej66" path="res://assets/sound/osu-hit-sound.mp3" id="10_2vkcm"]
 [ext_resource type="Texture2D" uid="uid://dnnjjgvh1pcgl" path="res://assets/sprites/UI/shape/circle_outline.png" id="11_7fl6t"]
 [ext_resource type="Texture2D" uid="uid://bhaq3n5lalrao" path="res://assets/sprites/UI/beat_bg.png" id="11_8nwwt"]
+[ext_resource type="PackedScene" uid="uid://ck7x5mmeskxsl" path="res://scenes/notification.tscn" id="12_notif"]
 
 [sub_resource type="Animation" id="Animation_rtw2f"]
 length = 0.001
@@ -1025,6 +1026,13 @@ layout_mode = 2
 size_flags_horizontal = 3
 theme = ExtResource("1_evwkm")
 text = "Confirm"
+
+[node name="Notification" parent="." unique_id=1766050966 instance=ExtResource("12_notif")]
+layout_mode = 1
+offset_left = -153.0
+offset_top = 48.0
+offset_right = 152.0
+offset_bottom = 83.0
 
 [connection signal="chart_imported" from="." to="LevelCreator/METADATA" method="when_import"]
 [connection signal="chart_imported" from="." to="LevelCreator/MAPPING" method="_on_level_creator_chart_imported"]

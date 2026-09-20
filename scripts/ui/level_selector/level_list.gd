@@ -23,6 +23,10 @@ const DRAG_THRESHOLD := 8.0
 var selected_index: int = 0
 ## One entry per discovered level: {title, subtitle, chart_path, is_user}.
 var levels: Array[Dictionary] = []
+## Charts skipped by _discover_levels() for holding solo/unsetup notes.
+var skipped_incomplete: int = 0
+## Paths skipped for the same reason (for notifications/debugging).
+var skipped_incomplete_paths: Array[String] = []
 var _dragging: bool = false
 var _press_y: float = 0.0
 var _press_scroll_y: float = 0.0
@@ -52,6 +56,11 @@ func get_selected_level() -> Dictionary:
 func get_selected_chart_path() -> String:
 	var level := get_selected_level()
 	return str(level.get("chart_path", ""))
+
+
+## Incomplete charts hidden by the last reload (solo/unsetup notes).
+func get_skipped_incomplete_count() -> int:
+	return skipped_incomplete
 
 
 func reload_levels(keep_selection: bool = true) -> void:
@@ -97,10 +106,18 @@ func _clear_items() -> void:
 ## file (preferring chart.enso) counts as one level; loose *.enso files
 ## directly inside the folder also count. Entries with the same folder name in
 ## both locations collapse with the user:// copy winning. Sorted by title.
+## Charts holding solo/unsetup notes ([[solo_N]] / header-less @) are
+## incomplete and skipped (counted in skipped_incomplete).
 func _discover_levels() -> Array[Dictionary]:
 	var by_folder: Dictionary = {}
+	skipped_incomplete = 0
+	skipped_incomplete_paths.clear()
 	for base_dir: String in [BUILTIN_LEVELS_DIR, USER_LEVELS_DIR]:
 		for chart_path in _find_charts_in(base_dir):
+			if ChartParser.has_unsetup_notes(chart_path):
+				skipped_incomplete += 1
+				skipped_incomplete_paths.append(chart_path)
+				continue
 			var key := _dedupe_key(chart_path, base_dir)
 			by_folder[key] = _make_entry(chart_path)
 	var out: Array[Dictionary] = []

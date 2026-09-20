@@ -1,0 +1,24 @@
+[remap]
+
+importer="wav"
+type="AudioStreamWAV"
+uid="uid://b2gul3et4bnmq"
+path="res://.godot/imported/Wasurete Yaranai - Kessoku Band.wav-dea79adb773660935123e593b397cf4a.sample"
+
+[deps]
+
+source_file="res://levels/Wasurete Yaranai Test Incomplete by kessoku band mapped by ENSO Team/Wasurete Yaranai - Kessoku Band.wav"
+dest_files=["res://.godot/imported/Wasurete Yaranai - Kessoku Band.wav-dea79adb773660935123e593b397cf4a.sample"]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop_mode=0
+edit/loop_begin=0
+edit/loop_end=-1
+compress/mode=2

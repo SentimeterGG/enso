@@ -16,6 +16,7 @@ signal export_requested(dest_dir: String)
 @onready var metadata_group: Control = %METADATA
 @onready var mapping_group: Control = $LevelCreator/MAPPING
 @onready var _export_button: Button = %ExportButton
+@onready var _notification: Control = get_node_or_null("%Notification")
 @onready var _draw: Line2D = $draw
 
 var viewport_size: Vector2
@@ -80,17 +81,20 @@ func _on_import_file_pressed() -> void:
 func _on_import_popup_file_selected(path: String) -> void:
 	if path.is_empty() or not FileAccess.file_exists(path):
 		push_error("Invalid chart file: " + path)
+		_notify("Invalid chart file.", true)
 		return
 
 	var chart := ChartParser.load(path)
 	if chart.is_empty() or chart.metadata.is_empty():
 		push_error("No metadata found in chart: " + path)
+		_notify("No metadata found in chart.", true)
 		return
 
 	chart_imported.emit(chart)
 	# metadata.when_import() runs synchronously via signal, so LineEdits
 	# are already filled here — refresh Discord state from them.
 	_update_discord_activity()
+	_notify_import_result(chart)
 
 
 func _on_export_button_pressed() -> void:
@@ -100,10 +104,12 @@ func _on_export_button_pressed() -> void:
 func _on_export_popup_dir_selected(dir: String) -> void:
 	if dir.is_empty():
 		push_error("Invalid export folder.")
+		_notify("Invalid export folder.", true)
 		return
 	export_requested.emit(dir)
 	if metadata_group == null or not metadata_group.has_method("when_export"):
 		push_error("METADATA missing when_export().")
+		_notify("METADATA missing when_export().", true)
 		return
 
 	var data: Dictionary = metadata_group.when_export()
@@ -124,6 +130,7 @@ func _on_export_popup_dir_selected(dir: String) -> void:
 		var err := DirAccess.make_dir_recursive_absolute(out_dir)
 		if err != OK:
 			push_error("Failed to create folder: " + out_dir + " " + error_string(err))
+			_notify("Failed to create folder.", true)
 			return
 	var src_song := str(data.get("song_src", "")).strip_edges()
 	var song_file := "song.mp3"
@@ -158,9 +165,65 @@ func _on_export_popup_dir_selected(dir: String) -> void:
 		push_error(
 			"Failed to write chart: " + chart_path + " " + error_string(FileAccess.get_open_error())
 		)
+		_notify("Failed to write chart.", true)
 		return
 	f.store_string(text)
 	f.close()
+	_notify_export_result(mapping_beats, mapping_shapes, folder_name)
+
+
+## Toast helper: %Notification (scenes/notification.tscn) or push_* fallback.
+func _notify(text: String, is_error: bool = false) -> void:
+	if _notification != null and _notification.has_method("show_message"):
+		_notification.call("show_message", text, is_error)
+	elif is_error:
+		push_error(text)
+	else:
+		print(text)
+
+
+## Import toast: beats/shapes loaded + solo warning when incomplete.
+func _notify_import_result(chart: ChartData) -> void:
+	var beats := 0
+	var shapes := 0
+	var solo := 0
+	if mapping_group != null:
+		if mapping_group.has_method("get_beat_times_ms"):
+			beats = (mapping_group.call("get_beat_times_ms") as Array).size()
+		if mapping_group.has_method("get_shapes"):
+			shapes = (mapping_group.call("get_shapes") as Array).size()
+		if mapping_group.has_method("get_solo_beats_ms"):
+			solo = (mapping_group.call("get_solo_beats_ms") as Array).size()
+		else:
+			solo = maxi(0, beats - shapes)
+	if solo > 0 or chart.is_incomplete():
+		_notify("Imported %d beats, %d shapes — %d solo need setup." % [beats, shapes, solo])
+	else:
+		_notify("Imported %d beats, %d shapes." % [beats, shapes])
+
+
+## Export toast: warns when solo notes ship (hidden from level list).
+func _notify_export_result(mapping_beats: Array, mapping_shapes: Array, folder_name: String) -> void:
+	var solo := 0
+	if mapping_group != null and mapping_group.has_method("get_solo_beats_ms"):
+		solo = (mapping_group.call("get_solo_beats_ms") as Array).size()
+	else:
+		var used := {}
+		for shape in mapping_shapes:
+			for t in (shape as Dictionary).get("times_ms", []):
+				used[int(t)] = true
+		for b in mapping_beats:
+			if not used.has(int(b)):
+				solo += 1
+	if solo > 0:
+		_notify(
+			"Exported %s (%d beats, %d shapes, %d solo hidden from list)."
+			% [folder_name, mapping_beats.size(), mapping_shapes.size(), solo]
+		)
+	else:
+		_notify(
+			"Exported %s (%d beats, %d shapes)." % [folder_name, mapping_beats.size(), mapping_shapes.size()]
+		)
 
 
 func _resolve_song_filename(src: String) -> String:
@@ -295,7 +358,7 @@ func _build_notes_text(beats: Array, shapes: Array) -> String:
 	solo_beats.sort()
 	for bi in solo_beats:
 		solo += 1
-		out += "[[solo_%d]]\n@ %d 0.5 0.5\n\n" % [solo, bi]
+		out += "[[solo_%d]]\n@ %d\n\n" % [solo, bi]
 	if out.is_empty():
 		out = "\n"
 	return out

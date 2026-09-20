@@ -21,10 +21,28 @@ var _transitioning: bool = false
 @onready var beat_sound: AudioStreamPlayer = $"beat_sound"
 @onready var draw_manager: Line2D = $draw
 @onready var level_list: Control = $"Main Content/HBoxContainer/RSide/Level List"
+@onready var _notification: Control = get_node_or_null("%Notification")
 
 
 func _ready() -> void:
 	$AnimationPlayer.play("Opening")
+	call_deferred("_warn_skipped_incomplete")
+
+
+## Toast when level_list hid incomplete (solo-note) charts.
+func _warn_skipped_incomplete() -> void:
+	if level_list == null or not level_list.has_method("get_skipped_incomplete_count"):
+		return
+	var n := int(level_list.call("get_skipped_incomplete_count"))
+	if n <= 0:
+		return
+	var msg := (
+		"%d incomplete level%s hidden (solo notes need setup)." % [n, "" if n == 1 else "s"]
+	)
+	if _notification != null and _notification.has_method("show_message"):
+		_notification.call("show_message", msg, false, 4.0)
+	else:
+		push_warning("level_selector: " + msg)
 
 
 func play_selected() -> void:
