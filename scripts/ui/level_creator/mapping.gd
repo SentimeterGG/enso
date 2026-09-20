@@ -546,6 +546,9 @@ func add_beat_at_current() -> void:
 
 
 func remove_beat_at_current() -> void:
+	if _selected_shape >= 0:
+		_delete_selected_shape()
+		return
 	if beat_times_ms.is_empty():
 		return
 	if not _selected.is_empty():
