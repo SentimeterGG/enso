@@ -839,6 +839,7 @@ text = "100.00%"
 horizontal_alignment = 2
 
 [node name="target_shape" type="Line2D" parent="." unique_id=129393694]
+visible = false
 position = Vector2(295, 155)
 width = 5.0
 script = ExtResource("3_gee14")
