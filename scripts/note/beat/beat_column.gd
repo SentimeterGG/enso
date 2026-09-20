@@ -33,6 +33,8 @@ func _ready() -> void:
 
 
 func _process(_delta: float) -> void:
+	if _is_blocked():
+		return
 	var song_time := get_song_time()
 	var bad_window := HitResult.bad_window_ms(_od()) / 1000.0
 
@@ -67,6 +69,8 @@ func spawn_beat(
 
 
 func _try_hit_note(input_time: float) -> void:
+	if _is_blocked():
+		return
 	# Debounce: ignore attempts that come in faster than a human could
 	# realistically intend as separate hits.
 	if input_time - _last_input_time < input_cooldown_sec:
@@ -140,11 +144,15 @@ func _try_hit_note(input_time: float) -> void:
 
 
 func _on_draw_direction_changes() -> void:
+	if _is_blocked():
+		return
 	_flash_clicked()
 	_try_hit_note(get_song_time())
 
 
 func _on_draw_started() -> void:
+	if _is_blocked():
+		return
 	_flash_clicked()
 	# --- change %draw (Line2D) color into the beat's color + update target_shape (L144-148) ---
 	# target_shape was previously time-driven in note_scheduler.gd, now beat-driven here
@@ -170,7 +178,26 @@ func _on_draw_started() -> void:
 
 
 func get_song_time() -> float:
-	return BgMusic.get_playback_position()
+	if BgMusic.playing:
+		return BgMusic.get_playback_position() + _preroll_sec()
+	var scene := get_tree().current_scene if get_tree() else null
+	if scene != null and scene.has_method("get_virtual_song_time"):
+		return float(scene.call("get_virtual_song_time"))
+	return 0.0
+
+
+func _preroll_sec() -> float:
+	var scene := get_tree().current_scene if get_tree() else null
+	if scene != null and scene.has_method("get_preroll_sec"):
+		return float(scene.call("get_preroll_sec"))
+	return 0.0
+
+
+func _is_blocked() -> bool:
+	var scene := get_tree().current_scene if get_tree() else null
+	if scene != null and scene.has_method("is_preroll_silence"):
+		return bool(scene.call("is_preroll_silence"))
+	return false
 
 
 func _od() -> float:

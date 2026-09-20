@@ -8,6 +8,8 @@ extends Resource
 
 const SHAPE_BASE_WIDTH_PX := 42.0
 
+var preroll_sec := 0.0
+
 var playing = false
 var _shape_spawned := false
 var last_shape_id: String = ""
@@ -19,12 +21,14 @@ var _cached_px_per_sec := -1.0
 var _cached_lane_length := 0.0
 
 
-func start(note_manager: Node2D = null):
+func start(note_manager: Node2D = null, p_preroll_sec: float = -1.0):
 	playing = true
 	_note_cursor = 0
 	_shape_cursor = 0
 	_shape_spawned = false
 	last_shape_id = ""
+	if p_preroll_sec >= 0.0:
+		preroll_sec = p_preroll_sec
 	if note_manager != null:
 		_refresh_lead(note_manager)
 
@@ -36,7 +40,7 @@ func _refresh_lead(note_manager: Node2D) -> void:
 
 
 func process(
-	note_manager: Node2D, music: AudioStreamPlayer, charts: ChartData, target_shape: Line2D = null
+	note_manager: Node2D, song_time: float, charts: ChartData, target_shape: Line2D = null
 ):
 	if playing == false:
 		return
@@ -46,12 +50,15 @@ func process(
 	if note_manager.px_per_sec != _cached_px_per_sec:
 		_refresh_lead(note_manager)
 
-	var playback_pos = music.get_playback_position()
+	var playback_pos = song_time
 
-	while _note_cursor < charts.note_count() and playback_pos >= charts.note_time(_note_cursor) / 1000.0 - _lead:
+	while _note_cursor < charts.note_count():
+		var orig_sec: float = charts.note_time(_note_cursor) / 1000.0
+		var hit_sec: float = orig_sec + preroll_sec
+		if playback_pos < hit_sec - _lead:
+			break
 		var note: Dictionary = charts.get_note(_note_cursor)
 		var current_id := str(note.get("id", ""))
-		var hit_sec: float = float(note.get("start_time", note.get("time", 0.0))) / 1000.0
 		var color: Color = charts.shape_colors.get(current_id, Color.WHITE)
 		note_manager.spawn(hit_sec, color, current_id)
 
