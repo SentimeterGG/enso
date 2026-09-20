@@ -6,6 +6,8 @@ extends Control
 signal chart_imported(chart: ChartData)
 signal export_requested(dest_dir: String)
 
+@onready var _name_edit: LineEdit = %SongNameEdit
+@onready var _source_edit: LineEdit = %SongAuthorEdit
 @onready var level_creator_group: Control = %LevelCreator
 @onready var mapping_button: Button = %MappingButton
 @onready var metadata_button: Button = %MetadataButton
@@ -415,4 +417,14 @@ func _on_mapping_mouse_entered() -> void:
 
 func _on_mapping_mouse_exited() -> void:
 	VolumePopup.can_popup = true
+	pass # Replace with function body.
+
+
+func _on_song_name_edit_text_submitted(new_text: String) -> void:
+	DiscordRPC.set_activity("Drawing a map", new_text + " - " + _source_edit.text)
+	pass # Replace with function body.
+
+
+func _on_song_author_edit_text_submitted(new_text: String) -> void:
+	DiscordRPC.set_activity("Drawing a map", _name_edit.text + " - " + new_text)
 	pass # Replace with function body.

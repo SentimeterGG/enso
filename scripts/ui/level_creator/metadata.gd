@@ -489,3 +489,4 @@ func _on_browse_video_bg_button_pressed() -> void:
 func _on_browse_bg_path_pressed() -> void:
 	_load_bg_dialog.popup_centered(Vector2i(600, 400))
 	pass # Replace with function body.
+
