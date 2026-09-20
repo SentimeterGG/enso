@@ -51,6 +51,7 @@ var _perfect_label: Label = null
 var _okay_label: Label = null
 var _bad_label: Label = null
 var _miss_label: Label = null
+@onready var _miss_player: AudioStreamPlayer = $MissSound
 
 
 func _ready() -> void:
@@ -112,6 +113,9 @@ func register_hit(kind: int, shape_id: String = "") -> void:
 	rhythm_sum += HitResult.weight_of(kind)
 	rhythm_n += 1
 	if kind == HitResult.Kind.MISS:
+		# Miss SFX only when breaking a real combo (was above 20 before reset).
+		if combo > 20 and _miss_player != null:
+			_miss_player.play()
 		combo = 0
 		_play_combo_anim(false)
 	else:
@@ -189,9 +193,8 @@ func _on_draw_shape_accuracy_ready(accuracy: float) -> void:
 	if key.is_empty() and _pending.size() == 1:
 		key = str((_pending.keys() as Array)[0])
 	if key.is_empty() and _pending.is_empty():
-		# Player drew with no nearby notes: still counts as a 0-timing shape
-		# so random scribbles don't silently vanish from the average.
-		finish_shape("", clampf(accuracy / 100.0, 0.0, 1.0))
+		# Ghost tapping: drew with no nearby notes — ignore it entirely.
+		# Only notes that pass the receptor unhit can miss (via auto-miss).
 		return
 	finish_shape(key, accuracy / 100.0)
 
