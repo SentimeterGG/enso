@@ -4,7 +4,11 @@
 [ext_resource type="Script" uid="uid://ct0hqbunx5sk2" path="res://scripts/ui/main_menu.gd" id="1_wu84c"]
 [ext_resource type="FontFile" uid="uid://bprqivnp1xsie" path="res://assets/fonts/ttf/PixelCode-Medium.ttf" id="2_ekxnf"]
 [ext_resource type="Texture2D" uid="uid://b3v8a03h3ikfs" path="res://assets/sprites/UI/corner.png" id="3_bqqt6"]
+[ext_resource type="Texture2D" uid="uid://dnnjjgvh1pcgl" path="res://assets/sprites/UI/shape/circle_outline.png" id="4_rtw2f"]
+[ext_resource type="Texture2D" uid="uid://tmnmfhy3dr8v" path="res://assets/sprites/UI/shape/line.png" id="6_oa1go"]
 [ext_resource type="PackedScene" uid="uid://b7rlmo61qxu8s" path="res://scenes/draw.tscn" id="6_rtw2f"]
+[ext_resource type="Texture2D" uid="uid://cabfu47vn8duh" path="res://assets/sprites/UI/shape/square.png" id="7_tbmy8"]
+[ext_resource type="Texture2D" uid="uid://d1l8efpko56a3" path="res://assets/sprites/UI/shape/exit.png" id="8_jk1qb"]
 
 [sub_resource type="Animation" id="Animation_rtw2f"]
 length = 0.001
@@ -188,6 +192,30 @@ tracks/11/loop_wrap = true
 tracks/11/keys = {
 "times": PackedFloat32Array(1.4666667, 2.8333333),
 "transitions": PackedFloat32Array(0.69547385, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 0), Color(1, 1, 1, 1)]
+}
+tracks/12/type = "value"
+tracks/12/imported = false
+tracks/12/enabled = true
+tracks/12/path = NodePath("../LB/MarginContainer/VBoxContainer/Square to Level Editor2:offset_transform_position")
+tracks/12/interp = 1
+tracks/12/loop_wrap = true
+tracks/12/keys = {
+"times": PackedFloat32Array(0.26666665, 1.2333333),
+"transitions": PackedFloat32Array(0.18, 1),
+"update": 0,
+"values": [Vector2(0, 9), Vector2(0, 0)]
+}
+tracks/13/type = "value"
+tracks/13/imported = false
+tracks/13/enabled = true
+tracks/13/path = NodePath("../LB/MarginContainer/VBoxContainer/Square to Level Editor2:modulate")
+tracks/13/interp = 1
+tracks/13/loop_wrap = true
+tracks/13/keys = {
+"times": PackedFloat32Array(0.26666665, 1.2333333),
+"transitions": PackedFloat32Array(0.18, 1),
 "update": 0,
 "values": [Color(1, 1, 1, 0), Color(1, 1, 1, 1)]
 }
@@ -624,6 +652,7 @@ theme_override_constants/margin_bottom = 12
 layout_mode = 2
 size_flags_horizontal = 0
 size_flags_vertical = 8
+theme_override_constants/separation = 12
 
 [node name="Circle to Play" type="HBoxContainer" parent="LB/MarginContainer/VBoxContainer" unique_id=2077575685]
 modulate = Color(1, 1, 1, 0)
@@ -634,16 +663,11 @@ size_flags_vertical = 8
 offset_transform_enabled = true
 theme_override_constants/separation = 12
 
-[node name="Circle" type="Label" parent="LB/MarginContainer/VBoxContainer/Circle to Play" unique_id=1301331434]
+[node name="TextureRect" type="TextureRect" parent="LB/MarginContainer/VBoxContainer/Circle to Play" unique_id=1090294468]
+modulate = Color(1, 0, 0, 1)
+custom_minimum_size = Vector2(28, 0.025)
 layout_mode = 2
-size_flags_horizontal = 8
-size_flags_vertical = 8
-theme_override_colors/font_color = Color(1, 0.18400002, 0.04000002, 1)
-theme_override_fonts/font = ExtResource("2_ekxnf")
-theme_override_font_sizes/font_size = 20
-text = "CIRCLE"
-horizontal_alignment = 1
-vertical_alignment = 1
+texture = ExtResource("4_rtw2f")
 
 [node name="Play" type="Label" parent="LB/MarginContainer/VBoxContainer/Circle to Play" unique_id=1478556492]
 layout_mode = 2
@@ -651,7 +675,7 @@ size_flags_horizontal = 8
 size_flags_vertical = 8
 theme_override_fonts/font = ExtResource("2_ekxnf")
 theme_override_font_sizes/font_size = 20
-text = "TO PLAY"
+text = "PLAY"
 horizontal_alignment = 1
 vertical_alignment = 1
 
@@ -663,16 +687,11 @@ size_flags_vertical = 8
 offset_transform_enabled = true
 theme_override_constants/separation = 12
 
-[node name="Line" type="Label" parent="LB/MarginContainer/VBoxContainer/Line To Settings" unique_id=2092035661]
+[node name="TextureRect" type="TextureRect" parent="LB/MarginContainer/VBoxContainer/Line To Settings" unique_id=1786875336]
+modulate = Color(1, 0, 0, 1)
+custom_minimum_size = Vector2(28, 0.025)
 layout_mode = 2
-size_flags_horizontal = 8
-size_flags_vertical = 8
-theme_override_colors/font_color = Color(1, 0.18400002, 0.04000002, 1)
-theme_override_fonts/font = ExtResource("2_ekxnf")
-theme_override_font_sizes/font_size = 20
-text = "LINE"
-horizontal_alignment = 1
-vertical_alignment = 1
+texture = ExtResource("6_oa1go")
 
 [node name="Play" type="Label" parent="LB/MarginContainer/VBoxContainer/Line To Settings" unique_id=1560500947]
 layout_mode = 2
@@ -680,7 +699,7 @@ size_flags_horizontal = 8
 size_flags_vertical = 8
 theme_override_fonts/font = ExtResource("2_ekxnf")
 theme_override_font_sizes/font_size = 20
-text = "TO SETTINGS"
+text = "SETTINGS"
 horizontal_alignment = 1
 vertical_alignment = 1
 
@@ -692,16 +711,11 @@ size_flags_vertical = 8
 offset_transform_enabled = true
 theme_override_constants/separation = 12
 
-[node name="Sqaure" type="Label" parent="LB/MarginContainer/VBoxContainer/Square to Level Editor" unique_id=1695602407]
+[node name="TextureRect" type="TextureRect" parent="LB/MarginContainer/VBoxContainer/Square to Level Editor" unique_id=770564656]
+modulate = Color(1, 0, 0, 1)
+custom_minimum_size = Vector2(28, 0.025)
 layout_mode = 2
-size_flags_horizontal = 8
-size_flags_vertical = 8
-theme_override_colors/font_color = Color(1, 0.18400002, 0.04000002, 1)
-theme_override_fonts/font = ExtResource("2_ekxnf")
-theme_override_font_sizes/font_size = 20
-text = "SQUARE"
-horizontal_alignment = 1
-vertical_alignment = 1
+texture = ExtResource("7_tbmy8")
 
 [node name="Play" type="Label" parent="LB/MarginContainer/VBoxContainer/Square to Level Editor" unique_id=2004811886]
 layout_mode = 2
@@ -709,7 +723,32 @@ size_flags_horizontal = 8
 size_flags_vertical = 8
 theme_override_fonts/font = ExtResource("2_ekxnf")
 theme_override_font_sizes/font_size = 20
-text = "TO LEVEL EDITOR"
+text = "LEVEL EDITOR"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Square to Level Editor2" type="HBoxContainer" parent="LB/MarginContainer/VBoxContainer" unique_id=201507613]
+modulate = Color(1, 1, 1, 0)
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 8
+offset_transform_enabled = true
+offset_transform_position = Vector2(0, 9)
+theme_override_constants/separation = 12
+
+[node name="TextureRect" type="TextureRect" parent="LB/MarginContainer/VBoxContainer/Square to Level Editor2" unique_id=1551613104]
+modulate = Color(1, 0, 0, 1)
+custom_minimum_size = Vector2(28, 0.025)
+layout_mode = 2
+texture = ExtResource("8_jk1qb")
+
+[node name="Play" type="Label" parent="LB/MarginContainer/VBoxContainer/Square to Level Editor2" unique_id=540336014]
+layout_mode = 2
+size_flags_horizontal = 8
+size_flags_vertical = 8
+theme_override_fonts/font = ExtResource("2_ekxnf")
+theme_override_font_sizes/font_size = 20
+text = "EXIT"
 horizontal_alignment = 1
 vertical_alignment = 1
 
