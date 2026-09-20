@@ -1034,6 +1034,8 @@ text = "Confirm"
 [connection signal="file_selected" from="ImportPopup" to="." method="_on_import_popup_file_selected"]
 [connection signal="mouse_entered" from="LevelCreator/METADATA/ScrollContainer" to="." method="_on_scroll_container_mouse_entered"]
 [connection signal="mouse_exited" from="LevelCreator/METADATA/ScrollContainer" to="." method="_on_scroll_container_mouse_exited"]
+[connection signal="text_submitted" from="LevelCreator/METADATA/ScrollContainer/MarginContainer/VBoxContainer/song_name/SongNameEdit" to="." method="_on_song_name_edit_text_submitted"]
+[connection signal="text_submitted" from="LevelCreator/METADATA/ScrollContainer/MarginContainer/VBoxContainer/song_author/SongAuthorEdit" to="." method="_on_song_author_edit_text_submitted"]
 [connection signal="text_submitted" from="LevelCreator/METADATA/ScrollContainer/MarginContainer/VBoxContainer/song_path/HBoxContainer/SongPathEdit" to="LevelCreator/METADATA" method="_on_song_text_submitted"]
 [connection signal="pressed" from="LevelCreator/METADATA/ScrollContainer/MarginContainer/VBoxContainer/song_path/HBoxContainer/BrowseSongButton" to="LevelCreator/METADATA" method="_on_browse_pressed"]
 [connection signal="pressed" from="LevelCreator/METADATA/ScrollContainer/MarginContainer/VBoxContainer/video_bg_path/HBoxContainer/BrowseVideoBgButton" to="LevelCreator/METADATA" method="_on_browse_video_bg_button_pressed"]
