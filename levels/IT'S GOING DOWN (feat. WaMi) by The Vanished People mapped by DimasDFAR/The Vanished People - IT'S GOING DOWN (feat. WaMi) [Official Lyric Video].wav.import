@@ -1,0 +1,24 @@
+[remap]
+
+importer="wav"
+type="AudioStreamWAV"
+uid="uid://q3lo1w0b6sh7"
+path="res://.godot/imported/The Vanished People - IT'S GOING DOWN (feat. WaMi) [Official Lyric Video].wav-64cef8e7fa959afea844d0d35aa671d2.sample"
+
+[deps]
+
+source_file="res://levels/IT'S GOING DOWN (feat. WaMi) by The Vanished People mapped by DimasDFAR/The Vanished People - IT'S GOING DOWN (feat. WaMi) [Official Lyric Video].wav"
+dest_files=["res://.godot/imported/The Vanished People - IT'S GOING DOWN (feat. WaMi) [Official Lyric Video].wav-64cef8e7fa959afea844d0d35aa671d2.sample"]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop_mode=0
+edit/loop_begin=0
+edit/loop_end=-1
+compress/mode=2
