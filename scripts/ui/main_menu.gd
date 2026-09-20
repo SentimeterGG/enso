@@ -13,9 +13,12 @@ var go_to: GoTo = GoTo.NONE
 func _ready() -> void:
 	randomize()
 	VolumePopup.can_popup = true
+	
 	$RB/MarginContainer/ENSO/Bobbing.play("idle")
+	
 	if Global.first_time_playing:
-		BgMusic.change_song(load(Global.choose_random_chart().song_path()))
+		var random_music = Global.choose_random_chart()
+		BgMusic.change_song(load(random_music.song_path()), random_music.preview_start())
 		Global.first_time_playing = false
 		$Transition.play("first_time_opening")
 	else:
