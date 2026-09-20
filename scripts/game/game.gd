@@ -16,8 +16,6 @@ var note_scheduler: NoteScheduler = NoteScheduler.new()
 
 
 func _ready():
-	MouseOverlay.process_mode = Node.PROCESS_MODE_DISABLED
-	MouseOverlay.hide()
 	BgMusic.change_song(null)
 	Input.set_custom_mouse_cursor(SkinManager.cursor_sprite, Input.CURSOR_ARROW, Vector2(12,12))
 	animator.play("Intro")
@@ -57,3 +55,6 @@ func _on_animator_animation_finished(anim_name: StringName) -> void:
 			sc.refresh_od()
 			sc.reset()
 	%TransOffset.modulate = Color(1.0, 1.0, 1.0, Global.settingsData.bg_visibilty*0.01)
+	
+func _exit_tree() -> void:
+	Input.set_custom_mouse_cursor(load("res://assets/sprites/UI/crosshair.png"), Input.CURSOR_ARROW, Vector2(12,12))

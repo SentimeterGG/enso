@@ -28,7 +28,6 @@ Global="*uid://b2lm1gfd8he8s"
 WorldEnvironmentGlobal="*uid://dqpsyw3cjxcat"
 DiscordRPC="*uid://b77wtogjkq60c"
 SkinManager="*uid://bmpij5aiui7y6"
-MouseOverlay="*uid://c5wwclkmmhr4o"
 VolumePopup="*uid://b3a4x7kuktiyl"
 
 [display]
@@ -40,7 +39,7 @@ window/size/window_width_override=1280
 window/size/window_height_override=720
 window/stretch/mode="canvas_items"
 window/vsync/vsync_mode=0
-mouse_cursor/custom_image="uid://du47isly8o2yr"
+mouse_cursor/custom_image="uid://cb3spc8ot8nq4"
 mouse_cursor/custom_image_hotspot=Vector2(12, 12)
 
 [input]
