@@ -36,7 +36,6 @@ func _ready():
 		%BG.visible = true
 		%VideoStreamPlayer.visible = false
 	DiscordRPC.set_activity("Drawing Shape", (Global.current_chart.get_song_title() + " - " + Global.current_chart.get_song_source()))
-	note_scheduler.start(note_manager)
 
 
 func _process(_delta: float) -> void:
@@ -48,6 +47,7 @@ func _on_animator_animation_finished(anim_name: StringName) -> void:
 		BgMusic.start_song(load(Global.current_chart.song_path()))
 		animator.play("bg_fade")
 		video_stream_player.play()
+		note_scheduler.start(note_manager)
 		target_shape.clear_points()
 		draw_manager.start()
 		var sc := get_node_or_null("%accuracy_manager")
