@@ -3,8 +3,8 @@
 # RETURN: synced notes, target shape display and music timing for drawing and judging
 extends Node2D
 
-const CHART_PATH := "res://levels/Wasurete Yaranai by kessoku band mapped by ENSO Team/chart.enso"
-@export var CHART_PATH := "res://levels/Wasurete-Yaranai/chart.enso"
+
+@export var CHART_PATH := "res://levels/Wasurete Yaranai by kessoku band mapped by ENSO Team/chart.enso"
 @onready var draw_manager: Line2D = $draw
 @onready var note_manager: Node2D = $note_manager
 @onready var target_shape: Line2D = $target_shape
