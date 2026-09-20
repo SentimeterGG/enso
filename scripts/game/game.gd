@@ -3,23 +3,18 @@
 # RETURN: synced notes, target shape display and music timing for drawing and judging
 extends Node2D
 
-const CHART_PATH := "res://levels/Wasurete-Yaranai/chart.enso"
+const CHART_PATH := "res://levels/Wasurete Yaranai by kessoku band mapped by ENSO Team/chart.enso"
 @onready var draw_manager: Line2D = $draw
 @onready var note_manager: Node2D = $note_manager
 @onready var target_shape: Line2D = $target_shape
 @onready var animator: AnimationPlayer = $animator
 @onready var video_stream_player = %VideoStreamPlayer
 @onready var bg_sprite : TextureRect = %BG
+
 var note_scheduler: NoteScheduler = NoteScheduler.new()
 
 
 func _ready():
-	if Global.settingsData.video_bg:
-		%BG.visible = false
-		%VideoStreamPlayer.visible = true
-	else:
-		%BG.visible = true
-		%VideoStreamPlayer.visible = false
 	MouseOverlay.process_mode = Node.PROCESS_MODE_DISABLED
 	MouseOverlay.hide()
 	BgMusic.change_song(null)
@@ -31,6 +26,16 @@ func _ready():
 		video_stream_player.stream = load(Global.current_chart.get_video_background())
 	if Global.current_chart.get_bg() != "":
 		bg_sprite.texture = load(Global.current_chart.get_bg())
+	if Global.settingsData.video_bg:
+		if Global.current_chart.get_video_background() == "":
+			%BG.visible = true
+			%VideoStreamPlayer.visible = false
+		else:
+			%BG.visible = false
+			%VideoStreamPlayer.visible = true
+	else:
+		%BG.visible = true
+		%VideoStreamPlayer.visible = false
 	DiscordRPC.set_activity("Drawing Shape", (Global.current_chart.get_song_title() + " - " + Global.current_chart.get_song_source()))
 
 
@@ -46,4 +51,4 @@ func _on_animator_animation_finished(anim_name: StringName) -> void:
 		target_shape.clear_points()
 		note_scheduler.start(note_manager)
 		draw_manager.start()
-	pass  # Replace with function body.
+	%TransOffset.modulate = Color(1.0, 1.0, 1.0, Global.settingsData.bg_visibilty*0.01)

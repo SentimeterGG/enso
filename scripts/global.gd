@@ -25,6 +25,7 @@ func load_all_data():
 	settingsData = load_data(SettingsData)
 	
 
+
 func _unhandled_input(event: InputEvent) -> void:
 	if event.is_action_pressed("toggle_window"):
 		toggle_window.emit()

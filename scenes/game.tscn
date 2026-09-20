@@ -1,6 +1,7 @@
 [gd_scene format=3 uid="uid://drpnvwmnb2h4x"]
 
 [ext_resource type="Script" uid="uid://kf6p0lw85s2o" path="res://scripts/game/game.gd" id="1_uwrxv"]
+[ext_resource type="Texture2D" uid="uid://ccku5userhouh" path="res://assets/icon.svg" id="2_1kice"]
 [ext_resource type="Script" uid="uid://dd7i0f11yksaj" path="res://scripts/judgement/accuracy_manager.gd" id="2_lbhrr"]
 [ext_resource type="Script" uid="uid://bil15ch0n2iyd" path="res://scripts/note/shape/target_shape.gd" id="3_gee14"]
 [ext_resource type="Script" uid="uid://bw45dflr7vand" path="res://scripts/judgement/judge_spawner.gd" id="3_rysoc"]
@@ -158,20 +159,32 @@ tracks/4/keys = {
 "update": 0,
 "values": [Color(1, 1, 1, 0)]
 }
+tracks/5/type = "value"
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/path = NodePath("TransOffset/Background:modulate")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 1, 1, 0)]
+}
 
 [sub_resource type="Animation" id="Animation_1kice"]
 resource_name = "bg_fade"
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
-tracks/0/path = NodePath("Background:modulate")
+tracks/0/path = NodePath("TransOffset/Background:modulate")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
-"times": PackedFloat32Array(0.0333333, 0.76666653),
+"times": PackedFloat32Array(0, 0.76666653),
 "transitions": PackedFloat32Array(1, 1),
 "update": 0,
-"values": [Color(1, 1, 1, 0), Color(1, 1, 1, 0.16078432)]
+"values": [Color(1, 1, 1, 0), Color(1, 1, 1, 1)]
 }
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_vtaks"]
@@ -753,9 +766,19 @@ _data = {
 [node name="game" type="Node2D" unique_id=1374663414]
 script = ExtResource("1_uwrxv")
 
-[node name="Background" type="Control" parent="." unique_id=1859568633]
-modulate = Color(1, 1, 1, 0)
+[node name="TransOffset" type="Control" parent="." unique_id=532337667]
+unique_name_in_owner = true
 layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="Background" type="Control" parent="TransOffset" unique_id=1859568633]
+modulate = Color(1, 1, 1, 0)
+layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -765,7 +788,7 @@ grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 2
 
-[node name="BG" type="TextureRect" parent="Background" unique_id=1441543174]
+[node name="BG" type="TextureRect" parent="TransOffset/Background" unique_id=1441543174]
 unique_name_in_owner = true
 layout_mode = 1
 anchors_preset = 15
@@ -774,15 +797,16 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 2
+texture = ExtResource("2_1kice")
 expand_mode = 3
 
-[node name="AspectRatioContainer" type="AspectRatioContainer" parent="Background" unique_id=1679564900]
+[node name="AspectRatioContainer" type="AspectRatioContainer" parent="TransOffset/Background" unique_id=1679564900]
 layout_mode = 0
 offset_right = 640.0
 offset_bottom = 360.0
 ratio = 1.78
 
-[node name="VideoStreamPlayer" type="VideoStreamPlayer" parent="Background/AspectRatioContainer" unique_id=1422143938]
+[node name="VideoStreamPlayer" type="VideoStreamPlayer" parent="TransOffset/Background/AspectRatioContainer" unique_id=1422143938]
 unique_name_in_owner = true
 layout_mode = 2
 mouse_filter = 2
