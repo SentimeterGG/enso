@@ -5,7 +5,7 @@
 class_name HitResult
 extends RefCounted
 
-enum Kind { PERFECT, OK, BAD, MISS }
+enum Kind { PERFECT, OK, BAD, MISS, BAD_DRAW }
 
 const WEIGHTS := {
 	Kind.PERFECT: 1.0,
@@ -19,6 +19,7 @@ const LABELS := {
 	Kind.OK: "OK",
 	Kind.BAD: "BAD",
 	Kind.MISS: "MISS",
+	Kind.BAD_DRAW: "BAD DRAWING",
 }
 
 const COLORS := {
@@ -26,6 +27,7 @@ const COLORS := {
 	Kind.OK: Color(0.35, 0.95, 0.55),
 	Kind.BAD: Color(1.0, 0.60, 0.20),
 	Kind.MISS: Color(1.0, 0.30, 0.35),
+	Kind.BAD_DRAW: Color(1.0, 0.30, 0.35),
 }
 
 

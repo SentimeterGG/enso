@@ -18,13 +18,23 @@ func _on_beat_column_beat_hit(error_ms: float, beat_id: String = "") -> void:
 	var od := _od()
 	var kind := HitResult.classify(error_ms, od)
 
+	_spawn_kind(kind)
+
+	if score != null:
+		score.register_hit(kind, beat_id)
+
+
+## Draw judgement: call when shape drawing accuracy falls below threshold.
+func spawn_bad_draw() -> void:
+	_spawn_kind(HitResult.Kind.BAD_DRAW)
+
+
+func _spawn_kind(kind: int) -> void:
 	var label: Label = judgement_label.instantiate()
 	add_child(label)
 	label.text = str(HitResult.LABELS.get(kind, "MISS"))
 	label.modulate = HitResult.COLORS.get(kind, Color.WHITE)
 
-	if score != null:
-		score.register_hit(kind, beat_id)
 	if mio != null and mio.has_method("note_hit"):
 		mio.note_hit(kind)
 
