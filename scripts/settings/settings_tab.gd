@@ -11,11 +11,15 @@ extends Control
 @onready var master_slider: HSlider = $setting/Master
 @onready var music_slider: HSlider = $setting/Music
 @onready var effects_slider: HSlider = $setting/Effects
+@onready var bg_dim_slider: HSlider = $setting/BG_Dim
+
 
 @onready var master_label: Label = $setting/Master/VolumePercent
 @onready var music_label: Label = $setting/Music/VolumePercent
 @onready var effects_label: Label = $setting/Effects/VolumePercent
+@onready var dim_percent_label: Label = $setting/BG_Dim/DimPercent
 
+var can_play_hitsound: bool = false
 
 const VOLUME_STEP := 5.0
 const VOLUME_MIN := -60.0
@@ -37,7 +41,9 @@ func _ready() -> void:
 		bg_button.text = "OFF"
 	grab_volume_config()
 	_connect_sliders()
-	_sync_sliders_to_audio()
+	bg_dim_slider.value = 100.0 - Global.settingsData.bg_visibilty
+	_update_label(bg_dim_slider, dim_percent_label)
+	can_play_hitsound = true
 
 
 func _connect_sliders() -> void:
@@ -158,3 +164,11 @@ func _on_bg_button_button_down() -> void:
 		bg_button.text = "ON"
 	Global.save(Global.settingsData, Global.settingsData.save_file_name)
 	%OsuHitSound.play()
+
+
+func _on_bg_dim_value_changed(value: float) -> void:
+	Global.settingsData.bg_visibilty = 100.0 - value
+	Global.save(Global.settingsData, Global.settingsData.save_file_name)
+	_update_label(bg_dim_slider, dim_percent_label)
+	if can_play_hitsound:
+		%OsuHitSound.play()
