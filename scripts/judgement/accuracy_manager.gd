@@ -6,7 +6,8 @@
 # means are tracked separately for HUD / results screens. Never negative.
 #
 # Shape lifecycle (keyed by shape_id = beat.beat_id, no global temp buffer):
-#   beat hit        -> register_hit(kind, shape_id)   (lazy-creates pending)
+#   beat hit/miss   -> register_hit(kind, shape_id)   (lazy-creates pending;
+#                    never-drawn shapes auto-finish with draw 0 once all beats judged)
 #   draw started    -> begin_shape(shape_id)          (sets active, from beat_column lock)
 #   draw released   -> _on_draw_shape_accuracy_ready  (finish active with draw 0..100)
 #   draw aborted    -> _on_draw_ended                 (leftovers finish with draw 0)
@@ -36,6 +37,12 @@ var combined_n := 0
 # shape_id -> Array[float] of timing weights collected since begin
 var _pending: Dictionary = {}
 var _active_shape: String = ""
+# shape_id -> beats judged so far (hit or miss). Lets never-drawn shapes
+# auto-finish once every beat is judged, so all-miss runs still move the score.
+var _judged_count: Dictionary = {}
+# shape_id -> true once the player started drawing it. Drawn shapes stay
+# owned by the draw-ended flow (real accuracy), never by the auto-finish.
+var _begun: Dictionary = {}
 
 @onready var avg_accuracy_label: Label = $avg_accuracy
 var _combo_label: Label = null
@@ -69,6 +76,8 @@ func reset() -> void:
 	combined_sum = 0.0
 	combined_n = 0
 	_pending.clear()
+	_judged_count.clear()
+	_begun.clear()
 	_active_shape = ""
 	_update_ui()
 	score_changed.emit(rhythm_acc(), draw_acc(), combined_acc(), combo, counts.duplicate())
@@ -78,6 +87,7 @@ func begin_shape(shape_id: String) -> void:
 	if shape_id.is_empty():
 		return
 	_active_shape = shape_id
+	_begun[shape_id] = true
 	if not _pending.has(shape_id):
 		_pending[shape_id] = []
 
@@ -96,6 +106,7 @@ func register_hit(kind: int, shape_id: String = "") -> void:
 		if not _pending.has(target):
 			_pending[target] = []
 		(_pending[target] as Array).append(HitResult.weight_of(kind))
+		_judged_count[target] = int(_judged_count.get(target, 0)) + 1
 
 	counts[kind] = int(counts.get(kind, 0)) + 1
 	rhythm_sum += HitResult.weight_of(kind)
@@ -109,6 +120,7 @@ func register_hit(kind: int, shape_id: String = "") -> void:
 		_play_combo_anim(true)
 	_update_ui()
 	score_changed.emit(rhythm_acc(), draw_acc(), combined_acc(), combo, counts.duplicate())
+	_maybe_finish_undrawn_shape(target)
 
 
 func register_miss(shape_id: String = "") -> void:
@@ -134,6 +146,8 @@ func finish_shape(shape_id: String, draw_acc_01: float) -> float:
 	combined_n += 1
 	if not key.is_empty():
 		_pending.erase(key)
+		_judged_count.erase(key)
+		_begun.erase(key)
 	if key == _active_shape:
 		_active_shape = ""
 	_update_ui()
@@ -195,6 +209,34 @@ func _on_draw_ended() -> void:
 
 
 # --- internals ---
+
+## Scores a shape the player never drew: once every beat is judged (hit or
+## miss) the shape can never gain draw accuracy, so finish it with draw 0.
+## Drawn shapes (_begun) are skipped — the draw-ended flow owns their finish
+## with the real recognizer accuracy. Unknown beat counts (total <= 0) fall
+## back to the old draw-flow-only behavior.
+func _maybe_finish_undrawn_shape(shape_id: String) -> void:
+	if shape_id.is_empty():
+		return
+	if not _pending.has(shape_id):
+		return
+	if bool(_begun.get(shape_id, false)):
+		return
+	var total := _shape_total_beats(shape_id)
+	if total <= 0:
+		return
+	if int(_judged_count.get(shape_id, 0)) >= total:
+		_judged_count.erase(shape_id)
+		finish_shape(shape_id, 0.0)
+
+
+## Expected beat count for a shape from the chart's runtime index.
+func _shape_total_beats(shape_id: String) -> int:
+	var chart := Global.current_chart
+	if chart != null and chart.has_method("shape_group"):
+		var group: Dictionary = chart.shape_group(shape_id)
+		return int(group.get("count", 0))
+	return 0
 
 func _mean(values: Array) -> float:
 	if values.is_empty():

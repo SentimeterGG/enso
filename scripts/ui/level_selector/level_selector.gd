@@ -31,6 +31,7 @@ var _synced_stream: AudioStream = null
 func _ready() -> void:
 	$AnimationPlayer.play("Opening")
 	call_deferred("_warn_skipped_incomplete")
+	DiscordRPC.set_activity("Choosing A Map", "")
 
 
 ## Toast when level_list hid incomplete (solo-note) charts.
