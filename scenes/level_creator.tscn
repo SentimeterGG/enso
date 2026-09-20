@@ -5,52 +5,12 @@
 [ext_resource type="Script" uid="uid://ckfp2ghdvbb8t" path="res://scripts/ui/level_creator/level_creator.gd" id="1_qesna"]
 [ext_resource type="PackedScene" uid="uid://b7rlmo61qxu8s" path="res://scenes/draw.tscn" id="2_8nwwt"]
 [ext_resource type="Script" uid="uid://bsweodsn26075" path="res://scripts/ui/level_creator/metadata.gd" id="3_m4iti"]
-[ext_resource type="FontFile" uid="uid://o0cdle58rn3j" path="res://assets/fonts/ithaca.medium.ttf" id="3_mjqih"]
-[ext_resource type="Texture2D" uid="uid://b3v8a03h3ikfs" path="res://assets/sprites/UI/corner.png" id="4_ik5ql"]
 [ext_resource type="Texture2D" uid="uid://cgruk4xoapf0n" path="res://assets/sprites/UI/folder_icon.png" id="4_m4iti"]
 [ext_resource type="Script" uid="uid://dgs760t2d526n" path="res://scripts/ui/level_creator/mapping.gd" id="8_cixrd"]
 [ext_resource type="AudioStream" uid="uid://dybpytxnyej66" path="res://assets/sound/osu-hit-sound.mp3" id="10_2vkcm"]
 [ext_resource type="Texture2D" uid="uid://dnnjjgvh1pcgl" path="res://assets/sprites/UI/shape/circle_outline.png" id="11_7fl6t"]
 [ext_resource type="Texture2D" uid="uid://bhaq3n5lalrao" path="res://assets/sprites/UI/beat_bg.png" id="11_8nwwt"]
 [ext_resource type="PackedScene" uid="uid://ck7x5mmeskxsl" path="res://scenes/notification.tscn" id="12_notif"]
-
-[sub_resource type="Animation" id="Animation_rtw2f"]
-length = 0.001
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath(".:offset_transform_position")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 0,
-"values": [Vector2(0, 0)]
-}
-
-[sub_resource type="Animation" id="Animation_8ln24"]
-resource_name = "idle"
-length = 2.0
-loop_mode = 1
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath(".:offset_transform_position")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0, 0.5, 1, 1.5),
-"transitions": PackedFloat32Array(0.5649004, 2.3392866, 0.5649004, 2.3392866),
-"update": 0,
-"values": [Vector2(0, 0), Vector2(0, -3), Vector2(0, 0), Vector2(0, 3)]
-}
-
-[sub_resource type="AnimationLibrary" id="AnimationLibrary_m4iti"]
-_data = {
-&"RESET": SubResource("Animation_rtw2f"),
-&"idle": SubResource("Animation_8ln24")
-}
 
 [sub_resource type="InputEventKey" id="InputEventKey_8nwwt"]
 device = -1
@@ -135,120 +95,6 @@ file_mode = 0
 access = 2
 filters = PackedStringArray("*.enso")
 use_native_dialog = true
-
-[node name="RB" type="MarginContainer" parent="." unique_id=1103346126]
-layout_mode = 1
-anchors_preset = 3
-anchor_left = 1.0
-anchor_top = 1.0
-anchor_right = 1.0
-anchor_bottom = 1.0
-offset_left = -209.0
-offset_top = -125.0
-grow_horizontal = 0
-grow_vertical = 0
-mouse_filter = 2
-theme_override_constants/margin_right = 24
-theme_override_constants/margin_bottom = 24
-
-[node name="MarginContainer" type="MarginContainer" parent="RB" unique_id=1495628374]
-layout_mode = 2
-theme_override_constants/margin_right = 16
-theme_override_constants/margin_bottom = 6
-
-[node name="ENSO" type="Label" parent="RB/MarginContainer" unique_id=1193862384]
-modulate = Color(1, 1, 1, 0)
-layout_mode = 2
-offset_transform_enabled = true
-theme_override_fonts/font = ExtResource("3_mjqih")
-theme_override_font_sizes/font_size = 108
-text = "ENSO"
-horizontal_alignment = 1
-
-[node name="Bobbing" type="AnimationPlayer" parent="RB/MarginContainer/ENSO" unique_id=1942057541]
-libraries/ = SubResource("AnimationLibrary_m4iti")
-speed_scale = 0.6
-
-[node name="RB" type="TextureRect" parent="RB" unique_id=8995809]
-modulate = Color(1, 1, 1, 0.3254902)
-layout_mode = 2
-size_flags_horizontal = 8
-size_flags_vertical = 8
-offset_transform_enabled = true
-offset_transform_position = Vector2(60, 60)
-offset_transform_scale = Vector2(1.5, 1.5)
-offset_transform_pivot_ratio = Vector2(1, 1)
-texture = ExtResource("4_ik5ql")
-flip_h = true
-
-[node name="LB" type="MarginContainer" parent="." unique_id=1527337597]
-layout_mode = 1
-anchors_preset = 2
-anchor_top = 1.0
-anchor_bottom = 1.0
-offset_top = -129.0
-offset_right = 121.0
-grow_vertical = 0
-mouse_filter = 2
-theme_override_constants/margin_left = 24
-theme_override_constants/margin_right = 0
-theme_override_constants/margin_bottom = 24
-
-[node name="LB" type="TextureRect" parent="LB" unique_id=1102475732]
-modulate = Color(1, 1, 1, 0.3254902)
-layout_mode = 2
-size_flags_horizontal = 0
-size_flags_vertical = 8
-offset_transform_enabled = true
-offset_transform_position = Vector2(-60, 60)
-offset_transform_scale = Vector2(1.5, 1.5)
-offset_transform_pivot_ratio = Vector2(0, 1)
-texture = ExtResource("4_ik5ql")
-
-[node name="LT" type="MarginContainer" parent="." unique_id=2026639330]
-layout_mode = 0
-offset_right = 193.0
-offset_bottom = 111.0
-mouse_filter = 2
-theme_override_constants/margin_left = 24
-theme_override_constants/margin_top = 24
-
-[node name="LT" type="TextureRect" parent="LT" unique_id=708785754]
-modulate = Color(1, 1, 1, 0.3254902)
-layout_mode = 2
-size_flags_horizontal = 0
-size_flags_vertical = 0
-offset_transform_enabled = true
-offset_transform_position = Vector2(-60, -60)
-offset_transform_scale = Vector2(1.5, 1.5)
-offset_transform_pivot_ratio = Vector2(0, 0)
-texture = ExtResource("4_ik5ql")
-flip_v = true
-
-[node name="RT" type="MarginContainer" parent="." unique_id=650810327]
-layout_mode = 1
-anchors_preset = 1
-anchor_left = 1.0
-anchor_right = 1.0
-offset_left = -193.0
-offset_bottom = 111.0
-grow_horizontal = 0
-mouse_filter = 2
-theme_override_constants/margin_top = 24
-theme_override_constants/margin_right = 24
-
-[node name="RT" type="TextureRect" parent="RT" unique_id=1964594034]
-modulate = Color(1, 1, 1, 0.3254902)
-layout_mode = 2
-size_flags_horizontal = 8
-size_flags_vertical = 0
-offset_transform_enabled = true
-offset_transform_position = Vector2(60, -60)
-offset_transform_scale = Vector2(1.5, 1.5)
-offset_transform_pivot_ratio = Vector2(1, 0)
-texture = ExtResource("4_ik5ql")
-flip_h = true
-flip_v = true
 
 [node name="LevelCreator" type="HBoxContainer" parent="." unique_id=1541542562]
 unique_name_in_owner = true
@@ -815,6 +661,7 @@ volume_db = 10.0
 bus = &"Effect"
 
 [node name="TopBar" type="ColorRect" parent="." unique_id=157878358]
+self_modulate = Color(1, 1, 1, 0)
 layout_mode = 1
 anchors_preset = 10
 anchor_right = 1.0

@@ -17,6 +17,10 @@ var _current_offset: float = 0.0
 var _last_beat: int = -1
 var _pulse_tween: Tween = null
 var _transitioning: bool = false
+## Stream the beat clock is synced to. BgMusic.change_song() swaps the
+## stream ~0.3s after hover (fade tween), so hover-time beat state goes stale
+## on first launch. Re-arming on the real swap keeps beats working.
+var _synced_stream: AudioStream = null
 @onready var draw_here_label: Label = %"Draw Here"
 @onready var beat_sound: AudioStreamPlayer = $"beat_sound"
 @onready var draw_manager: Line2D = $draw
@@ -90,11 +94,22 @@ func _physics_process(_delta: float) -> void:
 		return
 	if BgMusic == null or not BgMusic.playing:
 		return
+	var beat_duration := 1.0 / _current_bpm
 	var audio_time := BgMusic.get_playback_position() - _current_offset
 	if audio_time < 0.0:
 		return
-	var beat_duration := 1.0 / _current_bpm
 	var current_beat := int(audio_time / beat_duration)
+	if BgMusic.stream != _synced_stream:
+		# Song actually swapped (post-fade): re-arm from the live position.
+		_synced_stream = BgMusic.stream
+		_transitioning = true
+		_last_beat = current_beat
+		return
+	if not _transitioning and current_beat < _last_beat:
+		# Position jumped backward (seek/replay): re-arm the same way.
+		_transitioning = true
+		_last_beat = current_beat
+		return
 	if _transitioning:
 		if current_beat > _last_beat:
 			_last_beat = current_beat
