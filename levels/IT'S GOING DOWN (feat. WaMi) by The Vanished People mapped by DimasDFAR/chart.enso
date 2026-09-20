@@ -2,7 +2,7 @@
 name = IT'S GOING DOWN (feat. WaMi)
 source = The Vanished People
 mapper = DimasDFAR
-song = ./The Vanished People - IT'S GOING DOWN (feat. WaMi) [Official Lyric Video].wavt 
+song = ./The Vanished People - IT'S GOING DOWN (feat. WaMi) [Official Lyric Video].wav
 color_scheme = ["#2A6EFF", "#7498E4", "#5F9FB4", "#48B0D1", "#9E35A6", "#C09AC3", "#955D9A", "#F680FF"]
 preview_start = 65916
 bpm = 145
