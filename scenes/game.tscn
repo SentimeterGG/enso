@@ -886,7 +886,7 @@ bus = &"Effect"
 
 [node name="note_manager" type="Node2D" parent="." unique_id=1684941741]
 process_mode = 1
-modulate = Color(1, 1, 1, 0)
+modulate = Color(1, 1, 1, 0.9965722)
 position = Vector2(48, 48)
 script = ExtResource("5_p57ef")
 

@@ -17,3 +17,8 @@ func change_song(p_stream: AudioStream = null, p_seek: float = 0.0) -> void:
 				stop()
 	)
 	tween.tween_property(self, "volume_db", FULL_DB, FADE_DURATION)
+
+func start_song(p_stream: AudioStream = null, p_seek: float = 0.0) -> void:
+	volume_db = FULL_DB
+	stream = p_stream
+	play()

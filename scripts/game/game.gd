@@ -46,7 +46,7 @@ func _process(_delta: float) -> void:
 
 func _on_animator_animation_finished(anim_name: StringName) -> void:
 	if anim_name == "Intro":
-		BgMusic.change_song(load(Global.current_chart.song_path()))
+		BgMusic.start_song(load(Global.current_chart.song_path()))
 		animator.play("bg_fade")
 		video_stream_player.play()
 		target_shape.clear_points()
