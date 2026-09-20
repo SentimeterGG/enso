@@ -1,0 +1,19 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+uid="uid://f04h7yc8bhid"
+path="res://.godot/imported/Killkiss TV SIZE.mp3-91889f1834a0abe9151fdc2e5e038737.mp3str"
+
+[deps]
+
+source_file="res://levels/KiLLKiSS by Ave Mujica mapped by DimasDFAR/Killkiss TV SIZE.mp3"
+dest_files=["res://.godot/imported/Killkiss TV SIZE.mp3-91889f1834a0abe9151fdc2e5e038737.mp3str"]
+
+[params]
+
+loop=false
+loop_offset=0
+bpm=0
+beat_count=0
+bar_beats=4
