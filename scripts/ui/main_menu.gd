@@ -4,7 +4,10 @@
 # RETURN: route to the level selector when a circle is drawn
 extends Control
 
+enum GoTo { NONE, PLAY, SETTINGS, EDITOR }
+
 @onready var draw_manager: Line2D = $draw
+var go_to: GoTo = GoTo.NONE
 
 
 func _ready() -> void:
@@ -18,19 +21,27 @@ func _on_transition_animation_finished(anim_name: StringName) -> void:
 	if anim_name == "Opening":
 		pass
 	elif anim_name == "Out":
-		get_tree().change_scene_to_file("res://scenes/level_selector.tscn")
-	elif anim_name == "Out_settings":
-		get_tree().change_scene_to_file("res://scenes/settings_tab.tscn")
-	elif anim_name == "Out_editor":
-		get_tree().change_scene_to_file("res://scenes/level_creator.tscn")
+		match go_to:
+			GoTo.PLAY:
+				get_tree().change_scene_to_file("res://scenes/level_selector.tscn")
+			GoTo.SETTINGS:
+				get_tree().change_scene_to_file("res://scenes/settings_tab.tscn")
+			GoTo.EDITOR:
+				get_tree().change_scene_to_file("res://scenes/level_creator.tscn")
+			_:
+				pass
 
 
 func _on_draw_guessed_shape(shape: String) -> void:
-	if shape == "circle":
-		$Transition.play("Out")
-	elif shape == "line":
-		$Transition.play("Out_settings")
-	elif shape == "square":
-		$Transition.play("Out_editor")
-	elif shape == "exit":
-		get_tree().quit()
+	match shape:
+		"circle":
+			go_to = GoTo.PLAY
+			$Transition.play("Out")
+		"line":
+			go_to = GoTo.SETTINGS
+			$Transition.play("Out")
+		"square":
+			go_to = GoTo.EDITOR
+			$Transition.play("Out")
+		"exit":
+			get_tree().quit()

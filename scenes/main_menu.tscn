@@ -222,7 +222,7 @@ tracks/13/keys = {
 
 [sub_resource type="Animation" id="Animation_oa1go"]
 resource_name = "Out"
-length = 1.2
+length = 1.6
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
@@ -283,130 +283,14 @@ tracks/4/keys = {
 "update": 0,
 "values": [Color(1, 1, 1, 1), Color(1, 1, 1, 0)]
 }
-
-[sub_resource type="Animation" id="Animation_jk1qb"]
-resource_name = "Out_editor"
-length = 1.2
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("../LB/MarginContainer/VBoxContainer/Circle to Play:modulate")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0.033333335, 0.6666667),
-"transitions": PackedFloat32Array(0.18, 0.18),
-"update": 0,
-"values": [Color(1, 1, 1, 1), Color(1, 1, 1, 0)]
-}
-tracks/1/type = "value"
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/path = NodePath("../LB/MarginContainer/VBoxContainer/Line To Settings:modulate")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/keys = {
-"times": PackedFloat32Array(0.26666662, 0.9),
-"transitions": PackedFloat32Array(0.18, 0.18),
-"update": 0,
-"values": [Color(1, 1, 1, 1), Color(1, 1, 1, 0)]
-}
-tracks/2/type = "value"
-tracks/2/imported = false
-tracks/2/enabled = true
-tracks/2/path = NodePath("../LB/MarginContainer/VBoxContainer/Square to Level Editor:modulate")
-tracks/2/interp = 1
-tracks/2/loop_wrap = true
-tracks/2/keys = {
-"times": PackedFloat32Array(0.4666667, 1.1),
-"transitions": PackedFloat32Array(0.18, 0.18),
-"update": 0,
-"values": [Color(1, 1, 1, 1), Color(1, 1, 1, 0)]
-}
-tracks/3/type = "value"
-tracks/3/imported = false
-tracks/3/enabled = true
-tracks/3/path = NodePath("../RB/MarginContainer/ENSO:modulate")
-tracks/3/interp = 1
-tracks/3/loop_wrap = true
-tracks/3/keys = {
-"times": PackedFloat32Array(0.23333336, 0.8666667),
-"transitions": PackedFloat32Array(0.18, 0.18),
-"update": 0,
-"values": [Color(1, 1, 1, 1), Color(1, 1, 1, 0)]
-}
-tracks/4/type = "value"
-tracks/4/imported = false
-tracks/4/enabled = true
-tracks/4/path = NodePath(".:self_modulate")
-tracks/4/interp = 1
-tracks/4/loop_wrap = true
-tracks/4/keys = {
-"times": PackedFloat32Array(0.5, 1.1333333),
-"transitions": PackedFloat32Array(0.18, 0.18),
-"update": 0,
-"values": [Color(1, 1, 1, 1), Color(1, 1, 1, 0)]
-}
-
-[sub_resource type="Animation" id="Animation_tbmy8"]
-resource_name = "Out_settings"
-length = 1.2
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("../LB/MarginContainer/VBoxContainer/Circle to Play:modulate")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0.033333335, 0.6666667),
-"transitions": PackedFloat32Array(0.18, 0.18),
-"update": 0,
-"values": [Color(1, 1, 1, 1), Color(1, 1, 1, 0)]
-}
-tracks/1/type = "value"
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/path = NodePath("../LB/MarginContainer/VBoxContainer/Line To Settings:modulate")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/keys = {
-"times": PackedFloat32Array(0.26666662, 0.9),
-"transitions": PackedFloat32Array(0.18, 0.18),
-"update": 0,
-"values": [Color(1, 1, 1, 1), Color(1, 1, 1, 0)]
-}
-tracks/2/type = "value"
-tracks/2/imported = false
-tracks/2/enabled = true
-tracks/2/path = NodePath("../LB/MarginContainer/VBoxContainer/Square to Level Editor:modulate")
-tracks/2/interp = 1
-tracks/2/loop_wrap = true
-tracks/2/keys = {
-"times": PackedFloat32Array(0.4666667, 1.1),
-"transitions": PackedFloat32Array(0.18, 0.18),
-"update": 0,
-"values": [Color(1, 1, 1, 1), Color(1, 1, 1, 0)]
-}
-tracks/3/type = "value"
-tracks/3/imported = false
-tracks/3/enabled = true
-tracks/3/path = NodePath("../RB/MarginContainer/ENSO:modulate")
-tracks/3/interp = 1
-tracks/3/loop_wrap = true
-tracks/3/keys = {
-"times": PackedFloat32Array(0.23333336, 0.8666667),
-"transitions": PackedFloat32Array(0.18, 0.18),
-"update": 0,
-"values": [Color(1, 1, 1, 1), Color(1, 1, 1, 0)]
-}
-tracks/4/type = "value"
-tracks/4/imported = false
-tracks/4/enabled = true
-tracks/4/path = NodePath(".:self_modulate")
-tracks/4/interp = 1
-tracks/4/loop_wrap = true
-tracks/4/keys = {
-"times": PackedFloat32Array(0.5, 1.1333333),
+tracks/5/type = "value"
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/path = NodePath("../LB/MarginContainer/VBoxContainer/Square to Level Editor2:modulate")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/keys = {
+"times": PackedFloat32Array(0.76666665, 1.4),
 "transitions": PackedFloat32Array(0.18, 0.18),
 "update": 0,
 "values": [Color(1, 1, 1, 1), Color(1, 1, 1, 0)]
@@ -562,8 +446,6 @@ tracks/11/keys = {
 _data = {
 &"Opening": SubResource("Animation_bqqt6"),
 &"Out": SubResource("Animation_oa1go"),
-&"Out_editor": SubResource("Animation_jk1qb"),
-&"Out_settings": SubResource("Animation_tbmy8"),
 &"RESET": SubResource("Animation_wu84c")
 }
 
@@ -728,12 +610,11 @@ horizontal_alignment = 1
 vertical_alignment = 1
 
 [node name="Square to Level Editor2" type="HBoxContainer" parent="LB/MarginContainer/VBoxContainer" unique_id=201507613]
-modulate = Color(1, 1, 1, 0)
+modulate = Color(1, 1, 1, 0.00060117245)
 layout_mode = 2
 size_flags_horizontal = 0
 size_flags_vertical = 8
 offset_transform_enabled = true
-offset_transform_position = Vector2(0, 9)
 theme_override_constants/separation = 12
 
 [node name="TextureRect" type="TextureRect" parent="LB/MarginContainer/VBoxContainer/Square to Level Editor2" unique_id=1551613104]
