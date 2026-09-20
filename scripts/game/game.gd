@@ -52,9 +52,8 @@ func _on_animator_animation_finished(anim_name: StringName) -> void:
 		target_shape.clear_points()
 		note_scheduler.start(note_manager)
 		draw_manager.start()
-	%TransOffset.modulate = Color(1.0, 1.0, 1.0, Global.settingsData.bg_visibilty*0.01)
 		var sc := get_node_or_null("%accuracy_manager")
 		if sc != null and sc.has_method("reset"):
 			sc.refresh_od()
 			sc.reset()
-	pass  # Replace with function body.
+	%TransOffset.modulate = Color(1.0, 1.0, 1.0, Global.settingsData.bg_visibilty*0.01)
