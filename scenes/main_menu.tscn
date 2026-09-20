@@ -391,7 +391,7 @@ tracks/7/keys = {
 "times": PackedFloat32Array(0),
 "transitions": PackedFloat32Array(1),
 "update": 0,
-"values": [Color(1, 1, 1, 1)]
+"values": [Color(1, 1, 1, 0)]
 }
 tracks/8/type = "value"
 tracks/8/imported = false
@@ -651,6 +651,7 @@ theme_override_constants/margin_right = 16
 theme_override_constants/margin_bottom = 6
 
 [node name="ENSO" type="Label" parent="RB/MarginContainer" unique_id=260372447]
+modulate = Color(1, 1, 1, 0)
 layout_mode = 2
 offset_transform_enabled = true
 theme_override_fonts/font = ExtResource("1_l6cm7")
