@@ -16,8 +16,8 @@ func lane_length() -> float:
 	return spawner.position.x - receptor.position.x
 
 
-func spawn(hit_time: float, color: Color = Color.WHITE):
-	beat_column.spawn_beat(hit_time, receptor.position.x, px_per_sec, color)
+func spawn(hit_time: float, color: Color = Color.WHITE, beat_id: String = ""):
+	beat_column.spawn_beat(hit_time, receptor.position.x, px_per_sec, color, beat_id)
 
 
 func spawn_shape(

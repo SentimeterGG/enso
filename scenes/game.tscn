@@ -765,6 +765,7 @@ _data = {
 
 [node name="game" type="Node2D" unique_id=1374663414]
 script = ExtResource("1_uwrxv")
+CHART_PATH = "res://levels/Wasurete Yaranai by kessoku band mapped by ENSO Team/chart.enso"
 
 [node name="TransOffset" type="Control" parent="." unique_id=532337667]
 unique_name_in_owner = true
@@ -839,7 +840,6 @@ text = "100.00%"
 horizontal_alignment = 2
 
 [node name="target_shape" type="Line2D" parent="." unique_id=129393694]
-visible = false
 position = Vector2(295, 155)
 width = 5.0
 script = ExtResource("3_gee14")
@@ -888,6 +888,7 @@ script = ExtResource("11_dinhu")
 libraries/ = SubResource("AnimationLibrary_1yg85")
 
 [node name="draw" parent="." unique_id=2118743800 node_paths=PackedStringArray("target_shape") instance=ExtResource("10_vtaks")]
+unique_name_in_owner = true
 joint_mode = 0
 begin_cap_mode = 1
 end_cap_mode = 1
@@ -1114,5 +1115,7 @@ flip_v = true
 [connection signal="beat_hit" from="note_manager/beat_column" to="accuracy_manager/judge_spawner" method="_on_beat_column_beat_hit"]
 [connection signal="animation_finished" from="Mio" to="Mio" method="_on_animation_finished"]
 [connection signal="draw_direction_changes" from="draw" to="note_manager/beat_column" method="_on_draw_direction_changes"]
+[connection signal="draw_ended" from="draw" to="accuracy_manager" method="_on_draw_ended"]
+[connection signal="draw_ended" from="draw" to="note_manager/beat_column" method="_on_draw_draw_ended"]
 [connection signal="draw_started" from="draw" to="note_manager/beat_column" method="_on_draw_started"]
 [connection signal="shape_accuracy_ready" from="draw" to="accuracy_manager" method="_on_draw_shape_accuracy_ready"]
