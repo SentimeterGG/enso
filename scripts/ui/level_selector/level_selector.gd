@@ -178,4 +178,16 @@ func _on_level_item_hovered(chart_path: String) -> void:
 	var stream := load(song) as AudioStream
 	if stream == null:
 		return
+	if bg.playing and bg.stream != null:
+		var cur_path := bg.stream.resource_path
+		var new_path := stream.resource_path
+		var same_song := bg.stream == stream or (not cur_path.is_empty() and cur_path == new_path)
+		if same_song:
+			# Same song already playing: don't reset it, just re-sync the beat clock
+			# to the live playback position with the new chart's bpm/offset.
+			_synced_stream = bg.stream
+			_transitioning = false
+			var audio_time := bg.get_playback_position() - _current_offset
+			_last_beat = int(audio_time / beat_duration) if audio_time >= 0.0 else -1
+			return
 	bg.change_song(stream, chart.preview_start())
