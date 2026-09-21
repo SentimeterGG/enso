@@ -50,7 +50,7 @@ _data = {
 
 [sub_resource type="Animation" id="Animation_5dd4i"]
 resource_name = "Exit Game"
-length = 1.5999999999999999
+length = 1.6
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true

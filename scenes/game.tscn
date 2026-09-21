@@ -966,7 +966,7 @@ script = ExtResource("3_rysoc")
 
 [node name="drawing_judge_spawner" type="Node2D" parent="target_shape/accuracy_manager" unique_id=2092367230]
 unique_name_in_owner = true
-position = Vector2(-393, -125)
+position = Vector2(-97, -121)
 script = ExtResource("3_rysoc")
 
 [node name="avg_accuracy" type="Label" parent="target_shape/accuracy_manager" unique_id=906467398]
