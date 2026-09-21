@@ -9,3 +9,18 @@ offset_bottom = 23.0
 theme = ExtResource("1_r3gdf")
 text = "MISS"
 script = ExtResource("2_cn57b")
+
+[node name="Accuracy" type="Label" parent="." unique_id=406512396]
+visible = false
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -40.0
+offset_bottom = 22.0
+grow_horizontal = 0
+offset_transform_enabled = true
+offset_transform_position_ratio = Vector2(1, -1)
+theme_override_font_sizes/font_size = 12
+text = "50%"
+vertical_alignment = 2

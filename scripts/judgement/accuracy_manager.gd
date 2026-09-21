@@ -16,7 +16,10 @@ class_name ScoreManager
 
 signal score_changed(rhythm_acc: float, draw_acc: float, combined_acc: float, combo: int, counts: Dictionary)
 
-const DRAW_BAD_THRESHOLD := 60.0
+const DRAW_BAD_THRESHOLD := 50.0
+## GOOD sits in the middle between BAD (60) and PERFECT (~90): sloppy-but-right
+## strokes land 60-75, clean strokes 75+. Mirrors recognizer.good_threshold.
+const DRAW_GOOD_THRESHOLD := 75.0
 
 var od: float = 0.0
 
@@ -199,7 +202,7 @@ func _on_draw_shape_accuracy_ready(accuracy: float) -> void:
 		# Only notes that pass the receptor unhit can miss (via auto-miss).
 		return
 	if accuracy < DRAW_BAD_THRESHOLD:
-		_spawn_bad_draw()
+		_spawn_bad_draw(accuracy)
 	finish_shape(key, accuracy / 100.0)
 
 
@@ -219,10 +222,10 @@ func _on_draw_ended() -> void:
 
 ## Floating BAD DRAWING label for sloppy drawings (visual + Mio reaction only;
 ## scoring is untouched — finish_shape already recorded the draw accuracy).
-func _spawn_bad_draw() -> void:
+func _spawn_bad_draw(accuracy: float) -> void:
 	var spawner := get_node_or_null("judge_spawner")
 	if spawner != null and spawner.has_method("spawn_bad_draw"):
-		spawner.call("spawn_bad_draw")
+		spawner.call("spawn_bad_draw", accuracy)
 
 ## Scores a shape the player never drew: once every beat is judged (hit or
 ## miss) the shape can never gain draw accuracy, so finish it with draw 0.

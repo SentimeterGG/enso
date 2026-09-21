@@ -19,7 +19,7 @@ const LABELS := {
 	Kind.OK: "OK",
 	Kind.BAD: "BAD",
 	Kind.MISS: "MISS",
-	Kind.BAD_DRAW: "BAD DRAWING",
+	Kind.BAD_DRAW: "BAD DRAW",
 }
 
 const COLORS := {

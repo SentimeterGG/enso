@@ -7,6 +7,7 @@ const judgement_label := preload("res://scenes/judgement_label.tscn")
 
 @onready var score: ScoreManager = %accuracy_manager
 @onready var mio: AnimatedSprite2D = %Mio
+@onready var drawing_judge_spawner: Node2D = get_node_or_null("%drawing_judge_spawner")
 
 
 func _ready() -> void:
@@ -24,16 +25,24 @@ func _on_beat_column_beat_hit(error_ms: float, beat_id: String = "") -> void:
 		score.register_hit(kind, beat_id)
 
 
-## Draw judgement: call when shape drawing accuracy falls below threshold.
-func spawn_bad_draw() -> void:
-	_spawn_kind(HitResult.Kind.BAD_DRAW)
+## Draw judgement: call with the recognizer accuracy (0-100) when shape
+## drawing accuracy falls below threshold.
+func spawn_bad_draw(accuracy: float = 0.0) -> void:
+	_spawn_kind(HitResult.Kind.BAD_DRAW, accuracy)
 
 
-func _spawn_kind(kind: int) -> void:
+func _spawn_kind(kind: int, accuracy: float = -1.0) -> void:
 	var label: Label = judgement_label.instantiate()
 	add_child(label)
 	label.text = str(HitResult.LABELS.get(kind, "MISS"))
 	label.modulate = HitResult.COLORS.get(kind, Color.WHITE)
+	# BAD DRAWING is a drawing judgement, not a beat judgement: float it at the
+	# drawing marker instead of the beat receptor, showing the draw accuracy
+	# from accuracy_manager. Falls back to this spawner's own position when
+	# the marker node is missing.
+	if kind == HitResult.Kind.BAD_DRAW and drawing_judge_spawner != null:
+		label.position = to_local(drawing_judge_spawner.global_position)
+		label._set_accuracy_label(accuracy)
 
 	if mio != null and mio.has_method("note_hit"):
 		mio.note_hit(kind)

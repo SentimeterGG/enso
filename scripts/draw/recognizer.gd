@@ -2,30 +2,44 @@
 # player strokes vs. target shapes via resampling, rotation search, corner masks
 # and radial-peak structure. compare() returns 0-100 accuracy, guess() classifies
 # strokes (circle/square/triangle/line/other) from ideal templates.
+# Sloppy-but-correct strokes score above 60 (BAD_DRAW threshold); clearly
+# different shapes score below 60. Difficulty (overall_difficulty 1-10, base 5)
+# scales tolerances via apply_overall_difficulty()/compare_with_od().
 # RETURN: accuracy score (0-100) for compare, shape name for guess
 class_name GestureRecognizer
 extends Resource
 
 # --- Configurable Parameters (Godot Inspector) ---
 
-@export_group("General Tolerances")
+@export_group("Base Tolerance")
 ## Base tolerance for general shapes. Lower = stricter, Higher = more forgiving.
-@export_range(0.01, 0.5, 0.01) var tolerance: float = 0.2
+## Source of truth: apply_overall_difficulty() rescales the runtime tolerances
+## from these every time (never compounded).
+@export_range(0.01, 0.5, 0.01) var base_tolerance: float = 0.3
 
-## Tolerance for straight or near-flat lines.
-@export_range(0.01, 0.5, 0.01) var line_tolerance: float = 0.25
+## Base tolerance for straight or near-flat lines.
+@export_range(0.01, 0.5, 0.01) var base_line_tolerance: float = 0.35
 
-## Tolerance for complex/spiky shapes far from a circle (e.g., star).
-@export_range(0.01, 0.5, 0.01) var complex_tolerance: float = 0.36
+## Base tolerance for complex/spiky shapes far from a circle (e.g., star).
+@export_range(0.01, 0.5, 0.01) var base_complex_tolerance: float = 0.46
 
-## Tolerance for open (non-closed) shapes like L, U, Z, arcs.
-@export_range(0.01, 0.5, 0.01) var open_tolerance: float = 0.28
+## Base tolerance for open (non-closed) shapes like L, U, Z, arcs.
+@export_range(0.01, 0.5, 0.01) var base_open_tolerance: float = 0.38
 
-## Tolerance for open-shape matching after unit-square normalization.
+## Base tolerance for open-shape matching after unit-square normalization.
 ## Unit-square normalization removes aspect-ratio sensitivity, so hand-drawn
 ## L/U/Z/C strokes match their targets even when bar proportions differ.
-@export_range(0.1, 1.0, 0.01) var open_unit_tolerance: float = 0.6
+@export_range(0.1, 1.0, 0.01) var base_open_unit_tolerance: float = 0.7
 
+# Runtime tolerances, rescaled from the base values above by
+# apply_overall_difficulty(). Do not edit directly; tune the base values.
+var tolerance: float = 0.3
+var line_tolerance: float = 0.35
+var complex_tolerance: float = 0.46
+var open_tolerance: float = 0.38
+var open_unit_tolerance: float = 0.7
+
+@export_group("Matching Behavior")
 ## When true, open shapes are matched with unit-square normalization, which
 ## is robust to the aspect-ratio and proportion variance of hand-drawn strokes.
 @export var enable_unit_square_open: bool = true
@@ -58,8 +72,46 @@ extends Resource
 ## corrected; larger rotations (90 deg, flips) are NOT aligned and still fail.
 @export_range(0.0, 45.0, 1.0) var rotation_tolerance_deg: float = 15.0
 
-## Ratio of positional score vs structural (radial) score.
-@export_range(0.0, 1.0, 0.05) var structural_weight: float = 0.4
+## Ratio of positional score vs structural (radial) score. Kept at 0.5 so
+## similar polygons stay separable: sloppy strokes keep matching peaks
+## (structural ~100, unaffected) while triangle-vs-square drops to ~51-55
+## (clearly BAD) instead of sitting on the 60 boundary.
+@export_range(0.0, 1.0, 0.05) var structural_weight: float = 0.5
+
+@export_group("Difficulty (overall_difficulty 1-10)")
+## Chart OD that these base tolerances are tuned for. OD 5 = base (scale 1.0),
+## OD 1 = most forgiving (scale od_max_scale), OD 10 = strictest (scale 0.5).
+@export_range(1.0, 10.0, 1.0) var base_od: float = 5.0
+## Tolerance scale applied per OD step away from base_od.
+@export_range(0.02, 0.2, 0.01) var od_step_scale: float = 0.1
+## Clamp range for OD input.
+@export_range(1.0, 10.0, 1.0) var od_min: float = 1.0
+@export_range(1.0, 10.0, 1.0) var od_max: float = 10.0
+## Widest (most forgiving, OD 1) and narrowest (strictest, OD 10) scales.
+## Keep the forgiving cap low: similar polygons (triangle vs square) already
+## score ~58 at base, so anything past ~1.1 pushes wrong shapes above the
+## BAD threshold of 60.
+@export_range(1.0, 2.0, 0.05) var od_max_scale: float = 1.1
+@export_range(0.3, 1.0, 0.05) var od_min_scale: float = 0.5
+
+@export_group("Draw Quality Bands (0-100)")
+## Below this the stroke counts as BAD DRAWING (must stay in sync with
+## ScoreManager.DRAW_BAD_THRESHOLD = 60).
+@export_range(0.0, 100.0, 1.0) var bad_threshold: float = 60.0
+## At/above this the stroke counts as GOOD. 75 is the midpoint between BAD
+## (60) and PERFECT (~90): the middle ground between the most forgiving
+## wrong-shape ceiling (~50) and the strictest sloppy-stroke floor (~70-90).
+@export_range(0.0, 100.0, 1.0) var good_threshold: float = 75.0
+## At/above this the stroke counts as PERFECT.
+@export_range(0.0, 100.0, 1.0) var perfect_threshold: float = 90.0
+
+@export_group("Line Orientation")
+## Angle (deg) tolerance for line-vs-line direction. A perpendicular line
+## (90 deg off) must score ~0; a sloppy line (a few deg off) keeps ~full score.
+@export_range(10.0, 45.0, 1.0) var line_angle_tol_deg: float = 25.0
+## Total turning (deg) below which an open stroke counts as straight
+## (catches 2-point diagonals, which are straight lines despite a square bbox).
+@export_range(5.0, 30.0, 1.0) var straight_turn_tol_deg: float = 12.0
 
 @export_group("Resampling & Preprocessing")
 ## Number of resampled points along the path.
@@ -128,6 +180,8 @@ var _template_cache: Dictionary = {}
 var _template_names: Array[String] = []
 var _templates_ready := false
 var _suppress_rotation_penalty := false
+
+
 
 
 # --- Target Data Cache Struct (Saves massive frame time) ---
@@ -352,6 +406,107 @@ func compare_to_target_data(player: PackedVector2Array, target: TargetData) -> f
 	return _score_player_data(build_player_data(player), target)
 
 
+# --- Difficulty (overall_difficulty 1-10) & Quality Bands ---
+
+## Scale factor for an OD value: OD 5 (base) -> 1.0, OD 1 -> od_max_scale
+## (most forgiving), OD 10 -> od_min_scale (strictest). Linear in between.
+func tolerance_scale_for_od(od: float) -> float:
+	var c := clampf(od, od_min, od_max)
+	return clampf(1.0 + (base_od - c) * od_step_scale, od_min_scale, od_max_scale)
+
+
+## Applies an OD value to this recognizer by rescaling every runtime tolerance
+## from the Base Tolerance exports (never compounded: calling twice recomputes
+## from base). Returns the applied scale. Sloppy strokes stay above
+## `bad_threshold` (60) while clearly different shapes stay below it across
+## the full OD 1-10 range.
+func apply_overall_difficulty(od: float) -> float:
+	var s := tolerance_scale_for_od(od)
+	tolerance = base_tolerance * s
+	line_tolerance = base_line_tolerance * s
+	complex_tolerance = base_complex_tolerance * s
+	open_tolerance = base_open_tolerance * s
+	open_unit_tolerance = base_open_unit_tolerance * s
+	return s
+
+
+## Reads a chart's overall_difficulty (1-10, 5 = base). Handles both the raw
+## metadata string ("6") and the legacy ChartData.get_od() (/1000) scaling.
+static func od_from_chart(chart: ChartData) -> float:
+	if chart == null:
+		return 5.0
+	var raw := 5.0
+	if not chart.metadata.is_empty() and chart.metadata.has("overall_difficulty"):
+		raw = float(str(chart.metadata["overall_difficulty"]))
+	elif chart.has_method("get_od"):
+		raw = float(chart.call("get_od")) * 1000.0
+	return clampf(raw, 1.0, 10.0)
+
+
+## Applies the OD of a ChartData (usually Global.current_chart). No-op for null.
+func apply_chart_od(chart: ChartData) -> float:
+	return apply_overall_difficulty(GestureRecognizer.od_from_chart(chart))
+
+
+## Scores with a one-shot OD applied first (does not permanently change tuning
+## any more than apply_overall_difficulty does — both recompute from base).
+func compare_with_od(player: PackedVector2Array, target: PackedVector2Array, od: float) -> float:
+	apply_overall_difficulty(od)
+	return compare(player, target)
+
+
+## Quality band for a 0-100 score: perfect / good / sloppy (pass) / bad.
+## GOOD (75) is the midpoint between BAD (60) and PERFECT (90).
+func quality_of(score: float) -> String:
+	if score >= perfect_threshold:
+		return "perfect"
+	if score >= good_threshold:
+		return "good"
+	if score >= bad_threshold:
+		return "sloppy"
+	return "bad"
+
+
+## True when the score counts as a successful drawing (sloppy or better).
+func is_pass(score: float) -> bool:
+	return score >= bad_threshold
+
+
+
+
+
+# --- Straight-stroke & Line-orientation helpers ---
+
+## True for open strokes with almost no total turning (2-point diagonals,
+## hlines/vlines). Catches straight lines whose bbox is square, which the
+## flatness-only check misses.
+func _is_straight(points: PackedVector2Array) -> bool:
+	if points.size() < 2:
+		return false
+	if is_closed_path(points):
+		return false
+	return _open_turn_deg(points) < straight_turn_tol_deg
+
+
+## Principal direction of a stroke (endpoints of the normalized path).
+## Directionless: drawing backwards gives the same angle.
+func _line_angle(points: PackedVector2Array) -> float:
+	if points.size() < 2:
+		return 0.0
+	var d := points[points.size() - 1] - points[0]
+	if d.length() < 1.0e-6:
+		return 0.0
+	return d.angle()
+
+
+## 0-1 orientation factor for line-vs-line pairs. 0 deg -> 1.0, 45 deg -> ~0.04,
+## 90 deg -> ~0.0 (with the default 25-deg tolerance), so perpendicular lines
+## always fail while sloppy lines (a few deg off) keep their score.
+func _line_orientation_factor(player_norm: PackedVector2Array, target_norm: PackedVector2Array) -> float:
+	var diff := absf(wrapf(_line_angle(player_norm) - _line_angle(target_norm), -PI / 2.0, PI / 2.0))
+	return exp(-pow(rad_to_deg(diff) / line_angle_tol_deg, 2.0))
+
+
 ## Scores a ready-made player stroke against one target. All player-side cost
 ## (normalization, radial peaks, corner mask, unit-square refit) already lives
 ## in `pd` and is shared across every target in a guess()/compare() run.
@@ -419,11 +574,17 @@ func _score_player_data(pd: PlayerData, target: TargetData) -> float:
 		if pd.peaks.is_empty() and target.radial_peaks.size() >= 3:
 			score *= 0.5
 
+	# Line-vs-line orientation: a perpendicular line is clearly a different
+	# shape and must fail, while a sloppy line (a few degrees off) keeps its
+	# score. Straight diagonals count as lines (see is_line_like), so diag vs
+	# hline (45 deg) and hline vs vline (90 deg) both fail here.
+	if not player_closed and pd.is_line and target.is_line:
+		score *= _line_orientation_factor(pd.norm, target.normalized_points)
+
 	# Open shapes that only match their target after a large rotation (rotated
 	# copies, sideways strokes) are rejected while sloppy-but-aligned strokes
-	# and rotationally symmetric shapes are left alone. Line strokes carry no
-	# orientation, so they are exempt (their 90-deg rejection is handled by the
-	# radial-peak rotation penalty).
+	# and rotationally symmetric shapes are left alone. Line strokes are exempt
+	# (their orientation is handled by _line_orientation_factor above).
 	if not player_closed and enable_unit_square_open and open_rotation_reject:
 		if not (pd.is_line and target.is_line):
 			score *= _open_rotation_factor(
@@ -502,6 +663,11 @@ func _open_rotation_factor(
 	if deg < open_rot_angle_deg:
 		return 1.0
 	if near_dist <= full_dist * 1.2:
+		return 1.0
+	# Symmetric strokes (straight diagonals, Z-like shapes) also fit well when
+	# aligned: a tiny aligned distance means this is the same shape, not a
+	# rotated copy. Without this, diag-vs-diag self-matches score 0.
+	if near_dist < open_rot_exact_dist * 2.0:
 		return 1.0
 	if full_dist < open_rot_exact_dist:
 		return 0.0
@@ -654,7 +820,10 @@ func is_line_like(points: PackedVector2Array) -> bool:
 		return false
 	var bounds := get_bounding_rect(points)
 	var long_side := maxf(bounds.size.x, bounds.size.y)
-	return long_side > 0.0 and minf(bounds.size.x, bounds.size.y) < line_flatness * long_side
+	if long_side > 0.0 and minf(bounds.size.x, bounds.size.y) < line_flatness * long_side:
+		return true
+	# Straight strokes with a square bbox (2-point diagonals) are lines too.
+	return _is_straight(points)
 
 
 func is_closed_path(points: PackedVector2Array) -> bool:

@@ -726,6 +726,10 @@ _data = {
 
 [sub_resource type="Resource" id="Resource_ir15t"]
 script = ExtResource("13_trtic")
+base_tolerance = 0.35000000000000003
+base_line_tolerance = 0.4
+base_open_tolerance = 0.43
+base_open_unit_tolerance = 0.75
 metadata/_custom_type_script = "uid://cunb8lmxfnigo"
 
 [sub_resource type="Animation" id="Animation_rysoc"]
@@ -892,6 +896,11 @@ script = ExtResource("2_lbhrr")
 [node name="judge_spawner" type="Node2D" parent="target_shape/accuracy_manager" unique_id=1982392806]
 unique_name_in_owner = true
 position = Vector2(-537, -125)
+script = ExtResource("3_rysoc")
+
+[node name="drawing_judge_spawner" type="Node2D" parent="target_shape/accuracy_manager" unique_id=2092367230]
+unique_name_in_owner = true
+position = Vector2(-393, -125)
 script = ExtResource("3_rysoc")
 
 [node name="avg_accuracy" type="Label" parent="target_shape/accuracy_manager" unique_id=906467398]
