@@ -42,6 +42,10 @@ window/vsync/vsync_mode=0
 mouse_cursor/custom_image="uid://cb3spc8ot8nq4"
 mouse_cursor/custom_image_hotspot=Vector2(12, 12)
 
+[gui]
+
+theme/custom="uid://cpocn8agag6ib"
+
 [input]
 
 fire={
