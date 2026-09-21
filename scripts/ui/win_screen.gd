@@ -66,4 +66,5 @@ func _show(counts: Dictionary, accuracy: float) -> void:
 	)
 
 	await scale_tween.finished
+	%LetterGradeGhostEffect.texture = %LetterGrade.texture
 	%LetterGradeAnim.play("show")
