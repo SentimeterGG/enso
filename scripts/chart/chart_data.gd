@@ -139,7 +139,10 @@ func song_path() -> String:
 		return song
 	if chart_path.is_empty():
 		return song
-	return chart_path.get_base_dir().path_join(song)
+	# simplify_path: metadata often stores "./song.mp3", and load() normalizes
+	# the "./" away in resource_path, so return the canonical form to keep
+	# string comparisons against BgMusic.stream.resource_path working.
+	return chart_path.get_base_dir().path_join(song).simplify_path()
 
 
 func preview_start() -> float:

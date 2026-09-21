@@ -518,6 +518,7 @@ layout_mode = 2
 libraries/ = SubResource("AnimationLibrary_ljvb0")
 
 [node name="draw" parent="." unique_id=2118743800 instance=ExtResource("10_v1k4p")]
+weight = 0.5
 guess_mode = true
 
 [node name="beat_sound" type="AudioStreamPlayer" parent="." unique_id=1070158643]

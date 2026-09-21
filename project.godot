@@ -25,7 +25,6 @@ buses/default_bus_layout="uid://cxrrjro12ul2t"
 
 BgMusic="*uid://duq2fwlnqfig3"
 Global="*uid://b2lm1gfd8he8s"
-WorldEnvironmentGlobal="*uid://dqpsyw3cjxcat"
 DiscordRPC="*uid://b77wtogjkq60c"
 SkinManager="*uid://bmpij5aiui7y6"
 VolumePopup="*uid://b3a4x7kuktiyl"

@@ -46,9 +46,7 @@ func _warn_skipped_incomplete() -> void:
 	var n := int(level_list.call("get_skipped_incomplete_count"))
 	if n <= 0:
 		return
-	var msg := (
-		"%d incomplete level%s hidden (solo notes need setup)." % [n, "" if n == 1 else "s"]
-	)
+	var msg := "%d incomplete level%s hidden (solo notes need setup)." % [n, "" if n == 1 else "s"]
 	if _notification != null and _notification.has_method("show_message"):
 		_notification.call("show_message", msg, false, 4.0)
 	else:
@@ -71,17 +69,14 @@ func _select_current_bg_song() -> void:
 		return
 	var selected_index := int(level_list.get("selected_index"))
 	var target := -1
-	# 1) Exact chart match (main_menu stores its random pick here).
-	if Global.current_chart != null and not Global.current_chart.chart_path.is_empty():
-		for i in levels.size():
-			if str((levels[i] as Dictionary).get("chart_path", "")) == Global.current_chart.chart_path:
-				target = i
-				break
-	# 2) Fallback: match BgMusic's stream by song path.
-	if target == -1 and has_node("/root/BgMusic"):
+	# 1) Live audio wins: match whatever BgMusic is actually playing.
+	# Hovering a row only previews its song (Global.current_chart is left
+	# alone until play), so after level_selector -> main_menu the stored
+	# chart is stale while BgMusic still plays the last previewed song.
+	if has_node("/root/BgMusic"):
 		var bg := get_node("/root/BgMusic") as AudioStreamPlayer
 		if bg != null and bg.stream != null and bg.playing:
-			var cur := (bg.stream as AudioStream).resource_path
+			var cur := (bg.stream as AudioStream).resource_path.simplify_path()
 			for i in levels.size():
 				var cpath := str((levels[i] as Dictionary).get("chart_path", ""))
 				if cpath.is_empty():
@@ -91,10 +86,25 @@ func _select_current_bg_song() -> void:
 				if song.is_empty():
 					continue
 				if not (song.begins_with("res://") or song.begins_with("user://")):
-					song = cpath.get_base_dir().path_join(song)
+					song = cpath.get_base_dir().path_join(song).simplify_path()
 				if song == cur:
 					target = i
 					break
+	# 2) Fallback: exact chart match (main_menu stores its random pick here).
+	# Covers the fresh-boot race where change_song()'s fade tween hasn't
+	# swapped BgMusic's stream yet, so the live-audio match above misses.
+	if (
+		target == -1
+		and Global.current_chart != null
+		and not Global.current_chart.chart_path.is_empty()
+	):
+		for i in levels.size():
+			if (
+				str((levels[i] as Dictionary).get("chart_path", ""))
+				== Global.current_chart.chart_path
+			):
+				target = i
+				break
 	if target == selected_index:
 		_initial_select_done = true
 		# Already centered on it, but the index-0 hover was swallowed
@@ -108,7 +118,9 @@ func _select_current_bg_song() -> void:
 		_initial_select_done = true
 		_preview_chart_path = ""
 		if selected_index >= 0 and selected_index < levels.size():
-			_on_level_item_hovered(str((levels[selected_index] as Dictionary).get("chart_path", "")))
+			_on_level_item_hovered(
+				str((levels[selected_index] as Dictionary).get("chart_path", ""))
+			)
 		return
 	_initial_select_done = true
 	_preview_chart_path = ""
