@@ -206,6 +206,7 @@ theme = ExtResource("1_evwkm")
 [node name="BrowseSongButton" type="Button" parent="LevelCreator/METADATA/ScrollContainer/MarginContainer/VBoxContainer/song_path/HBoxContainer" unique_id=1019752748]
 unique_name_in_owner = true
 layout_mode = 2
+focus_mode = 0
 icon = ExtResource("4_m4iti")
 
 [node name="video_bg_path" type="VBoxContainer" parent="LevelCreator/METADATA/ScrollContainer/MarginContainer/VBoxContainer" unique_id=2060312952]
@@ -229,6 +230,7 @@ theme = ExtResource("1_evwkm")
 
 [node name="BrowseVideoBgButton" type="Button" parent="LevelCreator/METADATA/ScrollContainer/MarginContainer/VBoxContainer/video_bg_path/HBoxContainer" unique_id=983336136]
 layout_mode = 2
+focus_mode = 0
 icon = ExtResource("4_m4iti")
 
 [node name="bg_path" type="VBoxContainer" parent="LevelCreator/METADATA/ScrollContainer/MarginContainer/VBoxContainer" unique_id=1768155414]
@@ -252,6 +254,7 @@ theme = ExtResource("1_evwkm")
 
 [node name="BrowseBgPath" type="Button" parent="LevelCreator/METADATA/ScrollContainer/MarginContainer/VBoxContainer/bg_path/HBoxContainer" unique_id=1791783464]
 layout_mode = 2
+focus_mode = 0
 icon = ExtResource("4_m4iti")
 
 [node name="color_scheme" type="VBoxContainer" parent="LevelCreator/METADATA/ScrollContainer/MarginContainer/VBoxContainer" unique_id=1877701402]
@@ -282,6 +285,7 @@ unique_name_in_owner = true
 custom_minimum_size = Vector2(30, 0)
 layout_mode = 2
 size_flags_vertical = 8
+focus_mode = 0
 theme = ExtResource("1_evwkm")
 text = "Add
 "
@@ -340,6 +344,7 @@ size_flags_vertical = 4
 unique_name_in_owner = true
 custom_minimum_size = Vector2(30, 0)
 layout_mode = 2
+focus_mode = 0
 theme = ExtResource("1_evwkm")
 text = "<"
 icon_alignment = 1
@@ -348,6 +353,7 @@ icon_alignment = 1
 unique_name_in_owner = true
 custom_minimum_size = Vector2(30, 0)
 layout_mode = 2
+focus_mode = 0
 theme = ExtResource("1_evwkm")
 icon = ExtResource("1_0xnud")
 icon_alignment = 1
@@ -356,6 +362,7 @@ icon_alignment = 1
 unique_name_in_owner = true
 custom_minimum_size = Vector2(30, 0)
 layout_mode = 2
+focus_mode = 0
 theme = ExtResource("1_evwkm")
 text = ">"
 icon_alignment = 1
@@ -400,6 +407,7 @@ size_flags_vertical = 4
 unique_name_in_owner = true
 custom_minimum_size = Vector2(30, 0)
 layout_mode = 2
+focus_mode = 0
 theme = ExtResource("1_evwkm")
 text = "<"
 icon_alignment = 1
@@ -408,6 +416,7 @@ icon_alignment = 1
 unique_name_in_owner = true
 custom_minimum_size = Vector2(30, 0)
 layout_mode = 2
+focus_mode = 0
 theme = ExtResource("1_evwkm")
 icon = ExtResource("1_0xnud")
 icon_alignment = 1
@@ -416,6 +425,7 @@ icon_alignment = 1
 unique_name_in_owner = true
 custom_minimum_size = Vector2(30, 0)
 layout_mode = 2
+focus_mode = 0
 theme = ExtResource("1_evwkm")
 text = ">"
 icon_alignment = 1
@@ -534,6 +544,7 @@ offset_right = -145.0
 offset_bottom = -72.0
 grow_horizontal = 2
 grow_vertical = 0
+value = 20.0
 
 [node name="HBoxContainer" type="HBoxContainer" parent="LevelCreator/MAPPING" unique_id=1104214773]
 layout_mode = 1
@@ -554,6 +565,7 @@ theme_override_constants/separation = 12
 custom_minimum_size = Vector2(34.845, 0)
 layout_mode = 2
 size_flags_horizontal = 0
+focus_mode = 0
 theme = ExtResource("1_evwkm")
 text = "<<"
 
@@ -570,6 +582,7 @@ icon_alignment = 1
 custom_minimum_size = Vector2(34.845, 0)
 layout_mode = 2
 size_flags_horizontal = 0
+focus_mode = 0
 theme = ExtResource("1_evwkm")
 text = ">>"
 
@@ -633,6 +646,7 @@ offset_left = 380.0
 offset_top = 233.0
 offset_right = 484.0
 offset_bottom = 264.0
+focus_mode = 0
 theme = ExtResource("1_evwkm")
 text = "Add Shape"
 
@@ -642,6 +656,7 @@ offset_left = 255.0
 offset_top = 232.0
 offset_right = 359.0
 offset_bottom = 263.0
+focus_mode = 0
 item_count = 5
 popup/item_0/text = "L"
 popup/item_0/id = 0
@@ -686,6 +701,7 @@ unique_name_in_owner = true
 custom_maximum_size = Vector2(-1, 32)
 layout_mode = 2
 size_flags_horizontal = 3
+focus_mode = 0
 theme = ExtResource("1_evwkm")
 theme_override_font_sizes/font_size = 10
 text = "METADATA"
@@ -696,6 +712,7 @@ unique_name_in_owner = true
 custom_maximum_size = Vector2(-1, 32)
 layout_mode = 2
 size_flags_horizontal = 3
+focus_mode = 0
 theme = ExtResource("1_evwkm")
 theme_override_font_sizes/font_size = 10
 text = "MAPPING"
@@ -714,6 +731,7 @@ offset_right = -32.0
 offset_bottom = -24.0
 grow_horizontal = 0
 grow_vertical = 0
+focus_mode = 0
 theme = ExtResource("1_evwkm")
 text = "EXPORT"
 
@@ -731,6 +749,7 @@ offset_right = -32.0
 offset_bottom = -64.0
 grow_horizontal = 0
 grow_vertical = 0
+focus_mode = 0
 theme = ExtResource("1_evwkm")
 text = "IMPORT"
 
@@ -834,6 +853,7 @@ text = "Closed"
 [node name="CustomClosedCheck" type="CheckBox" parent="CustomShapeEditor/MarginContainer/VBox/Options" unique_id=876543221]
 unique_name_in_owner = true
 layout_mode = 2
+focus_mode = 0
 theme = ExtResource("1_evwkm")
 
 [node name="Buttons" type="HBoxContainer" parent="CustomShapeEditor/MarginContainer/VBox" unique_id=876543222]
@@ -845,6 +865,7 @@ alignment = 1
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
+focus_mode = 0
 theme = ExtResource("1_evwkm")
 text = "Undo"
 
@@ -852,6 +873,7 @@ text = "Undo"
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
+focus_mode = 0
 theme = ExtResource("1_evwkm")
 text = "Clear"
 
@@ -864,6 +886,7 @@ alignment = 1
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
+focus_mode = 0
 theme = ExtResource("1_evwkm")
 text = "Cancel"
 
@@ -871,6 +894,7 @@ text = "Cancel"
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
+focus_mode = 0
 theme = ExtResource("1_evwkm")
 text = "Confirm"
 

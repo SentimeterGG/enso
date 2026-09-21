@@ -26,6 +26,7 @@ var _beat_audition_id := 0
 
 
 func _ready() -> void:
+	BgMusic.FADE_DURATION = 0.4
 	_on_preview_changed(_preview_slider.value)
 	_on_beat_changed(_beat_slider.value)
 	_on_diff_changed(_diff_spin.value)
@@ -52,7 +53,7 @@ func _sync_slider(player: AudioStreamPlayer, slider: HSlider, label: LineEdit) -
 	if player.stream == null:
 		return
 	if label.has_focus():
-		return # don't clobber what the user is currently typing
+		return  # don't clobber what the user is currently typing
 	if player.playing and not player.stream_paused:
 		var ms := int(player.get_playback_position() * 1000.0)
 		ms = clampi(ms, int(slider.min_value), int(slider.max_value))
@@ -90,9 +91,9 @@ func when_import(chart: ChartData) -> void:
 	if metadata.has("mapper"):
 		_mapper_edit.text = str(metadata["mapper"])
 	if metadata.has("video_bg"):
-		_video_bg_edit.text = str(metadata["video_bg"])
+		_video_bg_edit.text = chart.get_video_background()
 	if metadata.has("bg"):
-		_bg_edit.text = str(metadata["bg"])
+		_bg_edit.text = chart.get_bg()
 	if metadata.has("song"):
 		_song_edit.text = chart.song_path()
 		if not _song_edit.text.is_empty():
@@ -373,10 +374,10 @@ func _apply_typed_time(
 		return
 	var ms := _parse_ms(text)
 	if ms < 0:
-		edit.text = _format_ms(int(slider.value)) # invalid: revert
+		edit.text = _format_ms(int(slider.value))  # invalid: revert
 		return
 	ms = clampi(ms, int(slider.min_value), int(slider.max_value))
-	slider.value = ms # emits value_changed -> seeks if playing, updates field
+	slider.value = ms  # emits value_changed -> seeks if playing, updates field
 	edit.text = _format_ms(ms)
 	edit.caret_column = edit.text.length()
 
@@ -402,9 +403,9 @@ func _parse_ms(raw: String) -> int:
 			return -1
 		return int(mins) * 60000 + int(round(float(secs) * 1000.0))
 	if s.is_valid_int():
-		return int(s) # plain number = milliseconds
+		return int(s)  # plain number = milliseconds
 	if s.is_valid_float():
-		return int(round(float(s) * 1000.0)) # decimal without unit = seconds
+		return int(round(float(s) * 1000.0))  # decimal without unit = seconds
 	return -1
 
 
@@ -488,5 +489,4 @@ func _on_browse_video_bg_button_pressed() -> void:
 
 func _on_browse_bg_path_pressed() -> void:
 	_load_bg_dialog.popup_centered(Vector2i(600, 400))
-	pass # Replace with function body.
-
+	pass  # Replace with function body.
