@@ -1,0 +1,337 @@
+[gd_scene format=3 uid="uid://dwp27t3r2m87s"]
+
+[ext_resource type="Script" uid="uid://d4nujhc2a5x7u" path="res://scripts/ui/win_screen.gd" id="1_erk2x"]
+[ext_resource type="Texture2D" uid="uid://boni28omt04g4" path="res://assets/sprites/UI/grade/SSGrade.png" id="1_wv5lq"]
+[ext_resource type="Script" uid="uid://bhjwx4upcg03f" path="res://scripts/loading_system/loading_system.gd" id="3_2l6cc"]
+[ext_resource type="AudioStream" uid="uid://d1d4stc3pr7cy" path="res://assets/sound/score_reveal.mp3" id="4_e41g7"]
+
+[sub_resource type="Animation" id="Animation_e41g7"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:scale")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(3, 3)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath(".:modulate")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 1, 1, 0)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("../../../../AudioStreamPlayer:playing")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
+
+[sub_resource type="Animation" id="Animation_2l6cc"]
+resource_name = "show"
+length = 1.7
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:scale")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.6),
+"transitions": PackedFloat32Array(6.72717, 1.9318726),
+"update": 0,
+"values": [Vector2(3, 3), Vector2(1, 1)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath(".:modulate")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(-0.03333334, 0.6333333),
+"transitions": PackedFloat32Array(3.7321312, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 0), Color(1, 1, 1, 1)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("../../../../AudioStreamPlayer:playing")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0, 1.4666667),
+"transitions": PackedFloat32Array(0, 1),
+"update": 1,
+"values": [true, false]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_e41g7"]
+_data = {
+&"RESET": SubResource("Animation_e41g7"),
+&"show": SubResource("Animation_2l6cc")
+}
+
+[node name="WinScreen" type="Control" unique_id=107879033]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+pivot_offset_ratio = Vector2(0.5, 0.5)
+script = ExtResource("1_erk2x")
+
+[node name="MarginContainer" type="MarginContainer" parent="." unique_id=1629500725]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 42
+theme_override_constants/margin_top = 42
+theme_override_constants/margin_right = 42
+theme_override_constants/margin_bottom = 42
+
+[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer" unique_id=948453873]
+layout_mode = 2
+
+[node name="Panel" type="Panel" parent="MarginContainer/HBoxContainer" unique_id=1585107301]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="MarginContainer" type="MarginContainer" parent="MarginContainer/HBoxContainer/Panel" unique_id=1021004696]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 42
+theme_override_constants/margin_top = 28
+theme_override_constants/margin_right = 42
+theme_override_constants/margin_bottom = 16
+
+[node name="Control" type="Control" parent="MarginContainer/HBoxContainer/Panel/MarginContainer" unique_id=279629761]
+layout_mode = 2
+
+[node name="Miss" type="VBoxContainer" parent="MarginContainer/HBoxContainer/Panel/MarginContainer/Control" unique_id=663243678]
+layout_mode = 1
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -72.0
+offset_top = -135.0
+offset_right = -16.0
+offset_bottom = -66.0
+grow_horizontal = 0
+grow_vertical = 0
+theme_override_constants/separation = 8
+alignment = 1
+
+[node name="MissCount" type="Label" parent="MarginContainer/HBoxContainer/Panel/MarginContainer/Control/Miss" unique_id=641248953]
+unique_name_in_owner = true
+modulate = Color(1, 0.3, 0.35, 1)
+layout_mode = 2
+size_flags_horizontal = 4
+theme_override_font_sizes/font_size = 28
+text = "100"
+
+[node name="Label2" type="Label" parent="MarginContainer/HBoxContainer/Panel/MarginContainer/Control/Miss" unique_id=84435322]
+layout_mode = 2
+size_flags_horizontal = 4
+text = "MISS"
+
+[node name="Bad" type="VBoxContainer" parent="MarginContainer/HBoxContainer/Panel/MarginContainer/Control" unique_id=79273770]
+layout_mode = 1
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_left = 20.0
+offset_top = -137.0
+offset_right = 57.0
+offset_bottom = -68.0
+grow_vertical = 0
+theme_override_constants/separation = 8
+alignment = 1
+
+[node name="BadCount" type="Label" parent="MarginContainer/HBoxContainer/Panel/MarginContainer/Control/Bad" unique_id=1485975688]
+unique_name_in_owner = true
+modulate = Color(1, 0.6, 0.2, 1)
+layout_mode = 2
+size_flags_horizontal = 4
+theme_override_font_sizes/font_size = 28
+text = "10"
+
+[node name="Label2" type="Label" parent="MarginContainer/HBoxContainer/Panel/MarginContainer/Control/Bad" unique_id=2038449191]
+layout_mode = 2
+size_flags_horizontal = 4
+text = "BAD"
+
+[node name="Perfect" type="VBoxContainer" parent="MarginContainer/HBoxContainer/Panel/MarginContainer/Control" unique_id=29641209]
+layout_mode = 1
+offset_right = 75.0
+offset_bottom = 69.0
+theme_override_constants/separation = 8
+alignment = 1
+
+[node name="PerfectCount" type="Label" parent="MarginContainer/HBoxContainer/Panel/MarginContainer/Control/Perfect" unique_id=695643342]
+unique_name_in_owner = true
+modulate = Color(0, 0.906, 0.969, 1)
+layout_mode = 2
+size_flags_horizontal = 4
+theme_override_font_sizes/font_size = 28
+text = "100"
+
+[node name="Label2" type="Label" parent="MarginContainer/HBoxContainer/Panel/MarginContainer/Control/Perfect" unique_id=2065266363]
+layout_mode = 2
+text = "PERFECT"
+
+[node name="Good" type="VBoxContainer" parent="MarginContainer/HBoxContainer/Panel/MarginContainer/Control" unique_id=1376499774]
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -72.0
+offset_right = -16.0
+offset_bottom = 69.0
+grow_horizontal = 0
+theme_override_constants/separation = 8
+alignment = 1
+
+[node name="GoodCount" type="Label" parent="MarginContainer/HBoxContainer/Panel/MarginContainer/Control/Good" unique_id=113612183]
+unique_name_in_owner = true
+modulate = Color(0.35, 0.95, 0.55, 1)
+layout_mode = 2
+size_flags_horizontal = 4
+theme_override_font_sizes/font_size = 28
+text = "100"
+
+[node name="Label2" type="Label" parent="MarginContainer/HBoxContainer/Panel/MarginContainer/Control/Good" unique_id=1873253468]
+layout_mode = 2
+size_flags_horizontal = 4
+text = "GOOD"
+
+[node name="AccuracyLabel" type="Label" parent="MarginContainer/HBoxContainer/Panel/MarginContainer/Control" unique_id=1121812141]
+unique_name_in_owner = true
+layout_mode = 0
+offset_left = 13.0
+offset_top = 193.0
+offset_right = 205.0
+offset_bottom = 215.0
+text = "ACCURACY: 100%"
+
+[node name="Control" type="Control" parent="MarginContainer/HBoxContainer" unique_id=1685957736]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="LetterGrade" type="TextureRect" parent="MarginContainer/HBoxContainer/Control" unique_id=1340632708]
+unique_name_in_owner = true
+modulate = Color(1, 1, 1, 0)
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -66.77214
+offset_top = -40.189873
+offset_right = 66.77214
+offset_bottom = 40.18988
+grow_horizontal = 2
+grow_vertical = 2
+scale = Vector2(3, 3)
+pivot_offset = Vector2(0, 0.5)
+pivot_offset_ratio = Vector2(0.5, 0.5)
+texture = ExtResource("1_wv5lq")
+expand_mode = 2
+stretch_mode = 4
+
+[node name="LetterGradeAnim" type="AnimationPlayer" parent="MarginContainer/HBoxContainer/Control/LetterGrade" unique_id=1264850431]
+unique_name_in_owner = true
+libraries/ = SubResource("AnimationLibrary_e41g7")
+
+[node name="Button" type="VBoxContainer" parent="MarginContainer/HBoxContainer/Control" unique_id=879790222]
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -80.5
+offset_top = -60.0
+offset_right = 80.5
+grow_horizontal = 2
+grow_vertical = 0
+
+[node name="Button" type="Button" parent="MarginContainer/HBoxContainer/Control/Button" unique_id=952298941]
+layout_mode = 2
+text = "RESTART"
+
+[node name="BackToMenu" type="Button" parent="MarginContainer/HBoxContainer/Control/Button" unique_id=1318194569]
+layout_mode = 2
+text = "BACK TO MENU"
+
+[node name="Title" type="VBoxContainer" parent="MarginContainer/HBoxContainer/Control" unique_id=1087983556]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -125.0
+offset_right = 125.0
+offset_bottom = 59.0
+grow_horizontal = 2
+theme_override_constants/separation = 4
+
+[node name="TitleSong" type="Label" parent="MarginContainer/HBoxContainer/Control/Title" unique_id=1236803435]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(250, 0)
+layout_mode = 2
+theme_override_font_sizes/font_size = 24
+text = "TITLE SONGfdsa fdsafsadfsdafsadfsdafasdfsdafsadfsad"
+horizontal_alignment = 1
+text_overrun_behavior = 3
+
+[node name="SourceSong" type="Label" parent="MarginContainer/HBoxContainer/Control/Title" unique_id=511991839]
+unique_name_in_owner = true
+layout_mode = 2
+text = "SOURCE SONG"
+horizontal_alignment = 1
+
+[node name="LoadToLevel" type="Control" parent="." unique_id=2132401241]
+unique_name_in_owner = true
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+script = ExtResource("3_2l6cc")
+sceneName = "uid://bbrijn7extm0j"
+metadata/_custom_type_script = "uid://bhjwx4upcg03f"
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="." unique_id=492765809]
+stream = ExtResource("4_e41g7")
+volume_db = -5.0
+pitch_scale = 1.2
+
+[connection signal="pressed" from="MarginContainer/HBoxContainer/Control/Button/Button" to="." method="_on_button_pressed"]
+[connection signal="pressed" from="MarginContainer/HBoxContainer/Control/Button/BackToMenu" to="." method="_on_back_to_menu_pressed"]

@@ -14,7 +14,9 @@
 extends Node2D
 class_name ScoreManager
 
-signal score_changed(rhythm_acc: float, draw_acc: float, combined_acc: float, combo: int, counts: Dictionary)
+signal score_changed(
+	rhythm_acc: float, draw_acc: float, combined_acc: float, combo: int, counts: Dictionary
+)
 
 const DRAW_BAD_THRESHOLD := 50.0
 ## GOOD sits in the middle between BAD (60) and PERFECT (~90): sloppy-but-right
@@ -192,6 +194,7 @@ func combined_acc() -> float:
 
 # --- Scene signal adapters (wired in game.tscn, do not rename) ---
 
+
 func _on_draw_shape_accuracy_ready(accuracy: float) -> void:
 	# recognizer.compare() returns 0..100
 	var key := _active_shape
@@ -220,12 +223,14 @@ func _on_draw_ended() -> void:
 
 # --- internals ---
 
+
 ## Floating BAD DRAWING label for sloppy drawings (visual + Mio reaction only;
 ## scoring is untouched — finish_shape already recorded the draw accuracy).
 func _spawn_bad_draw(accuracy: float) -> void:
 	var spawner := get_node_or_null("judge_spawner")
 	if spawner != null and spawner.has_method("spawn_bad_draw"):
 		spawner.call("spawn_bad_draw", accuracy)
+
 
 ## Scores a shape the player never drew: once every beat is judged (hit or
 ## miss) the shape can never gain draw accuracy, so finish it with draw 0.
@@ -254,6 +259,7 @@ func _shape_total_beats(shape_id: String) -> int:
 		var group: Dictionary = chart.shape_group(shape_id)
 		return int(group.get("count", 0))
 	return 0
+
 
 func _mean(values: Array) -> float:
 	if values.is_empty():
@@ -301,3 +307,7 @@ func _play_combo_anim(hit: bool) -> void:
 		return
 	_combo_anims.stop()
 	_combo_anims.play("hit_anim" if hit else "miss_anim")
+
+
+func _get_counts() -> Dictionary:
+	return counts.duplicate()

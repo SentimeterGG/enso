@@ -3,14 +3,14 @@
 # RETURN: synced notes, target shape display and music timing for drawing and judging
 extends Node2D
 
-
-@export var CHART_PATH := "res://levels/Wasurete Yaranai by kessoku band mapped by ENSO Team/chart.enso"
+@export
+var CHART_PATH := "res://levels/Wasurete Yaranai by kessoku band mapped by ENSO Team/chart.enso"
 @onready var draw_manager: Line2D = $draw
 @onready var note_manager: Node2D = $note_manager
 @onready var target_shape: Line2D = $target_shape
 @onready var animator: AnimationPlayer = $animator
 @onready var video_stream_player = %VideoStreamPlayer
-@onready var bg_sprite : TextureRect = %BG
+@onready var bg_sprite: TextureRect = %BG
 
 var note_scheduler: NoteScheduler = NoteScheduler.new()
 
@@ -54,7 +54,7 @@ func _compute_preroll_sec() -> float:
 
 func _ready():
 	BgMusic.change_song(null)
-	Input.set_custom_mouse_cursor(SkinManager.cursor_sprite, Input.CURSOR_ARROW, Vector2(12,12))
+	Input.set_custom_mouse_cursor(SkinManager.cursor_sprite, Input.CURSOR_ARROW, Vector2(12, 12))
 	animator.play("Intro")
 	if Global.current_chart == null:
 		Global.current_chart = LevelLoader.load_chart(CHART_PATH)
@@ -72,13 +72,18 @@ func _ready():
 	else:
 		%BG.visible = true
 		%VideoStreamPlayer.visible = false
-	DiscordRPC.set_activity("Drawing Shape", (Global.current_chart.get_song_title() + " - " + Global.current_chart.get_song_source()))
+	DiscordRPC.set_activity(
+		"Drawing Shape",
+		Global.current_chart.get_song_title() + " - " + Global.current_chart.get_song_source()
+	)
 
 
 func _process(delta: float) -> void:
 	if note_scheduler.playing and not _music_started:
 		_virtual_time = minf(_virtual_time + delta, _preroll_sec)
-	note_scheduler.process(note_manager, get_virtual_song_time(), Global.current_chart, target_shape)
+	note_scheduler.process(
+		note_manager, get_virtual_song_time(), Global.current_chart, target_shape
+	)
 
 
 func _on_animator_animation_finished(anim_name: StringName) -> void:
@@ -91,6 +96,7 @@ func _on_animator_animation_finished(anim_name: StringName) -> void:
 		note_scheduler.start(note_manager, _preroll_sec)
 		target_shape.clear_points()
 		draw_manager.start()
+		BgMusic.connect("finished", _on_bg_music_finished)
 		var sc := get_node_or_null("%accuracy_manager")
 		if sc != null and sc.has_method("reset"):
 			sc.refresh_od()
@@ -103,7 +109,22 @@ func _on_animator_animation_finished(anim_name: StringName) -> void:
 		_music_started = true
 		animator.play("bg_fade")
 		video_stream_player.play()
-	%TransOffset.modulate = Color(1.0, 1.0, 1.0, Global.settingsData.bg_visibilty*0.01)
-	
+	elif anim_name == "Outro":
+		%WinScreen._show(%accuracy_manager._get_counts(), %accuracy_manager.combined_acc())
+	%TransOffset.modulate = Color(1.0, 1.0, 1.0, Global.settingsData.bg_visibilty * 0.01)
+
+
+func _on_bg_music_finished():
+	note_scheduler.end()
+	draw_manager.stop()
+	%shape_column.visible = false
+	var tween = %BG.create_tween()
+	tween.tween_property(%BG, "modulate:a", 0.0, 1.0)
+	animator.play("Outro")
+	pass
+
+
 func _exit_tree() -> void:
-	Input.set_custom_mouse_cursor(load("res://assets/sprites/UI/crosshair.png"), Input.CURSOR_ARROW, Vector2(12,12))
+	Input.set_custom_mouse_cursor(
+		load("res://assets/sprites/UI/crosshair.png"), Input.CURSOR_ARROW, Vector2(12, 12)
+	)
