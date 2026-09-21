@@ -35,7 +35,7 @@ func _spawn_kind(kind: int, accuracy: float = -1.0) -> void:
 	var label: Label = judgement_label.instantiate()
 	add_child(label)
 	label.text = str(HitResult.LABELS.get(kind, "MISS"))
-	label.modulate = HitResult.COLORS.get(kind, Color.WHITE)
+	label.self_modulate = HitResult.COLORS.get(kind, Color.WHITE)
 	# BAD DRAWING is a drawing judgement, not a beat judgement: float it at the
 	# drawing marker instead of the beat receptor, showing the draw accuracy
 	# from accuracy_manager. Falls back to this spawner's own position when

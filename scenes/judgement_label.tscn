@@ -12,6 +12,7 @@ script = ExtResource("2_cn57b")
 
 [node name="Accuracy" type="Label" parent="." unique_id=406512396]
 visible = false
+modulate = Color(1, 0.3, 0.35, 1)
 layout_mode = 1
 anchors_preset = 1
 anchor_left = 1.0
