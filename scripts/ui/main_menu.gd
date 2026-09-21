@@ -39,6 +39,8 @@ func _on_transition_animation_finished(anim_name: StringName) -> void:
 				get_tree().change_scene_to_file("res://scenes/level_creator.tscn")
 			_:
 				pass
+	elif anim_name == "Exit Game":
+		get_tree().quit()
 
 
 func _on_draw_guessed_shape(shape: String) -> void:
@@ -53,4 +55,6 @@ func _on_draw_guessed_shape(shape: String) -> void:
 			go_to = GoTo.EDITOR
 			$Transition.play("Out")
 		"exit":
-			get_tree().quit()
+			$Transition.play("Exit Game")
+			BgMusic.FADE_DURATION = 1.6
+			BgMusic.change_song(null)

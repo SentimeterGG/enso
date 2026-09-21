@@ -1,6 +1,6 @@
 extends AudioStreamPlayer
 
-const FADE_DURATION := 0.3
+var FADE_DURATION := 0.3
 const SILENT_DB := -60.0
 const FULL_DB := 0.0
 
