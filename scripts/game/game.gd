@@ -113,7 +113,10 @@ func _on_animator_animation_finished(anim_name: StringName) -> void:
 		animator.play("bg_fade")
 		video_stream_player.play()
 	elif anim_name == "Outro":
-		%WinScreen._show(%accuracy_manager._get_counts(), %accuracy_manager.combined_acc())
+		# Failed during the outro: the game-over menu already owns the screen.
+		var go := get_node_or_null("UI/Game Over")
+		if go == null or not go.visible:
+			%WinScreen._show(%accuracy_manager._get_counts(), %accuracy_manager.combined_acc())
 	%TransOffset.modulate = Color(1.0, 1.0, 1.0, Global.settingsData.bg_visibilty * 0.01)
 
 
@@ -131,3 +134,7 @@ func _exit_tree() -> void:
 	Input.set_custom_mouse_cursor(
 		load("res://assets/sprites/UI/crosshair.png"), Input.CURSOR_ARROW, Vector2(21, 21)
 	)
+
+
+func _on_game_over_anim_animation_finished(anim_name: StringName) -> void:
+	pass # Replace with function body.
