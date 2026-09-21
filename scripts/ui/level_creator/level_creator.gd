@@ -27,6 +27,7 @@ const SLIDE_DURATION := 0.35
 
 
 func _ready() -> void:
+	BgMusic.FADE_DURATION = 1.6
 	BgMusic.change_song(null)
 	VolumePopup.hide_pop_up()
 	viewport_size = get_viewport_rect().size
@@ -203,7 +204,9 @@ func _notify_import_result(chart: ChartData) -> void:
 
 
 ## Export toast: warns when solo notes ship (hidden from level list).
-func _notify_export_result(mapping_beats: Array, mapping_shapes: Array, folder_name: String) -> void:
+func _notify_export_result(
+	mapping_beats: Array, mapping_shapes: Array, folder_name: String
+) -> void:
 	var solo := 0
 	if mapping_group != null and mapping_group.has_method("get_solo_beats_ms"):
 		solo = (mapping_group.call("get_solo_beats_ms") as Array).size()
@@ -217,12 +220,17 @@ func _notify_export_result(mapping_beats: Array, mapping_shapes: Array, folder_n
 				solo += 1
 	if solo > 0:
 		_notify(
-			"Exported %s (%d beats, %d shapes, %d solo hidden from list)."
-			% [folder_name, mapping_beats.size(), mapping_shapes.size(), solo]
+			(
+				"Exported %s (%d beats, %d shapes, %d solo hidden from list)."
+				% [folder_name, mapping_beats.size(), mapping_shapes.size(), solo]
+			)
 		)
 	else:
 		_notify(
-			"Exported %s (%d beats, %d shapes)." % [folder_name, mapping_beats.size(), mapping_shapes.size()]
+			(
+				"Exported %s (%d beats, %d shapes)."
+				% [folder_name, mapping_beats.size(), mapping_shapes.size()]
+			)
 		)
 
 
@@ -369,9 +377,15 @@ func _build_notes_text(beats: Array, shapes: Array) -> String:
 ## geometry-only point becomes a ! line — matching chart.enso's spec.
 ## Points are 0..1 normalized (same as mapping.gd:719-735). Custom shapes
 ## carry their own points in shape dict; presets fall back to lookup.
-func _shape_block(sid: String, shape_name: String, times: Array, shape_dict: Dictionary = {}) -> String:
+func _shape_block(
+	sid: String, shape_name: String, times: Array, shape_dict: Dictionary = {}
+) -> String:
 	var pts: PackedVector2Array
-	if shape_dict.has("points") and shape_dict["points"] is PackedVector2Array and (shape_dict["points"] as PackedVector2Array).size() > 0:
+	if (
+		shape_dict.has("points")
+		and shape_dict["points"] is PackedVector2Array
+		and (shape_dict["points"] as PackedVector2Array).size() > 0
+	):
 		pts = shape_dict["points"] as PackedVector2Array
 	else:
 		pts = _export_shape_points(shape_name)
@@ -424,9 +438,7 @@ func _export_shape_points(shape_name: String) -> PackedVector2Array:
 		"LFlip":
 			return PackedVector2Array([Vector2(1, 0), Vector2(0, 0), Vector2(0, 1)])
 		"U":
-			return PackedVector2Array(
-				[Vector2(0, 0), Vector2(0, 1), Vector2(1, 1), Vector2(1, 0)]
-			)
+			return PackedVector2Array([Vector2(0, 0), Vector2(0, 1), Vector2(1, 1), Vector2(1, 0)])
 		"UInv":
 			return PackedVector2Array([Vector2(0, 1), Vector2(0, 0), Vector2(1, 0), Vector2(1, 1)])
 		"Square":
@@ -434,7 +446,9 @@ func _export_shape_points(shape_name: String) -> PackedVector2Array:
 				[Vector2(0, 0), Vector2(1, 0), Vector2(1, 1), Vector2(0, 1), Vector2(0, 0)]
 			)
 		"Triangle":
-			return PackedVector2Array([Vector2(0.5, 0), Vector2(1, 1), Vector2(0, 1), Vector2(0.5, 0)])
+			return PackedVector2Array(
+				[Vector2(0.5, 0), Vector2(1, 1), Vector2(0, 1), Vector2(0.5, 0)]
+			)
 		"HLine":
 			return PackedVector2Array([Vector2(0, 0.5), Vector2(1, 0.5)])
 		"VLine":
@@ -450,7 +464,6 @@ func _export_shape_points(shape_name: String) -> PackedVector2Array:
 	)
 
 
-
 func _on_draw_guessed_shape(shape: String) -> void:
 	if shape == "circle":
 		get_tree().call_deferred("change_scene_to_file", "res://scenes/main_menu.tscn")
@@ -458,32 +471,32 @@ func _on_draw_guessed_shape(shape: String) -> void:
 
 func _on_draw_area_mouse_entered() -> void:
 	_draw.start()
-	pass # Replace with function body.
+	pass  # Replace with function body.
 
 
 func _on_draw_area_mouse_exited() -> void:
 	_draw.stop()
-	pass # Replace with function body.
+	pass  # Replace with function body.
 
 
 func _on_scroll_container_mouse_entered() -> void:
 	VolumePopup.can_popup = false
-	pass # Replace with function body.
+	pass  # Replace with function body.
 
 
 func _on_scroll_container_mouse_exited() -> void:
 	VolumePopup.can_popup = true
-	pass # Replace with function body.
+	pass  # Replace with function body.
 
 
 func _on_mapping_mouse_entered() -> void:
 	VolumePopup.can_popup = false
-	pass # Replace with function body.
+	pass  # Replace with function body.
 
 
 func _on_mapping_mouse_exited() -> void:
 	VolumePopup.can_popup = true
-	pass # Replace with function body.
+	pass  # Replace with function body.
 
 
 func _on_song_name_edit_text_submitted(_new_text: String) -> void:

@@ -126,5 +126,5 @@ func _on_bg_music_finished():
 
 func _exit_tree() -> void:
 	Input.set_custom_mouse_cursor(
-		load("res://assets/sprites/UI/crosshair.png"), Input.CURSOR_ARROW, Vector2(12, 12)
+		load("res://assets/sprites/UI/crosshair.png"), Input.CURSOR_ARROW, Vector2(21, 21)
 	)
