@@ -31,6 +31,12 @@ extends Resource
 ## L/U/Z/C strokes match their targets even when bar proportions differ.
 @export_range(0.1, 1.0, 0.01) var base_open_unit_tolerance: float = 0.7
 
+## Base fraction of points trimmed from the end of open strokes before
+## structural (turn/corner) scoring. Forgives very short extra segments or
+## hooks at the end of L/V/U strokes by scoring structure as if the tiny
+## tail were absent. 0.08 removes roughly the last 8% of resampled points.
+@export_range(0.0, 0.2, 0.01) var base_open_tail_trim: float = 0.08
+
 # Runtime tolerances, rescaled from the base values above by
 # apply_overall_difficulty(). Do not edit directly; tune the base values.
 var tolerance: float = 0.3
@@ -38,6 +44,7 @@ var line_tolerance: float = 0.35
 var complex_tolerance: float = 0.46
 var open_tolerance: float = 0.38
 var open_unit_tolerance: float = 0.7
+var open_tail_trim: float = 0.08
 
 @export_group("Matching Behavior")
 ## When true, open shapes are matched with unit-square normalization, which
@@ -171,6 +178,23 @@ var open_unit_tolerance: float = 0.7
 ## Normalized distance threshold to consider a shape distinct from a circle.
 @export_range(0.1, 1.0, 0.05) var circle_distinct: float = 0.3
 
+@export_group("Debug Capture")
+## When true, every compare() call stores its configuration, the raw target
+## points and the raw drawn (player) points plus the score breakdown into
+## `debug_captures` (see `debug_last` for the most recent one). Zero cost
+## when false. Toggle it in the Inspector or via `debug_enabled = true`.
+@export var debug_enabled: bool = false
+## When true (and `debug_enabled` is true), each compare() also prints a
+## one-line summary (score, point counts, distance) to the console.
+@export var debug_print_on_compare: bool = false
+## Maximum number of captures kept in `debug_captures` (oldest dropped first).
+@export_range(1, 200, 1) var debug_max_captures: int = 20
+
+# Last compare() debug capture (empty Dictionary when nothing captured yet).
+var debug_last: Dictionary = {}
+# Ring buffer of recent compare() debug captures, oldest first.
+var debug_captures: Array[Dictionary] = []
+
 # Lazy-loaded unit circle
 var _unit_circle_cache: PackedVector2Array = PackedVector2Array()
 
@@ -180,8 +204,6 @@ var _template_cache: Dictionary = {}
 var _template_names: Array[String] = []
 var _templates_ready := false
 var _suppress_rotation_penalty := false
-
-
 
 
 # --- Target Data Cache Struct (Saves massive frame time) ---
@@ -386,7 +408,7 @@ func _template_points(kind: String) -> PackedVector2Array:
 					Vector2(1, 1),
 				]
 			)
-			
+
 		"exit":
 			return PackedVector2Array(
 				[
@@ -403,10 +425,119 @@ func _template_points(kind: String) -> PackedVector2Array:
 func compare_to_target_data(player: PackedVector2Array, target: TargetData) -> float:
 	if player.size() < 2 or target.normalized_points.size() < 2:
 		return 0.0
-	return _score_player_data(build_player_data(player), target)
+	var pd := build_player_data(player)
+	var debug_out := {}
+	var score := _score_player_data(pd, target, debug_out)
+	if debug_enabled:
+		_debug_store_capture(player, pd, target, score, debug_out)
+	return score
+
+
+## Drops all stored debug captures and resets `debug_last`.
+func clear_debug_captures() -> void:
+	debug_captures.clear()
+	debug_last = {}
+
+
+## Snapshot of every tuning value that influences scoring. Stored with each
+## debug capture so a saved capture fully reproduces the configuration.
+func _debug_config_snapshot() -> Dictionary:
+	return {
+		"base_tolerance": base_tolerance,
+		"base_line_tolerance": base_line_tolerance,
+		"base_complex_tolerance": base_complex_tolerance,
+		"base_open_tolerance": base_open_tolerance,
+		"base_open_unit_tolerance": base_open_unit_tolerance,
+		"base_open_tail_trim": base_open_tail_trim,
+		"tolerance": tolerance,
+		"line_tolerance": line_tolerance,
+		"complex_tolerance": complex_tolerance,
+		"open_tolerance": open_tolerance,
+		"open_unit_tolerance": open_unit_tolerance,
+		"open_tail_trim": open_tail_trim,
+		"enable_unit_square_open": enable_unit_square_open,
+		"open_structural_weight": open_structural_weight,
+		"structural_weight": structural_weight,
+		"open_turn_tol_deg": open_turn_tol_deg,
+		"open_corner_tol": open_corner_tol,
+		"rotation_tolerance_deg": rotation_tolerance_deg,
+		"line_angle_tol_deg": line_angle_tol_deg,
+		"straight_turn_tol_deg": straight_turn_tol_deg,
+		"corner_angle": corner_angle,
+		"corner_weight": corner_weight,
+		"closed_path_threshold": closed_path_threshold,
+		"near_closed_gap": near_closed_gap,
+		"sample_points": sample_points,
+		"bad_threshold": bad_threshold,
+		"good_threshold": good_threshold,
+		"perfect_threshold": perfect_threshold,
+	}
+
+
+## Converts points to plain [[x, y], ...] arrays so captures are JSON-safe.
+func _debug_points_to_arrays(points: PackedVector2Array) -> Array:
+	var out := []
+	out.resize(points.size())
+	for i in range(points.size()):
+		out[i] = [points[i].x, points[i].y]
+	return out
+
+
+## Records one compare() call: config + raw/normalized target and player
+## points + score breakdown. Keeps at most `debug_max_captures` entries.
+func _debug_store_capture(
+	player_raw: PackedVector2Array,
+	pd: PlayerData,
+	target: TargetData,
+	score: float,
+	breakdown: Dictionary
+) -> void:
+	var capture := {
+		"time_utc": Time.get_datetime_string_from_system(true),
+		"score": score,
+		"config": _debug_config_snapshot(),
+		"player_raw": _debug_points_to_arrays(player_raw),
+		"player_norm": _debug_points_to_arrays(pd.norm),
+		"target_raw": _debug_points_to_arrays(target.raw_points),
+		"target_norm": _debug_points_to_arrays(target.normalized_points),
+		"player_closed": pd.closed,
+		"player_gap_ratio": pd.gap_ratio,
+		"player_is_line": pd.is_line,
+		"target_is_closed": target.is_closed,
+		"breakdown": breakdown,
+	}
+	debug_last = capture
+	debug_captures.append(capture)
+	while debug_captures.size() > maxi(debug_max_captures, 1):
+		debug_captures.pop_front()
+	if debug_print_on_compare:
+		print(
+			(
+				"GestureRecognizer compare: score=%.1f player=%d target=%d dist=%s"
+				% [
+					score,
+					player_raw.size(),
+					target.raw_points.size(),
+					str(breakdown.get("distance", -1.0)),
+				]
+			)
+		)
+
+
+## Writes all stored captures as JSON to `path` (e.g. "user://draw_debug.json").
+## Returns OK on success, else a FileAccess error code. Points are stored as
+## [[x, y], ...] arrays; use `clear_debug_captures()` to reset afterwards.
+func save_debug_captures(path: String) -> Error:
+	var f := FileAccess.open(path, FileAccess.WRITE)
+	if f == null:
+		return FileAccess.get_open_error()
+	f.store_string(JSON.stringify(debug_captures, "\t"))
+	f.close()
+	return OK
 
 
 # --- Difficulty (overall_difficulty 1-10) & Quality Bands ---
+
 
 ## Scale factor for an OD value: OD 5 (base) -> 1.0, OD 1 -> od_max_scale
 ## (most forgiving), OD 10 -> od_min_scale (strictest). Linear in between.
@@ -427,6 +558,7 @@ func apply_overall_difficulty(od: float) -> float:
 	complex_tolerance = base_complex_tolerance * s
 	open_tolerance = base_open_tolerance * s
 	open_unit_tolerance = base_open_unit_tolerance * s
+	open_tail_trim = clampf(base_open_tail_trim * s, 0.0, 0.2)
 	return s
 
 
@@ -472,10 +604,8 @@ func is_pass(score: float) -> bool:
 	return score >= bad_threshold
 
 
-
-
-
 # --- Straight-stroke & Line-orientation helpers ---
+
 
 ## True for open strokes with almost no total turning (2-point diagonals,
 ## hlines/vlines). Catches straight lines whose bbox is square, which the
@@ -502,19 +632,26 @@ func _line_angle(points: PackedVector2Array) -> float:
 ## 0-1 orientation factor for line-vs-line pairs. 0 deg -> 1.0, 45 deg -> ~0.04,
 ## 90 deg -> ~0.0 (with the default 25-deg tolerance), so perpendicular lines
 ## always fail while sloppy lines (a few deg off) keep their score.
-func _line_orientation_factor(player_norm: PackedVector2Array, target_norm: PackedVector2Array) -> float:
-	var diff := absf(wrapf(_line_angle(player_norm) - _line_angle(target_norm), -PI / 2.0, PI / 2.0))
+func _line_orientation_factor(
+	player_norm: PackedVector2Array, target_norm: PackedVector2Array
+) -> float:
+	var diff := absf(
+		wrapf(_line_angle(player_norm) - _line_angle(target_norm), -PI / 2.0, PI / 2.0)
+	)
 	return exp(-pow(rad_to_deg(diff) / line_angle_tol_deg, 2.0))
 
 
 ## Scores a ready-made player stroke against one target. All player-side cost
 ## (normalization, radial peaks, corner mask, unit-square refit) already lives
 ## in `pd` and is shared across every target in a guess()/compare() run.
-func _score_player_data(pd: PlayerData, target: TargetData) -> float:
+## When `debug_out` is provided (compare path) it is filled with the score
+## breakdown (structural/positional/distance/weight); guess() leaves it empty.
+func _score_player_data(pd: PlayerData, target: TargetData, debug_out: Dictionary = {}) -> float:
 	if target.normalized_points.size() < 2:
 		return 0.0
 
 	var player_closed := pd.closed
+	var debug := debug_enabled
 
 	# Topology mismatch: Open stroke (like a line) vs Closed shape (like a star).
 	# Hand-drawn closed shapes rarely seal their endpoints, so a stroke that only
@@ -524,6 +661,10 @@ func _score_player_data(pd: PlayerData, target: TargetData) -> float:
 		if target.is_closed and pd.gap_ratio < near_closed_gap:
 			player_closed = true
 		else:
+			if debug:
+				debug_out["topology_mismatch"] = true
+				debug_out["player_closed"] = pd.closed
+				debug_out["score"] = 0.0
 			return 0.0
 	# A near-closed stroke treated as closed needs its radial peaks measured on
 	# the (assumed) closed boundary; compute them once here, lazily.
@@ -594,10 +735,37 @@ func _score_player_data(pd: PlayerData, target: TargetData) -> float:
 	if player_closed:
 		if not _suppress_rotation_penalty:
 			score *= _rotation_penalty(target, pd.peaks)
-	return clamp(score, 0.0, 100.0)
+	score = clamp(score, 0.0, 100.0)
+	if debug:
+		debug_out["player_closed"] = player_closed
+		debug_out["structural"] = structural
+		debug_out["positional"] = positional
+		debug_out["distance"] = distance
+		debug_out["effective_tolerance"] = effective_tolerance
+		debug_out["weight"] = weight
+		debug_out["score"] = score
+	return score
 
 
 func _open_structural(player_norm: PackedVector2Array, target: TargetData) -> float:
+	var full := _open_structural_core(player_norm, target)
+	if open_tail_trim <= 0.0 or player_norm.size() < 16:
+		return full
+	var keep := int(float(player_norm.size()) * (1.0 - open_tail_trim))
+	if keep < 8 or keep >= player_norm.size():
+		return full
+	var trimmed := PackedVector2Array()
+	trimmed.resize(keep)
+	for i in range(keep):
+		trimmed[i] = player_norm[i]
+	var short := _open_structural_core(trimmed, target)
+	# Small discount for the ignored tail so clean strokes still outscore
+	# hooked ones, while tiny extras are forgiven instead of harshly dropped.
+	short *= 1.0 - open_tail_trim * 0.5
+	return maxf(full, short)
+
+
+func _open_structural_core(player_norm: PackedVector2Array, target: TargetData) -> float:
 	var turn_diff := _open_turn_deg(player_norm) - target.total_turn_deg
 	var turn_match := exp(-pow(turn_diff / open_turn_tol_deg, 2.0))
 	var corner_diff := float(_open_corner_count(player_norm)) - float(target.open_corner_count)
