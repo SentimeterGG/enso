@@ -17,6 +17,8 @@ class_name ScoreManager
 signal score_changed(
 	rhythm_acc: float, draw_acc: float, combined_acc: float, combo: int, counts: Dictionary
 )
+## Emitted once per beat judgement with the HitResult.Kind (fed by the health bar).
+signal hit_applied(kind: int)
 
 const DRAW_BAD_THRESHOLD := 50.0
 ## GOOD sits in the middle between BAD (60) and PERFECT (~90): sloppy-but-right
@@ -131,6 +133,7 @@ func register_hit(kind: int, shape_id: String = "") -> void:
 		_play_combo_anim(true)
 	_update_ui()
 	score_changed.emit(rhythm_acc(), draw_acc(), combined_acc(), combo, counts.duplicate())
+	hit_applied.emit(kind)
 	_maybe_finish_undrawn_shape(target)
 
 

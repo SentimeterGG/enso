@@ -101,6 +101,9 @@ func _on_animator_animation_finished(anim_name: StringName) -> void:
 		if sc != null and sc.has_method("reset"):
 			sc.refresh_od()
 			sc.reset()
+		var hb := get_node_or_null("UI/HealthBar")
+		if hb != null and hb.has_method("reset_health"):
+			hb.reset_health()
 		if _preroll_sec > 0.001:
 			await get_tree().create_timer(_preroll_sec, false).timeout
 			if not is_inside_tree():

@@ -23,6 +23,7 @@
 [ext_resource type="Texture2D" uid="uid://bphlu7q5n16po" path="res://assets/sprites/mio/perfect.png" id="17_e1j6l"]
 [ext_resource type="Script" uid="uid://cgexcg0nwy5g1" path="res://scripts/ui/pause_screen.gd" id="21_5newe"]
 [ext_resource type="PackedScene" uid="uid://dwp27t3r2m87s" path="res://scenes/win_screen.tscn" id="21_bt5mj"]
+[ext_resource type="Script" uid="uid://bqeaom200sf3p" path="res://scripts/game/health_bar.gd" id="24_e1j6l"]
 
 [sub_resource type="Animation" id="Animation_5newe"]
 resource_name = "CountdownAfterPause"
@@ -126,6 +127,30 @@ tracks/5/keys = {
 "transitions": PackedFloat32Array(1, 1),
 "update": 0,
 "values": [Color(1, 1, 1, 0), Color(1, 1, 1, 1)]
+}
+tracks/6/type = "value"
+tracks/6/imported = false
+tracks/6/enabled = true
+tracks/6/path = NodePath("UI/HealthBar:modulate")
+tracks/6/interp = 1
+tracks/6/loop_wrap = true
+tracks/6/keys = {
+"times": PackedFloat32Array(2.1333332, 2.9333334),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 0), Color(1, 1, 1, 1)]
+}
+tracks/7/type = "value"
+tracks/7/imported = false
+tracks/7/enabled = true
+tracks/7/path = NodePath("UI/HealthBar:offset_transform_position")
+tracks/7/interp = 1
+tracks/7/loop_wrap = true
+tracks/7/keys = {
+"times": PackedFloat32Array(2.2666667, 2.9333334),
+"transitions": PackedFloat32Array(0.18, 0.18),
+"update": 0,
+"values": [Vector2(0, 10), Vector2(0, 0)]
 }
 
 [sub_resource type="Animation" id="Animation_bt5mj"]
@@ -289,6 +314,18 @@ tracks/7/keys = {
 "transitions": PackedFloat32Array(1),
 "update": 0,
 "values": [Color(1, 1, 1, 0)]
+}
+tracks/8/type = "value"
+tracks/8/imported = false
+tracks/8/enabled = true
+tracks/8/path = NodePath("UI/HealthBar:offset_transform_position")
+tracks/8/interp = 1
+tracks/8/loop_wrap = true
+tracks/8/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(0, 0)]
 }
 
 [sub_resource type="Animation" id="Animation_1kice"]
@@ -1308,6 +1345,43 @@ text = "RESTART"
 layout_mode = 2
 theme = ExtResource("9_0tnpc")
 text = "QUIT"
+
+[node name="HealthBar" type="ColorRect" parent="UI" unique_id=2084511347]
+modulate = Color(1, 1, 1, 0)
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -104.5
+offset_top = -50.0
+offset_right = 104.5
+offset_bottom = -40.0
+grow_horizontal = 2
+grow_vertical = 0
+offset_transform_enabled = true
+color = Color(0.20152658, 0.20152658, 0.20152658, 1)
+script = ExtResource("24_e1j6l")
+
+[node name="Filled" type="ColorRect" parent="UI/HealthBar" unique_id=895971058]
+layout_mode = 1
+anchors_preset = 4
+anchor_top = 0.5
+anchor_bottom = 0.5
+offset_top = -5.0
+offset_right = 72.5
+offset_bottom = 4.0
+grow_vertical = 2
+color = Color(1, 0, 0, 1)
+
+[node name="Game Over" type="Control" parent="UI" unique_id=1917166894]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
 
 [connection signal="animation_finished" from="animator" to="." method="_on_animator_animation_finished"]
 [connection signal="animation_finished" from="animator" to="UI/PauseScreen" method="_on_animator_animation_finished"]
