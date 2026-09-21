@@ -4,6 +4,7 @@
 [ext_resource type="Script" uid="uid://dv7xb0tfkadtx" path="res://scripts/intro.gd" id="1_i2l1n"]
 [ext_resource type="FontFile" uid="uid://o0cdle58rn3j" path="res://assets/fonts/ithaca.medium.ttf" id="1_yjqpq"]
 [ext_resource type="FontFile" uid="uid://cwhe7euewv5f6" path="res://assets/fonts/ttf/PixelCode.ttf" id="2_4bx60"]
+[ext_resource type="PackedScene" uid="uid://dj8lgkjrkbvka" path="res://scenes/loading_system_scene.tscn" id="5_wfs7u"]
 
 [sub_resource type="Animation" id="Animation_i2l1n"]
 length = 0.001
@@ -182,4 +183,9 @@ theme_override_font_sizes/font_size = 17
 text = "WELCOME TO"
 
 [node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="." unique_id=975977697]
-volume_db = -3.496
+volume_db = 5.504
+
+[node name="LoadingSystemScene" parent="." unique_id=1064446430 instance=ExtResource("5_wfs7u")]
+unique_name_in_owner = true
+layout_mode = 1
+sceneName = "uid://ql5w4t6kd2jq"
