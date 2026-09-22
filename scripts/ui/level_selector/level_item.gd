@@ -58,7 +58,8 @@ func _on_gui_input(event: InputEvent) -> void:
 
 
 func set_selected(selected: bool) -> void:
-	add_theme_stylebox_override("panel", STYLE_FOCUSED if selected else STYLE_NORMAL)
+	var panel: Panel = get_node_or_null("Panel")
+	panel.add_theme_stylebox_override("panel", STYLE_FOCUSED if selected else STYLE_NORMAL)
 	if selected:
 		emit_signal("hovered", chart_path)
 

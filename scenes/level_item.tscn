@@ -1,6 +1,7 @@
 [gd_scene format=3 uid="uid://cpdx84l3ertd6"]
 
 [ext_resource type="Theme" uid="uid://cpocn8agag6ib" path="res://resources/theme/Theme.tres" id="1_8rjrl"]
+[ext_resource type="StyleBox" uid="uid://e8ten8qcpkj4" path="res://resources/theme/level_select_button.tres" id="2_lrfiu"]
 [ext_resource type="Script" uid="uid://67ulg0qvdlhv" path="res://scripts/ui/level_selector/level_item.gd" id="3_4ae8e"]
 [ext_resource type="FontFile" uid="uid://bprqivnp1xsie" path="res://assets/fonts/ttf/PixelCode-Medium.ttf" id="4_rd0an"]
 [ext_resource type="Texture2D" uid="uid://cdicnu3ef85cd" path="res://levels/Jellyous by ILLIT mapped by DimasDFAR/bg.jpg" id="5_lrfiu"]
@@ -14,12 +15,6 @@ colors = PackedColorArray(0, 0, 0, 0.69900006, 0, 0, 0, 0)
 
 [sub_resource type="GradientTexture2D" id="GradientTexture2D_ehw80"]
 gradient = SubResource("Gradient_lrfiu")
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_8rjrl"]
-bg_color = Color(0, 0, 0, 0)
-border_width_left = 2
-border_color = Color(0.43023846, 0.43023843, 0.43023843, 1)
-corner_detail = 1
 
 [sub_resource type="Animation" id="Animation_4ae8e"]
 length = 0.001
@@ -99,7 +94,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-theme_override_styles/panel = SubResource("StyleBoxFlat_8rjrl")
+theme_override_styles/panel = ExtResource("2_lrfiu")
 
 [node name="Pulse" type="ColorRect" parent="." unique_id=1533089374]
 modulate = Color(1, 1, 1, 0)
