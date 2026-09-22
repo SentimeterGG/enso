@@ -1,12 +1,12 @@
 [gd_resource type="Theme" format=3 uid="uid://cpocn8agag6ib"]
 
-[ext_resource type="StyleBox" uid="uid://e8ten8qcpkj4" path="res://resources/theme/level_select_button.tres" id="1_23v3e"]
 [ext_resource type="Texture2D" uid="uid://h3fj6ejtqrfs" path="res://assets/sprites/UI/grabber/grabber.png" id="1_iliax"]
 [ext_resource type="FontFile" uid="uid://bprqivnp1xsie" path="res://assets/fonts/ttf/PixelCode-Medium.ttf" id="1_yd3fu"]
 [ext_resource type="Texture2D" uid="uid://dm4my8biseefb" path="res://assets/sprites/UI/grabber/grabber_highlight.png" id="2_bjrgy"]
 [ext_resource type="Texture2D" uid="uid://bcj37nuabykpk" path="res://assets/sprites/UI/slider/slider.png" id="3_0103d"]
 [ext_resource type="Texture2D" uid="uid://2bqs6d5gjr6d" path="res://assets/sprites/UI/slider/grabber_area.png" id="3_ikunk"]
 [ext_resource type="Texture2D" uid="uid://m3iobgvexxts" path="res://assets/sprites/UI/slider/grabber_area_highlight.png" id="4_ukpo5"]
+[ext_resource type="StyleBox" uid="uid://c2cmb6hfbb7qr" path="res://resources/theme/default_panel.tres" id="6_ukpo5"]
 
 [sub_resource type="StyleBoxTexture" id="StyleBoxTexture_ikunk"]
 texture = ExtResource("3_ikunk")
@@ -42,5 +42,5 @@ HSlider/icons/grabber_highlight = ExtResource("2_bjrgy")
 HSlider/styles/grabber_area = SubResource("StyleBoxTexture_ikunk")
 HSlider/styles/grabber_area_highlight = SubResource("StyleBoxTexture_ukpo5")
 HSlider/styles/slider = SubResource("StyleBoxTexture_00hb6")
-Panel/styles/panel = ExtResource("1_23v3e")
+Panel/styles/panel = ExtResource("6_ukpo5")
 VBoxContainer/constants/separation = 0

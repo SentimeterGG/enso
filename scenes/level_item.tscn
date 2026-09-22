@@ -4,17 +4,32 @@
 [ext_resource type="StyleBox" uid="uid://e8ten8qcpkj4" path="res://resources/theme/level_select_button.tres" id="2_lrfiu"]
 [ext_resource type="Script" uid="uid://67ulg0qvdlhv" path="res://scripts/ui/level_selector/level_item.gd" id="3_4ae8e"]
 [ext_resource type="FontFile" uid="uid://bprqivnp1xsie" path="res://assets/fonts/ttf/PixelCode-Medium.ttf" id="4_rd0an"]
+[ext_resource type="Texture2D" uid="uid://cdicnu3ef85cd" path="res://levels/Jellyous by ILLIT mapped by DimasDFAR/bg.jpg" id="5_lrfiu"]
 
 [node name="level_item" type="Panel" unique_id=1603493135]
+clip_children = 2
 custom_minimum_size = Vector2(260, 34)
 custom_maximum_size = Vector2(260, -1)
 offset_right = 260.0
 offset_bottom = 34.0
 size_flags_horizontal = 8
 offset_transform_enabled = true
-theme = ExtResource("1_8rjrl")
 theme_override_styles/panel = ExtResource("2_lrfiu")
 script = ExtResource("3_4ae8e")
+
+[node name="TextureRect" type="TextureRect" parent="." unique_id=767435133]
+self_modulate = Color(1, 1, 1, 0.27058825)
+layout_mode = 1
+anchors_preset = 14
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_top = -73.411766
+offset_bottom = 73.411766
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("5_lrfiu")
+expand_mode = 5
 
 [node name="MarginContainer" type="MarginContainer" parent="." unique_id=873871170]
 layout_mode = 1

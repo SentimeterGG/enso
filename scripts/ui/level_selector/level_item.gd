@@ -13,16 +13,18 @@ const STYLE_FOCUSED: StyleBox = preload("res://resources/theme/level_select_butt
 var chart_path: String = ""
 var level_title: String = ""
 var level_subtitle: String = ""
+var background: String = ""
 
 
 func _ready() -> void:
 	_apply_text()
 
 
-func setup(p_title: String, p_subtitle: String, p_chart_path: String) -> void:
+func setup(p_title: String, p_subtitle: String, p_chart_path: String, p_background: String) -> void:
 	level_title = p_title
 	level_subtitle = p_subtitle
 	chart_path = p_chart_path
+	background = p_background
 	_apply_text()
 
 
@@ -30,10 +32,13 @@ func _apply_text() -> void:
 	# Labels may not exist yet if setup() runs before _ready(); resolve lazily.
 	var title_node: Label = get_node_or_null("MarginContainer/VBoxContainer/Label")
 	var subtitle_node: Label = get_node_or_null("MarginContainer/VBoxContainer/Label2")
+	var texture_node: TextureRect = get_node_or_null("TextureRect")
 	if title_node:
 		title_node.text = level_title.to_upper() if not level_title.is_empty() else "UNTITLED"
 	if subtitle_node:
 		subtitle_node.text = level_subtitle.to_upper() if not level_subtitle.is_empty() else ""
+	if background:
+		texture_node.texture = load(background)
 
 
 func _on_gui_input(event: InputEvent) -> void:

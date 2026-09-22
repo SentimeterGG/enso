@@ -21,7 +21,7 @@ const COVER_FADE_PX := 220.0
 const DRAG_THRESHOLD := 8.0
 
 var selected_index: int = 0
-## One entry per discovered level: {title, subtitle, chart_path, is_user}.
+## One entry per discovered level: {title, subtitle, chart_path, background}.
 var levels: Array[Dictionary] = []
 ## Charts skipped by _discover_levels() for holding solo/unsetup notes.
 var skipped_incomplete: int = 0
@@ -71,7 +71,13 @@ func reload_levels(keep_selection: bool = true) -> void:
 		var item := LEVEL_ITEM_SCENE.instantiate()
 		scroll.add_child(item)
 		if item.has_method("setup"):
-			item.call("setup", entry["title"], entry["subtitle"], entry["chart_path"])
+			item.call(
+				"setup",
+				entry["title"],
+				entry["subtitle"],
+				entry["chart_path"],
+				entry.get("background", "")
+			)
 		if item.has_signal("hovered"):
 			item.connect("hovered", _on_item_hovered)
 	selected_index = 0
@@ -177,7 +183,16 @@ func _make_entry(chart_path: String) -> Dictionary:
 		str(meta.get("name", "")).strip_edges() + " by " + str(meta.get("source", "")).strip_edges()
 	)
 	var subtitle := "MAPPED BY " + str(meta.get("mapper", "")).strip_edges()
-	return {"title": title, "subtitle": subtitle, "chart_path": chart_path}
+	var background := str(meta.get("bg", "")).strip_edges()
+	if (
+		not background.is_empty()
+		and not background.begins_with("res://")
+		and not background.begins_with("user://")
+	):
+		background = chart_path.get_base_dir().path_join(background).simplify_path()
+	return {
+		"title": title, "subtitle": subtitle, "chart_path": chart_path, "background": background
+	}
 
 
 ## Lightweight [metadata]-only parse (no note loading) so the list stays fast.
