@@ -1,16 +1,16 @@
-[gd_scene format=3 uid="uid://c87ucrtisg54v"]
+[gd_scene format=3 uid="uid://b5w7i0b0q4x1q"]
 
-[ext_resource type="Texture2D" uid="uid://sqv5pjrdcpvd" path="res://assets/sprites/UI/shape/play.png" id="1_0xnud"]
-[ext_resource type="Theme" uid="uid://cpocn8agag6ib" path="res://resources/theme/Theme.tres" id="1_evwkm"]
-[ext_resource type="Script" uid="uid://ckfp2ghdvbb8t" path="res://scripts/ui/level_creator/level_creator.gd" id="1_qesna"]
-[ext_resource type="PackedScene" uid="uid://b7rlmo61qxu8s" path="res://scenes/draw.tscn" id="2_8nwwt"]
-[ext_resource type="Script" uid="uid://bsweodsn26075" path="res://scripts/ui/level_creator/metadata.gd" id="3_m4iti"]
-[ext_resource type="Texture2D" uid="uid://cgruk4xoapf0n" path="res://assets/sprites/UI/folder_icon.png" id="4_m4iti"]
-[ext_resource type="Script" uid="uid://dgs760t2d526n" path="res://scripts/ui/level_creator/mapping.gd" id="8_cixrd"]
-[ext_resource type="AudioStream" uid="uid://dybpytxnyej66" path="res://assets/sound/osu-hit-sound.mp3" id="10_2vkcm"]
-[ext_resource type="Texture2D" uid="uid://dnnjjgvh1pcgl" path="res://assets/sprites/UI/shape/circle_outline.png" id="11_7fl6t"]
-[ext_resource type="Texture2D" uid="uid://bhaq3n5lalrao" path="res://assets/sprites/UI/beat_bg.png" id="11_8nwwt"]
-[ext_resource type="PackedScene" uid="uid://ck7x5mmeskxsl" path="res://scenes/notification.tscn" id="12_notif"]
+[ext_resource type="Script" uid="uid://ckfp2ghdvbb8t" path="res://scripts/ui/level_creator/level_creator.gd" id="1_b0mjm"]
+[ext_resource type="PackedScene" uid="uid://b7rlmo61qxu8s" path="res://scenes/draw.tscn" id="2_tqbpm"]
+[ext_resource type="Script" uid="uid://bsweodsn26075" path="res://scripts/ui/level_creator/metadata.gd" id="3_00ccw"]
+[ext_resource type="Theme" uid="uid://cpocn8agag6ib" path="res://resources/theme/Theme.tres" id="4_oentb"]
+[ext_resource type="Texture2D" uid="uid://cgruk4xoapf0n" path="res://assets/sprites/UI/folder_icon.png" id="5_ohkdm"]
+[ext_resource type="Texture2D" uid="uid://sqv5pjrdcpvd" path="res://assets/sprites/UI/shape/play.png" id="6_tyy0p"]
+[ext_resource type="Texture2D" uid="uid://dnnjjgvh1pcgl" path="res://assets/sprites/UI/shape/circle_outline.png" id="7_07l4j"]
+[ext_resource type="Script" uid="uid://dgs760t2d526n" path="res://scripts/ui/level_creator/mapping.gd" id="8_kft8n"]
+[ext_resource type="Texture2D" uid="uid://bhaq3n5lalrao" path="res://assets/sprites/UI/beat_bg.png" id="9_7chji"]
+[ext_resource type="AudioStream" uid="uid://dybpytxnyej66" path="res://assets/sound/osu-hit-sound.mp3" id="10_1h7im"]
+[ext_resource type="PackedScene" uid="uid://ck7x5mmeskxsl" path="res://scenes/notification.tscn" id="11_f0q85"]
 
 [sub_resource type="InputEventKey" id="InputEventKey_8nwwt"]
 device = -1
@@ -31,9 +31,9 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 2
-script = ExtResource("1_qesna")
+script = ExtResource("1_b0mjm")
 
-[node name="draw" parent="." unique_id=2118743800 instance=ExtResource("2_8nwwt")]
+[node name="draw" parent="." unique_id=2118743800 instance=ExtResource("2_tqbpm")]
 weight = 0.5
 guess_mode = true
 
@@ -111,7 +111,7 @@ mouse_filter = 2
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
-script = ExtResource("3_m4iti")
+script = ExtResource("3_00ccw")
 
 [node name="PreviewPlayer" type="AudioStreamPlayer" parent="LevelCreator/METADATA" unique_id=1525354318]
 bus = &"Music"
@@ -147,49 +147,49 @@ layout_mode = 2
 
 [node name="Label" type="Label" parent="LevelCreator/METADATA/ScrollContainer/MarginContainer/VBoxContainer/song_name" unique_id=1554212525]
 layout_mode = 2
-theme = ExtResource("1_evwkm")
+theme = ExtResource("4_oentb")
 theme_override_font_sizes/font_size = 12
 text = "Song Name"
 
 [node name="SongNameEdit" type="LineEdit" parent="LevelCreator/METADATA/ScrollContainer/MarginContainer/VBoxContainer/song_name" unique_id=1220992723]
 unique_name_in_owner = true
 layout_mode = 2
-theme = ExtResource("1_evwkm")
+theme = ExtResource("4_oentb")
 
 [node name="song_author" type="VBoxContainer" parent="LevelCreator/METADATA/ScrollContainer/MarginContainer/VBoxContainer" unique_id=400180455]
 layout_mode = 2
 
 [node name="Label" type="Label" parent="LevelCreator/METADATA/ScrollContainer/MarginContainer/VBoxContainer/song_author" unique_id=310098334]
 layout_mode = 2
-theme = ExtResource("1_evwkm")
+theme = ExtResource("4_oentb")
 theme_override_font_sizes/font_size = 12
 text = "Song Author"
 
 [node name="SongAuthorEdit" type="LineEdit" parent="LevelCreator/METADATA/ScrollContainer/MarginContainer/VBoxContainer/song_author" unique_id=157001413]
 unique_name_in_owner = true
 layout_mode = 2
-theme = ExtResource("1_evwkm")
+theme = ExtResource("4_oentb")
 
 [node name="mapper" type="VBoxContainer" parent="LevelCreator/METADATA/ScrollContainer/MarginContainer/VBoxContainer" unique_id=1012508364]
 layout_mode = 2
 
 [node name="Label" type="Label" parent="LevelCreator/METADATA/ScrollContainer/MarginContainer/VBoxContainer/mapper" unique_id=1454625537]
 layout_mode = 2
-theme = ExtResource("1_evwkm")
+theme = ExtResource("4_oentb")
 theme_override_font_sizes/font_size = 12
 text = "Mapper Name"
 
 [node name="MapperEdit" type="LineEdit" parent="LevelCreator/METADATA/ScrollContainer/MarginContainer/VBoxContainer/mapper" unique_id=1653855920]
 unique_name_in_owner = true
 layout_mode = 2
-theme = ExtResource("1_evwkm")
+theme = ExtResource("4_oentb")
 
 [node name="song_path" type="VBoxContainer" parent="LevelCreator/METADATA/ScrollContainer/MarginContainer/VBoxContainer" unique_id=894258968]
 layout_mode = 2
 
 [node name="Label" type="Label" parent="LevelCreator/METADATA/ScrollContainer/MarginContainer/VBoxContainer/song_path" unique_id=1246709385]
 layout_mode = 2
-theme = ExtResource("1_evwkm")
+theme = ExtResource("4_oentb")
 theme_override_font_sizes/font_size = 12
 text = "Song Path"
 
@@ -201,20 +201,20 @@ theme_override_constants/separation = 10
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
-theme = ExtResource("1_evwkm")
+theme = ExtResource("4_oentb")
 
 [node name="BrowseSongButton" type="Button" parent="LevelCreator/METADATA/ScrollContainer/MarginContainer/VBoxContainer/song_path/HBoxContainer" unique_id=1019752748]
 unique_name_in_owner = true
 layout_mode = 2
 focus_mode = 0
-icon = ExtResource("4_m4iti")
+icon = ExtResource("5_ohkdm")
 
 [node name="video_bg_path" type="VBoxContainer" parent="LevelCreator/METADATA/ScrollContainer/MarginContainer/VBoxContainer" unique_id=2060312952]
 layout_mode = 2
 
 [node name="Label" type="Label" parent="LevelCreator/METADATA/ScrollContainer/MarginContainer/VBoxContainer/video_bg_path" unique_id=1693971830]
 layout_mode = 2
-theme = ExtResource("1_evwkm")
+theme = ExtResource("4_oentb")
 theme_override_font_sizes/font_size = 12
 text = "Video Background (Optional)"
 
@@ -226,19 +226,19 @@ theme_override_constants/separation = 10
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
-theme = ExtResource("1_evwkm")
+theme = ExtResource("4_oentb")
 
 [node name="BrowseVideoBgButton" type="Button" parent="LevelCreator/METADATA/ScrollContainer/MarginContainer/VBoxContainer/video_bg_path/HBoxContainer" unique_id=983336136]
 layout_mode = 2
 focus_mode = 0
-icon = ExtResource("4_m4iti")
+icon = ExtResource("5_ohkdm")
 
 [node name="bg_path" type="VBoxContainer" parent="LevelCreator/METADATA/ScrollContainer/MarginContainer/VBoxContainer" unique_id=1768155414]
 layout_mode = 2
 
 [node name="Label" type="Label" parent="LevelCreator/METADATA/ScrollContainer/MarginContainer/VBoxContainer/bg_path" unique_id=234171956]
 layout_mode = 2
-theme = ExtResource("1_evwkm")
+theme = ExtResource("4_oentb")
 theme_override_font_sizes/font_size = 12
 text = "Sprite Background"
 
@@ -250,19 +250,19 @@ theme_override_constants/separation = 10
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
-theme = ExtResource("1_evwkm")
+theme = ExtResource("4_oentb")
 
 [node name="BrowseBgPath" type="Button" parent="LevelCreator/METADATA/ScrollContainer/MarginContainer/VBoxContainer/bg_path/HBoxContainer" unique_id=1791783464]
 layout_mode = 2
 focus_mode = 0
-icon = ExtResource("4_m4iti")
+icon = ExtResource("5_ohkdm")
 
 [node name="color_scheme" type="VBoxContainer" parent="LevelCreator/METADATA/ScrollContainer/MarginContainer/VBoxContainer" unique_id=1877701402]
 layout_mode = 2
 
 [node name="Label" type="Label" parent="LevelCreator/METADATA/ScrollContainer/MarginContainer/VBoxContainer/color_scheme" unique_id=1693622114]
 layout_mode = 2
-theme = ExtResource("1_evwkm")
+theme = ExtResource("4_oentb")
 theme_override_font_sizes/font_size = 12
 text = "Color Scheme"
 
@@ -274,7 +274,7 @@ unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 0
-theme = ExtResource("1_evwkm")
+theme = ExtResource("4_oentb")
 sampler_visible = false
 color_modes_visible = false
 sliders_visible = false
@@ -286,7 +286,7 @@ custom_minimum_size = Vector2(30, 0)
 layout_mode = 2
 size_flags_vertical = 8
 focus_mode = 0
-theme = ExtResource("1_evwkm")
+theme = ExtResource("4_oentb")
 text = "Add
 "
 
@@ -309,7 +309,7 @@ layout_mode = 2
 
 [node name="Label" type="Label" parent="LevelCreator/METADATA/ScrollContainer/MarginContainer/VBoxContainer/preview_start" unique_id=1503000190]
 layout_mode = 2
-theme = ExtResource("1_evwkm")
+theme = ExtResource("4_oentb")
 theme_override_font_sizes/font_size = 12
 text = "Preview Song Position"
 
@@ -325,14 +325,14 @@ unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 4
-theme = ExtResource("1_evwkm")
+theme = ExtResource("4_oentb")
 max_value = 300000.0
 
 [node name="PreviewLabelEdit" type="LineEdit" parent="LevelCreator/METADATA/ScrollContainer/MarginContainer/VBoxContainer/preview_start/VBoxContainer/HBoxContainer" unique_id=628562185]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(80, 0)
 layout_mode = 2
-theme = ExtResource("1_evwkm")
+theme = ExtResource("4_oentb")
 placeholder_text = "0:00.000"
 
 [node name="control_button" type="HBoxContainer" parent="LevelCreator/METADATA/ScrollContainer/MarginContainer/VBoxContainer/preview_start/VBoxContainer" unique_id=1423006387]
@@ -345,7 +345,7 @@ unique_name_in_owner = true
 custom_minimum_size = Vector2(30, 0)
 layout_mode = 2
 focus_mode = 0
-theme = ExtResource("1_evwkm")
+theme = ExtResource("4_oentb")
 text = "<"
 icon_alignment = 1
 
@@ -354,8 +354,8 @@ unique_name_in_owner = true
 custom_minimum_size = Vector2(30, 0)
 layout_mode = 2
 focus_mode = 0
-theme = ExtResource("1_evwkm")
-icon = ExtResource("1_0xnud")
+theme = ExtResource("4_oentb")
+icon = ExtResource("6_tyy0p")
 icon_alignment = 1
 
 [node name="PreviewGotoEnd" type="Button" parent="LevelCreator/METADATA/ScrollContainer/MarginContainer/VBoxContainer/preview_start/VBoxContainer/control_button" unique_id=1152356043]
@@ -363,7 +363,7 @@ unique_name_in_owner = true
 custom_minimum_size = Vector2(30, 0)
 layout_mode = 2
 focus_mode = 0
-theme = ExtResource("1_evwkm")
+theme = ExtResource("4_oentb")
 text = ">"
 icon_alignment = 1
 
@@ -372,7 +372,7 @@ layout_mode = 2
 
 [node name="Label" type="Label" parent="LevelCreator/METADATA/ScrollContainer/MarginContainer/VBoxContainer/start_beat" unique_id=2106961786]
 layout_mode = 2
-theme = ExtResource("1_evwkm")
+theme = ExtResource("4_oentb")
 theme_override_font_sizes/font_size = 12
 text = "Start Beat"
 
@@ -388,14 +388,14 @@ unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 4
-theme = ExtResource("1_evwkm")
+theme = ExtResource("4_oentb")
 max_value = 10000.0
 
 [node name="BeatLabelEdit" type="LineEdit" parent="LevelCreator/METADATA/ScrollContainer/MarginContainer/VBoxContainer/start_beat/VBoxContainer/HBoxContainer" unique_id=1579989425]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(80, 0)
 layout_mode = 2
-theme = ExtResource("1_evwkm")
+theme = ExtResource("4_oentb")
 placeholder_text = "0:00.000"
 
 [node name="control_button" type="HBoxContainer" parent="LevelCreator/METADATA/ScrollContainer/MarginContainer/VBoxContainer/start_beat/VBoxContainer" unique_id=1712943746]
@@ -408,7 +408,7 @@ unique_name_in_owner = true
 custom_minimum_size = Vector2(30, 0)
 layout_mode = 2
 focus_mode = 0
-theme = ExtResource("1_evwkm")
+theme = ExtResource("4_oentb")
 text = "<"
 icon_alignment = 1
 
@@ -417,8 +417,8 @@ unique_name_in_owner = true
 custom_minimum_size = Vector2(30, 0)
 layout_mode = 2
 focus_mode = 0
-theme = ExtResource("1_evwkm")
-icon = ExtResource("1_0xnud")
+theme = ExtResource("4_oentb")
+icon = ExtResource("6_tyy0p")
 icon_alignment = 1
 
 [node name="BeatGotoEnd" type="Button" parent="LevelCreator/METADATA/ScrollContainer/MarginContainer/VBoxContainer/start_beat/VBoxContainer/control_button" unique_id=2051192508]
@@ -426,7 +426,7 @@ unique_name_in_owner = true
 custom_minimum_size = Vector2(30, 0)
 layout_mode = 2
 focus_mode = 0
-theme = ExtResource("1_evwkm")
+theme = ExtResource("4_oentb")
 text = ">"
 icon_alignment = 1
 
@@ -435,13 +435,13 @@ layout_mode = 2
 
 [node name="Label" type="Label" parent="LevelCreator/METADATA/ScrollContainer/MarginContainer/VBoxContainer/BPM" unique_id=904310464]
 layout_mode = 2
-theme = ExtResource("1_evwkm")
+theme = ExtResource("4_oentb")
 text = "BPM: "
 
 [node name="BpmSpin" type="SpinBox" parent="LevelCreator/METADATA/ScrollContainer/MarginContainer/VBoxContainer/BPM" unique_id=137845918]
 unique_name_in_owner = true
 layout_mode = 2
-theme = ExtResource("1_evwkm")
+theme = ExtResource("4_oentb")
 max_value = 999.0
 value = 120.0
 
@@ -454,13 +454,13 @@ layout_mode = 2
 
 [node name="Label" type="Label" parent="LevelCreator/METADATA/ScrollContainer/MarginContainer/VBoxContainer/Difficulty/HBoxContainer" unique_id=1942885836]
 layout_mode = 2
-theme = ExtResource("1_evwkm")
+theme = ExtResource("4_oentb")
 text = "Difficulty: "
 
 [node name="DiffSpin" type="SpinBox" parent="LevelCreator/METADATA/ScrollContainer/MarginContainer/VBoxContainer/Difficulty/HBoxContainer" unique_id=349440324]
 unique_name_in_owner = true
 layout_mode = 2
-theme = ExtResource("1_evwkm")
+theme = ExtResource("4_oentb")
 max_value = 10.0
 
 [node name="DiffLabel" type="Label" parent="LevelCreator/METADATA/ScrollContainer/MarginContainer/VBoxContainer/Difficulty" unique_id=330354383]
@@ -470,7 +470,7 @@ editor_description = "For Showing 0 mean easy 4 - 6 mean medium
 
 this label will change text"
 layout_mode = 2
-theme = ExtResource("1_evwkm")
+theme = ExtResource("4_oentb")
 text = "EASY"
 
 [node name="Draw Area" type="Control" parent="LevelCreator/METADATA" unique_id=1546263466]
@@ -495,7 +495,7 @@ offset_right = 20.0
 offset_bottom = 11.5
 grow_horizontal = 2
 grow_vertical = 2
-theme = ExtResource("1_evwkm")
+theme = ExtResource("4_oentb")
 text = "Draw Here"
 
 [node name="HBoxContainer3" type="HBoxContainer" parent="LevelCreator/METADATA" unique_id=199430973]
@@ -511,12 +511,12 @@ modulate = Color(1, 0.18431373, 0.039215688, 1)
 layout_mode = 2
 size_flags_horizontal = 0
 size_flags_vertical = 8
-texture = ExtResource("11_7fl6t")
+texture = ExtResource("7_07l4j")
 
 [node name="Label" type="Label" parent="LevelCreator/METADATA/HBoxContainer3" unique_id=1864570538]
 layout_mode = 2
 size_flags_horizontal = 0
-theme = ExtResource("1_evwkm")
+theme = ExtResource("4_oentb")
 theme_override_colors/font_color = Color(0.6344296, 0.6344296, 0.6344295, 1)
 theme_override_font_sizes/font_size = 14
 text = "GO BACK"
@@ -526,7 +526,7 @@ clip_contents = true
 layout_mode = 2
 size_flags_horizontal = 3
 mouse_filter = 2
-script = ExtResource("8_cixrd")
+script = ExtResource("8_kft8n")
 
 [node name="BEATSPAWNER" type="Node2D" parent="LevelCreator/MAPPING" unique_id=947513137]
 position = Vector2(145, 115)
@@ -566,7 +566,7 @@ custom_minimum_size = Vector2(34.845, 0)
 layout_mode = 2
 size_flags_horizontal = 0
 focus_mode = 0
-theme = ExtResource("1_evwkm")
+theme = ExtResource("4_oentb")
 text = "<<"
 
 [node name="start" type="Button" parent="LevelCreator/MAPPING/HBoxContainer" unique_id=2072190154]
@@ -574,9 +574,9 @@ custom_minimum_size = Vector2(34.845, 0)
 layout_mode = 2
 size_flags_horizontal = 0
 focus_mode = 0
-theme = ExtResource("1_evwkm")
+theme = ExtResource("4_oentb")
 shortcut = SubResource("Shortcut_8nwwt")
-icon = ExtResource("1_0xnud")
+icon = ExtResource("6_tyy0p")
 icon_alignment = 1
 
 [node name="go_to_end" type="Button" parent="LevelCreator/MAPPING/HBoxContainer" unique_id=926839668]
@@ -584,7 +584,7 @@ custom_minimum_size = Vector2(34.845, 0)
 layout_mode = 2
 size_flags_horizontal = 0
 focus_mode = 0
-theme = ExtResource("1_evwkm")
+theme = ExtResource("4_oentb")
 text = ">>"
 
 [node name="Label" type="Label" parent="LevelCreator/MAPPING" unique_id=968918794]
@@ -597,7 +597,7 @@ offset_top = -77.0
 offset_right = 138.0
 offset_bottom = -30.0
 grow_vertical = 0
-theme = ExtResource("1_evwkm")
+theme = ExtResource("4_oentb")
 theme_override_font_sizes/font_size = 12
 text = "M TO ADD
 N TO REMOVE"
@@ -637,7 +637,7 @@ offset_bottom = 147.0
 offset_transform_enabled = true
 offset_transform_position = Vector2(0, -2)
 offset_transform_scale = Vector2(1, 0.275)
-texture = ExtResource("11_8nwwt")
+texture = ExtResource("9_7chji")
 expand_mode = 1
 stretch_mode = 1
 
@@ -648,7 +648,7 @@ offset_top = 233.0
 offset_right = 484.0
 offset_bottom = 264.0
 focus_mode = 0
-theme = ExtResource("1_evwkm")
+theme = ExtResource("4_oentb")
 text = "Add Shape"
 
 [node name="ShapeOption" type="OptionButton" parent="LevelCreator/MAPPING" unique_id=1386991494]
@@ -672,7 +672,7 @@ popup/item_4/id = 4
 
 [node name="HitSound" type="AudioStreamPlayer" parent="LevelCreator/MAPPING" unique_id=784104904]
 unique_name_in_owner = true
-stream = ExtResource("10_2vkcm")
+stream = ExtResource("10_1h7im")
 volume_db = 10.0
 bus = &"Effect"
 
@@ -703,7 +703,7 @@ custom_maximum_size = Vector2(-1, 32)
 layout_mode = 2
 size_flags_horizontal = 3
 focus_mode = 0
-theme = ExtResource("1_evwkm")
+theme = ExtResource("4_oentb")
 theme_override_font_sizes/font_size = 10
 text = "METADATA"
 icon_alignment = 1
@@ -714,7 +714,7 @@ custom_maximum_size = Vector2(-1, 32)
 layout_mode = 2
 size_flags_horizontal = 3
 focus_mode = 0
-theme = ExtResource("1_evwkm")
+theme = ExtResource("4_oentb")
 theme_override_font_sizes/font_size = 10
 text = "MAPPING"
 
@@ -733,7 +733,7 @@ offset_bottom = -24.0
 grow_horizontal = 0
 grow_vertical = 0
 focus_mode = 0
-theme = ExtResource("1_evwkm")
+theme = ExtResource("4_oentb")
 text = "EXPORT"
 
 [node name="ImportFile" type="Button" parent="." unique_id=64372383]
@@ -751,7 +751,7 @@ offset_bottom = -64.0
 grow_horizontal = 0
 grow_vertical = 0
 focus_mode = 0
-theme = ExtResource("1_evwkm")
+theme = ExtResource("4_oentb")
 text = "IMPORT"
 
 [node name="CustomShapeEditor" type="Panel" parent="." unique_id=876543211]
@@ -791,7 +791,7 @@ theme_override_constants/separation = 6
 [node name="Title" type="Label" parent="CustomShapeEditor/MarginContainer/VBox" unique_id=876543213]
 layout_mode = 2
 size_flags_horizontal = 4
-theme = ExtResource("1_evwkm")
+theme = ExtResource("4_oentb")
 theme_override_font_sizes/font_size = 12
 text = "Custom Shape
 click to place points (0..1)"
@@ -800,7 +800,7 @@ horizontal_alignment = 1
 [node name="CustomInfo" type="Label" parent="CustomShapeEditor/MarginContainer/VBox" unique_id=876543214]
 unique_name_in_owner = true
 layout_mode = 2
-theme = ExtResource("1_evwkm")
+theme = ExtResource("4_oentb")
 theme_override_colors/font_color = Color(0.4351923, 0.43519226, 0.43519226, 1)
 theme_override_font_sizes/font_size = 10
 text = "sfgj knr hvwr thgjiorgnv thwiogfsavgsafbgrsn"
@@ -847,7 +847,7 @@ alignment = 1
 
 [node name="Label" type="Label" parent="CustomShapeEditor/MarginContainer/VBox/Options" unique_id=876543220]
 layout_mode = 2
-theme = ExtResource("1_evwkm")
+theme = ExtResource("4_oentb")
 theme_override_font_sizes/font_size = 10
 text = "Closed"
 
@@ -855,7 +855,7 @@ text = "Closed"
 unique_name_in_owner = true
 layout_mode = 2
 focus_mode = 0
-theme = ExtResource("1_evwkm")
+theme = ExtResource("4_oentb")
 
 [node name="Buttons" type="HBoxContainer" parent="CustomShapeEditor/MarginContainer/VBox" unique_id=876543222]
 layout_mode = 2
@@ -867,7 +867,7 @@ unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
 focus_mode = 0
-theme = ExtResource("1_evwkm")
+theme = ExtResource("4_oentb")
 text = "Undo"
 
 [node name="CustomClear" type="Button" parent="CustomShapeEditor/MarginContainer/VBox/Buttons" unique_id=876543224]
@@ -875,7 +875,7 @@ unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
 focus_mode = 0
-theme = ExtResource("1_evwkm")
+theme = ExtResource("4_oentb")
 text = "Clear"
 
 [node name="Buttons2" type="HBoxContainer" parent="CustomShapeEditor/MarginContainer/VBox" unique_id=1413718456]
@@ -888,7 +888,7 @@ unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
 focus_mode = 0
-theme = ExtResource("1_evwkm")
+theme = ExtResource("4_oentb")
 text = "Cancel"
 
 [node name="CustomConfirm" type="Button" parent="CustomShapeEditor/MarginContainer/VBox/Buttons2" unique_id=32298876]
@@ -896,10 +896,10 @@ unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
 focus_mode = 0
-theme = ExtResource("1_evwkm")
+theme = ExtResource("4_oentb")
 text = "Confirm"
 
-[node name="Notification" parent="." unique_id=1766050966 instance=ExtResource("12_notif")]
+[node name="Notification" parent="." unique_id=1766050966 instance=ExtResource("11_f0q85")]
 layout_mode = 1
 offset_left = -153.0
 offset_top = 48.0
