@@ -11,12 +11,14 @@ extends Control
 @onready var music_slider: HSlider = $setting/Music
 @onready var effects_slider: HSlider = $setting/Effects
 @onready var bg_dim_slider: HSlider = $setting/BG_Dim
+@onready var scroll_speed_slider: HSlider = $setting/Scroll_Speed
 
 
 @onready var master_label: Label = $setting/Master/VolumePercent
 @onready var music_label: Label = $setting/Music/VolumePercent
 @onready var effects_label: Label = $setting/Effects/VolumePercent
 @onready var dim_percent_label: Label = $setting/BG_Dim/DimPercent
+@onready var scroll_percent_label: Label = $setting/Scroll_Speed/ScrollPercent
 
 var can_play_hitsound: bool = false
 
@@ -42,6 +44,8 @@ func _ready() -> void:
 	_connect_sliders()
 	bg_dim_slider.value = 100.0 - Global.settingsData.bg_visibilty
 	_update_label(bg_dim_slider, dim_percent_label)
+	scroll_speed_slider.value = Global.settingsData.scroll_speed
+	_update_label_scroll(scroll_speed_slider, scroll_percent_label)
 	can_play_hitsound = true
 
 
@@ -171,3 +175,15 @@ func _on_bg_dim_value_changed(value: float) -> void:
 	_update_label(bg_dim_slider, dim_percent_label)
 	if can_play_hitsound:
 		%OsuHitSound.play()
+
+
+func _on_scroll_speed_value_changed(value: float) -> void:
+	Global.settingsData.scroll_speed = value
+	Global.save(Global.settingsData, Global.settingsData.save_file_name)
+	_update_label_scroll(scroll_speed_slider, scroll_percent_label)
+	if can_play_hitsound:
+		%OsuHitSound.play()
+	
+
+func _update_label_scroll(slider: HSlider, label: Label) -> void:
+	label.text = str(roundi(slider.value)) + "px"

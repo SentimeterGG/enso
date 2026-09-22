@@ -321,9 +321,9 @@ anchors_preset = 4
 anchor_top = 0.5
 anchor_bottom = 0.5
 offset_left = 56.0
-offset_top = -87.0
+offset_top = -126.0
 offset_right = 173.0
-offset_bottom = -64.0
+offset_bottom = -103.0
 grow_vertical = 2
 theme = ExtResource("2_al1eu")
 text = "VIDEO BG  :"
@@ -334,9 +334,9 @@ anchors_preset = 4
 anchor_top = 0.5
 anchor_bottom = 0.5
 offset_left = 177.0
-offset_top = -91.0
+offset_top = -130.0
 offset_right = 228.0
-offset_bottom = -61.0
+offset_bottom = -100.0
 grow_vertical = 2
 theme = ExtResource("2_al1eu")
 text = "OFF"
@@ -347,9 +347,9 @@ anchors_preset = 4
 anchor_top = 0.5
 anchor_bottom = 0.5
 offset_left = 56.0
-offset_top = -42.0
+offset_top = -82.0
 offset_right = 228.0
-offset_bottom = -26.0
+offset_bottom = -64.0
 grow_vertical = 2
 theme = ExtResource("2_al1eu")
 step = 5.0
@@ -368,6 +368,49 @@ theme_override_font_sizes/font_size = 11
 text = "BACKGROUND DIM:"
 
 [node name="DimPercent" type="Label" parent="setting/BG_Dim" unique_id=771981830]
+layout_mode = 1
+anchors_preset = 4
+anchor_top = 0.5
+anchor_bottom = 0.5
+offset_left = 178.0
+offset_top = -8.0
+offset_right = 229.0
+offset_bottom = 8.0
+grow_vertical = 2
+theme = ExtResource("2_al1eu")
+theme_override_font_sizes/font_size = 11
+text = "100%"
+
+[node name="Scroll_Speed" type="HSlider" parent="setting" unique_id=2056532390]
+layout_mode = 1
+anchors_preset = 4
+anchor_top = 0.5
+anchor_bottom = 0.5
+offset_left = 56.0
+offset_top = -43.0
+offset_right = 228.0
+offset_bottom = -25.0
+grow_vertical = 2
+theme = ExtResource("2_al1eu")
+min_value = 200.0
+max_value = 1000.0
+step = 10.0
+value = 200.0
+
+[node name="ScrollText" type="Label" parent="setting/Scroll_Speed" unique_id=670583377]
+layout_mode = 1
+anchors_preset = 4
+anchor_top = 0.5
+anchor_bottom = 0.5
+offset_top = -25.0
+offset_right = 51.0
+offset_bottom = -9.0
+grow_vertical = 2
+theme = ExtResource("2_al1eu")
+theme_override_font_sizes/font_size = 11
+text = "SCROLL SPEED:"
+
+[node name="ScrollPercent" type="Label" parent="setting/Scroll_Speed" unique_id=659133748]
 layout_mode = 1
 anchors_preset = 4
 anchor_top = 0.5
@@ -602,6 +645,7 @@ bus = &"Effect"
 
 [connection signal="button_down" from="setting/BGButton" to="." method="_on_bg_button_button_down"]
 [connection signal="value_changed" from="setting/BG_Dim" to="." method="_on_bg_dim_value_changed"]
+[connection signal="value_changed" from="setting/Scroll_Speed" to="." method="_on_scroll_speed_value_changed"]
 [connection signal="button_down" from="setting/FSButton" to="." method="_on_fs_button_button_down"]
 [connection signal="mouse_entered" from="setting/PanelDraw" to="." method="_on_panel_draw_mouse_entered"]
 [connection signal="mouse_exited" from="setting/PanelDraw" to="." method="_on_panel_draw_mouse_exited"]

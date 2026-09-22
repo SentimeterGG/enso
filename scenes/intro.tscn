@@ -183,7 +183,7 @@ theme_override_font_sizes/font_size = 17
 text = "WELCOME TO"
 
 [node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="." unique_id=975977697]
-volume_db = 5.504
+volume_db = 20.065
 
 [node name="LoadingSystemScene" parent="." unique_id=1064446430 instance=ExtResource("5_wfs7u")]
 unique_name_in_owner = true
