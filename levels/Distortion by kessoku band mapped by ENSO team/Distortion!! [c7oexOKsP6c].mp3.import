@@ -1,0 +1,19 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+uid="uid://dcd66by85w7un"
+path="res://.godot/imported/Distortion!! [c7oexOKsP6c].mp3-b7e46fc2f75c47157c0add2fb6033884.mp3str"
+
+[deps]
+
+source_file="res://levels/Distortion by kessoku band mapped by ENSO team/Distortion!! [c7oexOKsP6c].mp3"
+dest_files=["res://.godot/imported/Distortion!! [c7oexOKsP6c].mp3-b7e46fc2f75c47157c0add2fb6033884.mp3str"]
+
+[params]
+
+loop=false
+loop_offset=0
+bpm=0
+beat_count=0
+bar_beats=4

@@ -528,3 +528,6 @@ func _update_discord_activity() -> void:
 	elif not source.is_empty():
 		state = source
 	DiscordRPC.set_activity("Drawing a map", state)
+
+func _exit_tree() -> void:
+	BgMusic.FADE_DURATION = 0.3
