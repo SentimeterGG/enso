@@ -8,25 +8,27 @@ var save_file_path = "user://ENSO_FILES/"
 # Settings and Main Menu variables.
 var settingsData = SettingsData.new()
 
-
-
 signal toggle_window
+
 
 func _ready():
 	DirAccess.make_dir_recursive_absolute(save_file_path)
 	load_all_data()
 	DisplayServer.window_set_mode(
-		DisplayServer.WINDOW_MODE_FULLSCREEN if settingsData.fullscreen else DisplayServer.WINDOW_MODE_WINDOWED
+		(
+			DisplayServer.WINDOW_MODE_FULLSCREEN
+			if settingsData.fullscreen
+			else DisplayServer.WINDOW_MODE_WINDOWED
+		)
 	)
 
 
 func save(resource, save_filename):
 	ResourceSaver.save(resource, save_file_path + save_filename)
-	
+
 
 func load_all_data():
 	settingsData = load_data(SettingsData)
-	
 
 
 func _unhandled_input(event: InputEvent) -> void:
@@ -38,13 +40,26 @@ func _unhandled_input(event: InputEvent) -> void:
 			Global.settingsData.fullscreen = true
 		save(settingsData, settingsData.save_file_name)
 		DisplayServer.window_set_mode(
-			DisplayServer.WINDOW_MODE_FULLSCREEN if settingsData.fullscreen else DisplayServer.WINDOW_MODE_WINDOWED
+			(
+				DisplayServer.WINDOW_MODE_FULLSCREEN
+				if settingsData.fullscreen
+				else DisplayServer.WINDOW_MODE_WINDOWED
+			)
 		)
+
+	if event.is_action_pressed("ui_cancel"):
+		# Check if a LineEdit (or any Control node) currently has focus
+		var focused_control = get_viewport().gui_get_focus_owner()
+
+		if focused_control is LineEdit:
+			# Release focus globally across the UI
+			get_viewport().gui_release_focus()
+
 
 func load_data(res_class: Resource):
 	var temp = res_class.new()
 	var path = save_file_path + temp.save_file_name
-	
+
 	if FileAccess.file_exists(path):
 		var loaded = ResourceLoader.load(path)
 		if loaded:
@@ -53,9 +68,10 @@ func load_data(res_class: Resource):
 			push_warning("Failed to load, creating new: " + path)
 	else:
 		save(temp, temp.save_file_name)
-	
+
 	# ALWAYS return something
 	return temp
+
 
 func choose_random_chart() -> ChartData:
 	var by_folder: Dictionary = {}

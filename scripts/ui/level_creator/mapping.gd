@@ -9,6 +9,7 @@ const EDITOR_SHAPE_POINT := preload("res://scenes/editor_shape_point.tscn")
 @onready var waveform: TextureRect = $beat_collumn/AudioStreamPreview
 @onready var metadata_group: Control = %METADATA
 @onready var hitsound: AudioStreamPlayer = %HitSound
+@onready var _root_creator: Control = get_tree().current_scene
 # Unique access to level_creator.tscn's vertical receptor line (LineGenerator at x=144).
 # Verified in scenes/level_creator.tscn: [node name="LineGenerator" ... unique_name_in_owner = true]
 @onready var _line_generator: Line2D = %LineGenerator
@@ -16,8 +17,12 @@ const EDITOR_SHAPE_POINT := preload("res://scenes/editor_shape_point.tscn")
 @onready var _btn_start: Button = $HBoxContainer/go_to_start
 @onready var _btn_play: Button = $HBoxContainer/start
 @onready var _btn_end: Button = $HBoxContainer/go_to_end
-@onready var _btn_add_shape: Button = $"Add Shape"
-@onready var _shape_option: OptionButton = $ShapeOption
+@onready var _btn_add_shape: Button = %"Add Shape"
+@onready var _shape_option: OptionButton = %ShapeOption
+@onready var _btn_add_difficulty: Button = %"Add Difficulty"
+@onready var _difficulty_option: OptionButton = %DifficultyOption
+@onready var _add_difficulty_popup: Control = %AddDifficultyPopup
+
 # Declarative editor from level_creator.tscn (root overlay, avoids MAPPING clip)
 @onready var _custom_panel: Panel = %CustomShapeEditor
 @onready var _custom_canvas: Control = %CustomCanvas
@@ -28,7 +33,22 @@ const EDITOR_SHAPE_POINT := preload("res://scenes/editor_shape_point.tscn")
 @onready var _custom_closed_check: CheckBox = %CustomClosedCheck
 
 ## All shape names in ShapeOption (scenes/level_creator.tscn order).
-const SHAPE_NAMES := ["L", "L90", "L180", "L270", "LFlip", "U", "UInv", "Square", "Triangle", "HLine", "VLine", "Diag", "DiagInv", "ZigZag"]
+const SHAPE_NAMES := [
+	"L",
+	"L90",
+	"L180",
+	"L270",
+	"LFlip",
+	"U",
+	"UInv",
+	"Square",
+	"Triangle",
+	"HLine",
+	"VLine",
+	"Diag",
+	"DiagInv",
+	"ZigZag"
+]
 const CUSTOM_SHAPE_NAME := "Custom"
 ## Receptor x in MAPPING-local coords (matches the Line2D at x=144).
 const RECEPTOR_X := 144.0
@@ -90,9 +110,16 @@ var _marker_nodes: Dictionary = {}
 ## Tracks which beats already triggered hitsound/vibrate when passing LineGenerator.
 ## Key = beat_ms (int), value = true. Cleared when the beat moves back ahead of the line (seek/rewind).
 var _hitsound_fired: Dictionary = {}
+var difficulties: Dictionary = {}
+var _current_difficulty: String = ""
+@onready var _add_diff_name_edit: LineEdit = %DifficultyName
+@onready var _add_diff_spin: SpinBox = %DiffSpin
+@onready var _add_diff_label: Label = %DiffLabel
+@onready var _edit_diff_name_edit: LineEdit = $EditDifficulty/DifficultyNameEdit
 
 
 func _ready() -> void:
+	_add_difficulty_popup.visible = false
 	_markers_root = Node2D.new()
 	_markers_root.name = "BeatMarkers"
 	beat_column.add_child(_markers_root)
@@ -141,15 +168,30 @@ func _process(_delta: float) -> void:
 			mapping_player.stop()
 
 
+func _notify_creator(text: String, is_error: bool = false) -> void:
+	if _root_creator != null and _root_creator.has_method("_notify"):
+		_root_creator._notify(text, is_error)
+	elif is_error:
+		push_error(text)
+	else:
+		print(text)
+
+
 func _unhandled_key_input(event: InputEvent) -> void:
 	if event is InputEventKey and event.pressed and not event.echo:
 		match event.physical_keycode:
 			KEY_M:
-				add_beat_at_current()
-				get_viewport().set_input_as_handled()
+				if _difficulty_option.selected != -1:
+					add_beat_at_current()
+					get_viewport().set_input_as_handled()
+				else:
+					_notify_creator("Must add difficulty first", true)
 			KEY_N:
-				remove_beat_at_current()
-				get_viewport().set_input_as_handled()
+				if _difficulty_option.selected != -1:
+					remove_beat_at_current()
+					get_viewport().set_input_as_handled()
+				else:
+					_notify_creator("Must add difficulty first", true)
 			KEY_SPACE:
 				_on_start_pressed()
 				get_viewport().set_input_as_handled()
@@ -214,7 +256,13 @@ func _input(event: InputEvent) -> void:
 	if event is InputEventMouseMotion:
 		if _wave_scrubbing:
 			# Threshold so a plain click (no drag) just clears selection.
-			if not _wave_moved and _wave_press_pos.distance_to((event as InputEventMouseMotion).position) < _WAVE_DRAG_THRESHOLD_PX:
+			if (
+				not _wave_moved
+				and (
+					_wave_press_pos.distance_to((event as InputEventMouseMotion).position)
+					< _WAVE_DRAG_THRESHOLD_PX
+				)
+			):
 				return
 			if not _wave_moved:
 				_wave_moved = true
@@ -661,7 +709,12 @@ func _on_add_shape_pressed() -> void:
 ## Assumes times are sorted ints and not already used by another shape.
 ## points are 0..1 normalized (same as mapping.gd:719-735); if empty, falls back
 ## to preset lookup.
-func _create_shape_entry(shape_name: String, times: Array, points: PackedVector2Array = PackedVector2Array(), closed: bool = false) -> void:
+func _create_shape_entry(
+	shape_name: String,
+	times: Array,
+	points: PackedVector2Array = PackedVector2Array(),
+	closed: bool = false
+) -> void:
 	if _shapes_root == null:
 		push_error("mapping: shapes container missing.")
 		return
@@ -804,7 +857,9 @@ func _shape_points(shape_name: String) -> PackedVector2Array:
 				[Vector2(0, 0), Vector2(1, 0), Vector2(1, 1), Vector2(0, 1), Vector2(0, 0)]
 			)
 		"Triangle":
-			return PackedVector2Array([Vector2(0.5, 0), Vector2(1, 1), Vector2(0, 1), Vector2(0.5, 0)])
+			return PackedVector2Array(
+				[Vector2(0.5, 0), Vector2(1, 1), Vector2(0, 1), Vector2(0.5, 0)]
+			)
 		"HLine":
 			return PackedVector2Array([Vector2(0, 0.5), Vector2(1, 0.5)])
 		"VLine":
@@ -822,13 +877,17 @@ func _shape_points(shape_name: String) -> PackedVector2Array:
 
 # --- custom shape editor (precise point-click, 0-1, beat-constrained) -----
 
+
 func _setup_custom_editor() -> void:
 	# Declarative tscn version — just wire draw/input, hide initially.
 	if _custom_panel != null:
 		_custom_panel.visible = false
 	if _custom_grid != null and not _custom_grid.draw.is_connected(_on_custom_grid_draw):
 		_custom_grid.draw.connect(_on_custom_grid_draw)
-	if _custom_canvas != null and not _custom_canvas.gui_input.is_connected(_on_custom_canvas_input):
+	if (
+		_custom_canvas != null
+		and not _custom_canvas.gui_input.is_connected(_on_custom_canvas_input)
+	):
 		_custom_canvas.gui_input.connect(_on_custom_canvas_input)
 	# Buttons/CheckBox are wired via tscn [connection] to _on_custom_*.
 
@@ -871,9 +930,15 @@ func _update_custom_editor() -> void:
 			_custom_closed = false
 			_custom_closed_check.button_pressed = false
 	if _custom_closed:
-		_custom_info_label.text = "Beats: %d  • Need %d (+1 auto) = %d pts (0..1)  • Placed: %d" % [_custom_pending_times.size(), user_need, total, _custom_points.size()]
+		_custom_info_label.text = (
+			"Beats: %d  • Need %d (+1 auto) = %d pts (0..1)  • Placed: %d"
+			% [_custom_pending_times.size(), user_need, total, _custom_points.size()]
+		)
 	else:
-		_custom_info_label.text = "Beats: %d  • Need %d points (0..1)  • Placed: %d" % [_custom_pending_times.size(), need, _custom_points.size()]
+		_custom_info_label.text = (
+			"Beats: %d  • Need %d points (0..1)  • Placed: %d"
+			% [_custom_pending_times.size(), need, _custom_points.size()]
+		)
 	_custom_confirm_btn.disabled = _custom_points.size() != total
 	if _custom_line != null:
 		_update_custom_line()
@@ -918,14 +983,26 @@ func _on_custom_grid_draw() -> void:
 	# 0..1 border
 	_custom_grid.draw_rect(Rect2(Vector2.ZERO, s), Color(0.5, 0.5, 0.5, 0.6), false, 1.0)
 	# Grid lines
-	_custom_grid.draw_line(Vector2(s.x * 0.5, 0), Vector2(s.x * 0.5, s.y), Color(0.3, 0.3, 0.3, 1), 1.0)
-	_custom_grid.draw_line(Vector2(0, s.y * 0.5), Vector2(s.x, s.y * 0.5), Color(0.3, 0.3, 0.3, 1), 1.0)
+	_custom_grid.draw_line(
+		Vector2(s.x * 0.5, 0), Vector2(s.x * 0.5, s.y), Color(0.3, 0.3, 0.3, 1), 1.0
+	)
+	_custom_grid.draw_line(
+		Vector2(0, s.y * 0.5), Vector2(s.x, s.y * 0.5), Color(0.3, 0.3, 0.3, 1), 1.0
+	)
 	var pts := _custom_points
 	for i in range(pts.size()):
 		var pos := Vector2(pts[i].x * s.x, pts[i].y * s.y)
 		var col := Color(0.2, 0.8, 1.0, 1.0) if i == pts.size() - 1 else Color(1.0, 0.85, 0.2, 1.0)
 		_custom_grid.draw_circle(pos, 5.0, col)
-		_custom_grid.draw_string(ThemeDB.fallback_font, pos + Vector2(6, -6), str(i + 1), HORIZONTAL_ALIGNMENT_LEFT, -1, 10, Color.WHITE)
+		_custom_grid.draw_string(
+			ThemeDB.fallback_font,
+			pos + Vector2(6, -6),
+			str(i + 1),
+			HORIZONTAL_ALIGNMENT_LEFT,
+			-1,
+			10,
+			Color.WHITE
+		)
 
 
 func _on_custom_canvas_input(event: InputEvent) -> void:
@@ -942,7 +1019,11 @@ func _on_custom_canvas_input(event: InputEvent) -> void:
 			var idx := _hit_custom_point(local, s)
 			if idx >= 0:
 				# Don't allow dragging the auto-generated last point directly when closed
-				if _custom_closed and idx == _custom_points.size() - 1 and _custom_points.size() == total:
+				if (
+					_custom_closed
+					and idx == _custom_points.size() - 1
+					and _custom_points.size() == total
+				):
 					idx = 0
 				_custom_drag_idx = idx
 				_custom_canvas.accept_event()
@@ -969,7 +1050,9 @@ func _on_custom_canvas_input(event: InputEvent) -> void:
 		if _custom_drag_idx >= 0 and _custom_drag_idx < _custom_points.size():
 			var s := _custom_canvas.size
 			var local := (event as InputEventMouseMotion).position
-			_custom_points[_custom_drag_idx] = Vector2(clampf(local.x / s.x, 0.0, 1.0), clampf(local.y / s.y, 0.0, 1.0))
+			_custom_points[_custom_drag_idx] = Vector2(
+				clampf(local.x / s.x, 0.0, 1.0), clampf(local.y / s.y, 0.0, 1.0)
+			)
 			if _custom_closed and _custom_points.size() == total:
 				if _custom_drag_idx == 0:
 					_custom_points[_custom_points.size() - 1] = _custom_points[0]
@@ -1002,7 +1085,11 @@ func _on_custom_closed_toggled(v: bool) -> void:
 			_custom_points[total - 1] = _custom_points[0]
 	else:
 		# Unchecking closed: if last == first duplicate, remove auto point
-		if _custom_points.size() == total and _custom_points.size() >= 2 and _custom_points[0].is_equal_approx(_custom_points[_custom_points.size() - 1]):
+		if (
+			_custom_points.size() == total
+			and _custom_points.size() >= 2
+			and _custom_points[0].is_equal_approx(_custom_points[_custom_points.size() - 1])
+		):
 			_custom_points.remove_at(_custom_points.size() - 1)
 	_update_custom_editor()
 
@@ -1013,7 +1100,11 @@ func _on_custom_undo() -> void:
 	# If closed and last is auto duplicate, remove it together with undo logic
 	if _custom_closed:
 		var total := _custom_total_point_count()
-		if _custom_points.size() == total and _custom_points.size() >= 2 and _custom_points[0].is_equal_approx(_custom_points[_custom_points.size() - 1]):
+		if (
+			_custom_points.size() == total
+			and _custom_points.size() >= 2
+			and _custom_points[0].is_equal_approx(_custom_points[_custom_points.size() - 1])
+		):
 			_custom_points.remove_at(_custom_points.size() - 1)
 			_update_custom_editor()
 			return
@@ -1045,16 +1136,42 @@ func _on_custom_confirm() -> void:
 	_create_shape_entry(CUSTOM_SHAPE_NAME, times, pts, _custom_closed)
 	_select_shape(_shapes.size() - 1)
 
+
 # --- chart import / song loading -------------------------------------------
+func get_difficulties_data() -> Dictionary:
+	_save_current_difficulty_state()
+	return difficulties.duplicate(true)
 
 
-func _on_level_creator_chart_imported(chart: ChartData) -> void:
+func import_difficulty(diff_name: String, chart: ChartData) -> void:
 	if chart == null or chart.metadata.is_empty():
 		return
-	var metadata: Dictionary = chart.metadata
-	if metadata.has("song"):
-		_load_song(chart.song_path())
-	_import_beats_and_shapes(chart)
+	_save_current_difficulty_state()
+	var clean_name := diff_name.strip_edges()
+	if clean_name.is_empty():
+		clean_name = "untitled"
+	var is_new := not difficulties.has(clean_name)
+	var overall := int(chart.metadata.get("overall_difficulty", 0))
+	difficulties[clean_name] = {"beats": [], "shapes": [], "overall_difficulty": overall}
+	if is_new:
+		_difficulty_option.add_item(clean_name)
+
+	# Load the song into the mapping tab's own player once per batch — every
+	# difficulty in the folder shares one song, so reloading per-file would
+	# reset playback each time and is pointless extra IO.
+	if mapping_player.stream == null:
+		var song := chart.song_path()
+		if not song.is_empty():
+			_load_song(song)
+
+	_import_beats_and_shapes(chart)  # populates beat_times_ms / _shapes from the chart
+	_current_difficulty = clean_name
+	_save_current_difficulty_state()
+	_edit_diff_name_edit.text = clean_name
+	for i in range(_difficulty_option.item_count):
+		if _difficulty_option.get_item_text(i) == clean_name:
+			_difficulty_option.select(i)
+			break
 
 
 ## Rebuilds editor beats + shapes from a parsed ChartData.
@@ -1225,15 +1342,15 @@ func _check_beats_passed_line_generator(_pos: float) -> void:
 	if _line_generator == null or beat_column == null or _markers_root == null:
 		return
 	# Unique access verified: level_creator.tscn has %LineGenerator (unique_name_in_owner)
-	var line_x := _line_generator.position.x # MAPPING-local, 144.0
+	var line_x := _line_generator.position.x  # MAPPING-local, 144.0
 	var col_x := beat_column.position.x
 	for t in beat_times_ms:
 		var marker = _marker_nodes.get(t)
 		if marker == null or not is_instance_valid(marker):
 			continue
 		# marker.position is in _markers_root-local (which is at 0 inside beat_column)
-		var marker_x_in_mapping : float= col_x + marker.position.x
-		var passed := marker_x_in_mapping <= line_x + 0.1 # tiny epsilon for float/1px mismatch
+		var marker_x_in_mapping: float = col_x + marker.position.x
+		var passed := marker_x_in_mapping <= line_x + 0.1  # tiny epsilon for float/1px mismatch
 		var was_fired: bool = _hitsound_fired.has(t)
 		if passed and not was_fired:
 			# hitsound is also unique (%HitSound) in level_creator.tscn
@@ -1289,3 +1406,131 @@ func _safe_connect(btn: Button, method: Callable) -> void:
 
 func _on_load_song_file_selected(path: String) -> void:
 	_load_song(path)
+
+
+func _on_add_difficuly_pressed() -> void:
+	_add_diff_name_edit.text = ""
+	_add_diff_spin.value = 0
+	_add_difficulty_popup.visible = true
+	_add_diff_name_edit.grab_focus()
+	pass  # Replace with function body.
+
+
+func _save_current_difficulty_state() -> void:
+	if _current_difficulty.is_empty() or not difficulties.has(_current_difficulty):
+		return
+	var entry: Dictionary = difficulties[_current_difficulty]
+	entry["beats"] = beat_times_ms.duplicate()
+	entry["shapes"] = _shapes.duplicate(true)
+
+
+func _on_add_difficulty_confirmation_pressed() -> void:
+	var raw_name := _add_diff_name_edit.text.strip_edges()
+	if raw_name.is_empty():
+		_notify_creator("Difficulty name can't be empty.", true)
+		return
+	for existing in difficulties.keys():
+		if str(existing).to_lower() == raw_name.to_lower():
+			_notify_creator('A difficulty named "%s" already exists.' % existing, true)
+			return
+	# Flush whatever's currently loaded before switching to the new (empty) one.
+	_save_current_difficulty_state()
+	difficulties[raw_name] = {
+		"beats": [], "shapes": [], "overall_difficulty": int(_add_diff_spin.value)
+	}
+	_difficulty_option.add_item(raw_name)
+	_difficulty_option.select(_difficulty_option.item_count - 1)
+	_current_difficulty = raw_name
+	clear_beats()  # fresh empty buffer for the new difficulty
+	_edit_diff_name_edit.text = raw_name
+	_add_diff_name_edit.text = ""
+	_add_difficulty_popup.visible = false
+	pass  # Replace with function body.
+
+
+func _on_save_changes_on_current_diff_pressed() -> void:
+	if _current_difficulty.is_empty():
+		_notify_creator("No difficulty selected.", true)
+		return
+	_save_current_difficulty_state()
+	_notify_creator('Saved "%s".' % _current_difficulty)
+	pass  # Replace with function body.
+
+
+func _on_edit_difficulty_name_button_pressed() -> void:
+	if _current_difficulty.is_empty():
+		_notify_creator("Select a difficulty first.", true)
+		return
+	var new_name := _edit_diff_name_edit.text.strip_edges()
+	if new_name.is_empty():
+		_notify_creator("Difficulty name can't be empty.", true)
+		return
+	if new_name == _current_difficulty:
+		return
+	for existing in difficulties.keys():
+		if str(existing).to_lower() == new_name.to_lower():
+			_notify_creator('A difficulty named "%s" already exists.' % existing, true)
+			return
+	difficulties[new_name] = difficulties[_current_difficulty]
+	difficulties.erase(_current_difficulty)
+	for i in range(_difficulty_option.item_count):
+		if _difficulty_option.get_item_text(i) == _current_difficulty:
+			_difficulty_option.set_item_text(i, new_name)
+			break
+	_current_difficulty = new_name
+	_notify_creator('Renamed to "%s".' % new_name)
+	pass  # Replace with function body.
+
+
+func _on_cancel_difficulty_creation_pressed() -> void:
+	_add_difficulty_popup.visible = false
+	pass  # Replace with function body.
+
+
+func _load_difficulty_state(name_diff: String) -> void:
+	if not difficulties.has(name_diff):
+		return
+	var entry: Dictionary = difficulties[name_diff]
+	clear_beats()
+	var loaded_beats: Array[int] = []
+	for b in entry.get("beats", []):
+		loaded_beats.append(int(b))
+	loaded_beats.sort()
+	beat_times_ms = loaded_beats
+	for shape in entry.get("shapes", []):
+		var sd := shape as Dictionary
+		_create_shape_entry(
+			str(sd.get("shape", "Square")),
+			sd.get("times_ms", []),
+			sd.get("points", PackedVector2Array()),
+			bool(sd.get("closed", false))
+		)
+	_current_difficulty = name_diff
+	_edit_diff_name_edit.text = name_diff
+	_rebuild_markers()
+	_refresh_shapes()
+	_set_selected([])
+	_select_shape(-1)
+	seek(0.0)
+
+
+func _on_difficulty_option_item_selected(index: int) -> void:
+	if index < 0 or index >= _difficulty_option.item_count:
+		return
+	var new_name := _difficulty_option.get_item_text(index)
+	if new_name == _current_difficulty:
+		return
+	_save_current_difficulty_state()
+	_load_difficulty_state(new_name)
+	pass  # Replace with function body.
+
+
+func _on_diff_spin_value_changed(value: float) -> void:
+	var i := int(value)
+	if i <= 3:
+		_add_diff_label.text = "EASY"
+	elif i <= 6:
+		_add_diff_label.text = "MEDIUM"
+	else:
+		_add_diff_label.text = "HARD"
+	pass  # Replace with function body.

@@ -1495,7 +1495,6 @@ text = "QUIT"
 
 [node name="PauseScreen" type="Control" parent="UI" unique_id=737804048]
 process_mode = 3
-visible = false
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -1520,12 +1519,13 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -121.0
+offset_left = -96.5
 offset_top = -50.5
-offset_right = 121.0
+offset_right = 96.5
 offset_bottom = 50.5
 grow_horizontal = 2
 grow_vertical = 2
+theme_override_constants/separation = 4
 
 [node name="Continue" type="Button" parent="UI/PauseScreen/VBoxContainer" unique_id=1308529469]
 layout_mode = 2

@@ -11,7 +11,10 @@ const PULSE_STRENGTH := 0.12
 const PULSE_FALLOFF := 0.25
 
 var _pending_game := false
+var _hover_token: int = 0
 var _preview_chart_path: String = ""
+var _bg_tween: Tween = null
+var _bg_tween_texture: Texture2D = null
 var _current_bpm: float = 0.0
 var _current_offset: float = 0.0
 var _last_beat: int = -1
@@ -26,6 +29,7 @@ var _synced_stream: AudioStream = null
 ## fire ~0.3s later and override the real selection's song.
 var _initial_select_done: bool = false
 @onready var draw_here_label: Label = %"Draw Here"
+@onready var preview_bg: TextureRect = %PreviewBG
 @onready var beat_sound: AudioStreamPlayer = $"beat_sound"
 @onready var draw_manager: Line2D = $draw
 @onready var level_list: Control = $"Main Content/HBoxContainer/RSide/Level List"
@@ -233,18 +237,48 @@ func _emit_beat() -> void:
 func _on_level_item_hovered(chart_path: String) -> void:
 	if chart_path.is_empty() or chart_path == _preview_chart_path:
 		return
-	_preview_chart_path = chart_path
 	if not has_node("/root/BgMusic"):
 		return
 	var bg := get_node("/root/BgMusic") as AudioStreamPlayer
 	if bg == null or not bg.has_method("change_song"):
 		return
+	if preview_bg == null:
+		return
+
+	# Debounce: only commit to this hover if it holds for 0.2s, so quickly
+	# scrolling past several rows doesn't spam chart loads / bg crossfades
+	# for items the user never actually settles on.
+	_hover_token += 1
+	var my_token := _hover_token
+	await get_tree().create_timer(0.3).timeout
+	if my_token != _hover_token:
+		return  # superseded by a newer hover before the wait finished
+	if not is_inside_tree():
+		return  # scene changed while we were waiting
+
+	_preview_chart_path = chart_path
 	var chart := ChartParser.load(chart_path)
 	if chart.is_empty():
 		return
 	_current_bpm = chart.get_bpm()
 	_current_offset = chart.beat_offset()
-	_transitioning = true
+
+	# Fade transition: old becomes invisible, new appears
+	var new_texture := load(chart.get_bg())
+	if _bg_tween != null and _bg_tween.is_valid():
+		_bg_tween.kill()
+	preview_bg.modulate.a = 1.0
+	_bg_tween = create_tween()
+	_bg_tween.tween_property(preview_bg, "modulate:a", 0.0, 0.2)
+	_bg_tween.tween_property(preview_bg, "texture", new_texture, 0.0).set_delay(0.2)
+	(
+		_bg_tween
+		. tween_property(preview_bg, "modulate:a", 1.0, 0.5)
+		. set_delay(0.2)
+		. set_trans(Tween.TRANS_CUBIC)
+		. set_ease(Tween.EASE_OUT)
+	)
+
 	var beat_duration := 1.0 / _current_bpm if _current_bpm > 0.0 else 0.5
 	var preview := chart.preview_start()
 	_last_beat = int(preview / beat_duration) - 1
@@ -253,9 +287,6 @@ func _on_level_item_hovered(chart_path: String) -> void:
 	if draw_here_label != null:
 		draw_here_label.offset_transform_scale = Vector2.ONE
 	if not _initial_select_done:
-		# Pre-selection hover (index 0 auto-hover on reload): sync the beat
-		# visuals only, never queue a song swap that would stomp the real
-		# selection ~0.3s later when its fade tween fires.
 		_synced_stream = null
 		return
 	var song := chart.song_path()
@@ -269,8 +300,6 @@ func _on_level_item_hovered(chart_path: String) -> void:
 		var new_path := stream.resource_path
 		var same_song := bg.stream == stream or (not cur_path.is_empty() and cur_path == new_path)
 		if same_song:
-			# Same song already playing: don't reset it, just re-sync the beat clock
-			# to the live playback position with the new chart's bpm/offset.
 			_synced_stream = bg.stream
 			_transitioning = false
 			var audio_time := bg.get_playback_position() - _current_offset

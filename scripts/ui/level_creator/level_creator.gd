@@ -79,25 +79,6 @@ func _on_import_file_pressed() -> void:
 	_import_dialog.popup_centered(Vector2i(600, 400))
 
 
-func _on_import_popup_file_selected(path: String) -> void:
-	if path.is_empty() or not FileAccess.file_exists(path):
-		push_error("Invalid chart file: " + path)
-		_notify("Invalid chart file.", true)
-		return
-
-	var chart := ChartParser.load(path)
-	if chart.is_empty() or chart.metadata.is_empty():
-		push_error("No metadata found in chart: " + path)
-		_notify("No metadata found in chart.", true)
-		return
-
-	chart_imported.emit(chart)
-	# metadata.when_import() runs synchronously via signal, so LineEdits
-	# are already filled here — refresh Discord state from them.
-	_update_discord_activity()
-	_notify_import_result(chart)
-
-
 func _on_export_button_pressed() -> void:
 	_save_dialog.popup_centered(Vector2i(600, 400))
 
@@ -111,6 +92,15 @@ func _on_export_popup_dir_selected(dir: String) -> void:
 	if metadata_group == null or not metadata_group.has_method("when_export"):
 		push_error("METADATA missing when_export().")
 		_notify("METADATA missing when_export().", true)
+		return
+	if mapping_group == null or not mapping_group.has_method("get_difficulties_data"):
+		push_error("MAPPING missing get_difficulties_data().")
+		_notify("MAPPING missing get_difficulties_data().", true)
+		return
+
+	var diffs: Dictionary = mapping_group.get_difficulties_data()
+	if diffs.is_empty():
+		_notify("Add at least one difficulty before exporting.", true)
 		return
 
 	var data: Dictionary = metadata_group.when_export()
@@ -133,12 +123,12 @@ func _on_export_popup_dir_selected(dir: String) -> void:
 			push_error("Failed to create folder: " + out_dir + " " + error_string(err))
 			_notify("Failed to create folder.", true)
 			return
+
 	var src_song := str(data.get("song_src", "")).strip_edges()
 	var song_file := "song.mp3"
 	if not src_song.is_empty():
 		song_file = _resolve_song_filename(src_song)
 		_copy_song_into(src_song, out_dir.path_join(song_file))
-	# Copy optional bg / video_bg next to the chart when they point at real files.
 	var bg_value := ""
 	var src_bg := str(data.get("bg", "")).strip_edges()
 	if not src_bg.is_empty():
@@ -151,26 +141,34 @@ func _on_export_popup_dir_selected(dir: String) -> void:
 		var video_file := _resolve_song_filename(src_video)
 		_copy_song_into(src_video, out_dir.path_join(video_file))
 		video_value = "./" + video_file
-	var mapping_beats: Array = []
-	var mapping_shapes: Array = []
-	if mapping_group != null:
-		if mapping_group.has_method("get_beat_times_ms"):
-			mapping_beats = mapping_group.get_beat_times_ms()
-		if mapping_group.has_method("get_shapes"):
-			mapping_shapes = mapping_group.get_shapes()
-	var text := _build_metadata_text(data, "./" + song_file, bg_value, video_value)
-	text += _build_notes_text(mapping_beats, mapping_shapes)
-	var chart_path := out_dir.path_join("chart.enso")
-	var f := FileAccess.open(chart_path, FileAccess.WRITE)
-	if f == null:
-		push_error(
-			"Failed to write chart: " + chart_path + " " + error_string(FileAccess.get_open_error())
-		)
-		_notify("Failed to write chart.", true)
-		return
-	f.store_string(text)
-	f.close()
-	_notify_export_result(mapping_beats, mapping_shapes, folder_name)
+
+	var written: Array[String] = []
+	for diff_name in diffs.keys():
+		var d: Dictionary = diffs[diff_name]
+		var beats: Array = d.get("beats", [])
+		var shapes: Array = d.get("shapes", [])
+		var overall: int = int(d.get("overall_difficulty", int(data.get("overall_difficulty", 0))))
+		var text := _build_metadata_text(data, "./" + song_file, bg_value, video_value, overall)
+		text += _build_notes_text(beats, shapes)
+		var file_name := _sanitize_difficulty_filename(str(diff_name)) + ".enso"
+		var chart_path := out_dir.path_join(file_name)
+		var f := FileAccess.open(chart_path, FileAccess.WRITE)
+		if f == null:
+			push_error(
+				(
+					"Failed to write chart: "
+					+ chart_path
+					+ " "
+					+ error_string(FileAccess.get_open_error())
+				)
+			)
+			_notify("Failed to write %s." % file_name, true)
+			continue
+		f.store_string(text)
+		f.close()
+		written.append(str(diff_name))
+
+	_notify_export_result(diffs, written, folder_name)
 
 
 ## Toast helper: %Notification (scenes/notification.tscn) or push_* fallback.
@@ -184,7 +182,7 @@ func _notify(text: String, is_error: bool = false) -> void:
 
 
 ## Import toast: beats/shapes loaded + solo warning when incomplete.
-func _notify_import_result(chart: ChartData) -> void:
+func _notify_import_result(chart: ChartData, diff_name: String) -> void:
 	var beats := 0
 	var shapes := 0
 	var solo := 0
@@ -198,38 +196,49 @@ func _notify_import_result(chart: ChartData) -> void:
 		else:
 			solo = maxi(0, beats - shapes)
 	if solo > 0 or chart.is_incomplete():
-		_notify("Imported %d beats, %d shapes — %d solo need setup." % [beats, shapes, solo])
-	else:
-		_notify("Imported %d beats, %d shapes." % [beats, shapes])
-
-
-## Export toast: warns when solo notes ship (hidden from level list).
-func _notify_export_result(
-	mapping_beats: Array, mapping_shapes: Array, folder_name: String
-) -> void:
-	var solo := 0
-	if mapping_group != null and mapping_group.has_method("get_solo_beats_ms"):
-		solo = (mapping_group.call("get_solo_beats_ms") as Array).size()
-	else:
-		var used := {}
-		for shape in mapping_shapes:
-			for t in (shape as Dictionary).get("times_ms", []):
-				used[int(t)] = true
-		for b in mapping_beats:
-			if not used.has(int(b)):
-				solo += 1
-	if solo > 0:
 		_notify(
 			(
-				"Exported %s (%d beats, %d shapes, %d solo hidden from list)."
-				% [folder_name, mapping_beats.size(), mapping_shapes.size(), solo]
+				'Imported "%s": %d beats, %d shapes — %d solo need setup.'
+				% [diff_name, beats, shapes, solo]
+			)
+		)
+	else:
+		_notify('Imported "%s": %d beats, %d shapes.' % [diff_name, beats, shapes])
+
+
+func _notify_export_result(diffs: Dictionary, written: Array[String], folder_name: String) -> void:
+	if written.is_empty():
+		_notify("Export failed — no difficulty files were written.", true)
+		return
+	var total_beats := 0
+	var total_shapes := 0
+	var total_solo := 0
+	for diff_name in written:
+		var d: Dictionary = diffs.get(diff_name, {})
+		var beats: Array = d.get("beats", [])
+		var shapes: Array = d.get("shapes", [])
+		total_beats += beats.size()
+		total_shapes += shapes.size()
+		var used := {}
+		for shape in shapes:
+			for t in (shape as Dictionary).get("times_ms", []):
+				used[int(t)] = true
+		for b in beats:
+			if not used.has(int(b)):
+				total_solo += 1
+	var names := ", ".join(written)
+	if total_solo > 0:
+		_notify(
+			(
+				"Exported %s: %s (%d beats, %d shapes, %d solo hidden from list)."
+				% [folder_name, names, total_beats, total_shapes, total_solo]
 			)
 		)
 	else:
 		_notify(
 			(
-				"Exported %s (%d beats, %d shapes)."
-				% [folder_name, mapping_beats.size(), mapping_shapes.size()]
+				"Exported %s: %s (%d beats, %d shapes)."
+				% [folder_name, names, total_beats, total_shapes]
 			)
 		)
 
@@ -296,11 +305,33 @@ func _sanitize_folder_name(raw: String) -> String:
 	return out
 
 
+func _sanitize_difficulty_filename(raw: String) -> String:
+	var bad := ["/", "\\", ":", "*", "?", '"', "<", ">", "|", " "]
+	var out := raw.strip_edges().to_lower()
+	for ch in bad:
+		out = out.replace(ch, "_")
+	while out.contains("__"):
+		out = out.replace("__", "_")
+	out = out.strip_edges().rstrip(".").rstrip("_")
+	if out.is_empty():
+		out = "difficulty"
+	return out
+
+
 func _build_metadata_text(
-	data: Dictionary, song_value: String, bg_value: String = "", video_value: String = ""
+	data: Dictionary,
+	song_value: String,
+	bg_value: String = "",
+	video_value: String = "",
+	overall_difficulty_override: int = -1
 ) -> String:
 	var colors: Array = data.get("color_scheme", [])
 	var colors_str := "[" + ", ".join(colors.map(func(c): return '"' + str(c) + '"')) + "]"
+	var overall := (
+		overall_difficulty_override
+		if overall_difficulty_override >= 0
+		else int(data.get("overall_difficulty", 0))
+	)
 	var text := (
 		"[metadata]\nname = %s\nsource = %s\nmapper = %s\nsong = %s\ncolor_scheme = %s\npreview_start = %d\nbpm = %d\nbeat0 = %d\noverall_difficulty = %d\n"
 		% [
@@ -312,7 +343,7 @@ func _build_metadata_text(
 			int(data.get("preview_start", 0)),
 			int(data.get("bpm", 120)),
 			int(data.get("beat0", 0)),
-			int(data.get("overall_difficulty", 0)),
+			overall,
 		]
 	)
 	if not bg_value.is_empty():
@@ -529,5 +560,77 @@ func _update_discord_activity() -> void:
 		state = source
 	DiscordRPC.set_activity("Drawing a map", state)
 
+
 func _exit_tree() -> void:
 	BgMusic.FADE_DURATION = 0.3
+
+
+func _on_import_popup_dir_selected(dir: String) -> void:
+	if dir.is_empty() or not DirAccess.dir_exists_absolute(dir):
+		push_error("Invalid chart folder: " + dir)
+		_notify("Invalid chart folder.", true)
+		return
+
+	var chart_paths := _find_enso_files(dir)
+	if chart_paths.is_empty():
+		push_error("No .enso files found in: " + dir)
+		_notify("No .enso files found in that folder.", true)
+		return
+
+	chart_paths.sort()  # stable, predictable difficulty order in the dropdown
+
+	var metadata_applied := false
+	var imported_names: Array[String] = []
+	var failed_names: Array[String] = []
+
+	for path in chart_paths:
+		var chart := ChartParser.load(path)
+		if chart.is_empty() or chart.metadata.is_empty():
+			push_error("No metadata found in chart: " + path)
+			failed_names.append(path.get_file())
+			continue
+
+		var diff_name := path.get_file().get_basename()  # "hard.enso" -> "hard"
+
+		if not metadata_applied:
+			# Shared fields (song/bg/mapper/etc) only need to be applied once —
+			# every .enso in the folder should agree on them.
+			chart_imported.emit(chart)
+			metadata_applied = true
+
+		if mapping_group != null and mapping_group.has_method("import_difficulty"):
+			mapping_group.import_difficulty(diff_name, chart)
+		imported_names.append(diff_name)
+
+	_update_discord_activity()
+	_notify_folder_import_result(imported_names, failed_names)
+
+
+## Non-recursive scan for *.enso files directly inside dir. Returns absolute paths.
+func _find_enso_files(dir: String) -> Array[String]:
+	var out: Array[String] = []
+	var da := DirAccess.open(dir)
+	if da == null:
+		return out
+	da.list_dir_begin()
+	var entry := da.get_next()
+	while entry != "":
+		if not da.current_is_dir() and entry.get_extension().to_lower() == "enso":
+			out.append(dir.path_join(entry))
+		entry = da.get_next()
+	da.list_dir_end()
+	return out
+
+
+func _notify_folder_import_result(imported: Array[String], failed: Array[String]) -> void:
+	if imported.is_empty():
+		_notify("Import failed — no valid .enso files.", true)
+		return
+	var msg := (
+		"Imported %d difficult%s: %s"
+		% [imported.size(), "y" if imported.size() == 1 else "ies", ", ".join(imported)]
+	)
+	if not failed.is_empty():
+		msg += " (%d failed: %s)" % [failed.size(), ", ".join(failed)]
+	_notify(msg, not failed.is_empty())
+	pass  # Replace with function body.

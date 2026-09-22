@@ -140,7 +140,7 @@ theme_override_constants/margin_right = 12
 [node name="VBoxContainer" type="VBoxContainer" parent="LevelCreator/METADATA/ScrollContainer/MarginContainer" unique_id=1115699162]
 layout_mode = 2
 size_flags_horizontal = 3
-theme_override_constants/separation = 9
+theme_override_constants/separation = 2
 
 [node name="song_name" type="VBoxContainer" parent="LevelCreator/METADATA/ScrollContainer/MarginContainer/VBoxContainer" unique_id=318250181]
 layout_mode = 2
@@ -148,7 +148,6 @@ layout_mode = 2
 [node name="Label" type="Label" parent="LevelCreator/METADATA/ScrollContainer/MarginContainer/VBoxContainer/song_name" unique_id=1554212525]
 layout_mode = 2
 theme = ExtResource("4_oentb")
-theme_override_font_sizes/font_size = 12
 text = "Song Name"
 
 [node name="SongNameEdit" type="LineEdit" parent="LevelCreator/METADATA/ScrollContainer/MarginContainer/VBoxContainer/song_name" unique_id=1220992723]
@@ -162,7 +161,6 @@ layout_mode = 2
 [node name="Label" type="Label" parent="LevelCreator/METADATA/ScrollContainer/MarginContainer/VBoxContainer/song_author" unique_id=310098334]
 layout_mode = 2
 theme = ExtResource("4_oentb")
-theme_override_font_sizes/font_size = 12
 text = "Song Author"
 
 [node name="SongAuthorEdit" type="LineEdit" parent="LevelCreator/METADATA/ScrollContainer/MarginContainer/VBoxContainer/song_author" unique_id=157001413]
@@ -176,7 +174,6 @@ layout_mode = 2
 [node name="Label" type="Label" parent="LevelCreator/METADATA/ScrollContainer/MarginContainer/VBoxContainer/mapper" unique_id=1454625537]
 layout_mode = 2
 theme = ExtResource("4_oentb")
-theme_override_font_sizes/font_size = 12
 text = "Mapper Name"
 
 [node name="MapperEdit" type="LineEdit" parent="LevelCreator/METADATA/ScrollContainer/MarginContainer/VBoxContainer/mapper" unique_id=1653855920]
@@ -190,7 +187,6 @@ layout_mode = 2
 [node name="Label" type="Label" parent="LevelCreator/METADATA/ScrollContainer/MarginContainer/VBoxContainer/song_path" unique_id=1246709385]
 layout_mode = 2
 theme = ExtResource("4_oentb")
-theme_override_font_sizes/font_size = 12
 text = "Song Path"
 
 [node name="HBoxContainer" type="HBoxContainer" parent="LevelCreator/METADATA/ScrollContainer/MarginContainer/VBoxContainer/song_path" unique_id=1478537011]
@@ -215,7 +211,6 @@ layout_mode = 2
 [node name="Label" type="Label" parent="LevelCreator/METADATA/ScrollContainer/MarginContainer/VBoxContainer/video_bg_path" unique_id=1693971830]
 layout_mode = 2
 theme = ExtResource("4_oentb")
-theme_override_font_sizes/font_size = 12
 text = "Video Background (Optional)"
 
 [node name="HBoxContainer" type="HBoxContainer" parent="LevelCreator/METADATA/ScrollContainer/MarginContainer/VBoxContainer/video_bg_path" unique_id=1171729209]
@@ -239,7 +234,6 @@ layout_mode = 2
 [node name="Label" type="Label" parent="LevelCreator/METADATA/ScrollContainer/MarginContainer/VBoxContainer/bg_path" unique_id=234171956]
 layout_mode = 2
 theme = ExtResource("4_oentb")
-theme_override_font_sizes/font_size = 12
 text = "Sprite Background"
 
 [node name="HBoxContainer" type="HBoxContainer" parent="LevelCreator/METADATA/ScrollContainer/MarginContainer/VBoxContainer/bg_path" unique_id=1607132262]
@@ -263,7 +257,6 @@ layout_mode = 2
 [node name="Label" type="Label" parent="LevelCreator/METADATA/ScrollContainer/MarginContainer/VBoxContainer/color_scheme" unique_id=1693622114]
 layout_mode = 2
 theme = ExtResource("4_oentb")
-theme_override_font_sizes/font_size = 12
 text = "Color Scheme"
 
 [node name="VBoxContainer" type="VBoxContainer" parent="LevelCreator/METADATA/ScrollContainer/MarginContainer/VBoxContainer/color_scheme" unique_id=951422558]
@@ -310,7 +303,6 @@ layout_mode = 2
 [node name="Label" type="Label" parent="LevelCreator/METADATA/ScrollContainer/MarginContainer/VBoxContainer/preview_start" unique_id=1503000190]
 layout_mode = 2
 theme = ExtResource("4_oentb")
-theme_override_font_sizes/font_size = 12
 text = "Preview Song Position"
 
 [node name="VBoxContainer" type="VBoxContainer" parent="LevelCreator/METADATA/ScrollContainer/MarginContainer/VBoxContainer/preview_start" unique_id=1101866889]
@@ -373,7 +365,6 @@ layout_mode = 2
 [node name="Label" type="Label" parent="LevelCreator/METADATA/ScrollContainer/MarginContainer/VBoxContainer/start_beat" unique_id=2106961786]
 layout_mode = 2
 theme = ExtResource("4_oentb")
-theme_override_font_sizes/font_size = 12
 text = "Start Beat"
 
 [node name="VBoxContainer" type="VBoxContainer" parent="LevelCreator/METADATA/ScrollContainer/MarginContainer/VBoxContainer/start_beat" unique_id=1024380266]
@@ -445,34 +436,6 @@ theme = ExtResource("4_oentb")
 max_value = 999.0
 value = 120.0
 
-[node name="Difficulty" type="HBoxContainer" parent="LevelCreator/METADATA/ScrollContainer/MarginContainer/VBoxContainer" unique_id=1194917548]
-layout_mode = 2
-theme_override_constants/separation = 18
-
-[node name="HBoxContainer" type="HBoxContainer" parent="LevelCreator/METADATA/ScrollContainer/MarginContainer/VBoxContainer/Difficulty" unique_id=1092718316]
-layout_mode = 2
-
-[node name="Label" type="Label" parent="LevelCreator/METADATA/ScrollContainer/MarginContainer/VBoxContainer/Difficulty/HBoxContainer" unique_id=1942885836]
-layout_mode = 2
-theme = ExtResource("4_oentb")
-text = "Difficulty: "
-
-[node name="DiffSpin" type="SpinBox" parent="LevelCreator/METADATA/ScrollContainer/MarginContainer/VBoxContainer/Difficulty/HBoxContainer" unique_id=349440324]
-unique_name_in_owner = true
-layout_mode = 2
-theme = ExtResource("4_oentb")
-max_value = 10.0
-
-[node name="DiffLabel" type="Label" parent="LevelCreator/METADATA/ScrollContainer/MarginContainer/VBoxContainer/Difficulty" unique_id=330354383]
-unique_name_in_owner = true
-editor_description = "For Showing 0 mean easy 4 - 6 mean medium
-6 - 10 mean hard
-
-this label will change text"
-layout_mode = 2
-theme = ExtResource("4_oentb")
-text = "EASY"
-
 [node name="Draw Area" type="Control" parent="LevelCreator/METADATA" unique_id=1546263466]
 anchors_preset = 0
 offset_left = 419.0
@@ -518,7 +481,6 @@ layout_mode = 2
 size_flags_horizontal = 0
 theme = ExtResource("4_oentb")
 theme_override_colors/font_color = Color(0.6344296, 0.6344296, 0.6344295, 1)
-theme_override_font_sizes/font_size = 14
 text = "GO BACK"
 
 [node name="MAPPING" type="Control" parent="LevelCreator" unique_id=401597931]
@@ -598,7 +560,6 @@ offset_right = 138.0
 offset_bottom = -30.0
 grow_vertical = 0
 theme = ExtResource("4_oentb")
-theme_override_font_sizes/font_size = 12
 text = "M TO ADD
 N TO REMOVE"
 vertical_alignment = 2
@@ -641,22 +602,42 @@ texture = ExtResource("9_7chji")
 expand_mode = 1
 stretch_mode = 1
 
-[node name="Add Shape" type="Button" parent="LevelCreator/MAPPING" unique_id=1189623053]
-layout_mode = 0
-offset_left = 380.0
-offset_top = 233.0
-offset_right = 484.0
-offset_bottom = 264.0
+[node name="HitSound" type="AudioStreamPlayer" parent="LevelCreator/MAPPING" unique_id=784104904]
+unique_name_in_owner = true
+stream = ExtResource("10_1h7im")
+volume_db = 10.0
+bus = &"Effect"
+
+[node name="Controls" type="HBoxContainer" parent="LevelCreator/MAPPING" unique_id=510279441]
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -243.5
+offset_top = -126.0
+offset_right = 243.5
+offset_bottom = -96.0
+grow_horizontal = 2
+grow_vertical = 0
+theme_override_constants/separation = 6
+
+[node name="DifficultyOption" type="OptionButton" parent="LevelCreator/MAPPING/Controls" unique_id=1804085255]
+unique_name_in_owner = true
+layout_mode = 2
+focus_mode = 0
+
+[node name="Add Difficulty" type="Button" parent="LevelCreator/MAPPING/Controls" unique_id=755108052]
+unique_name_in_owner = true
+layout_mode = 2
 focus_mode = 0
 theme = ExtResource("4_oentb")
-text = "Add Shape"
+text = "Add Difficulty"
 
-[node name="ShapeOption" type="OptionButton" parent="LevelCreator/MAPPING" unique_id=1386991494]
-layout_mode = 0
-offset_left = 255.0
-offset_top = 232.0
-offset_right = 359.0
-offset_bottom = 263.0
+[node name="ShapeOption" type="OptionButton" parent="LevelCreator/MAPPING/Controls" unique_id=1386991494]
+unique_name_in_owner = true
+layout_mode = 2
 focus_mode = 0
 item_count = 5
 popup/item_0/text = "L"
@@ -670,11 +651,111 @@ popup/item_3/id = 3
 popup/item_4/text = "VLine"
 popup/item_4/id = 4
 
-[node name="HitSound" type="AudioStreamPlayer" parent="LevelCreator/MAPPING" unique_id=784104904]
+[node name="Add Shape" type="Button" parent="LevelCreator/MAPPING/Controls" unique_id=1189623053]
 unique_name_in_owner = true
-stream = ExtResource("10_1h7im")
-volume_db = 10.0
-bus = &"Effect"
+layout_mode = 2
+focus_mode = 0
+theme = ExtResource("4_oentb")
+text = "Add Shape"
+
+[node name="AddDifficultyPopup" type="Control" parent="LevelCreator/MAPPING" unique_id=127616591]
+unique_name_in_owner = true
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="ColorRect" type="ColorRect" parent="LevelCreator/MAPPING/AddDifficultyPopup" unique_id=382957045]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 0.82500005)
+
+[node name="VBoxContainer" type="VBoxContainer" parent="LevelCreator/MAPPING/AddDifficultyPopup" unique_id=73702582]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -131.5
+offset_top = -74.0
+offset_right = 131.5
+offset_bottom = 74.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/separation = 12
+
+[node name="Label" type="Label" parent="LevelCreator/MAPPING/AddDifficultyPopup/VBoxContainer" unique_id=664368854]
+layout_mode = 2
+text = "Add Your Difficulty Name"
+
+[node name="DifficultyName" type="LineEdit" parent="LevelCreator/MAPPING/AddDifficultyPopup/VBoxContainer" unique_id=1025393668]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="OverallDifficulty" type="HBoxContainer" parent="LevelCreator/MAPPING/AddDifficultyPopup/VBoxContainer" unique_id=625856140]
+layout_mode = 2
+theme_override_constants/separation = 18
+
+[node name="HBoxContainer" type="HBoxContainer" parent="LevelCreator/MAPPING/AddDifficultyPopup/VBoxContainer/OverallDifficulty" unique_id=1321441358]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="LevelCreator/MAPPING/AddDifficultyPopup/VBoxContainer/OverallDifficulty/HBoxContainer" unique_id=782527238]
+layout_mode = 2
+theme = ExtResource("4_oentb")
+text = "Difficulty: "
+
+[node name="DiffSpin" type="SpinBox" parent="LevelCreator/MAPPING/AddDifficultyPopup/VBoxContainer/OverallDifficulty/HBoxContainer" unique_id=572814549]
+unique_name_in_owner = true
+layout_mode = 2
+theme = ExtResource("4_oentb")
+max_value = 10.0
+
+[node name="DiffLabel" type="Label" parent="LevelCreator/MAPPING/AddDifficultyPopup/VBoxContainer/OverallDifficulty" unique_id=905990435]
+unique_name_in_owner = true
+editor_description = "For Showing 0 mean easy 4 - 6 mean medium
+6 - 10 mean hard
+
+this label will change text"
+layout_mode = 2
+theme = ExtResource("4_oentb")
+text = "EASY"
+
+[node name="AddDifficultyConfirmation" type="Button" parent="LevelCreator/MAPPING/AddDifficultyPopup/VBoxContainer" unique_id=983068802]
+layout_mode = 2
+text = "ADD DIFFICULTY"
+
+[node name="EditDifficulty" type="HBoxContainer" parent="LevelCreator/MAPPING" unique_id=588503290]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -141.5
+offset_top = 52.0
+offset_right = 141.5
+offset_bottom = 80.0
+grow_horizontal = 2
+
+[node name="DifficultyNameEdit" type="LineEdit" parent="LevelCreator/MAPPING/EditDifficulty" unique_id=2096317875]
+layout_mode = 2
+size_flags_horizontal = 3
+placeholder_text = "Difficulty Name"
+alignment = 1
+
+[node name="EditDifficulty" type="Button" parent="LevelCreator/MAPPING/EditDifficulty" unique_id=1661337057]
+layout_mode = 2
+text = "Edit"
+
+[node name="SaveChanges" type="Button" parent="LevelCreator/MAPPING/EditDifficulty" unique_id=1933988719]
+layout_mode = 2
+text = "Save"
 
 [node name="TopBar" type="ColorRect" parent="." unique_id=157878358]
 self_modulate = Color(1, 1, 1, 0)
@@ -727,7 +808,7 @@ anchor_top = 1.0
 anchor_right = 1.0
 anchor_bottom = 1.0
 offset_left = -134.0
-offset_top = -61.0
+offset_top = -54.0
 offset_right = -32.0
 offset_bottom = -24.0
 grow_horizontal = 0
@@ -745,9 +826,9 @@ anchor_top = 1.0
 anchor_right = 1.0
 anchor_bottom = 1.0
 offset_left = -134.0
-offset_top = -101.0
+offset_top = -88.0
 offset_right = -32.0
-offset_bottom = -64.0
+offset_bottom = -59.0
 grow_horizontal = 0
 grow_vertical = 0
 focus_mode = 0
@@ -934,12 +1015,13 @@ offset_bottom = 83.0
 [connection signal="pressed" from="LevelCreator/METADATA/ScrollContainer/MarginContainer/VBoxContainer/start_beat/VBoxContainer/control_button/BeatGotoStart" to="LevelCreator/METADATA" method="_on_beat_nudge_minus"]
 [connection signal="pressed" from="LevelCreator/METADATA/ScrollContainer/MarginContainer/VBoxContainer/start_beat/VBoxContainer/control_button/BeatPlay" to="LevelCreator/METADATA" method="_on_beat_play"]
 [connection signal="pressed" from="LevelCreator/METADATA/ScrollContainer/MarginContainer/VBoxContainer/start_beat/VBoxContainer/control_button/BeatGotoEnd" to="LevelCreator/METADATA" method="_on_beat_nudge_plus"]
-[connection signal="value_changed" from="LevelCreator/METADATA/ScrollContainer/MarginContainer/VBoxContainer/Difficulty/HBoxContainer/DiffSpin" to="LevelCreator/METADATA" method="_on_diff_changed"]
 [connection signal="mouse_entered" from="LevelCreator/METADATA/Draw Area" to="." method="_on_draw_area_mouse_entered"]
 [connection signal="mouse_exited" from="LevelCreator/METADATA/Draw Area" to="." method="_on_draw_area_mouse_exited"]
 [connection signal="mouse_entered" from="LevelCreator/MAPPING" to="." method="_on_mapping_mouse_entered"]
 [connection signal="mouse_exited" from="LevelCreator/MAPPING" to="." method="_on_mapping_mouse_exited"]
 [connection signal="pressed" from="LevelCreator/MAPPING/HBoxContainer/start" to="LevelCreator/MAPPING" method="_on_start_pressed"]
+[connection signal="pressed" from="LevelCreator/MAPPING/Controls/Add Difficulty" to="LevelCreator/MAPPING" method="_on_add_difficuly_pressed"]
+[connection signal="pressed" from="LevelCreator/MAPPING/AddDifficultyPopup/VBoxContainer/AddDifficultyConfirmation" to="LevelCreator/MAPPING" method="_on_add_difficulty_confirmation_pressed"]
 [connection signal="pressed" from="TopBar/TABS/MetadataButton" to="." method="_on_metadata_pressed"]
 [connection signal="pressed" from="TopBar/TABS/MappingButton" to="." method="_on_mapping_pressed"]
 [connection signal="pressed" from="ExportButton" to="." method="_on_export_button_pressed"]

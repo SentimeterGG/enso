@@ -277,6 +277,17 @@ grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_2ec5i")
 
+[node name="PreviewBG" type="TextureRect" parent="." unique_id=2090799443]
+unique_name_in_owner = true
+self_modulate = Color(1, 1, 1, 0.22800002)
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+expand_mode = 3
+
 [node name="RB" type="MarginContainer" parent="." unique_id=1066160453]
 layout_mode = 1
 anchors_preset = 3
