@@ -199,6 +199,8 @@ func _physics_process(_delta: float) -> void:
 		_last_beat = current_beat
 		_emit_beat()
 		beat_sound.play()
+		if level_list != null and level_list.has_method("pulse_selected"):
+			level_list.call("pulse_selected")
 
 
 func _emit_beat() -> void:

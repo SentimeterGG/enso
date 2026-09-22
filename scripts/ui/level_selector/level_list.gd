@@ -58,6 +58,14 @@ func get_selected_chart_path() -> String:
 	return str(level.get("chart_path", ""))
 
 
+func pulse_selected() -> void:
+	if scroll.get_child_count() == 0:
+		return
+	var item := scroll.get_child(clampi(selected_index, 0, scroll.get_child_count() - 1))
+	if item.has_method("play_pulse"):
+		item.call("play_pulse")
+
+
 ## Incomplete charts hidden by the last reload (solo/unsetup notes).
 func get_skipped_incomplete_count() -> int:
 	return skipped_incomplete

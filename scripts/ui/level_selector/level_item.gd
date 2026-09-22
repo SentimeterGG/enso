@@ -61,3 +61,11 @@ func set_selected(selected: bool) -> void:
 	add_theme_stylebox_override("panel", STYLE_FOCUSED if selected else STYLE_NORMAL)
 	if selected:
 		emit_signal("hovered", chart_path)
+
+
+func play_pulse() -> void:
+	var player := get_node_or_null("AnimationPlayer") as AnimationPlayer
+	if player == null or not player.has_animation("pulse"):
+		return
+	player.stop()
+	player.play("pulse")
