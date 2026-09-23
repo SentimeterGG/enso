@@ -13,12 +13,22 @@ var go_to: GoTo = GoTo.NONE
 func _ready() -> void:
 	randomize()
 	VolumePopup.can_popup = true
-	
+
 	$RB/MarginContainer/ENSO/Bobbing.play("idle")
-	
+
 	if Global.first_time_playing:
 		var random_music = Global.choose_random_chart()
-		BgMusic.change_song(load(random_music.song_path()), random_music.preview_start())
+		# choose_random_chart() returns null when no charts are found (e.g.
+		# custom .enso files missing from the exported package). Guard so a
+		# missing chart skips the preview instead of crashing on Nil.
+		if random_music != null and not random_music.is_empty():
+			var song_path := random_music.song_path()
+			if not song_path.is_empty() and ResourceLoader.exists(song_path):
+				BgMusic.change_song(load(song_path), random_music.preview_start())
+			else:
+				push_warning("main_menu: random chart song missing: " + song_path)
+		else:
+			push_warning("main_menu: no charts available for random pick.")
 		Global.first_time_playing = false
 		$Transition.play("first_time_opening")
 	else:
