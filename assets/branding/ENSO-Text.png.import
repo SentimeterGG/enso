@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://cqo66i0uuqvhe"
-path="res://.godot/imported/ENSO-Logo(Rounded).png-6dfe7567a63cdf3bb3da194a0391354b.ctex"
+uid="uid://dcshijaxvl882"
+path="res://.godot/imported/ENSO-Text.png-16482c8957350afd731ff2fe111c96b4.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/branding/ENSO-Logo(Rounded).png"
-dest_files=["res://.godot/imported/ENSO-Logo(Rounded).png-6dfe7567a63cdf3bb3da194a0391354b.ctex"]
+source_file="res://assets/branding/ENSO-Text.png"
+dest_files=["res://.godot/imported/ENSO-Text.png-16482c8957350afd731ff2fe111c96b4.ctex"]
 
 [params]
 
