@@ -5,6 +5,10 @@
 # `combined_acc` (headline %) is the mean of shape_scores. Rhythm and draw
 # means are tracked separately for HUD / results screens. Never negative.
 #
+# Draw accuracy is judged against the 65% threshold: a drawing that reaches
+# it is counted as a fully accurate drawing (100% draw), anything below is
+# counted as 0%.
+#
 # Shape lifecycle (keyed by shape_id = beat.beat_id, no global temp buffer):
 #   beat hit/miss   -> register_hit(kind, shape_id)   (lazy-creates pending;
 #                    never-drawn shapes auto-finish with draw 0 once all beats judged)
@@ -20,7 +24,7 @@ signal score_changed(
 ## Emitted once per beat judgement with the HitResult.Kind (fed by the health bar).
 signal hit_applied(kind: int)
 
-const DRAW_BAD_THRESHOLD := 50.0
+const DRAW_BAD_THRESHOLD := 65.0
 ## GOOD sits in the middle between BAD (60) and PERFECT (~90): sloppy-but-right
 ## strokes land 60-75, clean strokes 75+. Mirrors recognizer.good_threshold.
 const DRAW_GOOD_THRESHOLD := 75.0
@@ -142,7 +146,13 @@ func register_miss(shape_id: String = "") -> void:
 
 
 func finish_shape(shape_id: String, draw_acc_01: float) -> float:
-	var draw := clampf(draw_acc_01, 0.0, 1.0)
+	var draw_score := clampf(draw_acc_01, 0.0, 1.0)
+	# Binary accuracy: drawings at/above the 65% threshold count as fully
+	# accurate (100%), anything below counts as 0%.
+	if draw_score * 100.0 < DRAW_BAD_THRESHOLD:
+		draw_score = 0.0
+	else:
+		draw_score = 1.0
 	var key: String = shape_id
 	if key.is_empty():
 		key = _active_shape
@@ -153,8 +163,8 @@ func finish_shape(shape_id: String, draw_acc_01: float) -> float:
 		# Single open shape with no id tracked — consume it.
 		key = str((_pending.keys() as Array)[0])
 		timing_mean = _mean(_pending[key] as Array)
-	var shape_score := timing_mean * draw
-	draw_sum += draw
+	var shape_score := timing_mean * draw_score
+	draw_sum += draw_score
 	draw_n += 1
 	combined_sum += shape_score
 	combined_n += 1
@@ -228,7 +238,7 @@ func _on_draw_ended() -> void:
 
 
 ## Floating BAD DRAWING label for sloppy drawings (visual + Mio reaction only;
-## scoring is untouched — finish_shape already recorded the draw accuracy).
+## accuracy below 65% is scored as 0%, at/above as 100%.
 func _spawn_bad_draw(accuracy: float) -> void:
 	var spawner := get_node_or_null("judge_spawner")
 	if spawner != null and spawner.has_method("spawn_bad_draw"):
