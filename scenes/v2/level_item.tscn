@@ -1,0 +1,95 @@
+[gd_scene format=3 uid="uid://cd4k6g2aev0rk"]
+
+[ext_resource type="Script" uid="uid://c8ub453saxidy" path="res://scripts/ui/level_selector/v2/level_item.gd" id="1_3dh65"]
+[ext_resource type="StyleBox" uid="uid://e8ten8qcpkj4" path="res://resources/theme/level_select_button.tres" id="2_u3i6n"]
+[ext_resource type="Texture2D" uid="uid://cdicnu3ef85cd" path="res://levels/Jellyous by ILLIT mapped by DimasDFAR/bg.jpg" id="3_rt8uc"]
+
+[sub_resource type="Gradient" id="Gradient_26b5f"]
+offsets = PackedFloat32Array(0, 0.2777778)
+colors = PackedColorArray(0, 0, 0, 0.59000003, 0, 0, 0, 0)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_xue67"]
+gradient = SubResource("Gradient_26b5f")
+
+[node name="level_item" type="VBoxContainer" unique_id=1613204133]
+offset_right = 40.0
+offset_bottom = 40.0
+script = ExtResource("1_3dh65")
+
+[node name="Button" type="Button" parent="." unique_id=902462381]
+z_index = 2
+custom_minimum_size = Vector2(260, 40)
+clip_contents = true
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_styles/normal = ExtResource("2_u3i6n")
+theme_override_styles/pressed = ExtResource("2_u3i6n")
+theme_override_styles/hover = ExtResource("2_u3i6n")
+theme_override_styles/disabled = ExtResource("2_u3i6n")
+theme_override_styles/focus = ExtResource("2_u3i6n")
+
+[node name="MarginContainer" type="MarginContainer" parent="Button" unique_id=877377890]
+layout_mode = 1
+anchors_preset = 14
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_top = -14.0
+offset_bottom = 14.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 12
+theme_override_constants/margin_top = 0
+theme_override_constants/margin_right = 12
+theme_override_constants/margin_bottom = 3
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Button/MarginContainer" unique_id=299968419]
+layout_mode = 2
+size_flags_vertical = 4
+
+[node name="Song" type="Label" parent="Button/MarginContainer/VBoxContainer" unique_id=270957910]
+layout_mode = 2
+text = "TEST fdjklsad "
+text_overrun_behavior = 3
+
+[node name="Source" type="Label" parent="Button/MarginContainer/VBoxContainer" unique_id=1778925762]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.68307734, 0.6830774, 0.68307734, 1)
+theme_override_font_sizes/font_size = 8
+text = "kessoku band"
+
+[node name="TextureRect" type="TextureRect" parent="Button" unique_id=1162701294]
+self_modulate = Color(1, 1, 1, 0.27100003)
+show_behind_parent = true
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("3_rt8uc")
+expand_mode = 5
+stretch_mode = 4
+
+[node name="TextureRect2" type="TextureRect" parent="Button/TextureRect" unique_id=1983555464]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = SubResource("GradientTexture2D_xue67")
+
+[node name="BG" type="ColorRect" parent="Button" unique_id=2003347292]
+show_behind_parent = true
+z_index = -1
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+color = Color(0, 0, 0, 1)
+
+[connection signal="pressed" from="Button" to="." method="_on_button_pressed"]

@@ -1,6 +1,8 @@
 # Godot 4+ specific ignores
 .godot/
 .android/
+dev/
+build/
 # runtime / tool artifacts
 server.pipe
 __pycache__/
