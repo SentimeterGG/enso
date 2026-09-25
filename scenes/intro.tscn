@@ -138,7 +138,6 @@ theme_override_constants/margin_right = 16
 theme_override_constants/margin_bottom = 16
 
 [node name="Title" type="TextureRect" parent="RB" unique_id=250998074]
-self_modulate = Color(18.892157, 18.892157, 18.892157, 1)
 layout_mode = 2
 offset_transform_enabled = true
 texture = ExtResource("5_es01l")

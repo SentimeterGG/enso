@@ -32,7 +32,7 @@ func _ready() -> void:
 			_current_bpm = random_music.get_bpm()
 			_current_bpm_start = random_music.beat_offset()
 			if not song_path.is_empty() and ResourceLoader.exists(song_path):
-				BgMusic.change_song(load(song_path), random_music.preview_start())
+				BgMusic.change_song(Global.load_safely(song_path), random_music.preview_start())
 			else:
 				push_warning("main_menu: random chart song missing: " + song_path)
 		else:
@@ -44,7 +44,7 @@ func _ready() -> void:
 	draw_manager.start()
 
 
-func _physics_process(delta: float) -> void:
+func _physics_process(_delta: float) -> void:
 	# Guard Rail
 	if _current_bpm <= 0.0 or draw_here_label == null or title == null:
 		return

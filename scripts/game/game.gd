@@ -60,9 +60,9 @@ func _ready():
 	if Global.current_chart == null:
 		Global.current_chart = LevelLoader.load_chart(CHART_PATH)
 	if Global.current_chart.get_video_background() != "":
-		video_stream_player.stream = load(Global.current_chart.get_video_background())
+		video_stream_player.stream = Global.load_safely(Global.current_chart.get_video_background())
 	if Global.current_chart.get_bg() != "":
-		bg_sprite.texture = load(Global.current_chart.get_bg())
+		bg_sprite.texture = Global.load_safely(Global.current_chart.get_bg())
 	if Global.settingsData.video_bg:
 		if Global.current_chart.get_video_background() == "":
 			%BG.visible = true
@@ -109,7 +109,7 @@ func _on_animator_animation_finished(anim_name: StringName) -> void:
 			await get_tree().create_timer(_preroll_sec, false).timeout
 			if not is_inside_tree():
 				return
-		BgMusic.start_song(load(Global.current_chart.song_path()))
+		BgMusic.start_song(Global.load_safely(Global.current_chart.song_path()))
 		_music_started = true
 		animator.play("bg_fade")
 		video_stream_player.play()

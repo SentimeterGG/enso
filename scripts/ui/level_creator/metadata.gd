@@ -178,7 +178,7 @@ func _load_song(path: String) -> void:
 	var p := path.strip_edges()
 	if p.is_empty():
 		return
-	var stream := _load_audio_stream(p)
+	var stream := Global.load_safely(path)
 	if stream == null:
 		push_error("Could not load audio: " + p)
 		return
@@ -196,40 +196,6 @@ func _load_song(path: String) -> void:
 	_beat_slider.set_value_no_signal(clampi(int(_beat_slider.value), 0, dur_ms))
 	_preview_label.text = _format_ms(int(_preview_slider.value))
 	_beat_label.text = _format_ms(int(_beat_slider.value))
-
-
-func _load_audio_stream(path: String) -> AudioStream:
-	var read_path := _resolve_song_abs(path)
-	if read_path.is_empty():
-		read_path = path
-	if read_path.begins_with("res://") and ResourceLoader.exists(read_path):
-		var res := load(read_path) as AudioStream
-		if res != null:
-			return res
-	var ext := read_path.get_extension().to_lower()
-	match ext:
-		"mp3":
-			var s := AudioStreamMP3.load_from_file(read_path)
-			if s != null:
-				return s
-			var b_mp3 := FileAccess.get_file_as_bytes(read_path)
-			if not b_mp3.is_empty():
-				return AudioStreamMP3.load_from_buffer(b_mp3)
-		"ogg", "oga":
-			var o := AudioStreamOggVorbis.load_from_file(read_path)
-			if o != null:
-				return o
-			var b_ogg := FileAccess.get_file_as_bytes(read_path)
-			if not b_ogg.is_empty():
-				return AudioStreamOggVorbis.load_from_buffer(b_ogg)
-		"wav":
-			var w := AudioStreamWAV.load_from_file(read_path)
-			if w != null:
-				return w
-			var b_wav := FileAccess.get_file_as_bytes(read_path)
-			if not b_wav.is_empty():
-				return AudioStreamWAV.load_from_buffer(b_wav)
-	return null
 
 
 func _on_preview_play() -> void:

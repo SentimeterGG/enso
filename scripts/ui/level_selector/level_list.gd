@@ -10,9 +10,6 @@ extends Control
 const LEVEL_ITEM_SCENE: PackedScene = preload("res://scenes/level_item.tscn")
 const BUILTIN_LEVELS_DIR := "res://levels"
 const USER_LEVELS_DIR := "user://levels"
-const SUBTITLE_KEYS: Array[String] = [
-	"artist", "author", "charter", "creator", "mapper", "by", "chart_by"
-]
 
 const MAX_WIDTH := 260.0
 const MIN_WIDTH := 140.0

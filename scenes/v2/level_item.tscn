@@ -2,7 +2,7 @@
 
 [ext_resource type="Script" uid="uid://c8ub453saxidy" path="res://scripts/ui/level_selector/v2/level_item.gd" id="1_3dh65"]
 [ext_resource type="StyleBox" uid="uid://e8ten8qcpkj4" path="res://resources/theme/level_select_button.tres" id="2_u3i6n"]
-[ext_resource type="Texture2D" uid="uid://cdicnu3ef85cd" path="res://levels/Jellyous by ILLIT mapped by DimasDFAR/bg.jpg" id="3_rt8uc"]
+[ext_resource type="Texture2D" uid="uid://ddfm8o2r6bvhg" path="res://levels/Nani Ga Waru by Kessoku Band mapped by DimasDFAR/NaniGaWaruBG.png" id="3_rt8uc"]
 
 [sub_resource type="Gradient" id="Gradient_26b5f"]
 offsets = PackedFloat32Array(0, 0.2777778)
