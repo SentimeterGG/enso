@@ -31,7 +31,7 @@ func _ready() -> void:
 			# the `<= 0.0` guard and the pulse tween never fires.
 			_current_bpm = random_music.get_bpm()
 			_current_bpm_start = random_music.beat_offset()
-			if not song_path.is_empty() and ResourceLoader.exists(song_path):
+			if not song_path.is_empty():
 				BgMusic.change_song(Global.load_safely(song_path), random_music.preview_start())
 			else:
 				push_warning("main_menu: random chart song missing: " + song_path)
