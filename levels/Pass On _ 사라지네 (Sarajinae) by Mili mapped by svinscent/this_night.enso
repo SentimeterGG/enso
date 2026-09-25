@@ -1,0 +1,14 @@
+[metadata]
+name = Pass On / 사라지네 (Sarajinae)
+source = Mili
+mapper = svinscent
+song = ./Limbus_Company_-_Pass_On_Gregor_(mp3.pm).mp3
+color_scheme = ["#FFEB4A", "#750000", "#3F3F3F", "#443219", "#B0701B"]
+preview_start = 13792
+bpm = 140
+beat0 = 5995
+overall_difficulty = 9
+bg = ./Screenshot 2026-09-24 202019.png
+
+[notes]
+

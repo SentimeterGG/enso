@@ -1,0 +1,19 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+uid="uid://crim7vsiuk1so"
+path="res://.godot/imported/Limbus_Company_-_Pass_On_Gregor_(mp3.pm).mp3-a9fca88075b66205c164358dde9785d8.mp3str"
+
+[deps]
+
+source_file="res://levels/Pass On _ 사라지네 (Sarajinae) by Mili mapped by svinscent/Limbus_Company_-_Pass_On_Gregor_(mp3.pm).mp3"
+dest_files=["res://.godot/imported/Limbus_Company_-_Pass_On_Gregor_(mp3.pm).mp3-a9fca88075b66205c164358dde9785d8.mp3str"]
+
+[params]
+
+loop=false
+loop_offset=0
+bpm=0
+beat_count=0
+bar_beats=4
