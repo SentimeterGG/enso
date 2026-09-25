@@ -7,18 +7,17 @@ extends Node2D
 
 const BEAT_POINT := preload("res://scenes/beat_point.tscn")
 const FLASH_DURATION := 0.1
-
 @onready var beat_receptor = $beat_receptor
 @onready var beat_receptor_clicked = $beat_receptor_clicked
 @onready var judge_spawner = %judge_spawner
-# Accessible as %draw in game.tscn (unique_name_in_owner = true on game/draw)
-var _draw: Line2D = null
+@onready var _draw: Line2D = %draw
 @export var input_cooldown_sec := 0.05  # tune this — smaller = more spam-tolerant, larger = stricter
 signal beat_hit(error_ms: float, beat_id: String)
 var click := false
-
 var _last_input_time := -INF
 var _flash_tween: Tween
+var _last_best_beat: Node2D = null
+var shape_correct = true
 
 # --- note lock (per shape id) ---
 var _locked_id: String = ""
@@ -29,7 +28,6 @@ func _ready() -> void:
 	beat_receptor.texture = SkinManager.beat_receptor
 	beat_receptor_clicked.texture = SkinManager.beat_receptor_clicked
 	beat_receptor_clicked.hide()
-	_draw = _get_draw_node()
 
 
 func _process(_delta: float) -> void:
@@ -53,7 +51,11 @@ func _process(_delta: float) -> void:
 
 
 func spawn_beat(
-	hit_time: float, receptor_x: float, px_per_sec: float, color: Color = Color.WHITE, beat_id: String = ""
+	hit_time: float,
+	receptor_x: float,
+	px_per_sec: float,
+	color: Color = Color.WHITE,
+	beat_id: String = ""
 ) -> void:
 	var beat_point = BEAT_POINT.instantiate()
 
@@ -151,29 +153,15 @@ func _on_draw_direction_changes() -> void:
 
 
 func _on_draw_started() -> void:
+	shape_correct = true
 	if _is_blocked():
 		return
+	_draw.modulate = Color.WHITE
+	_last_best_beat = _find_best_beat(get_song_time())
+	if _last_best_beat != null:
+		_update_target_shape_for_beat(_last_best_beat)
+		_notify_shape_begin(_last_best_beat)
 	_flash_clicked()
-	# --- change %draw (Line2D) color into the beat's color + update target_shape (L144-148) ---
-	# target_shape was previously time-driven in note_scheduler.gd, now beat-driven here
-	var best_for_draw := _find_best_beat(get_song_time())
-	if best_for_draw != null:
-		if _draw == null:
-			_draw = _get_draw_node()
-		if _draw != null:
-			_draw.default_color = (best_for_draw as CanvasItem).self_modulate
-		_update_target_shape_for_beat(best_for_draw)
-		_notify_shape_begin(best_for_draw)
-	elif _is_locked:
-		# no window beat but locked — keep locked beat's visual
-		var locked_beat := _find_locked_beat()
-		if locked_beat != null:
-			if _draw == null:
-				_draw = _get_draw_node()
-			if _draw != null:
-				_draw.default_color = (locked_beat as CanvasItem).self_modulate
-			_update_target_shape_for_beat(locked_beat)
-			_notify_shape_begin(locked_beat)
 	_try_hit_note(get_song_time())
 
 
@@ -229,25 +217,6 @@ func _notify_shape_begin(beat: Node2D) -> void:
 		sc.begin_shape(bid)
 
 
-func _get_draw_node() -> Line2D:
-	# %draw is unique in game.tscn (unique_name_in_owner = true)
-	# beat_column runs under game/owner, so % lookup should succeed.
-	var n := get_node_or_null("%draw")
-	if n is Line2D:
-		return n as Line2D
-	# fallback: search via owner (game.tscn root)
-	var owner_node := owner
-	if owner_node != null:
-		n = owner_node.get_node_or_null("%draw")
-		if n is Line2D:
-			return n as Line2D
-	# last fallback: absolute scene path search
-	n = get_tree().current_scene.get_node_or_null("%draw") if get_tree() and get_tree().current_scene else null
-	if n is Line2D:
-		return n as Line2D
-	return null
-
-
 func _get_target_shape_node() -> Line2D:
 	# prefer draw's exported target_shape, fallback to %target_shape unique or tree search
 	if _draw != null and _draw.get("target_shape") != null and _draw.target_shape is Line2D:
@@ -260,7 +229,11 @@ func _get_target_shape_node() -> Line2D:
 		n = owner_node2.get_node_or_null("%target_shape")
 		if n is Line2D:
 			return n as Line2D
-	n = get_tree().current_scene.get_node_or_null("%target_shape") if get_tree() and get_tree().current_scene else null
+	n = (
+		get_tree().current_scene.get_node_or_null("%target_shape")
+		if get_tree() and get_tree().current_scene
+		else null
+	)
 	if n is Line2D:
 		return n as Line2D
 	# last fallback: find sibling via note_manager -> game
@@ -316,38 +289,34 @@ func _update_target_shape_for_beat(beat: Node2D) -> void:
 		target.change(pts)
 
 
-func _update_draw_color() -> void:
-	if _draw == null:
-		_draw = _get_draw_node()
-		if _draw == null:
-			return
-	var t := get_song_time()
-	var best: Node2D = null
-	var best_err := INF
-	var bad_window := HitResult.bad_window_ms(_od()) / 1000.0
-	# respect lock: only beats of locked_id are considered target
-	for beat in get_children():
-		if not beat.has_method("hit") or beat.is_judged():
-			continue
-		var bid: String = str(beat.beat_id) if beat.has_method("vibrate") else ""
-		if _is_locked and bid != _locked_id:
-			continue
-		var err := absf(t - beat.hit_time)
-		if err > bad_window:
-			continue
-		if err < best_err:
-			best = beat
-			best_err = err
-	if best != null:
-		_draw.default_color = (best as CanvasItem).self_modulate
-	elif _is_locked:
-		# no hittable beat in window but locked — keep locked beat's color for continuity
-		for beat in get_children():
-			if not beat.has_method("hit") or beat.is_judged():
-				continue
-			if str(beat.beat_id) == _locked_id:
-				_draw.default_color = (beat as CanvasItem).self_modulate
-				break
+# func _update_draw_color() -> void:
+# 	var t := get_song_time()
+# 	var best: Node2D = null
+# 	var best_err := INF
+# 	var bad_window := HitResult.bad_window_ms(_od()) / 1000.0
+# 	# respect lock: only beats of locked_id are considered target
+# 	for beat in get_children():
+# 		if not beat.has_method("hit") or beat.is_judged():
+# 			continue
+# 		var bid: String = str(beat.beat_id) if beat.has_method("vibrate") else ""
+# 		if _is_locked and bid != _locked_id:
+# 			continue
+# 		var err := absf(t - beat.hit_time)
+# 		if err > bad_window:
+# 			continue
+# 		if err < best_err:
+# 			best = beat
+# 			best_err = err
+# 	if best != null:
+# 		_draw.default_color = (best as CanvasItem).self_modulate
+# 	elif _is_locked:
+# 		# no hittable beat in window but locked — keep locked beat's color for continuity
+# 		for beat in get_children():
+# 			if not beat.has_method("hit") or beat.is_judged():
+# 				continue
+# 			if str(beat.beat_id) == _locked_id:
+# 				_draw.default_color = (beat as CanvasItem).self_modulate
+# 				break
 
 
 func _flash_clicked() -> void:
@@ -372,3 +341,10 @@ func _on_draw_draw_ended() -> void:
 	# --- unlock note lock (L123-L124) ---
 	_is_locked = false
 	_locked_id = ""
+	if _last_best_beat != null && shape_correct:
+		_draw.modulate = (_last_best_beat as CanvasItem).self_modulate
+
+
+func _on_accuracy_manager_bad_draw() -> void:
+	shape_correct = false
+	pass  # Replace with function body.

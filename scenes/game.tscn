@@ -1072,7 +1072,6 @@ libraries/ = SubResource("AnimationLibrary_vtaks")
 
 [node name="target_shape" type="Line2D" parent="." unique_id=129393694]
 process_mode = 1
-self_modulate = Color(1, 1, 1, 0)
 position = Vector2(295, 155)
 width = 5.0
 script = ExtResource("3_gee14")
@@ -1544,6 +1543,7 @@ text = "QUIT"
 
 [connection signal="animation_finished" from="animator" to="." method="_on_animator_animation_finished"]
 [connection signal="animation_finished" from="animator" to="UI/PauseScreen" method="_on_animator_animation_finished"]
+[connection signal="bad_draw" from="target_shape/accuracy_manager" to="note_manager/beat_column" method="_on_accuracy_manager_bad_draw"]
 [connection signal="beat_hit" from="note_manager/beat_column" to="target_shape/accuracy_manager/judge_spawner" method="_on_beat_column_beat_hit"]
 [connection signal="animation_finished" from="Mio" to="Mio" method="_on_animation_finished"]
 [connection signal="draw_direction_changes" from="draw" to="note_manager/beat_column" method="_on_draw_direction_changes"]

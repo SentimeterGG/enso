@@ -5,3 +5,5 @@
 [node name="bg_music" type="AudioStreamPlayer" unique_id=1781765138]
 bus = &"Music"
 script = ExtResource("1_f6gl3")
+
+[connection signal="finished" from="." to="." method="_on_finished"]

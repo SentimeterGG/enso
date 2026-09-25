@@ -54,6 +54,7 @@ func _compute_preroll_sec() -> float:
 
 func _ready():
 	BgMusic.change_song(null)
+	BgMusic._disable_loop()
 	Input.set_custom_mouse_cursor(SkinManager.cursor_sprite, Input.CURSOR_ARROW, Vector2(12, 12))
 	animator.play("Intro")
 	if Global.current_chart == null:
@@ -137,4 +138,4 @@ func _exit_tree() -> void:
 
 
 func _on_game_over_anim_animation_finished(anim_name: StringName) -> void:
-	pass # Replace with function body.
+	pass  # Replace with function body.

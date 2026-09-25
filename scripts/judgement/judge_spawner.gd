@@ -29,6 +29,7 @@ func _on_beat_column_beat_hit(error_ms: float, beat_id: String = "") -> void:
 ## drawing accuracy falls below threshold.
 func spawn_bad_draw(accuracy: float = 0.0) -> void:
 	_spawn_kind(HitResult.Kind.BAD_DRAW, accuracy)
+	score.register_hit(HitResult.Kind.BAD_DRAW, "")
 
 
 func _spawn_kind(kind: int, accuracy: float = -1.0) -> void:

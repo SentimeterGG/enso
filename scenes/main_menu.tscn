@@ -1,52 +1,21 @@
 [gd_scene format=3 uid="uid://ql5w4t6kd2jq"]
 
-[ext_resource type="FontFile" uid="uid://o0cdle58rn3j" path="res://assets/fonts/ithaca.medium.ttf" id="1_l6cm7"]
 [ext_resource type="Script" uid="uid://ct0hqbunx5sk2" path="res://scripts/ui/main_menu.gd" id="1_wu84c"]
 [ext_resource type="FontFile" uid="uid://bprqivnp1xsie" path="res://assets/fonts/ttf/PixelCode-Medium.ttf" id="2_ekxnf"]
-[ext_resource type="Texture2D" uid="uid://b3v8a03h3ikfs" path="res://assets/sprites/UI/corner.png" id="3_bqqt6"]
+[ext_resource type="Texture2D" uid="uid://c7yq5qxfw7hw7" path="res://assets/sprites/bg2.png" id="2_jk1qb"]
+[ext_resource type="Texture2D" uid="uid://dcshijaxvl882" path="res://assets/branding/ENSO-Text.png" id="3_jk1qb"]
 [ext_resource type="Texture2D" uid="uid://dnnjjgvh1pcgl" path="res://assets/sprites/UI/shape/circle_outline.png" id="4_rtw2f"]
 [ext_resource type="Texture2D" uid="uid://tmnmfhy3dr8v" path="res://assets/sprites/UI/shape/line.png" id="6_oa1go"]
 [ext_resource type="PackedScene" uid="uid://b7rlmo61qxu8s" path="res://scenes/draw.tscn" id="6_rtw2f"]
 [ext_resource type="Texture2D" uid="uid://cabfu47vn8duh" path="res://assets/sprites/UI/shape/square.png" id="7_tbmy8"]
 [ext_resource type="Texture2D" uid="uid://d1l8efpko56a3" path="res://assets/sprites/UI/shape/exit.png" id="8_jk1qb"]
 
-[sub_resource type="Animation" id="Animation_rtw2f"]
-length = 0.001
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath(".:offset_transform_position")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 0,
-"values": [Vector2(0, 0)]
-}
+[sub_resource type="Gradient" id="Gradient_jk1qb"]
+offsets = PackedFloat32Array(0, 0.6886792)
+colors = PackedColorArray(0, 0, 0, 1, 0, 0, 0, 0)
 
-[sub_resource type="Animation" id="Animation_8ln24"]
-resource_name = "idle"
-length = 2.0
-loop_mode = 1
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath(".:offset_transform_position")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0, 0.5, 1, 1.5),
-"transitions": PackedFloat32Array(0.5649004, 2.3392866, 0.5649004, 2.3392866),
-"update": 0,
-"values": [Vector2(0, 0), Vector2(0, -3), Vector2(0, 0), Vector2(0, 3)]
-}
-
-[sub_resource type="AnimationLibrary" id="AnimationLibrary_rtw2f"]
-_data = {
-&"RESET": SubResource("Animation_rtw2f"),
-&"idle": SubResource("Animation_8ln24")
-}
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_jk1qb"]
+gradient = SubResource("Gradient_jk1qb")
 
 [sub_resource type="Animation" id="Animation_5dd4i"]
 resource_name = "Exit Game"
@@ -90,11 +59,11 @@ tracks/2/keys = {
 tracks/3/type = "value"
 tracks/3/imported = false
 tracks/3/enabled = true
-tracks/3/path = NodePath("../RB/MarginContainer/ENSO:modulate")
+tracks/3/path = NodePath(".:self_modulate")
 tracks/3/interp = 1
 tracks/3/loop_wrap = true
 tracks/3/keys = {
-"times": PackedFloat32Array(0.23333336, 0.8666667),
+"times": PackedFloat32Array(0.5, 1.1333333),
 "transitions": PackedFloat32Array(0.18, 0.18),
 "update": 0,
 "values": [Color(1, 1, 1, 1), Color(1, 1, 1, 0)]
@@ -102,74 +71,14 @@ tracks/3/keys = {
 tracks/4/type = "value"
 tracks/4/imported = false
 tracks/4/enabled = true
-tracks/4/path = NodePath(".:self_modulate")
+tracks/4/path = NodePath("../LB/MarginContainer/VBoxContainer/Square to Level Editor2:modulate")
 tracks/4/interp = 1
 tracks/4/loop_wrap = true
 tracks/4/keys = {
-"times": PackedFloat32Array(0.5, 1.1333333),
-"transitions": PackedFloat32Array(0.18, 0.18),
-"update": 0,
-"values": [Color(1, 1, 1, 1), Color(1, 1, 1, 0)]
-}
-tracks/5/type = "value"
-tracks/5/imported = false
-tracks/5/enabled = true
-tracks/5/path = NodePath("../LB/MarginContainer/VBoxContainer/Square to Level Editor2:modulate")
-tracks/5/interp = 1
-tracks/5/loop_wrap = true
-tracks/5/keys = {
 "times": PackedFloat32Array(0.76666665, 1.4),
 "transitions": PackedFloat32Array(0.18, 0.18),
 "update": 0,
 "values": [Color(1, 1, 1, 1), Color(1, 1, 1, 0)]
-}
-tracks/6/type = "value"
-tracks/6/imported = false
-tracks/6/enabled = true
-tracks/6/path = NodePath("../LT/LT:offset_transform_position")
-tracks/6/interp = 2
-tracks/6/loop_wrap = true
-tracks/6/keys = {
-"times": PackedFloat32Array(0.03333336, 0.43333337),
-"transitions": PackedFloat32Array(1, 0.18),
-"update": 0,
-"values": [Vector2(0, 0), Vector2(-60, -60)]
-}
-tracks/7/type = "value"
-tracks/7/imported = false
-tracks/7/enabled = true
-tracks/7/path = NodePath("../RT/RT:offset_transform_position")
-tracks/7/interp = 2
-tracks/7/loop_wrap = true
-tracks/7/keys = {
-"times": PackedFloat32Array(0.03333336, 0.46666667),
-"transitions": PackedFloat32Array(1, 0.18),
-"update": 0,
-"values": [Vector2(0, 0), Vector2(60, -60)]
-}
-tracks/8/type = "value"
-tracks/8/imported = false
-tracks/8/enabled = true
-tracks/8/path = NodePath("../LB/LB:offset_transform_position")
-tracks/8/interp = 2
-tracks/8/loop_wrap = true
-tracks/8/keys = {
-"times": PackedFloat32Array(0.03333336, 0.46666667),
-"transitions": PackedFloat32Array(1, 0.18),
-"update": 0,
-"values": [Vector2(0, 0), Vector2(-60, 60)]
-}
-tracks/9/type = "value"
-tracks/9/imported = false
-tracks/9/enabled = true
-tracks/9/path = NodePath("../RB/RB:offset_transform_position")
-tracks/9/interp = 2
-tracks/9/loop_wrap = true
-tracks/9/keys = {
-"times": PackedFloat32Array(0.03333336, 0.46666667),
-"transitions": PackedFloat32Array(1, 0.18),
-"update": 0,
-"values": [Vector2(0, 0), Vector2(60, 60)]
 }
 
 [sub_resource type="Animation" id="Animation_bqqt6"]
@@ -178,71 +87,71 @@ length = 3.0000000000000004
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
-tracks/0/path = NodePath("../LT/LT:offset_transform_position")
+tracks/0/path = NodePath(".:self_modulate")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
-"times": PackedFloat32Array(0.43333337, 1.4666667),
-"transitions": PackedFloat32Array(0.18, 1),
+"times": PackedFloat32Array(0.73333335, 1.6),
+"transitions": PackedFloat32Array(0.3027227, 1),
 "update": 0,
-"values": [Vector2(-60, -60), Vector2(0, 0)]
+"values": [Color(1, 1, 1, 0), Color(1, 1, 1, 1)]
 }
 tracks/1/type = "value"
 tracks/1/imported = false
 tracks/1/enabled = true
-tracks/1/path = NodePath("../RT/RT:offset_transform_position")
+tracks/1/path = NodePath("../LB/MarginContainer/VBoxContainer/Circle to Play:offset_transform_position")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/keys = {
-"times": PackedFloat32Array(0.4666667, 1.4666667),
+"times": PackedFloat32Array(1.3, 2.2666667),
 "transitions": PackedFloat32Array(0.18, 1),
 "update": 0,
-"values": [Vector2(60, -60), Vector2(0, 0)]
+"values": [Vector2(0, 9), Vector2(0, 0)]
 }
 tracks/2/type = "value"
 tracks/2/imported = false
 tracks/2/enabled = true
-tracks/2/path = NodePath("../LB/LB:offset_transform_position")
+tracks/2/path = NodePath("../LB/MarginContainer/VBoxContainer/Circle to Play:modulate")
 tracks/2/interp = 1
 tracks/2/loop_wrap = true
 tracks/2/keys = {
-"times": PackedFloat32Array(0.4666667, 1.4666667),
+"times": PackedFloat32Array(1.3, 2.2666667),
 "transitions": PackedFloat32Array(0.18, 1),
 "update": 0,
-"values": [Vector2(-60, 60), Vector2(0, 0)]
+"values": [Color(1, 1, 1, 0), Color(1, 1, 1, 1)]
 }
 tracks/3/type = "value"
 tracks/3/imported = false
 tracks/3/enabled = true
-tracks/3/path = NodePath("../RB/RB:offset_transform_position")
+tracks/3/path = NodePath("../LB/MarginContainer/VBoxContainer/Line To Settings:offset_transform_position")
 tracks/3/interp = 1
 tracks/3/loop_wrap = true
 tracks/3/keys = {
-"times": PackedFloat32Array(0.4666667, 1.4666667),
+"times": PackedFloat32Array(0.8666667, 1.8333334),
 "transitions": PackedFloat32Array(0.18, 1),
 "update": 0,
-"values": [Vector2(60, 60), Vector2(0, 0)]
+"values": [Vector2(0, 9), Vector2(0, 0)]
 }
 tracks/4/type = "value"
 tracks/4/imported = false
 tracks/4/enabled = true
-tracks/4/path = NodePath(".:self_modulate")
+tracks/4/path = NodePath("../LB/MarginContainer/VBoxContainer/Line To Settings:modulate")
 tracks/4/interp = 1
 tracks/4/loop_wrap = true
 tracks/4/keys = {
-"times": PackedFloat32Array(0.73333335, 1.6),
-"transitions": PackedFloat32Array(0.3027227, 1),
+"times": PackedFloat32Array(0.8666667, 1.8333334),
+"transitions": PackedFloat32Array(0.18, 1),
 "update": 0,
 "values": [Color(1, 1, 1, 0), Color(1, 1, 1, 1)]
 }
 tracks/5/type = "value"
 tracks/5/imported = false
 tracks/5/enabled = true
-tracks/5/path = NodePath("../LB/MarginContainer/VBoxContainer/Circle to Play:offset_transform_position")
+tracks/5/path = NodePath("../LB/MarginContainer/VBoxContainer/Square to Level Editor:offset_transform_position")
 tracks/5/interp = 1
 tracks/5/loop_wrap = true
 tracks/5/keys = {
-"times": PackedFloat32Array(1.3, 2.2666667),
+"times": PackedFloat32Array(0.5, 1.4666667),
 "transitions": PackedFloat32Array(0.18, 1),
 "update": 0,
 "values": [Vector2(0, 9), Vector2(0, 0)]
@@ -250,11 +159,11 @@ tracks/5/keys = {
 tracks/6/type = "value"
 tracks/6/imported = false
 tracks/6/enabled = true
-tracks/6/path = NodePath("../LB/MarginContainer/VBoxContainer/Circle to Play:modulate")
+tracks/6/path = NodePath("../LB/MarginContainer/VBoxContainer/Square to Level Editor:modulate")
 tracks/6/interp = 1
 tracks/6/loop_wrap = true
 tracks/6/keys = {
-"times": PackedFloat32Array(1.3, 2.2666667),
+"times": PackedFloat32Array(0.5, 1.4666667),
 "transitions": PackedFloat32Array(0.18, 1),
 "update": 0,
 "values": [Color(1, 1, 1, 0), Color(1, 1, 1, 1)]
@@ -262,11 +171,11 @@ tracks/6/keys = {
 tracks/7/type = "value"
 tracks/7/imported = false
 tracks/7/enabled = true
-tracks/7/path = NodePath("../LB/MarginContainer/VBoxContainer/Line To Settings:offset_transform_position")
+tracks/7/path = NodePath("../LB/MarginContainer/VBoxContainer/Square to Level Editor2:offset_transform_position")
 tracks/7/interp = 1
 tracks/7/loop_wrap = true
 tracks/7/keys = {
-"times": PackedFloat32Array(0.8666667, 1.8333334),
+"times": PackedFloat32Array(0.26666665, 1.2333333),
 "transitions": PackedFloat32Array(0.18, 1),
 "update": 0,
 "values": [Vector2(0, 9), Vector2(0, 0)]
@@ -274,11 +183,11 @@ tracks/7/keys = {
 tracks/8/type = "value"
 tracks/8/imported = false
 tracks/8/enabled = true
-tracks/8/path = NodePath("../LB/MarginContainer/VBoxContainer/Line To Settings:modulate")
+tracks/8/path = NodePath("../LB/MarginContainer/VBoxContainer/Square to Level Editor2:modulate")
 tracks/8/interp = 1
 tracks/8/loop_wrap = true
 tracks/8/keys = {
-"times": PackedFloat32Array(0.8666667, 1.8333334),
+"times": PackedFloat32Array(0.26666665, 1.2333333),
 "transitions": PackedFloat32Array(0.18, 1),
 "update": 0,
 "values": [Color(1, 1, 1, 0), Color(1, 1, 1, 1)]
@@ -286,59 +195,23 @@ tracks/8/keys = {
 tracks/9/type = "value"
 tracks/9/imported = false
 tracks/9/enabled = true
-tracks/9/path = NodePath("../LB/MarginContainer/VBoxContainer/Square to Level Editor:offset_transform_position")
+tracks/9/path = NodePath("../FadeIN:modulate")
 tracks/9/interp = 1
 tracks/9/loop_wrap = true
 tracks/9/keys = {
-"times": PackedFloat32Array(0.5, 1.4666667),
-"transitions": PackedFloat32Array(0.18, 1),
+"times": PackedFloat32Array(0.03333336, 0.93333334),
+"transitions": PackedFloat32Array(1, 1),
 "update": 0,
-"values": [Vector2(0, 9), Vector2(0, 0)]
+"values": [Color(1, 1, 1, 1), Color(1, 1, 1, 0)]
 }
 tracks/10/type = "value"
 tracks/10/imported = false
 tracks/10/enabled = true
-tracks/10/path = NodePath("../LB/MarginContainer/VBoxContainer/Square to Level Editor:modulate")
+tracks/10/path = NodePath("../RB:modulate")
 tracks/10/interp = 1
 tracks/10/loop_wrap = true
 tracks/10/keys = {
-"times": PackedFloat32Array(0.5, 1.4666667),
-"transitions": PackedFloat32Array(0.18, 1),
-"update": 0,
-"values": [Color(1, 1, 1, 0), Color(1, 1, 1, 1)]
-}
-tracks/11/type = "value"
-tracks/11/imported = false
-tracks/11/enabled = true
-tracks/11/path = NodePath("../RB/MarginContainer/ENSO:modulate")
-tracks/11/interp = 1
-tracks/11/loop_wrap = true
-tracks/11/keys = {
-"times": PackedFloat32Array(1.4666667, 2.8333333),
-"transitions": PackedFloat32Array(0.69547385, 1),
-"update": 0,
-"values": [Color(1, 1, 1, 0), Color(1, 1, 1, 1)]
-}
-tracks/12/type = "value"
-tracks/12/imported = false
-tracks/12/enabled = true
-tracks/12/path = NodePath("../LB/MarginContainer/VBoxContainer/Square to Level Editor2:offset_transform_position")
-tracks/12/interp = 1
-tracks/12/loop_wrap = true
-tracks/12/keys = {
-"times": PackedFloat32Array(0.26666665, 1.2333333),
-"transitions": PackedFloat32Array(0.18, 1),
-"update": 0,
-"values": [Vector2(0, 9), Vector2(0, 0)]
-}
-tracks/13/type = "value"
-tracks/13/imported = false
-tracks/13/enabled = true
-tracks/13/path = NodePath("../LB/MarginContainer/VBoxContainer/Square to Level Editor2:modulate")
-tracks/13/interp = 1
-tracks/13/loop_wrap = true
-tracks/13/keys = {
-"times": PackedFloat32Array(0.26666665, 1.2333333),
+"times": PackedFloat32Array(0.46666667, 1.3666667),
 "transitions": PackedFloat32Array(0.18, 1),
 "update": 0,
 "values": [Color(1, 1, 1, 0), Color(1, 1, 1, 1)]
@@ -386,11 +259,11 @@ tracks/2/keys = {
 tracks/3/type = "value"
 tracks/3/imported = false
 tracks/3/enabled = true
-tracks/3/path = NodePath("../RB/MarginContainer/ENSO:modulate")
+tracks/3/path = NodePath(".:self_modulate")
 tracks/3/interp = 1
 tracks/3/loop_wrap = true
 tracks/3/keys = {
-"times": PackedFloat32Array(0.23333336, 0.8666667),
+"times": PackedFloat32Array(0.5, 1.1333333),
 "transitions": PackedFloat32Array(0.18, 0.18),
 "update": 0,
 "values": [Color(1, 1, 1, 1), Color(1, 1, 1, 0)]
@@ -398,11 +271,11 @@ tracks/3/keys = {
 tracks/4/type = "value"
 tracks/4/imported = false
 tracks/4/enabled = true
-tracks/4/path = NodePath(".:self_modulate")
+tracks/4/path = NodePath("../LB/MarginContainer/VBoxContainer/Square to Level Editor2:modulate")
 tracks/4/interp = 1
 tracks/4/loop_wrap = true
 tracks/4/keys = {
-"times": PackedFloat32Array(0.5, 1.1333333),
+"times": PackedFloat32Array(0.76666665, 1.4),
 "transitions": PackedFloat32Array(0.18, 0.18),
 "update": 0,
 "values": [Color(1, 1, 1, 1), Color(1, 1, 1, 0)]
@@ -410,69 +283,81 @@ tracks/4/keys = {
 tracks/5/type = "value"
 tracks/5/imported = false
 tracks/5/enabled = true
-tracks/5/path = NodePath("../LB/MarginContainer/VBoxContainer/Square to Level Editor2:modulate")
+tracks/5/path = NodePath("../RB:modulate")
 tracks/5/interp = 1
 tracks/5/loop_wrap = true
 tracks/5/keys = {
-"times": PackedFloat32Array(0.76666665, 1.4),
-"transitions": PackedFloat32Array(0.18, 0.18),
+"times": PackedFloat32Array(0.39999998, 1.1666666),
+"transitions": PackedFloat32Array(0.18, 1),
 "update": 0,
 "values": [Color(1, 1, 1, 1), Color(1, 1, 1, 0)]
+}
+tracks/6/type = "value"
+tracks/6/imported = false
+tracks/6/enabled = true
+tracks/6/path = NodePath("../FadeIN:modulate")
+tracks/6/interp = 1
+tracks/6/loop_wrap = true
+tracks/6/keys = {
+"times": PackedFloat32Array(0.8666667, 1.5666667),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 0), Color(1, 1, 1, 1)]
 }
 
 [sub_resource type="Animation" id="Animation_wu84c"]
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
-tracks/0/path = NodePath("../LT/LT:offset_transform_position")
+tracks/0/path = NodePath(".:self_modulate")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
 "times": PackedFloat32Array(0),
 "transitions": PackedFloat32Array(1),
 "update": 0,
-"values": [Vector2(-60, -60)]
+"values": [Color(1, 1, 1, 0)]
 }
 tracks/1/type = "value"
 tracks/1/imported = false
 tracks/1/enabled = true
-tracks/1/path = NodePath("../RT/RT:offset_transform_position")
+tracks/1/path = NodePath("../LB/MarginContainer/VBoxContainer/Circle to Play:offset_transform_position")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/keys = {
 "times": PackedFloat32Array(0),
 "transitions": PackedFloat32Array(1),
 "update": 0,
-"values": [Vector2(60, -60)]
+"values": [Vector2(0, 0)]
 }
 tracks/2/type = "value"
 tracks/2/imported = false
 tracks/2/enabled = true
-tracks/2/path = NodePath("../LB/LB:offset_transform_position")
+tracks/2/path = NodePath("../LB/MarginContainer/VBoxContainer/Circle to Play:modulate")
 tracks/2/interp = 1
 tracks/2/loop_wrap = true
 tracks/2/keys = {
 "times": PackedFloat32Array(0),
 "transitions": PackedFloat32Array(1),
 "update": 0,
-"values": [Vector2(-60, 60)]
+"values": [Color(1, 1, 1, 0)]
 }
 tracks/3/type = "value"
 tracks/3/imported = false
 tracks/3/enabled = true
-tracks/3/path = NodePath("../RB/RB:offset_transform_position")
+tracks/3/path = NodePath("../LB/MarginContainer/VBoxContainer/Line To Settings:modulate")
 tracks/3/interp = 1
 tracks/3/loop_wrap = true
 tracks/3/keys = {
 "times": PackedFloat32Array(0),
 "transitions": PackedFloat32Array(1),
 "update": 0,
-"values": [Vector2(60, 60)]
+"values": [Color(1, 1, 1, 0)]
 }
 tracks/4/type = "value"
 tracks/4/imported = false
 tracks/4/enabled = true
-tracks/4/path = NodePath(".:self_modulate")
+tracks/4/path = NodePath("../LB/MarginContainer/VBoxContainer/Square to Level Editor:modulate")
 tracks/4/interp = 1
 tracks/4/loop_wrap = true
 tracks/4/keys = {
@@ -484,7 +369,7 @@ tracks/4/keys = {
 tracks/5/type = "value"
 tracks/5/imported = false
 tracks/5/enabled = true
-tracks/5/path = NodePath("../LB/MarginContainer/VBoxContainer/Circle to Play:offset_transform_position")
+tracks/5/path = NodePath("../LB/MarginContainer/VBoxContainer/Line To Settings:offset_transform_position")
 tracks/5/interp = 1
 tracks/5/loop_wrap = true
 tracks/5/keys = {
@@ -496,19 +381,19 @@ tracks/5/keys = {
 tracks/6/type = "value"
 tracks/6/imported = false
 tracks/6/enabled = true
-tracks/6/path = NodePath("../LB/MarginContainer/VBoxContainer/Circle to Play:modulate")
+tracks/6/path = NodePath("../LB/MarginContainer/VBoxContainer/Square to Level Editor:offset_transform_position")
 tracks/6/interp = 1
 tracks/6/loop_wrap = true
 tracks/6/keys = {
 "times": PackedFloat32Array(0),
 "transitions": PackedFloat32Array(1),
 "update": 0,
-"values": [Color(1, 1, 1, 0)]
+"values": [Vector2(0, 0)]
 }
 tracks/7/type = "value"
 tracks/7/imported = false
 tracks/7/enabled = true
-tracks/7/path = NodePath("../RB/MarginContainer/ENSO:modulate")
+tracks/7/path = NodePath("../LB/MarginContainer/VBoxContainer/Square to Level Editor2:modulate")
 tracks/7/interp = 1
 tracks/7/loop_wrap = true
 tracks/7/keys = {
@@ -520,62 +405,26 @@ tracks/7/keys = {
 tracks/8/type = "value"
 tracks/8/imported = false
 tracks/8/enabled = true
-tracks/8/path = NodePath("../LB/MarginContainer/VBoxContainer/Line To Settings:modulate")
+tracks/8/path = NodePath("../FadeIN:modulate")
 tracks/8/interp = 1
 tracks/8/loop_wrap = true
 tracks/8/keys = {
 "times": PackedFloat32Array(0),
 "transitions": PackedFloat32Array(1),
 "update": 0,
-"values": [Color(1, 1, 1, 0)]
+"values": [Color(1, 1, 1, 1)]
 }
 tracks/9/type = "value"
 tracks/9/imported = false
 tracks/9/enabled = true
-tracks/9/path = NodePath("../LB/MarginContainer/VBoxContainer/Square to Level Editor:modulate")
+tracks/9/path = NodePath("../RB:modulate")
 tracks/9/interp = 1
 tracks/9/loop_wrap = true
 tracks/9/keys = {
 "times": PackedFloat32Array(0),
 "transitions": PackedFloat32Array(1),
 "update": 0,
-"values": [Color(1, 1, 1, 0)]
-}
-tracks/10/type = "value"
-tracks/10/imported = false
-tracks/10/enabled = true
-tracks/10/path = NodePath("../LB/MarginContainer/VBoxContainer/Line To Settings:offset_transform_position")
-tracks/10/interp = 1
-tracks/10/loop_wrap = true
-tracks/10/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 0,
-"values": [Vector2(0, 0)]
-}
-tracks/11/type = "value"
-tracks/11/imported = false
-tracks/11/enabled = true
-tracks/11/path = NodePath("../LB/MarginContainer/VBoxContainer/Square to Level Editor:offset_transform_position")
-tracks/11/interp = 1
-tracks/11/loop_wrap = true
-tracks/11/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 0,
-"values": [Vector2(0, 0)]
-}
-tracks/12/type = "value"
-tracks/12/imported = false
-tracks/12/enabled = true
-tracks/12/path = NodePath("../LB/MarginContainer/VBoxContainer/Square to Level Editor2:modulate")
-tracks/12/interp = 1
-tracks/12/loop_wrap = true
-tracks/12/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 0,
-"values": [Color(1, 1, 1, 0)]
+"values": [Color(1, 1, 1, 1)]
 }
 
 [sub_resource type="Animation" id="Animation_jk1qb"]
@@ -584,71 +433,71 @@ length = 3.0000000000000004
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
-tracks/0/path = NodePath("../LT/LT:offset_transform_position")
+tracks/0/path = NodePath(".:self_modulate")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
-"times": PackedFloat32Array(0.43333337, 1.4666667),
-"transitions": PackedFloat32Array(0.18, 1),
+"times": PackedFloat32Array(0.73333335, 1.6),
+"transitions": PackedFloat32Array(0.3027227, 1),
 "update": 0,
-"values": [Vector2(-60, -60), Vector2(0, 0)]
+"values": [Color(1, 1, 1, 0), Color(1, 1, 1, 1)]
 }
 tracks/1/type = "value"
 tracks/1/imported = false
 tracks/1/enabled = true
-tracks/1/path = NodePath("../RT/RT:offset_transform_position")
+tracks/1/path = NodePath("../LB/MarginContainer/VBoxContainer/Circle to Play:offset_transform_position")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/keys = {
-"times": PackedFloat32Array(0.4666667, 1.4666667),
+"times": PackedFloat32Array(1.3, 2.2666667),
 "transitions": PackedFloat32Array(0.18, 1),
 "update": 0,
-"values": [Vector2(60, -60), Vector2(0, 0)]
+"values": [Vector2(0, 9), Vector2(0, 0)]
 }
 tracks/2/type = "value"
 tracks/2/imported = false
 tracks/2/enabled = true
-tracks/2/path = NodePath("../LB/LB:offset_transform_position")
+tracks/2/path = NodePath("../LB/MarginContainer/VBoxContainer/Circle to Play:modulate")
 tracks/2/interp = 1
 tracks/2/loop_wrap = true
 tracks/2/keys = {
-"times": PackedFloat32Array(0.4666667, 1.4666667),
+"times": PackedFloat32Array(1.3, 2.2666667),
 "transitions": PackedFloat32Array(0.18, 1),
 "update": 0,
-"values": [Vector2(-60, 60), Vector2(0, 0)]
+"values": [Color(1, 1, 1, 0), Color(1, 1, 1, 1)]
 }
 tracks/3/type = "value"
 tracks/3/imported = false
 tracks/3/enabled = true
-tracks/3/path = NodePath("../RB/RB:offset_transform_position")
+tracks/3/path = NodePath("../LB/MarginContainer/VBoxContainer/Line To Settings:offset_transform_position")
 tracks/3/interp = 1
 tracks/3/loop_wrap = true
 tracks/3/keys = {
-"times": PackedFloat32Array(0.4666667, 1.4666667),
+"times": PackedFloat32Array(0.8666667, 1.8333334),
 "transitions": PackedFloat32Array(0.18, 1),
 "update": 0,
-"values": [Vector2(60, 60), Vector2(0, 0)]
+"values": [Vector2(0, 9), Vector2(0, 0)]
 }
 tracks/4/type = "value"
 tracks/4/imported = false
 tracks/4/enabled = true
-tracks/4/path = NodePath(".:self_modulate")
+tracks/4/path = NodePath("../LB/MarginContainer/VBoxContainer/Line To Settings:modulate")
 tracks/4/interp = 1
 tracks/4/loop_wrap = true
 tracks/4/keys = {
-"times": PackedFloat32Array(0.73333335, 1.6),
-"transitions": PackedFloat32Array(0.3027227, 1),
+"times": PackedFloat32Array(0.8666667, 1.8333334),
+"transitions": PackedFloat32Array(0.18, 1),
 "update": 0,
 "values": [Color(1, 1, 1, 0), Color(1, 1, 1, 1)]
 }
 tracks/5/type = "value"
 tracks/5/imported = false
 tracks/5/enabled = true
-tracks/5/path = NodePath("../LB/MarginContainer/VBoxContainer/Circle to Play:offset_transform_position")
+tracks/5/path = NodePath("../LB/MarginContainer/VBoxContainer/Square to Level Editor:offset_transform_position")
 tracks/5/interp = 1
 tracks/5/loop_wrap = true
 tracks/5/keys = {
-"times": PackedFloat32Array(1.3, 2.2666667),
+"times": PackedFloat32Array(0.5, 1.4666667),
 "transitions": PackedFloat32Array(0.18, 1),
 "update": 0,
 "values": [Vector2(0, 9), Vector2(0, 0)]
@@ -656,11 +505,11 @@ tracks/5/keys = {
 tracks/6/type = "value"
 tracks/6/imported = false
 tracks/6/enabled = true
-tracks/6/path = NodePath("../LB/MarginContainer/VBoxContainer/Circle to Play:modulate")
+tracks/6/path = NodePath("../LB/MarginContainer/VBoxContainer/Square to Level Editor:modulate")
 tracks/6/interp = 1
 tracks/6/loop_wrap = true
 tracks/6/keys = {
-"times": PackedFloat32Array(1.3, 2.2666667),
+"times": PackedFloat32Array(0.5, 1.4666667),
 "transitions": PackedFloat32Array(0.18, 1),
 "update": 0,
 "values": [Color(1, 1, 1, 0), Color(1, 1, 1, 1)]
@@ -668,11 +517,11 @@ tracks/6/keys = {
 tracks/7/type = "value"
 tracks/7/imported = false
 tracks/7/enabled = true
-tracks/7/path = NodePath("../LB/MarginContainer/VBoxContainer/Line To Settings:offset_transform_position")
+tracks/7/path = NodePath("../LB/MarginContainer/VBoxContainer/Square to Level Editor2:offset_transform_position")
 tracks/7/interp = 1
 tracks/7/loop_wrap = true
 tracks/7/keys = {
-"times": PackedFloat32Array(0.8666667, 1.8333334),
+"times": PackedFloat32Array(0.26666665, 1.2333333),
 "transitions": PackedFloat32Array(0.18, 1),
 "update": 0,
 "values": [Vector2(0, 9), Vector2(0, 0)]
@@ -680,11 +529,11 @@ tracks/7/keys = {
 tracks/8/type = "value"
 tracks/8/imported = false
 tracks/8/enabled = true
-tracks/8/path = NodePath("../LB/MarginContainer/VBoxContainer/Line To Settings:modulate")
+tracks/8/path = NodePath("../LB/MarginContainer/VBoxContainer/Square to Level Editor2:modulate")
 tracks/8/interp = 1
 tracks/8/loop_wrap = true
 tracks/8/keys = {
-"times": PackedFloat32Array(0.8666667, 1.8333334),
+"times": PackedFloat32Array(0.26666665, 1.2333333),
 "transitions": PackedFloat32Array(0.18, 1),
 "update": 0,
 "values": [Color(1, 1, 1, 0), Color(1, 1, 1, 1)]
@@ -692,62 +541,14 @@ tracks/8/keys = {
 tracks/9/type = "value"
 tracks/9/imported = false
 tracks/9/enabled = true
-tracks/9/path = NodePath("../LB/MarginContainer/VBoxContainer/Square to Level Editor:offset_transform_position")
+tracks/9/path = NodePath("../FadeIN:modulate")
 tracks/9/interp = 1
 tracks/9/loop_wrap = true
 tracks/9/keys = {
-"times": PackedFloat32Array(0.5, 1.4666667),
-"transitions": PackedFloat32Array(0.18, 1),
+"times": PackedFloat32Array(0.03333334, 0.93333334),
+"transitions": PackedFloat32Array(1, 1),
 "update": 0,
-"values": [Vector2(0, 9), Vector2(0, 0)]
-}
-tracks/10/type = "value"
-tracks/10/imported = false
-tracks/10/enabled = true
-tracks/10/path = NodePath("../LB/MarginContainer/VBoxContainer/Square to Level Editor:modulate")
-tracks/10/interp = 1
-tracks/10/loop_wrap = true
-tracks/10/keys = {
-"times": PackedFloat32Array(0.5, 1.4666667),
-"transitions": PackedFloat32Array(0.18, 1),
-"update": 0,
-"values": [Color(1, 1, 1, 0), Color(1, 1, 1, 1)]
-}
-tracks/11/type = "value"
-tracks/11/imported = false
-tracks/11/enabled = true
-tracks/11/path = NodePath("../LB/MarginContainer/VBoxContainer/Square to Level Editor2:offset_transform_position")
-tracks/11/interp = 1
-tracks/11/loop_wrap = true
-tracks/11/keys = {
-"times": PackedFloat32Array(0.26666665, 1.2333333),
-"transitions": PackedFloat32Array(0.18, 1),
-"update": 0,
-"values": [Vector2(0, 9), Vector2(0, 0)]
-}
-tracks/12/type = "value"
-tracks/12/imported = false
-tracks/12/enabled = true
-tracks/12/path = NodePath("../LB/MarginContainer/VBoxContainer/Square to Level Editor2:modulate")
-tracks/12/interp = 1
-tracks/12/loop_wrap = true
-tracks/12/keys = {
-"times": PackedFloat32Array(0.26666665, 1.2333333),
-"transitions": PackedFloat32Array(0.18, 1),
-"update": 0,
-"values": [Color(1, 1, 1, 0), Color(1, 1, 1, 1)]
-}
-tracks/13/type = "value"
-tracks/13/imported = false
-tracks/13/enabled = true
-tracks/13/path = NodePath("../RB/MarginContainer/ENSO:modulate")
-tracks/13/interp = 1
-tracks/13/loop_wrap = true
-tracks/13/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 0,
-"values": [Color(1, 1, 1, 1)]
+"values": [Color(1, 1, 1, 1), Color(1, 1, 1, 0)]
 }
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_wu84c"]
@@ -768,49 +569,47 @@ grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_wu84c")
 
+[node name="BG" type="TextureRect" parent="." unique_id=1003578820]
+modulate = Color(1, 1, 1, 0.9250001)
+self_modulate = Color(1, 1, 1, 0.777)
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("2_jk1qb")
+
+[node name="Gradeint" type="TextureRect" parent="BG" unique_id=852865061]
+self_modulate = Color(1, 1, 1, 0.66200006)
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = SubResource("GradientTexture2D_jk1qb")
+
 [node name="RB" type="MarginContainer" parent="." unique_id=1542492256]
+z_index = 2
 layout_mode = 1
 anchors_preset = 3
 anchor_left = 1.0
 anchor_top = 1.0
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_left = -193.0
-offset_top = -111.0
+offset_left = -255.5946
+offset_top = -147.0
 grow_horizontal = 0
 grow_vertical = 0
-theme_override_constants/margin_right = 24
-theme_override_constants/margin_bottom = 24
-
-[node name="MarginContainer" type="MarginContainer" parent="RB" unique_id=286219481]
-layout_mode = 2
 theme_override_constants/margin_right = 16
-theme_override_constants/margin_bottom = 6
+theme_override_constants/margin_bottom = 16
 
-[node name="ENSO" type="Label" parent="RB/MarginContainer" unique_id=260372447]
-modulate = Color(1, 1, 1, 0)
+[node name="Title" type="TextureRect" parent="RB" unique_id=25587530]
+self_modulate = Color(18.892157, 18.892157, 18.892157, 1)
 layout_mode = 2
 offset_transform_enabled = true
-theme_override_fonts/font = ExtResource("1_l6cm7")
-theme_override_font_sizes/font_size = 108
-text = "ENSO"
-horizontal_alignment = 1
-
-[node name="Bobbing" type="AnimationPlayer" parent="RB/MarginContainer/ENSO" unique_id=1976832806]
-libraries/ = SubResource("AnimationLibrary_rtw2f")
-speed_scale = 0.6
-
-[node name="RB" type="TextureRect" parent="RB" unique_id=1328802541]
-modulate = Color(1, 1, 1, 0.3254902)
-layout_mode = 2
-size_flags_horizontal = 8
-size_flags_vertical = 8
-offset_transform_enabled = true
-offset_transform_position = Vector2(60, 60)
-offset_transform_scale = Vector2(1.5, 1.5)
-offset_transform_pivot_ratio = Vector2(1, 1)
-texture = ExtResource("3_bqqt6")
-flip_h = true
+texture = ExtResource("3_jk1qb")
 
 [node name="LB" type="MarginContainer" parent="." unique_id=1924146745]
 layout_mode = 1
@@ -823,17 +622,6 @@ grow_vertical = 0
 theme_override_constants/margin_left = 24
 theme_override_constants/margin_right = 0
 theme_override_constants/margin_bottom = 24
-
-[node name="LB" type="TextureRect" parent="LB" unique_id=2008264315]
-modulate = Color(1, 1, 1, 0.3254902)
-layout_mode = 2
-size_flags_horizontal = 0
-size_flags_vertical = 8
-offset_transform_enabled = true
-offset_transform_position = Vector2(-60, 60)
-offset_transform_scale = Vector2(1.5, 1.5)
-offset_transform_pivot_ratio = Vector2(0, 1)
-texture = ExtResource("3_bqqt6")
 
 [node name="MarginContainer" type="MarginContainer" parent="LB" unique_id=238039884]
 layout_mode = 2
@@ -925,7 +713,6 @@ layout_mode = 2
 size_flags_horizontal = 0
 size_flags_vertical = 8
 offset_transform_enabled = true
-offset_transform_position = Vector2(0, 9)
 theme_override_constants/separation = 12
 
 [node name="TextureRect" type="TextureRect" parent="LB/MarginContainer/VBoxContainer/Square to Level Editor2" unique_id=1551613104]
@@ -959,27 +746,11 @@ offset_right = 46.0
 offset_bottom = 11.5
 grow_horizontal = 2
 grow_vertical = 2
-theme_override_fonts/font = ExtResource("2_ekxnf")
-text = "DRAW HERE"
-
-[node name="LT" type="MarginContainer" parent="." unique_id=1684936032]
-layout_mode = 1
-offset_right = 193.0
-offset_bottom = 111.0
-theme_override_constants/margin_left = 24
-theme_override_constants/margin_top = 24
-
-[node name="LT" type="TextureRect" parent="LT" unique_id=417374594]
-modulate = Color(1, 1, 1, 0.3254902)
-layout_mode = 2
-size_flags_horizontal = 0
-size_flags_vertical = 0
 offset_transform_enabled = true
-offset_transform_position = Vector2(-60, -60)
-offset_transform_scale = Vector2(1.5, 1.5)
-offset_transform_pivot_ratio = Vector2(0, 0)
-texture = ExtResource("3_bqqt6")
-flip_v = true
+theme_override_fonts/font = ExtResource("2_ekxnf")
+theme_override_font_sizes/font_size = 21
+text = "DRAW HERE"
+horizontal_alignment = 1
 
 [node name="RT" type="MarginContainer" parent="." unique_id=538677521]
 layout_mode = 1
@@ -992,19 +763,6 @@ grow_horizontal = 0
 theme_override_constants/margin_top = 24
 theme_override_constants/margin_right = 24
 
-[node name="RT" type="TextureRect" parent="RT" unique_id=286600973]
-modulate = Color(1, 1, 1, 0.3254902)
-layout_mode = 2
-size_flags_horizontal = 8
-size_flags_vertical = 0
-offset_transform_enabled = true
-offset_transform_position = Vector2(60, -60)
-offset_transform_scale = Vector2(1.5, 1.5)
-offset_transform_pivot_ratio = Vector2(1, 0)
-texture = ExtResource("3_bqqt6")
-flip_h = true
-flip_v = true
-
 [node name="Transition" type="AnimationPlayer" parent="." unique_id=950463086]
 root_node = NodePath("../Draw Here")
 libraries/ = SubResource("AnimationLibrary_wu84c")
@@ -1012,6 +770,16 @@ libraries/ = SubResource("AnimationLibrary_wu84c")
 [node name="draw" parent="." unique_id=2118743800 instance=ExtResource("6_rtw2f")]
 weight = 0.5
 guess_mode = true
+
+[node name="FadeIN" type="ColorRect" parent="." unique_id=171573630]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+color = Color(0, 0, 0, 1)
 
 [connection signal="animation_finished" from="Transition" to="." method="_on_transition_animation_finished"]
 [connection signal="guessed_shape" from="draw" to="." method="_on_draw_guessed_shape"]

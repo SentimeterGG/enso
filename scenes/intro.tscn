@@ -2,8 +2,8 @@
 
 [ext_resource type="AudioStream" uid="uid://deiuig3cvhut6" path="res://assets/sound/WelcomeToENSO.mp3" id="1_4bx60"]
 [ext_resource type="Script" uid="uid://dv7xb0tfkadtx" path="res://scripts/intro.gd" id="1_i2l1n"]
-[ext_resource type="FontFile" uid="uid://o0cdle58rn3j" path="res://assets/fonts/ithaca.medium.ttf" id="1_yjqpq"]
 [ext_resource type="FontFile" uid="uid://cwhe7euewv5f6" path="res://assets/fonts/ttf/PixelCode.ttf" id="2_4bx60"]
+[ext_resource type="Texture2D" uid="uid://dcshijaxvl882" path="res://assets/branding/ENSO-Text.png" id="5_es01l"]
 [ext_resource type="PackedScene" uid="uid://dj8lgkjrkbvka" path="res://scenes/loading_system_scene.tscn" id="5_wfs7u"]
 
 [sub_resource type="Animation" id="Animation_i2l1n"]
@@ -11,50 +11,14 @@ length = 0.001
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
-tracks/0/path = NodePath("Welcome:modulate")
+tracks/0/path = NodePath("Welcome:visible_ratio")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
 "times": PackedFloat32Array(0),
 "transitions": PackedFloat32Array(1),
 "update": 0,
-"values": [Color(1, 1, 1, 0)]
-}
-tracks/1/type = "value"
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/path = NodePath("Welcome:visible_ratio")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 0,
 "values": [1.0]
-}
-tracks/2/type = "value"
-tracks/2/imported = false
-tracks/2/enabled = true
-tracks/2/path = NodePath("ENSO:modulate")
-tracks/2/interp = 1
-tracks/2/loop_wrap = true
-tracks/2/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 0,
-"values": [Color(1, 1, 1, 1)]
-}
-tracks/3/type = "value"
-tracks/3/imported = false
-tracks/3/enabled = true
-tracks/3/path = NodePath("ENSO:visible_ratio")
-tracks/3/interp = 1
-tracks/3/loop_wrap = true
-tracks/3/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 0,
-"values": [0.0]
 }
 
 [sub_resource type="Animation" id="Animation_wfs7u"]
@@ -102,26 +66,14 @@ tracks/2/keys = {
 tracks/3/type = "value"
 tracks/3/imported = false
 tracks/3/enabled = true
-tracks/3/path = NodePath("ENSO:modulate")
+tracks/3/path = NodePath("RB:modulate")
 tracks/3/interp = 1
 tracks/3/loop_wrap = true
 tracks/3/keys = {
-"times": PackedFloat32Array(0.8333334, 1.6000001),
+"times": PackedFloat32Array(0.70000005, 1.6),
 "transitions": PackedFloat32Array(1, 1),
 "update": 0,
 "values": [Color(1, 1, 1, 0), Color(1, 1, 1, 1)]
-}
-tracks/4/type = "value"
-tracks/4/imported = false
-tracks/4/enabled = true
-tracks/4/path = NodePath("ENSO:visible_ratio")
-tracks/4/interp = 1
-tracks/4/loop_wrap = true
-tracks/4/keys = {
-"times": PackedFloat32Array(0.8333334, 1.3),
-"transitions": PackedFloat32Array(1, 1),
-"update": 0,
-"values": [0.0, 1.0]
 }
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_es01l"]
@@ -143,26 +95,6 @@ script = ExtResource("1_i2l1n")
 libraries/ = SubResource("AnimationLibrary_es01l")
 autoplay = &"intro"
 
-[node name="ENSO" type="Label" parent="." unique_id=2087033052]
-layout_mode = 1
-anchors_preset = 3
-anchor_left = 1.0
-anchor_top = 1.0
-anchor_right = 1.0
-anchor_bottom = 1.0
-offset_left = -209.0
-offset_top = -125.0
-offset_right = -40.0
-offset_bottom = -30.0
-grow_horizontal = 0
-grow_vertical = 0
-offset_transform_enabled = true
-theme_override_fonts/font = ExtResource("1_yjqpq")
-theme_override_font_sizes/font_size = 108
-text = "ENSO"
-visible_characters = 0
-visible_ratio = 0.0
-
 [node name="Welcome" type="Label" parent="." unique_id=1520566760]
 modulate = Color(1, 1, 1, 0)
 layout_mode = 1
@@ -172,9 +104,9 @@ anchor_top = 1.0
 anchor_right = 1.0
 anchor_bottom = 1.0
 offset_left = -159.0
-offset_top = -137.0
+offset_top = -145.0
 offset_right = -46.0
-offset_bottom = -114.0
+offset_bottom = -122.0
 grow_horizontal = 0
 grow_vertical = 0
 offset_transform_enabled = true
@@ -189,3 +121,24 @@ volume_db = 20.065
 unique_name_in_owner = true
 layout_mode = 1
 sceneName = "uid://ql5w4t6kd2jq"
+
+[node name="RB" type="MarginContainer" parent="." unique_id=146546973]
+modulate = Color(1, 1, 1, 0)
+layout_mode = 1
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -255.5946
+offset_top = -147.0
+grow_horizontal = 0
+grow_vertical = 0
+theme_override_constants/margin_right = 16
+theme_override_constants/margin_bottom = 16
+
+[node name="Title" type="TextureRect" parent="RB" unique_id=250998074]
+self_modulate = Color(18.892157, 18.892157, 18.892157, 1)
+layout_mode = 2
+offset_transform_enabled = true
+texture = ExtResource("5_es01l")

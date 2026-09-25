@@ -23,7 +23,7 @@ signal score_changed(
 )
 ## Emitted once per beat judgement with the HitResult.Kind (fed by the health bar).
 signal hit_applied(kind: int)
-
+signal bad_draw
 const DRAW_BAD_THRESHOLD := 65.0
 ## GOOD sits in the middle between BAD (60) and PERFECT (~90): sloppy-but-right
 ## strokes land 60-75, clean strokes 75+. Mirrors recognizer.good_threshold.
@@ -218,14 +218,12 @@ func _on_draw_shape_accuracy_ready(accuracy: float) -> void:
 		# Only notes that pass the receptor unhit can miss (via auto-miss).
 		return
 	if accuracy < DRAW_BAD_THRESHOLD:
+		emit_signal("bad_draw")
 		_spawn_bad_draw(accuracy)
 	finish_shape(key, accuracy / 100.0)
 
 
 func _on_draw_ended() -> void:
-	# Normal release emits shape_accuracy_ready BEFORE draw_ended, so pending
-	# is already consumed and this is a no-op. Only aborted draws (null line,
-	# no accuracy signal) leave leftovers — score those as draw 0.
 	if _pending.is_empty():
 		_active_shape = ""
 		return

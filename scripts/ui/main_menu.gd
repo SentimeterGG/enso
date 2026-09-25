@@ -5,17 +5,21 @@
 extends Control
 
 enum GoTo { NONE, PLAY, SETTINGS, EDITOR }
-
+const PULSE_STRENGTH := 0.05
+const PULSE_FALLOFF := 0.25
 @onready var draw_manager: Line2D = $draw
+@onready var draw_here_label = $"Draw Here"
+@onready var title = $RB/Title
 var go_to: GoTo = GoTo.NONE
+var _pulse_tween: Tween = null
+var _current_bpm: float
+var _last_beat: int = -1
+var _current_bpm_start: float
 
 
 func _ready() -> void:
 	randomize()
 	VolumePopup.can_popup = true
-
-	$RB/MarginContainer/ENSO/Bobbing.play("idle")
-
 	if Global.first_time_playing:
 		var random_music = Global.choose_random_chart()
 		# choose_random_chart() returns null when no charts are found (e.g.
@@ -23,6 +27,10 @@ func _ready() -> void:
 		# missing chart skips the preview instead of crashing on Nil.
 		if random_music != null and not random_music.is_empty():
 			var song_path := random_music.song_path()
+			# Feed the beat clock: without these _physics_process() bails at
+			# the `<= 0.0` guard and the pulse tween never fires.
+			_current_bpm = random_music.get_bpm()
+			_current_bpm_start = random_music.beat_offset()
 			if not song_path.is_empty() and ResourceLoader.exists(song_path):
 				BgMusic.change_song(load(song_path), random_music.preview_start())
 			else:
@@ -34,6 +42,22 @@ func _ready() -> void:
 	else:
 		$Transition.play("Opening")
 	draw_manager.start()
+
+
+func _physics_process(delta: float) -> void:
+	# Guard Rail
+	if _current_bpm <= 0.0 or draw_here_label == null or title == null:
+		return
+	if BgMusic == null or not BgMusic.playing:
+		return
+	var beat_duration := 1.0 / _current_bpm
+	var audio_time: float = BgMusic.get_playback_position() - _current_bpm_start
+	if audio_time < 0.0:
+		return
+	var current_beat := int(audio_time / beat_duration)
+	if current_beat != _last_beat and current_beat >= 0:
+		_last_beat = current_beat
+		_emit_beat()
 
 
 func _on_transition_animation_finished(anim_name: StringName) -> void:
@@ -68,3 +92,46 @@ func _on_draw_guessed_shape(shape: String) -> void:
 			$Transition.play("Exit Game")
 			BgMusic.FADE_DURATION = 1.6
 			BgMusic.change_song(null)
+
+
+func _emit_beat() -> void:
+	if draw_here_label == null or title == null:
+		return
+	if _pulse_tween != null and _pulse_tween.is_valid():
+		_pulse_tween.kill()
+	var target_scale := 1.0 + PULSE_STRENGTH
+	var tween := create_tween()
+	tween.set_parallel(true)
+	(
+		tween
+		. tween_property(
+			draw_here_label,
+			"offset_transform_scale",
+			Vector2(target_scale, target_scale),
+			PULSE_FALLOFF * 0.2
+		)
+		. set_ease(Tween.EASE_OUT)
+	)
+	(
+		tween
+		. tween_property(draw_here_label, "offset_transform_scale", Vector2.ONE, PULSE_FALLOFF)
+		. set_delay(PULSE_FALLOFF * 0.2)
+		. set_ease(Tween.EASE_OUT)
+	)
+	(
+		tween
+		. tween_property(
+			title,
+			"offset_transform_scale",
+			Vector2(target_scale, target_scale),
+			PULSE_FALLOFF * 0.2
+		)
+		. set_ease(Tween.EASE_OUT)
+	)
+	(
+		tween
+		. tween_property(title, "offset_transform_scale", Vector2.ONE, PULSE_FALLOFF)
+		. set_delay(PULSE_FALLOFF * 0.2)
+		. set_ease(Tween.EASE_OUT)
+	)
+	_pulse_tween = tween

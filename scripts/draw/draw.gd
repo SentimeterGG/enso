@@ -58,9 +58,6 @@ func end() -> void:
 		emit_signal("draw_ended")
 		return
 	var line := current_line
-	#TODO change to target data
-	# Scale recognizer tolerances from the chart's overall_difficulty
-	# (1 = most forgiving, 5 = base, 10 = strictest) before every judgement.
 	if recognizer != null and recognizer.has_method("apply_chart_od"):
 		recognizer.apply_chart_od(Global.current_chart)
 	if guess_mode:

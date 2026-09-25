@@ -78,6 +78,8 @@ func apply_hit(kind: int) -> void:
 			_heal(bad_heal)
 		HitResult.Kind.MISS:
 			_damage(miss_damage)
+		HitResult.Kind.BAD_DRAW:
+			_damage(miss_damage * 2)
 
 
 func damage_scale() -> float:
