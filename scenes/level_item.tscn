@@ -4,7 +4,7 @@
 [ext_resource type="StyleBox" uid="uid://e8ten8qcpkj4" path="res://resources/theme/level_select_button.tres" id="2_lrfiu"]
 [ext_resource type="Script" uid="uid://67ulg0qvdlhv" path="res://scripts/ui/level_selector/level_item.gd" id="3_4ae8e"]
 [ext_resource type="FontFile" uid="uid://bprqivnp1xsie" path="res://assets/fonts/ttf/PixelCode-Medium.ttf" id="4_rd0an"]
-[ext_resource type="Texture2D" uid="uid://cdicnu3ef85cd" path="res://levels/Jellyous by ILLIT mapped by DimasDFAR/bg.jpg" id="5_lrfiu"]
+[ext_resource type="Texture2D" uid="uid://k1s7gsn2hm4f" path="res://levels/Wasurete Yaranai by kessoku band mapped by ENSO Team/wasurete-yaranai.jpg" id="5_lrfiu"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_lrfiu"]
 bg_color = Color(0, 0, 0, 1)

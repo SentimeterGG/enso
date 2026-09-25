@@ -1,12 +1,8 @@
-# skin_manager.gd — Autoload singleton. Loads PNGs from res://skin/<name>/
-# with fallback to default_skin, holds them as Texture2D vars.
-# Usage (after registering as autoload "SkinManager"):
-#   func _ready() -> void:
-#       sprite.texture = SkinManager.cursor_sprite
-# RETURN: loaded skin textures held on the singleton for direct access
+# THIS need an update fr
 extends Node
 
 const SKIN_ROOT := "res://skin"
+const USER_SKIN_ROOT := "user://skin"
 const FALLBACK_SKIN := "default_skin"
 
 # Logical name -> file in the skin folder.
@@ -34,14 +30,16 @@ func _ready() -> void:
 
 
 func reload(skin_name: String) -> bool:
-	fallback_skin = skin_name.strip_edges() if not skin_name.strip_edges().is_empty() else FALLBACK_SKIN
+	fallback_skin = (
+		skin_name.strip_edges() if not skin_name.strip_edges().is_empty() else FALLBACK_SKIN
+	)
 	return load_skin()
-
 
 
 func load_skin() -> bool:
 	# var requested := skin_name.strip_edges()
 	# if requested.is_empty():
+
 	var requested = fallback_skin
 	current_skin = requested
 
@@ -104,7 +102,5 @@ func _try_load(skin_name: String, file_name: String) -> Texture2D:
 			if fallback_tex != null:
 				return fallback_tex
 
-	push_error(
-		"SkinManager: missing '%s' in skin '%s' (and no fallback)." % [file_name, skin_name]
-	)
+	push_error("SkinManager: missing '%s' in skin '%s' (and no fallback)." % [file_name, skin_name])
 	return null

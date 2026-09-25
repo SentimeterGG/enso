@@ -8,6 +8,11 @@ var save_file_path = "user://ENSO_FILES/"
 # Settings and Main Menu variables.
 var settingsData = SettingsData.new()
 
+# for getting a list of extension
+var image_exts: Array = ResourceLoader.get_recognized_extensions_for_type("Texture2D")
+var video_exts: Array = ResourceLoader.get_recognized_extensions_for_type("VideoStream")
+var audio_exts: Array = ResourceLoader.get_recognized_extensions_for_type("AudioStream")
+
 signal toggle_window
 
 
@@ -125,3 +130,35 @@ func _find_charts_in(base_dir: String) -> Array[String]:
 			out.append(base_dir.path_join(f))
 	out.sort()
 	return out
+
+
+func load_safely(path: String) -> Resource:
+	if path.is_empty():
+		return null
+	if path.begins_with("res://"):
+		if ResourceLoader.exists(path):
+			return load(path)
+		push_warning("load_safely: missing resource: " + path)
+		return null
+	if not FileAccess.file_exists(path):
+		push_warning("load_safely: file not found: " + path)
+		return null
+	match path.get_extension().to_lower():
+		"png", "jpg", "jpeg", "webp":
+			var img := Image.load_from_file(path)
+			if img == null or img.is_empty():
+				push_warning("load_safely: couldn't decode image: " + path)
+				return null
+			return ImageTexture.create_from_image(img)
+		"ogv":
+			var video_resource := VideoStreamTheora.new()
+			video_resource.file = path
+			return video_resource
+		"wav":
+			return AudioStreamWAV.load_from_file(path)
+		"mp3":
+			return AudioStreamMP3.load_from_file(path)
+		"ogg", "opus":
+			return AudioStreamOggVorbis.load_from_file(path)
+	push_error("load_safely: unsupported file type: " + path)
+	return null

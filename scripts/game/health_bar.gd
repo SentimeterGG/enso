@@ -10,10 +10,10 @@ signal health_changed(health: float)
 signal health_depleted
 
 @export_group("Base Amounts")
-@export_range(0.0, 0.2, 0.001) var perfect_heal: float = 0.015
-@export_range(0.0, 0.2, 0.001) var ok_heal: float = 0.008
-@export_range(0.0, 0.2, 0.001) var bad_heal: float = 0.003
-@export_range(0.0, 0.5, 0.005) var miss_damage: float = 0.06
+@export_range(0.0, 0.2, 0.001) var perfect_heal: float = 0.05
+@export_range(0.0, 0.2, 0.001) var ok_heal: float = 0.025
+@export_range(0.0, 0.2, 0.001) var bad_heal: float = 0.005
+@export_range(0.0, 0.5, 0.005) var miss_damage: float = 0.05
 
 @export_group("OD Scaling")
 ## Extra damage multiplier per OD step above 5 (OD 10 ~= 1.6x by default).
@@ -79,7 +79,7 @@ func apply_hit(kind: int) -> void:
 		HitResult.Kind.MISS:
 			_damage(miss_damage)
 		HitResult.Kind.BAD_DRAW:
-			_damage(miss_damage * 2)
+			_damage(miss_damage)
 
 
 func damage_scale() -> float:

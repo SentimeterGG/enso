@@ -38,7 +38,7 @@ func _apply_text() -> void:
 	if subtitle_node:
 		subtitle_node.text = level_subtitle.to_upper() if not level_subtitle.is_empty() else ""
 	if background:
-		texture_node.texture = load(background)
+		texture_node.texture = Global.load_safely(background)
 
 
 func _on_gui_input(event: InputEvent) -> void:

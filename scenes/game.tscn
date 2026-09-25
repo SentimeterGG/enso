@@ -1072,6 +1072,7 @@ libraries/ = SubResource("AnimationLibrary_vtaks")
 
 [node name="target_shape" type="Line2D" parent="." unique_id=129393694]
 process_mode = 1
+self_modulate = Color(1, 1, 1, 0)
 position = Vector2(295, 155)
 width = 5.0
 script = ExtResource("3_gee14")

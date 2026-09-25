@@ -12,11 +12,12 @@ signal drag_ended(beat_ms: int)
 var beat_ms: int = 0
 
 @onready var select: Sprite2D = $Selected
+@onready var circle_outline: Sprite2D = $CircleOutline
 @onready var button: Button = $Button
 
 
-
 func _ready() -> void:
+	circle_outline.texture = SkinManager.beat_point_outline
 	button.flat = true
 	button.focus_mode = Control.FOCUS_NONE
 	button.pressed.connect(_on_button_pressed)

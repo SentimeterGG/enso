@@ -237,17 +237,7 @@ func _emit_beat() -> void:
 func _on_level_item_hovered(chart_path: String) -> void:
 	if chart_path.is_empty() or chart_path == _preview_chart_path:
 		return
-	if not has_node("/root/BgMusic"):
-		return
-	var bg := get_node("/root/BgMusic") as AudioStreamPlayer
-	if bg == null or not bg.has_method("change_song"):
-		return
-	if preview_bg == null:
-		return
-
-	# Debounce: only commit to this hover if it holds for 0.2s, so quickly
-	# scrolling past several rows doesn't spam chart loads / bg crossfades
-	# for items the user never actually settles on.
+	var bg: AudioStreamPlayer = BgMusic
 	_hover_token += 1
 	var my_token := _hover_token
 	await get_tree().create_timer(0.3).timeout
@@ -264,7 +254,7 @@ func _on_level_item_hovered(chart_path: String) -> void:
 	_current_offset = chart.beat_offset()
 
 	# Fade transition: old becomes invisible, new appears
-	var new_texture := load(chart.get_bg())
+	var new_texture := Global.load_safely(chart.get_bg())
 	if _bg_tween != null and _bg_tween.is_valid():
 		_bg_tween.kill()
 	preview_bg.modulate.a = 1.0
@@ -290,11 +280,10 @@ func _on_level_item_hovered(chart_path: String) -> void:
 		_synced_stream = null
 		return
 	var song := chart.song_path()
-	if song.is_empty() or not ResourceLoader.exists(song):
-		return
-	var stream := load(song) as AudioStream
-	if stream == null:
-		return
+	if chart.song_path().begins_with("res://"):
+		if song.is_empty() or not ResourceLoader.exists(song):
+			return
+	var stream := Global.load_safely(song)
 	if bg.playing and bg.stream != null:
 		var cur_path := bg.stream.resource_path
 		var new_path := stream.resource_path
