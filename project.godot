@@ -12,7 +12,7 @@ config_version=5
 
 config/name="ENSO"
 config/description="A rythm game where the player draws shapes in time with the music."
-config/version="1.1"
+config/version="1.0"
 run/main_scene="uid://c5f051rryjurh"
 config/features=PackedStringArray("4.7", "GL Compatibility")
 config/icon="uid://njbm4iom75t2"

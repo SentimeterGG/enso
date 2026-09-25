@@ -1,0 +1,15 @@
+[gd_scene format=3 uid="uid://c5jtf6aywtkgq"]
+
+[ext_resource type="Script" uid="uid://dlnvaqyted604" path="res://scripts/ui/updater/updater.gd" id="1_gnnjs"]
+
+[node name="updater" type="Control" unique_id=456196311]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_gnnjs")
+
+[node name="HTTPRequest" type="HTTPRequest" parent="." unique_id=711725049]
+use_threads = true

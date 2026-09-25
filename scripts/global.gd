@@ -8,11 +8,6 @@ var save_file_path = "user://ENSO_FILES/"
 # Settings and Main Menu variables.
 var settingsData = SettingsData.new()
 
-# for getting a list of extension
-var image_exts: Array = ResourceLoader.get_recognized_extensions_for_type("Texture2D")
-var video_exts: Array = ResourceLoader.get_recognized_extensions_for_type("VideoStream")
-var audio_exts: Array = ResourceLoader.get_recognized_extensions_for_type("AudioStream")
-
 signal toggle_window
 
 
