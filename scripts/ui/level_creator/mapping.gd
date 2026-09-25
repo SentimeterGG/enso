@@ -1296,13 +1296,7 @@ func _load_song(path: String) -> void:
 	var p := path.strip_edges()
 	if p.is_empty():
 		return
-	if metadata_group == null or not metadata_group.has_method("_load_audio_stream"):
-		push_error("mapping: METADATA group missing _load_audio_stream().")
-		return
-	var stream: AudioStream = metadata_group._load_audio_stream(p)
-	if stream == null:
-		push_error("mapping: could not load audio: " + p)
-		return
+	var stream: AudioStream = Global.load_safely(p)
 	mapping_player.stop()
 	mapping_player.stream_paused = false
 	mapping_player.stream = stream
