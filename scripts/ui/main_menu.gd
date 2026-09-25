@@ -10,14 +10,19 @@ const PULSE_FALLOFF := 0.25
 @onready var draw_manager: Line2D = $draw
 @onready var draw_here_label = $"Draw Here"
 @onready var title = $RB/Title
+@onready var version_label = $Version
+@onready var updater = $updater
 var go_to: GoTo = GoTo.NONE
 var _pulse_tween: Tween = null
 var _current_bpm: float
 var _last_beat: int = -1
 var _current_bpm_start: float
+var app_version = ProjectSettings.get_setting("application/config/version", "1.0.0")
 
 
 func _ready() -> void:
+	version_label.text = app_version
+	updater.check_update(app_version)
 	randomize()
 	VolumePopup.can_popup = true
 	if Global.first_time_playing:
@@ -115,22 +120,6 @@ func _emit_beat() -> void:
 	(
 		tween
 		. tween_property(draw_here_label, "offset_transform_scale", Vector2.ONE, PULSE_FALLOFF)
-		. set_delay(PULSE_FALLOFF * 0.2)
-		. set_ease(Tween.EASE_OUT)
-	)
-	(
-		tween
-		. tween_property(
-			title,
-			"offset_transform_scale",
-			Vector2(target_scale, target_scale),
-			PULSE_FALLOFF * 0.2
-		)
-		. set_ease(Tween.EASE_OUT)
-	)
-	(
-		tween
-		. tween_property(title, "offset_transform_scale", Vector2.ONE, PULSE_FALLOFF)
 		. set_delay(PULSE_FALLOFF * 0.2)
 		. set_ease(Tween.EASE_OUT)
 	)
