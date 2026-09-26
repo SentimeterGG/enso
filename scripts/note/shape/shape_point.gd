@@ -11,5 +11,5 @@ func init(points: PackedVector2Array):
 	line2D.points = points * max_width
 
 
-func _process(_delta: float) -> void:
-	position.x = receptor_x + (hit_time - song_time.call()) * px_per_sec
+func _physics_process(_delta: float) -> void:
+	position.x = lerp(position.x, receptor_x + (hit_time - song_time.call()) * px_per_sec, 0.7)

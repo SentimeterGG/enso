@@ -29,7 +29,7 @@ func _ready() -> void:
 	_base_y = position.y
 	_base_y_ready = true
 
-func _process(_delta: float) -> void:
+func _physics_process(_delta: float) -> void:
 	# lazy capture _base_y if _ready hasn't run yet (spawn sets pos before ready)
 	if not _base_y_ready:
 		_base_y = position.y
@@ -37,7 +37,7 @@ func _process(_delta: float) -> void:
 	# keep scrolling while vibrating via additive offset (no lock)
 	if song_time != null and song_time.is_valid():
 		var base_x: float = receptor_x + (hit_time - song_time.call()) * px_per_sec
-		position.x = base_x + _vibrate_offset.x
+		position.x = lerp(position.x, base_x + _vibrate_offset.x, 0.7)
 		position.y = _base_y + _vibrate_offset.y
 
 	if _pending_free and _is_outside_viewport():
