@@ -2,13 +2,14 @@
 # Main responsibilities: chart loading, music playback, note/shape scheduling.
 # RETURN: synced notes, target shape display and music timing for drawing and judging
 extends Node2D
+class_name gameplay_manager
 
 @export
 var CHART_PATH := "res://levels/Wasurete Yaranai by kessoku band mapped by ENSO Team/chart.enso"
-@onready var draw_manager: Line2D = $draw
-@onready var note_manager: Node2D = $note_manager
+@onready var draw_manager: Line2D = %draw
+@onready var note_manager: Node2D = %note_manager
 @onready var target_shape: Line2D = $target_shape
-@onready var animator: AnimationPlayer = $animator
+@onready var animator: AnimationPlayer = %animator
 @onready var video_stream_player = %VideoStreamPlayer
 @onready var bg_sprite: TextureRect = %BG
 
@@ -135,6 +136,7 @@ func _exit_tree() -> void:
 	Input.set_custom_mouse_cursor(
 		load("res://assets/sprites/UI/crosshair.png"), Input.CURSOR_ARROW, Vector2(21, 21)
 	)
+	BgMusic.enable_loop()
 
 
 func _on_game_over_anim_animation_finished(anim_name: StringName) -> void:

@@ -571,11 +571,18 @@ theme_override_font_sizes/font_size = 11
 text = "100%"
 
 [node name="Circle" type="Label" parent="setting" unique_id=1393450339]
-layout_mode = 0
-offset_left = 373.0
-offset_top = 242.0
-offset_right = 453.0
-offset_bottom = 270.0
+layout_mode = 1
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -266.0
+offset_top = -117.0
+offset_right = -186.0
+offset_bottom = -89.0
+grow_horizontal = 0
+grow_vertical = 0
 size_flags_horizontal = 8
 size_flags_vertical = 8
 theme_override_colors/font_color = Color(1, 0.18400002, 0.04000002, 1)
@@ -586,11 +593,18 @@ horizontal_alignment = 1
 vertical_alignment = 1
 
 [node name="ToExit" type="Label" parent="setting" unique_id=903645198]
-layout_mode = 0
-offset_left = 466.0
-offset_top = 242.0
-offset_right = 600.0
-offset_bottom = 270.0
+layout_mode = 1
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -174.0
+offset_top = -117.0
+offset_right = -40.0
+offset_bottom = -89.0
+grow_horizontal = 0
+grow_vertical = 0
 size_flags_horizontal = 8
 size_flags_vertical = 8
 theme_override_fonts/font = ExtResource("5_ycln1")

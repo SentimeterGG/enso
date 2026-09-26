@@ -1,0 +1,19 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+uid="uid://bqurt2tygaose"
+path="res://.godot/imported/ゲーム【ウマ娘 プリティーダービー】ライブ動画「GIRLS' LEGEND U（特別なグランドライブ）」ゲームサイズVer..mp3-541955995147644267df783d440a0ec9.mp3str"
+
+[deps]
+
+source_file="res://levels/GIRLS' LEGEND U by Uma Musume Pretty Derby Cast mapped by DimasDFAR/ゲーム【ウマ娘 プリティーダービー】ライブ動画「GIRLS' LEGEND U（特別なグランドライブ）」ゲームサイズVer..mp3"
+dest_files=["res://.godot/imported/ゲーム【ウマ娘 プリティーダービー】ライブ動画「GIRLS' LEGEND U（特別なグランドライブ）」ゲームサイズVer..mp3-541955995147644267df783d440a0ec9.mp3str"]
+
+[params]
+
+loop=false
+loop_offset=0
+bpm=0
+beat_count=0
+bar_beats=4

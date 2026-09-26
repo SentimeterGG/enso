@@ -12,6 +12,7 @@ signal toggle_window
 
 
 func _ready():
+	get_window().min_size = Vector2i(640, 360)
 	DirAccess.make_dir_recursive_absolute(save_file_path)
 	load_all_data()
 	DisplayServer.window_set_mode(

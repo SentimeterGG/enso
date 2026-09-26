@@ -57,7 +57,7 @@ var _judged_count: Dictionary = {}
 # owned by the draw-ended flow (real accuracy), never by the auto-finish.
 var _begun: Dictionary = {}
 
-@onready var avg_accuracy_label: Label = $avg_accuracy
+@onready var avg_accuracy_label: Label = %avg_accuracy
 var _combo_label: Label = null
 var _combo_anims: AnimationPlayer = null
 var _perfect_label: Label = null
