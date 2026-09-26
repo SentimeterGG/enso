@@ -1,6 +1,7 @@
 extends Control
 
 @onready var http_request: HTTPRequest = $HTTPRequest
+@onready var notification = %Notification
 var curr_version = null
 
 
@@ -17,8 +18,7 @@ func check_update(current_ver: String):
 func compare(latest_ver: String) -> int:
 	var result := compare_versions(str(curr_version), latest_ver)
 	if result < 0:
-		print("Outdated!")
-		print("current: " + str(curr_version) + ", latest: " + latest_ver)
+		notification.show_message("New Update Found")
 	else:
 		print("Latest Update")
 	return result

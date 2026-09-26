@@ -40,3 +40,8 @@ func show_message(text: String, is_error: bool = false, duration: float = SHOW_S
 	await _tween.finished
 	if my == _gen and is_instance_valid(self):
 		visible = false
+
+
+func _on_button_pressed() -> void:
+	visible = false
+	pass  # Replace with function body.
