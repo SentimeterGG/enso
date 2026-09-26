@@ -11,6 +11,8 @@ extends Node2D
 @onready var receptor = $beat_column/beat_receptor
 @onready var spawner: Node2D = $beat_column/beat_spawner
 
+func _ready() -> void:
+	px_per_sec = Global.settingsData.scroll_speed
 
 func lane_length() -> float:
 	return spawner.position.x - receptor.position.x

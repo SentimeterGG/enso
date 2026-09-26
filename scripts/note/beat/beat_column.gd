@@ -175,7 +175,7 @@ func get_song_time() -> float:
 
 
 func _preroll_sec() -> float:
-	var scene := get_tree().current_scene if get_tree() else null
+	var scene := %game if get_tree() else null
 	if scene != null and scene.has_method("get_preroll_sec"):
 		return float(scene.call("get_preroll_sec"))
 	return 0.0

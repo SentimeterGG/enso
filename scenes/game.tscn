@@ -27,6 +27,7 @@
 [ext_resource type="Texture2D" uid="uid://d2v3ioaco24fq" path="res://assets/sprites/UI/cracked_glass.png" id="24_pl11u"]
 [ext_resource type="Script" uid="uid://jmvij2ax1tfa" path="res://scripts/ui/game_over.gd" id="24_qnb83"]
 [ext_resource type="AudioStream" uid="uid://jq5s2ky3stct" path="res://assets/sound/glass-breakl.mp3" id="25_bhx41"]
+[ext_resource type="VideoStream" uid="uid://cgqijtlaspuc3" path="res://levels/Wasurete Yaranai by kessoku band mapped by ENSO Team/Wasurete.ogv" id="28_sww3w"]
 
 [sub_resource type="Animation" id="Animation_5newe"]
 resource_name = "CountdownAfterPause"
@@ -34,7 +35,7 @@ length = 1.5333333
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
-tracks/0/path = NodePath("UI/COUNTDOWN:text")
+tracks/0/path = NodePath("../UI/COUNTDOWN:text")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
@@ -46,7 +47,7 @@ tracks/0/keys = {
 tracks/1/type = "value"
 tracks/1/imported = false
 tracks/1/enabled = true
-tracks/1/path = NodePath("UI/COUNTDOWN:modulate")
+tracks/1/path = NodePath("../UI/COUNTDOWN:modulate")
 tracks/1/interp = 0
 tracks/1/loop_wrap = true
 tracks/1/keys = {
@@ -86,7 +87,7 @@ tracks/1/keys = {
 tracks/2/type = "value"
 tracks/2/imported = false
 tracks/2/enabled = true
-tracks/2/path = NodePath("UI/COUNTDOWN:text")
+tracks/2/path = NodePath("../UI/COUNTDOWN:text")
 tracks/2/interp = 1
 tracks/2/loop_wrap = true
 tracks/2/keys = {
@@ -98,7 +99,7 @@ tracks/2/keys = {
 tracks/3/type = "value"
 tracks/3/imported = false
 tracks/3/enabled = true
-tracks/3/path = NodePath("UI/COUNTDOWN:modulate")
+tracks/3/path = NodePath("../UI/COUNTDOWN:modulate")
 tracks/3/interp = 1
 tracks/3/loop_wrap = true
 tracks/3/keys = {
@@ -110,7 +111,7 @@ tracks/3/keys = {
 tracks/4/type = "value"
 tracks/4/imported = false
 tracks/4/enabled = true
-tracks/4/path = NodePath("UI/ComboCounter:modulate")
+tracks/4/path = NodePath("../UI/ComboCounter:modulate")
 tracks/4/interp = 1
 tracks/4/loop_wrap = true
 tracks/4/keys = {
@@ -122,7 +123,7 @@ tracks/4/keys = {
 tracks/5/type = "value"
 tracks/5/imported = false
 tracks/5/enabled = true
-tracks/5/path = NodePath("UI/HitCounter:modulate")
+tracks/5/path = NodePath("../UI/HitCounter:modulate")
 tracks/5/interp = 1
 tracks/5/loop_wrap = true
 tracks/5/keys = {
@@ -134,7 +135,7 @@ tracks/5/keys = {
 tracks/6/type = "value"
 tracks/6/imported = false
 tracks/6/enabled = true
-tracks/6/path = NodePath("UI/HealthBar:modulate")
+tracks/6/path = NodePath("../UI/HealthBar:modulate")
 tracks/6/interp = 1
 tracks/6/loop_wrap = true
 tracks/6/keys = {
@@ -146,7 +147,7 @@ tracks/6/keys = {
 tracks/7/type = "value"
 tracks/7/imported = false
 tracks/7/enabled = true
-tracks/7/path = NodePath("UI/HealthBar:offset_transform_position")
+tracks/7/path = NodePath("../UI/HealthBar:offset_transform_position")
 tracks/7/interp = 1
 tracks/7/loop_wrap = true
 tracks/7/keys = {
@@ -174,7 +175,7 @@ tracks/0/keys = {
 tracks/1/type = "value"
 tracks/1/imported = false
 tracks/1/enabled = true
-tracks/1/path = NodePath("UI/ComboCounter:modulate")
+tracks/1/path = NodePath("../UI/ComboCounter:modulate")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/keys = {
@@ -186,7 +187,7 @@ tracks/1/keys = {
 tracks/2/type = "value"
 tracks/2/imported = false
 tracks/2/enabled = true
-tracks/2/path = NodePath("UI/HitCounter:modulate")
+tracks/2/path = NodePath("../UI/HitCounter:modulate")
 tracks/2/interp = 1
 tracks/2/loop_wrap = true
 tracks/2/keys = {
@@ -210,7 +211,7 @@ tracks/3/keys = {
 tracks/4/type = "value"
 tracks/4/imported = false
 tracks/4/enabled = true
-tracks/4/path = NodePath("Mio:modulate")
+tracks/4/path = NodePath("../UI/RB/Mio:modulate")
 tracks/4/interp = 1
 tracks/4/loop_wrap = true
 tracks/4/keys = {
@@ -237,7 +238,7 @@ tracks/0/keys = {
 tracks/1/type = "value"
 tracks/1/imported = false
 tracks/1/enabled = true
-tracks/1/path = NodePath("UI/COUNTDOWN:text")
+tracks/1/path = NodePath("../UI/COUNTDOWN:text")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/keys = {
@@ -249,7 +250,7 @@ tracks/1/keys = {
 tracks/2/type = "value"
 tracks/2/imported = false
 tracks/2/enabled = true
-tracks/2/path = NodePath("UI/COUNTDOWN:modulate")
+tracks/2/path = NodePath("../UI/COUNTDOWN:modulate")
 tracks/2/interp = 1
 tracks/2/loop_wrap = true
 tracks/2/keys = {
@@ -261,7 +262,7 @@ tracks/2/keys = {
 tracks/3/type = "value"
 tracks/3/imported = false
 tracks/3/enabled = true
-tracks/3/path = NodePath("UI/ComboCounter:modulate")
+tracks/3/path = NodePath("../UI/ComboCounter:modulate")
 tracks/3/interp = 1
 tracks/3/loop_wrap = true
 tracks/3/keys = {
@@ -273,7 +274,7 @@ tracks/3/keys = {
 tracks/4/type = "value"
 tracks/4/imported = false
 tracks/4/enabled = true
-tracks/4/path = NodePath("UI/HitCounter:modulate")
+tracks/4/path = NodePath("../UI/HitCounter:modulate")
 tracks/4/interp = 1
 tracks/4/loop_wrap = true
 tracks/4/keys = {
@@ -285,7 +286,7 @@ tracks/4/keys = {
 tracks/5/type = "value"
 tracks/5/imported = false
 tracks/5/enabled = true
-tracks/5/path = NodePath("TransOffset/Background:modulate")
+tracks/5/path = NodePath("../TransOffset/Background:modulate")
 tracks/5/interp = 1
 tracks/5/loop_wrap = true
 tracks/5/keys = {
@@ -309,7 +310,7 @@ tracks/6/keys = {
 tracks/7/type = "value"
 tracks/7/imported = false
 tracks/7/enabled = true
-tracks/7/path = NodePath("Mio:modulate")
+tracks/7/path = NodePath("../UI/RB/Mio:modulate")
 tracks/7/interp = 1
 tracks/7/loop_wrap = true
 tracks/7/keys = {
@@ -321,7 +322,7 @@ tracks/7/keys = {
 tracks/8/type = "value"
 tracks/8/imported = false
 tracks/8/enabled = true
-tracks/8/path = NodePath("UI/HealthBar:offset_transform_position")
+tracks/8/path = NodePath("../UI/HealthBar:offset_transform_position")
 tracks/8/interp = 1
 tracks/8/loop_wrap = true
 tracks/8/keys = {
@@ -336,7 +337,7 @@ resource_name = "bg_fade"
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
-tracks/0/path = NodePath("TransOffset/Background:modulate")
+tracks/0/path = NodePath("../TransOffset/Background:modulate")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
@@ -353,6 +354,104 @@ _data = {
 &"Outro": SubResource("Animation_bt5mj"),
 &"RESET": SubResource("Animation_vtaks"),
 &"bg_fade": SubResource("Animation_1kice")
+}
+
+[sub_resource type="Resource" id="Resource_ir15t"]
+script = ExtResource("13_trtic")
+base_tolerance = 0.35000000000000003
+base_line_tolerance = 0.4
+base_open_tolerance = 0.43
+base_open_unit_tolerance = 0.75
+metadata/_custom_type_script = "uid://cunb8lmxfnigo"
+
+[sub_resource type="Animation" id="Animation_rysoc"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:theme_override_font_sizes/font_size")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [34]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath(".:self_modulate")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 1, 1, 1)]
+}
+
+[sub_resource type="Animation" id="Animation_ssvqc"]
+resource_name = "hit_anim"
+length = 0.1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:theme_override_font_sizes/font_size")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.1),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [45, 34]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath(".:self_modulate")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 1, 1, 1)]
+}
+
+[sub_resource type="Animation" id="Animation_264po"]
+resource_name = "miss_anim"
+length = 0.1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:theme_override_font_sizes/font_size")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.1),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [45, 34]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath(".:self_modulate")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.1),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Color(1, 0, 0, 1), Color(1, 1, 1, 1)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_264po"]
+_data = {
+&"RESET": SubResource("Animation_rysoc"),
+&"hit_anim": SubResource("Animation_ssvqc"),
+&"miss_anim": SubResource("Animation_264po")
 }
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_pl11u"]
@@ -774,26 +873,26 @@ length = 0.001
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
-tracks/0/path = NodePath(".:position")
+tracks/0/path = NodePath(".:modulate")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
 "times": PackedFloat32Array(0),
 "transitions": PackedFloat32Array(1),
 "update": 0,
-"values": [Vector2(573.99994, 281)]
+"values": [Color(1, 1, 1, 0.5647059)]
 }
 tracks/1/type = "value"
 tracks/1/imported = false
 tracks/1/enabled = true
-tracks/1/path = NodePath(".:modulate")
+tracks/1/path = NodePath(".:position")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/keys = {
 "times": PackedFloat32Array(0),
 "transitions": PackedFloat32Array(1),
 "update": 0,
-"values": [Color(1, 1, 1, 0.5647059)]
+"values": [Vector2(129, 28.999998)]
 }
 
 [sub_resource type="Animation" id="Animation_3x338"]
@@ -802,130 +901,32 @@ length = 0.13333334
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
-tracks/0/path = NodePath(".:position")
+tracks/0/path = NodePath(".:modulate")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
-"times": PackedFloat32Array(0, 0.13333334),
-"transitions": PackedFloat32Array(1, 1),
-"update": 0,
-"values": [Vector2(574, 297.655), Vector2(573.99994, 281)]
-}
-tracks/1/type = "value"
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/path = NodePath(".:modulate")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/keys = {
 "times": PackedFloat32Array(0, 0.06666667),
 "transitions": PackedFloat32Array(1, 1),
 "update": 0,
 "values": [Color(1, 1, 1, 0.5647059), Color(1, 1, 1, 1)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath(".:position")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.13333334),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector2(129, 44), Vector2(129, 28.999998)]
 }
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_1yg85"]
 _data = {
 &"RESET": SubResource("Animation_753oq"),
 &"on_hit_anim": SubResource("Animation_3x338")
-}
-
-[sub_resource type="Resource" id="Resource_ir15t"]
-script = ExtResource("13_trtic")
-base_tolerance = 0.35000000000000003
-base_line_tolerance = 0.4
-base_open_tolerance = 0.43
-base_open_unit_tolerance = 0.75
-metadata/_custom_type_script = "uid://cunb8lmxfnigo"
-
-[sub_resource type="Animation" id="Animation_rysoc"]
-length = 0.001
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath(".:theme_override_font_sizes/font_size")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 1,
-"values": [34]
-}
-tracks/1/type = "value"
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/path = NodePath(".:self_modulate")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 0,
-"values": [Color(1, 1, 1, 1)]
-}
-
-[sub_resource type="Animation" id="Animation_ssvqc"]
-resource_name = "hit_anim"
-length = 0.1
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath(".:theme_override_font_sizes/font_size")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0, 0.1),
-"transitions": PackedFloat32Array(1, 1),
-"update": 0,
-"values": [45, 34]
-}
-tracks/1/type = "value"
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/path = NodePath(".:self_modulate")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 0,
-"values": [Color(1, 1, 1, 1)]
-}
-
-[sub_resource type="Animation" id="Animation_264po"]
-resource_name = "miss_anim"
-length = 0.1
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath(".:theme_override_font_sizes/font_size")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0, 0.1),
-"transitions": PackedFloat32Array(1, 1),
-"update": 0,
-"values": [45, 34]
-}
-tracks/1/type = "value"
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/path = NodePath(".:self_modulate")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/keys = {
-"times": PackedFloat32Array(0, 0.1),
-"transitions": PackedFloat32Array(1, 1),
-"update": 0,
-"values": [Color(1, 0, 0, 1), Color(1, 1, 1, 1)]
-}
-
-[sub_resource type="AnimationLibrary" id="AnimationLibrary_264po"]
-_data = {
-&"RESET": SubResource("Animation_rysoc"),
-&"hit_anim": SubResource("Animation_ssvqc"),
-&"miss_anim": SubResource("Animation_264po")
 }
 
 [sub_resource type="Animation" id="Animation_qnb83"]
@@ -1013,8 +1014,89 @@ _data = {
 &"show": SubResource("Animation_bhx41")
 }
 
-[node name="game" type="Node2D" unique_id=1374663414]
+[node name="gamecanvas" type="CanvasLayer" unique_id=989436332]
+
+[node name="game" type="Node2D" parent="." unique_id=1374663414]
+unique_name_in_owner = true
 script = ExtResource("1_uwrxv")
+
+[node name="animator" type="AnimationPlayer" parent="game" unique_id=751108128]
+unique_name_in_owner = true
+process_mode = 3
+libraries/ = SubResource("AnimationLibrary_vtaks")
+
+[node name="target_shape" type="Line2D" parent="game" unique_id=129393694]
+process_mode = 1
+self_modulate = Color(1, 1, 1, 0)
+position = Vector2(295, 155)
+width = 5.0
+script = ExtResource("3_gee14")
+
+[node name="accuracy_manager" type="Node2D" parent="game/target_shape" unique_id=1262186888]
+unique_name_in_owner = true
+process_mode = 1
+modulate = Color(1, 1, 1, 0)
+position = Vector2(308, 172)
+script = ExtResource("2_lbhrr")
+
+[node name="judge_spawner" type="Node2D" parent="game/target_shape/accuracy_manager" unique_id=1982392806]
+unique_name_in_owner = true
+position = Vector2(-537, -125)
+script = ExtResource("3_rysoc")
+
+[node name="drawing_judge_spawner" type="Node2D" parent="game/target_shape/accuracy_manager" unique_id=2092367230]
+unique_name_in_owner = true
+position = Vector2(-97, -121)
+script = ExtResource("3_rysoc")
+
+[node name="MissSound" type="AudioStreamPlayer" parent="game/target_shape/accuracy_manager" unique_id=1275016646]
+stream = ExtResource("7_37s47")
+bus = &"Effect"
+
+[node name="note_manager" type="Node2D" parent="game" unique_id=1684941741]
+unique_name_in_owner = true
+process_mode = 1
+modulate = Color(1, 1, 1, 0)
+position = Vector2(48, 48)
+script = ExtResource("5_p57ef")
+
+[node name="beat_column" type="Node2D" parent="game/note_manager" unique_id=1656757356]
+script = ExtResource("6_u5sy4")
+
+[node name="beat_receptor" type="Sprite2D" parent="game/note_manager/beat_column" unique_id=1856949370]
+texture_filter = 1
+position = Vector2(16, 16)
+scale = Vector2(3, 3)
+texture = ExtResource("7_ca42v")
+
+[node name="beat_receptor_clicked" type="Sprite2D" parent="game/note_manager/beat_column" unique_id=659919077]
+texture_filter = 1
+position = Vector2(16, 16)
+scale = Vector2(3, 3)
+texture = ExtResource("9_rysoc")
+
+[node name="beat_spawner" type="Node2D" parent="game/note_manager/beat_column" unique_id=1101375677]
+position = Vector2(664, 16)
+
+[node name="shape_column" type="Node2D" parent="game/note_manager" unique_id=1719142597]
+unique_name_in_owner = true
+position = Vector2(0, 58)
+script = ExtResource("9_kvuet")
+
+[node name="shape_spawner" type="Node2D" parent="game/note_manager/shape_column" unique_id=1877341765]
+position = Vector2(664, 16)
+
+[node name="draw" parent="game" unique_id=2118743800 node_paths=PackedStringArray("target_shape") instance=ExtResource("10_vtaks")]
+unique_name_in_owner = true
+process_mode = 1
+joint_mode = 0
+begin_cap_mode = 1
+end_cap_mode = 1
+weight = 0.8
+min_direction_sample = 2.0
+direction_threshold_degrees = 45.0
+recognizer = SubResource("Resource_ir15t")
+target_shape = NodePath("../target_shape")
 
 [node name="TransOffset" type="Control" parent="." unique_id=532337667]
 unique_name_in_owner = true
@@ -1025,6 +1107,8 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
 mouse_filter = 2
 
 [node name="Background" type="Control" parent="TransOffset" unique_id=1859568633]
@@ -1033,8 +1117,6 @@ layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_right = 640.0
-offset_bottom = 360.0
 grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 2
@@ -1050,131 +1132,35 @@ grow_vertical = 2
 mouse_filter = 2
 texture = ExtResource("2_1kice")
 expand_mode = 3
+stretch_mode = 6
 
 [node name="AspectRatioContainer" type="AspectRatioContainer" parent="TransOffset/Background" unique_id=1679564900]
-layout_mode = 0
-offset_right = 640.0
-offset_bottom = 360.0
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
 ratio = 1.78
+stretch_mode = 3
 
 [node name="VideoStreamPlayer" type="VideoStreamPlayer" parent="TransOffset/Background/AspectRatioContainer" unique_id=1422143938]
 unique_name_in_owner = true
 layout_mode = 2
 mouse_filter = 2
+stream = ExtResource("28_sww3w")
 volume_db = -80.0
 expand = true
-metadata/_edit_use_anchors_ = true
-
-[node name="animator" type="AnimationPlayer" parent="." unique_id=751108128]
-unique_name_in_owner = true
-process_mode = 3
-libraries/ = SubResource("AnimationLibrary_vtaks")
-
-[node name="target_shape" type="Line2D" parent="." unique_id=129393694]
-process_mode = 1
-self_modulate = Color(1, 1, 1, 0)
-position = Vector2(295, 155)
-width = 5.0
-script = ExtResource("3_gee14")
-
-[node name="accuracy_manager" type="Node2D" parent="target_shape" unique_id=1262186888]
-unique_name_in_owner = true
-process_mode = 1
-modulate = Color(1, 1, 1, 0)
-position = Vector2(308, 172)
-script = ExtResource("2_lbhrr")
-
-[node name="judge_spawner" type="Node2D" parent="target_shape/accuracy_manager" unique_id=1982392806]
-unique_name_in_owner = true
-position = Vector2(-537, -125)
-script = ExtResource("3_rysoc")
-
-[node name="drawing_judge_spawner" type="Node2D" parent="target_shape/accuracy_manager" unique_id=2092367230]
-unique_name_in_owner = true
-position = Vector2(-97, -121)
-script = ExtResource("3_rysoc")
-
-[node name="avg_accuracy" type="Label" parent="target_shape/accuracy_manager" unique_id=906467398]
-offset_top = -96.0
-offset_right = 75.0
-offset_bottom = -73.0
-offset_transform_enabled = true
-offset_transform_position_ratio = Vector2(-1, -1)
-theme = ExtResource("9_0tnpc")
-text = "100.00%"
-horizontal_alignment = 2
-
-[node name="MissSound" type="AudioStreamPlayer" parent="target_shape/accuracy_manager" unique_id=1275016646]
-stream = ExtResource("7_37s47")
-bus = &"Effect"
-
-[node name="note_manager" type="Node2D" parent="." unique_id=1684941741]
-unique_name_in_owner = true
-process_mode = 1
-modulate = Color(1, 1, 1, 0)
-position = Vector2(48, 48)
-script = ExtResource("5_p57ef")
-
-[node name="beat_column" type="Node2D" parent="note_manager" unique_id=1656757356]
-script = ExtResource("6_u5sy4")
-
-[node name="beat_receptor" type="Sprite2D" parent="note_manager/beat_column" unique_id=1856949370]
-texture_filter = 1
-position = Vector2(16, 16)
-scale = Vector2(3, 3)
-texture = ExtResource("7_ca42v")
-
-[node name="beat_receptor_clicked" type="Sprite2D" parent="note_manager/beat_column" unique_id=659919077]
-texture_filter = 1
-position = Vector2(16, 16)
-scale = Vector2(3, 3)
-texture = ExtResource("9_rysoc")
-
-[node name="beat_spawner" type="Node2D" parent="note_manager/beat_column" unique_id=1101375677]
-position = Vector2(664, 16)
-
-[node name="shape_column" type="Node2D" parent="note_manager" unique_id=1719142597]
-unique_name_in_owner = true
-position = Vector2(0, 58)
-script = ExtResource("9_kvuet")
-
-[node name="shape_spawner" type="Node2D" parent="note_manager/shape_column" unique_id=1877341765]
-position = Vector2(664, 16)
-
-[node name="Mio" type="AnimatedSprite2D" parent="." unique_id=703568689]
-unique_name_in_owner = true
-process_mode = 1
-modulate = Color(1, 1, 1, 0.5647059)
-position = Vector2(573.99994, 281)
-scale = Vector2(2.0277777, 2.0277777)
-sprite_frames = SubResource("SpriteFrames_ca42v")
-animation = &"perfect"
-autoplay = "idle"
-script = ExtResource("11_dinhu")
-
-[node name="AnimationPlayer" type="AnimationPlayer" parent="Mio" unique_id=1864660847]
-libraries/ = SubResource("AnimationLibrary_1yg85")
-
-[node name="draw" parent="." unique_id=2118743800 node_paths=PackedStringArray("target_shape") instance=ExtResource("10_vtaks")]
-unique_name_in_owner = true
-process_mode = 1
-joint_mode = 0
-begin_cap_mode = 1
-end_cap_mode = 1
-weight = 0.8
-min_direction_sample = 2.0
-direction_threshold_degrees = 45.0
-recognizer = SubResource("Resource_ir15t")
-target_shape = NodePath("../target_shape")
 
 [node name="UI" type="Control" parent="." unique_id=1699503938]
 layout_mode = 3
-anchors_preset = 0
-offset_right = 640.0
-offset_bottom = 360.0
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
 
 [node name="HealthBar" type="ColorRect" parent="UI" unique_id=2084511347]
-modulate = Color(1, 1, 1, 0)
 layout_mode = 1
 anchors_preset = 7
 anchor_left = 0.5
@@ -1211,12 +1197,10 @@ layout_mode = 1
 [node name="HitCounter" type="Control" parent="UI" unique_id=324871254]
 modulate = Color(1, 1, 1, 0)
 layout_mode = 1
-anchors_preset = 4
-anchor_top = 0.5
-anchor_bottom = 0.5
-offset_top = 106.0
-offset_bottom = 106.0
-grow_vertical = 2
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+grow_vertical = 0
 mouse_filter = 2
 
 [node name="PerfectCount" type="Label" parent="UI/HitCounter" unique_id=687221423]
@@ -1226,9 +1210,9 @@ anchors_preset = 4
 anchor_top = 0.5
 anchor_bottom = 0.5
 offset_left = 43.0
-offset_top = -36.0
+offset_top = -110.0
 offset_right = 117.0
-offset_bottom = -20.0
+offset_bottom = -94.0
 grow_vertical = 2
 theme = ExtResource("9_0tnpc")
 theme_override_font_sizes/font_size = 11
@@ -1242,9 +1226,9 @@ anchors_preset = 4
 anchor_top = 0.5
 anchor_bottom = 0.5
 offset_left = 43.0
-offset_top = -20.0
+offset_top = -94.0
 offset_right = 83.0
-offset_bottom = -3.0
+offset_bottom = -77.0
 grow_vertical = 2
 theme = ExtResource("9_0tnpc")
 theme_override_font_sizes/font_size = 12
@@ -1258,9 +1242,9 @@ anchors_preset = 4
 anchor_top = 0.5
 anchor_bottom = 0.5
 offset_left = 43.0
-offset_top = -2.0
+offset_top = -76.0
 offset_right = 91.0
-offset_bottom = 15.0
+offset_bottom = -59.0
 grow_vertical = 2
 theme = ExtResource("9_0tnpc")
 theme_override_font_sizes/font_size = 12
@@ -1274,9 +1258,9 @@ anchors_preset = 4
 anchor_top = 0.5
 anchor_bottom = 0.5
 offset_left = 43.0
-offset_top = 15.0
+offset_top = -59.0
 offset_right = 99.0
-offset_bottom = 32.0
+offset_bottom = -42.0
 grow_vertical = 2
 theme = ExtResource("9_0tnpc")
 theme_override_font_sizes/font_size = 12
@@ -1351,6 +1335,30 @@ offset_transform_scale = Vector2(1.5, 1.5)
 offset_transform_pivot_ratio = Vector2(1, 1)
 texture = ExtResource("10_kvpfn")
 flip_h = true
+
+[node name="Mio" type="AnimatedSprite2D" parent="UI/RB" unique_id=703568689]
+unique_name_in_owner = true
+process_mode = 1
+modulate = Color(1, 1, 1, 0.5647059)
+position = Vector2(129, 28.999998)
+scale = Vector2(2.0277777, 2.0277777)
+sprite_frames = SubResource("SpriteFrames_ca42v")
+animation = &"idle"
+autoplay = "idle"
+script = ExtResource("11_dinhu")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="UI/RB/Mio" unique_id=1864660847]
+libraries/ = SubResource("AnimationLibrary_1yg85")
+
+[node name="avg_accuracy" type="Label" parent="UI/RB" unique_id=906467398]
+unique_name_in_owner = true
+layout_mode = 2
+offset_transform_enabled = true
+offset_transform_position = Vector2(47.53, -68.25)
+theme = ExtResource("9_0tnpc")
+text = "100.00%"
+horizontal_alignment = 1
+vertical_alignment = 1
 
 [node name="LB" type="MarginContainer" parent="UI" unique_id=884428955]
 layout_mode = 1
@@ -1433,6 +1441,8 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 texture = ExtResource("24_pl11u")
+expand_mode = 3
+stretch_mode = 6
 
 [node name="GlassCrackSFX" type="AudioStreamPlayer" parent="UI/Game Over" unique_id=1160935831]
 stream = ExtResource("25_bhx41")
@@ -1454,8 +1464,11 @@ layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
+offset_top = -1.0
+offset_bottom = -1.0
 grow_horizontal = 2
 grow_vertical = 2
+mouse_filter = 2
 color = Color(0, 0, 0, 0.8235294)
 
 [node name="VBoxContainer2" type="VBoxContainer" parent="UI/Game Over/Menu" unique_id=2067654694]
@@ -1542,17 +1555,17 @@ layout_mode = 2
 theme = ExtResource("9_0tnpc")
 text = "QUIT"
 
-[connection signal="animation_finished" from="animator" to="." method="_on_animator_animation_finished"]
-[connection signal="animation_finished" from="animator" to="UI/PauseScreen" method="_on_animator_animation_finished"]
-[connection signal="bad_draw" from="target_shape/accuracy_manager" to="note_manager/beat_column" method="_on_accuracy_manager_bad_draw"]
-[connection signal="beat_hit" from="note_manager/beat_column" to="target_shape/accuracy_manager/judge_spawner" method="_on_beat_column_beat_hit"]
-[connection signal="animation_finished" from="Mio" to="Mio" method="_on_animation_finished"]
-[connection signal="draw_direction_changes" from="draw" to="note_manager/beat_column" method="_on_draw_direction_changes"]
-[connection signal="draw_ended" from="draw" to="target_shape/accuracy_manager" method="_on_draw_ended"]
-[connection signal="draw_ended" from="draw" to="note_manager/beat_column" method="_on_draw_draw_ended"]
-[connection signal="draw_started" from="draw" to="note_manager/beat_column" method="_on_draw_started"]
-[connection signal="shape_accuracy_ready" from="draw" to="target_shape/accuracy_manager" method="_on_draw_shape_accuracy_ready"]
+[connection signal="animation_finished" from="game/animator" to="game" method="_on_animator_animation_finished"]
+[connection signal="animation_finished" from="game/animator" to="UI/PauseScreen" method="_on_animator_animation_finished"]
+[connection signal="bad_draw" from="game/target_shape/accuracy_manager" to="game/note_manager/beat_column" method="_on_accuracy_manager_bad_draw"]
+[connection signal="beat_hit" from="game/note_manager/beat_column" to="game/target_shape/accuracy_manager/judge_spawner" method="_on_beat_column_beat_hit"]
+[connection signal="draw_direction_changes" from="game/draw" to="game/note_manager/beat_column" method="_on_draw_direction_changes"]
+[connection signal="draw_ended" from="game/draw" to="game/target_shape/accuracy_manager" method="_on_draw_ended"]
+[connection signal="draw_ended" from="game/draw" to="game/note_manager/beat_column" method="_on_draw_draw_ended"]
+[connection signal="draw_started" from="game/draw" to="game/note_manager/beat_column" method="_on_draw_started"]
+[connection signal="shape_accuracy_ready" from="game/draw" to="game/target_shape/accuracy_manager" method="_on_draw_shape_accuracy_ready"]
 [connection signal="health_depleted" from="UI/HealthBar" to="UI/Game Over" method="_on_health_bar_health_depleted"]
+[connection signal="animation_finished" from="UI/RB/Mio" to="UI/RB/Mio" method="_on_animation_finished"]
 [connection signal="pressed" from="UI/Game Over/Menu/VBoxContainer2/VBoxContainer/Restart" to="UI/Game Over" method="_on_restart_pressed"]
 [connection signal="pressed" from="UI/Game Over/Menu/VBoxContainer2/VBoxContainer/Quit" to="UI/Game Over" method="_on_quit_pressed"]
 [connection signal="pressed" from="UI/PauseScreen/VBoxContainer/Continue" to="UI/PauseScreen" method="_on_continue_pressed"]
