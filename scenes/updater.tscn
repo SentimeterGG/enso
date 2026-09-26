@@ -3,6 +3,7 @@
 [ext_resource type="Script" uid="uid://dlnvaqyted604" path="res://scripts/ui/updater/updater.gd" id="1_gnnjs"]
 
 [node name="updater" type="Control" unique_id=456196311]
+visible = false
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0

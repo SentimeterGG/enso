@@ -18,6 +18,8 @@ func compare(latest_ver: String):
 	if curr_version != latest_ver:
 		print("Outdated!")
 		print("current: " + curr_version + ", latest: " + latest_ver)
+	else:
+		print("Latest Update")
 		pass
 
 
