@@ -168,21 +168,21 @@ func _on_draw_started() -> void:
 func get_song_time() -> float:
 	if BgMusic.playing:
 		return BgMusic.get_playback_position() + _preroll_sec()
-	var scene := get_tree().current_scene if get_tree() else null
+	var scene := %game
 	if scene != null and scene.has_method("get_virtual_song_time"):
 		return float(scene.call("get_virtual_song_time"))
 	return 0.0
 
 
 func _preroll_sec() -> float:
-	var scene := %game if get_tree() else null
+	var scene := %game
 	if scene != null and scene.has_method("get_preroll_sec"):
 		return float(scene.call("get_preroll_sec"))
 	return 0.0
 
 
 func _is_blocked() -> bool:
-	var scene := get_tree().current_scene if get_tree() else null
+	var scene := %game
 	if scene != null and scene.has_method("is_preroll_silence"):
 		return bool(scene.call("is_preroll_silence"))
 	return false
