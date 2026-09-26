@@ -14,5 +14,6 @@ script = ExtResource("1_gnnjs")
 
 [node name="HTTPRequest" type="HTTPRequest" parent="." unique_id=711725049]
 use_threads = true
+timeout = 10.0
 
 [connection signal="request_completed" from="HTTPRequest" to="." method="_on_http_request_request_completed"]
