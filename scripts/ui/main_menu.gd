@@ -7,11 +7,12 @@ extends Control
 enum GoTo { NONE, PLAY, SETTINGS, EDITOR }
 const PULSE_STRENGTH := 0.05
 const PULSE_FALLOFF := 0.25
-@onready var draw_manager: Line2D = $draw
-@onready var draw_here_label = $"Draw Here"
-@onready var title = $RB/Title
-@onready var version_label = $Version
-@onready var updater = $updater
+@onready var draw_manager: Line2D = %draw
+@onready var draw_here_label = %"Draw Here"
+@onready var title = %Title
+@onready var version_label = %Version
+@onready var updater = %updater
+@onready var bg: TextureRect = $MainMenuLayer/BG
 var go_to: GoTo = GoTo.NONE
 var _pulse_tween: Tween = null
 var _current_bpm: float
@@ -19,11 +20,22 @@ var _last_beat: int = -1
 var _current_bpm_start: float
 var app_version = ProjectSettings.get_setting("application/config/version", "1.0.0")
 
+var mouse_hovered: bool = false
+
+var BG_Image: Array[String] = [
+	"res://assets/sprites/menu_bg/bg2.png",
+	"res://assets/sprites/menu_bg/ShapesBG.png",
+	
+]
+
+var BG_path: String
 
 func _ready() -> void:
+	randomize()
+	BG_path = BG_Image.pick_random()
+	bg.texture = load(BG_path)
 	version_label.text = app_version
 	updater.check_update(app_version)
-	randomize()
 	VolumePopup.can_popup = true
 	if Global.first_time_playing:
 		var random_music = Global.choose_random_chart()
@@ -43,16 +55,17 @@ func _ready() -> void:
 		else:
 			push_warning("main_menu: no charts available for random pick.")
 		Global.first_time_playing = false
-		$Transition.play("first_time_opening")
+		%Transition.play("first_time_opening")
 	else:
-		$Transition.play("Opening")
+		%Transition.play("Opening")
 	draw_manager.start()
 
 
 func _physics_process(_delta: float) -> void:
 	# Guard Rail
-	if _current_bpm <= 0.0 or draw_here_label == null or title == null:
-		return
+	#print(mouse_hovered)
+	#if _current_bpm <= 0.0 or draw_here_label == null or title == null:
+		#return
 	if BgMusic == null or not BgMusic.playing:
 		return
 	var beat_duration := 1.0 / _current_bpm
@@ -62,7 +75,8 @@ func _physics_process(_delta: float) -> void:
 	var current_beat := int(audio_time / beat_duration)
 	if current_beat != _last_beat and current_beat >= 0:
 		_last_beat = current_beat
-		_emit_beat()
+		if mouse_hovered:
+			_emit_beat()
 
 
 func _on_transition_animation_finished(anim_name: StringName) -> void:
@@ -86,15 +100,15 @@ func _on_draw_guessed_shape(shape: String) -> void:
 	match shape:
 		"circle":
 			go_to = GoTo.PLAY
-			$Transition.play("Out")
+			%Transition.play("Out")
 		"line":
 			go_to = GoTo.SETTINGS
-			$Transition.play("Out")
+			%Transition.play("Out")
 		"square":
 			go_to = GoTo.EDITOR
-			$Transition.play("Out")
+			%Transition.play("Out")
 		"exit":
-			$Transition.play("Exit Game")
+			%Transition.play("Exit Game")
 			BgMusic.FADE_DURATION = 1.6
 			BgMusic.change_song(null)
 
@@ -124,3 +138,11 @@ func _emit_beat() -> void:
 		. set_ease(Tween.EASE_OUT)
 	)
 	_pulse_tween = tween
+
+
+func _on_draw_here_mouse_entered() -> void:
+	mouse_hovered = true
+
+
+func _on_draw_here_mouse_exited() -> void:
+	mouse_hovered = false

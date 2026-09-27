@@ -2,6 +2,7 @@
 
 [ext_resource type="Script" uid="uid://cpj4fntxrhqg7" path="res://scripts/ui/level_selector/level_selector.gd" id="1_2ec5i"]
 [ext_resource type="Texture2D" uid="uid://b3v8a03h3ikfs" path="res://assets/sprites/UI/corner.png" id="1_aeu7d"]
+[ext_resource type="Script" uid="uid://cgkyyr4bji6o" path="res://scripts/ui/menu_background.gd" id="2_f20t4"]
 [ext_resource type="FontFile" uid="uid://bprqivnp1xsie" path="res://assets/fonts/ttf/PixelCode-Medium.ttf" id="2_gkmvm"]
 [ext_resource type="Theme" uid="uid://cpocn8agag6ib" path="res://resources/theme/Theme.tres" id="3_rqfkl"]
 [ext_resource type="Texture2D" uid="uid://sqv5pjrdcpvd" path="res://assets/sprites/UI/shape/play.png" id="3_vj03c"]
@@ -280,6 +281,7 @@ script = ExtResource("1_2ec5i")
 [node name="PreviewBG" type="TextureRect" parent="." unique_id=2090799443]
 unique_name_in_owner = true
 self_modulate = Color(1, 1, 1, 0.22800002)
+texture_filter = 2
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -288,6 +290,7 @@ grow_horizontal = 2
 grow_vertical = 2
 expand_mode = 3
 stretch_mode = 6
+script = ExtResource("2_f20t4")
 
 [node name="RB" type="MarginContainer" parent="." unique_id=1066160453]
 layout_mode = 1
