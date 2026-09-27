@@ -1,0 +1,19 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+uid="uid://cy4ic6n52hqtd"
+path="res://.godot/imported/Machine Love (feat. Kasane Teto) Fixed.mp3-d1ea6102bc377ed735cec2f52b548ed7.mp3str"
+
+[deps]
+
+source_file="res://levels/Machine Love (feat. Kasane Teto) by Jamie Paige mapped by DimasDFAR/Machine Love (feat. Kasane Teto) Fixed.mp3"
+dest_files=["res://.godot/imported/Machine Love (feat. Kasane Teto) Fixed.mp3-d1ea6102bc377ed735cec2f52b548ed7.mp3str"]
+
+[params]
+
+loop=false
+loop_offset=0
+bpm=0
+beat_count=0
+bar_beats=4
