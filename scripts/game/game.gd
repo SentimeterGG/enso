@@ -51,9 +51,9 @@ func _on_animator_animation_finished(anim_name: StringName) -> void:
 		target_shape.clear_points()
 		draw_manager.start()
 		BgMusic.connect("finished", _on_bg_music_finished)
-		accuracy_manager.refresh_od()
 		accuracy_manager.reset()
-		var hb := get_node_or_null("UI/HealthBar")
+		accuracy_manager.get_od()
+		var hb := get_node_or_null("UI/health_bar")
 		if hb != null and hb.has_method("reset_health"):
 			hb.reset_health()
 		note_manager._start()

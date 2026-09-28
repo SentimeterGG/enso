@@ -111,36 +111,36 @@ tracks/3/keys = {
 tracks/4/type = "value"
 tracks/4/imported = false
 tracks/4/enabled = true
-tracks/4/path = NodePath("../UI/HealthBar:modulate")
+tracks/4/path = NodePath("target_shape:modulate")
 tracks/4/interp = 1
 tracks/4/loop_wrap = true
 tracks/4/keys = {
-"times": PackedFloat32Array(2.1333332, 2.9333334),
-"transitions": PackedFloat32Array(1, 1),
+"times": PackedFloat32Array(1.8333334, 2.5999997),
+"transitions": PackedFloat32Array(0.18, 0.18),
 "update": 0,
 "values": [Color(1, 1, 1, 0), Color(1, 1, 1, 1)]
 }
 tracks/5/type = "value"
 tracks/5/imported = false
 tracks/5/enabled = true
-tracks/5/path = NodePath("../UI/HealthBar:offset_transform_position")
+tracks/5/path = NodePath("%game/../UI/health_bar:offset_transform_position")
 tracks/5/interp = 1
 tracks/5/loop_wrap = true
 tracks/5/keys = {
-"times": PackedFloat32Array(2.2666667, 2.9333334),
-"transitions": PackedFloat32Array(0.18, 0.18),
+"times": PackedFloat32Array(0.56666666, 1.2666667),
+"transitions": PackedFloat32Array(0.18, 1),
 "update": 0,
-"values": [Vector2(0, 10), Vector2(0, 0)]
+"values": [Vector2(0, 13.525), Vector2(0, 0)]
 }
 tracks/6/type = "value"
 tracks/6/imported = false
 tracks/6/enabled = true
-tracks/6/path = NodePath("target_shape:modulate")
+tracks/6/path = NodePath("%game/../UI/health_bar:modulate")
 tracks/6/interp = 1
 tracks/6/loop_wrap = true
 tracks/6/keys = {
-"times": PackedFloat32Array(1.8333334, 2.5999997),
-"transitions": PackedFloat32Array(0.18, 0.18),
+"times": PackedFloat32Array(0.5666667, 1.2333333),
+"transitions": PackedFloat32Array(1, 1),
 "update": 0,
 "values": [Color(1, 1, 1, 0), Color(1, 1, 1, 1)]
 }
@@ -195,6 +195,78 @@ tracks/3/keys = {
 "transitions": PackedFloat32Array(0.18, 1),
 "update": 0,
 "values": [Color(1, 1, 1, 1), Color(1, 1, 1, 0)]
+}
+tracks/4/type = "value"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath("%game/../UI/health_bar:modulate")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/keys = {
+"times": PackedFloat32Array(0.033333335, 0.5),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 1), Color(1, 1, 1, 0)]
+}
+tracks/5/type = "value"
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/path = NodePath("%game/../UI/health_bar:offset_transform_position")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/keys = {
+"times": PackedFloat32Array(0.03333333, 0.6333333),
+"transitions": PackedFloat32Array(0.18, 1),
+"update": 0,
+"values": [Vector2(0, 0), Vector2(0, 11.035)]
+}
+tracks/6/type = "value"
+tracks/6/imported = false
+tracks/6/enabled = true
+tracks/6/path = NodePath("%beat_receptor:modulate")
+tracks/6/interp = 1
+tracks/6/loop_wrap = true
+tracks/6/keys = {
+"times": PackedFloat32Array(0, 0.53333336),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 1), Color(1, 1, 1, 0)]
+}
+tracks/7/type = "value"
+tracks/7/imported = false
+tracks/7/enabled = true
+tracks/7/path = NodePath("%avg_accuracy:modulate")
+tracks/7/interp = 1
+tracks/7/loop_wrap = true
+tracks/7/keys = {
+"times": PackedFloat32Array(0.033333335, 0.53333336),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 1), Color(1, 1, 1, 0)]
+}
+tracks/8/type = "value"
+tracks/8/imported = false
+tracks/8/enabled = true
+tracks/8/path = NodePath("%game/../UI/PauseButton:modulate")
+tracks/8/interp = 1
+tracks/8/loop_wrap = true
+tracks/8/keys = {
+"times": PackedFloat32Array(0.03333334, 0.53333336),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 1), Color(1, 1, 1, 0)]
+}
+tracks/9/type = "value"
+tracks/9/imported = false
+tracks/9/enabled = true
+tracks/9/path = NodePath("%game/../UI/PauseButton:visible")
+tracks/9/interp = 1
+tracks/9/loop_wrap = true
+tracks/9/keys = {
+"times": PackedFloat32Array(0.06666667, 0.6666667),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [true, false]
 }
 
 [sub_resource type="Animation" id="Animation_vtaks"]
@@ -274,26 +346,86 @@ tracks/5/keys = {
 tracks/6/type = "value"
 tracks/6/imported = false
 tracks/6/enabled = true
-tracks/6/path = NodePath("../UI/HealthBar:offset_transform_position")
+tracks/6/path = NodePath("target_shape:modulate")
 tracks/6/interp = 1
 tracks/6/loop_wrap = true
 tracks/6/keys = {
+"times": PackedFloat32Array(0.033333335),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 1, 1, 1)]
+}
+tracks/7/type = "value"
+tracks/7/imported = false
+tracks/7/enabled = true
+tracks/7/path = NodePath("%game/../UI/health_bar:offset_transform_position")
+tracks/7/interp = 1
+tracks/7/loop_wrap = true
+tracks/7/keys = {
 "times": PackedFloat32Array(0),
 "transitions": PackedFloat32Array(1),
 "update": 0,
 "values": [Vector2(0, 0)]
 }
-tracks/7/type = "value"
-tracks/7/imported = false
-tracks/7/enabled = true
-tracks/7/path = NodePath("target_shape:modulate")
-tracks/7/interp = 1
-tracks/7/loop_wrap = true
-tracks/7/keys = {
-"times": PackedFloat32Array(0.033333335),
+tracks/8/type = "value"
+tracks/8/imported = false
+tracks/8/enabled = true
+tracks/8/path = NodePath("%game/../UI/health_bar:modulate")
+tracks/8/interp = 1
+tracks/8/loop_wrap = true
+tracks/8/keys = {
+"times": PackedFloat32Array(0),
 "transitions": PackedFloat32Array(1),
 "update": 0,
 "values": [Color(1, 1, 1, 1)]
+}
+tracks/9/type = "value"
+tracks/9/imported = false
+tracks/9/enabled = true
+tracks/9/path = NodePath("%beat_receptor:modulate")
+tracks/9/interp = 1
+tracks/9/loop_wrap = true
+tracks/9/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 1, 1, 1)]
+}
+tracks/10/type = "value"
+tracks/10/imported = false
+tracks/10/enabled = true
+tracks/10/path = NodePath("%avg_accuracy:modulate")
+tracks/10/interp = 1
+tracks/10/loop_wrap = true
+tracks/10/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 1, 1, 1)]
+}
+tracks/11/type = "value"
+tracks/11/imported = false
+tracks/11/enabled = true
+tracks/11/path = NodePath("%game/../UI/PauseButton:modulate")
+tracks/11/interp = 1
+tracks/11/loop_wrap = true
+tracks/11/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 1, 1, 1)]
+}
+tracks/12/type = "value"
+tracks/12/imported = false
+tracks/12/enabled = true
+tracks/12/path = NodePath("%game/../UI/PauseButton:visible")
+tracks/12/interp = 1
+tracks/12/loop_wrap = true
+tracks/12/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
 }
 
 [sub_resource type="Animation" id="Animation_1kice"]
@@ -998,6 +1130,7 @@ libraries/ = SubResource("AnimationLibrary_vtaks")
 [node name="target_shape" type="Line2D" parent="game" unique_id=129393694]
 unique_name_in_owner = true
 process_mode = 1
+self_modulate = Color(1, 1, 1, 0)
 position = Vector2(295, 155)
 width = 5.0
 script = ExtResource("3_gee14")
@@ -1005,6 +1138,7 @@ script = ExtResource("3_gee14")
 [node name="accuracy_manager" type="Node2D" parent="game/target_shape" unique_id=1262186888]
 unique_name_in_owner = true
 process_mode = 1
+modulate = Color(1, 1, 1, 0.59999996)
 position = Vector2(308, 172)
 script = ExtResource("2_lbhrr")
 
@@ -1132,35 +1266,6 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="HealthBar" type="ColorRect" parent="UI" unique_id=2084511347]
-modulate = Color(1, 1, 1, 0)
-layout_mode = 1
-anchors_preset = 7
-anchor_left = 0.5
-anchor_top = 1.0
-anchor_right = 0.5
-anchor_bottom = 1.0
-offset_left = -104.5
-offset_top = -50.0
-offset_right = 104.5
-offset_bottom = -40.0
-grow_horizontal = 2
-grow_vertical = 0
-offset_transform_enabled = true
-color = Color(0.20152658, 0.20152658, 0.20152658, 1)
-script = ExtResource("24_e1j6l")
-
-[node name="Filled" type="ColorRect" parent="UI/HealthBar" unique_id=895971058]
-layout_mode = 1
-anchors_preset = 4
-anchor_top = 0.5
-anchor_bottom = 0.5
-offset_top = -5.0
-offset_right = 199.5
-offset_bottom = 4.0
-grow_vertical = 2
-color = Color(1, 0, 0, 1)
-
 [node name="WinScreen" parent="UI" unique_id=107879033 instance=ExtResource("21_bt5mj")]
 unique_name_in_owner = true
 visible = false
@@ -1177,6 +1282,7 @@ grow_vertical = 0
 mouse_filter = 2
 
 [node name="PerfectCount" type="Label" parent="UI/HitCounter" unique_id=687221423]
+unique_name_in_owner = true
 modulate = Color(0, 0.90588236, 0.96862745, 1)
 layout_mode = 1
 anchors_preset = 4
@@ -1193,6 +1299,7 @@ text = "PERFECT: 0"
 vertical_alignment = 1
 
 [node name="OkayCount" type="Label" parent="UI/HitCounter" unique_id=56532913]
+unique_name_in_owner = true
 modulate = Color(0.34901962, 0.9490196, 0.54901963, 1)
 layout_mode = 1
 anchors_preset = 4
@@ -1209,6 +1316,7 @@ text = "OK: 0"
 vertical_alignment = 1
 
 [node name="BadCount" type="Label" parent="UI/HitCounter" unique_id=797208269]
+unique_name_in_owner = true
 modulate = Color(1, 0.6, 0.2, 1)
 layout_mode = 1
 anchors_preset = 4
@@ -1225,6 +1333,7 @@ text = "BAD: 0"
 vertical_alignment = 1
 
 [node name="MissCount" type="Label" parent="UI/HitCounter" unique_id=1312980306]
+unique_name_in_owner = true
 modulate = Color(1, 0.29803923, 0.34901962, 1)
 layout_mode = 1
 anchors_preset = 4
@@ -1295,6 +1404,7 @@ offset_left = -193.0
 offset_top = -111.0
 grow_horizontal = 0
 grow_vertical = 0
+mouse_filter = 2
 theme_override_constants/margin_right = 24
 theme_override_constants/margin_bottom = 24
 
@@ -1332,6 +1442,8 @@ theme = ExtResource("9_0tnpc")
 text = "100.00%"
 horizontal_alignment = 1
 vertical_alignment = 1
+visible_characters = 20
+visible_ratio = 2.857143
 
 [node name="PauseButton" type="Button" parent="UI" unique_id=846645553]
 layout_mode = 1
@@ -1358,6 +1470,7 @@ anchor_bottom = 1.0
 offset_top = -129.0
 offset_right = 323.0
 grow_vertical = 0
+mouse_filter = 2
 theme_override_constants/margin_left = 24
 theme_override_constants/margin_right = 0
 theme_override_constants/margin_bottom = 24
@@ -1376,6 +1489,7 @@ texture = ExtResource("10_kvpfn")
 layout_mode = 0
 offset_right = 193.0
 offset_bottom = 111.0
+mouse_filter = 2
 theme_override_constants/margin_left = 24
 theme_override_constants/margin_top = 24
 
@@ -1398,6 +1512,7 @@ anchor_right = 1.0
 offset_left = -193.0
 offset_bottom = 111.0
 grow_horizontal = 0
+mouse_filter = 2
 theme_override_constants/margin_top = 24
 theme_override_constants/margin_right = 24
 
@@ -1499,6 +1614,7 @@ text = "QUIT"
 [node name="PauseScreen" type="Control" parent="UI" unique_id=737804048]
 unique_name_in_owner = true
 process_mode = 3
+visible = false
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -1546,8 +1662,26 @@ layout_mode = 2
 theme = ExtResource("9_0tnpc")
 text = "QUIT"
 
+[node name="health_bar" type="ProgressBar" parent="UI" unique_id=317437120]
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -104.0
+offset_top = -52.0
+offset_right = 104.0
+offset_bottom = -33.0
+grow_horizontal = 2
+grow_vertical = 0
+offset_transform_enabled = true
+theme_override_font_sizes/font_size = 10
+script = ExtResource("24_e1j6l")
+
 [node name="resync_label" type="Label" parent="." unique_id=862891811]
 unique_name_in_owner = true
+visible = false
 anchors_preset = 3
 anchor_left = 1.0
 anchor_top = 1.0
@@ -1562,11 +1696,11 @@ text = "RESYNC TRIGGERED: 0x"
 [connection signal="animation_finished" from="game/animator" to="game" method="_on_animator_animation_finished"]
 [connection signal="animation_finished" from="game/animator" to="UI/PauseScreen" method="_on_animator_animation_finished"]
 [connection signal="draw_direction_changes" from="game/draw" to="game/beat_receptor" method="_on_draw_draw_direction_changes"]
+[connection signal="draw_ended" from="game/draw" to="game/target_shape" method="_on_draw_draw_ended"]
 [connection signal="draw_ended" from="game/draw" to="game/target_shape/accuracy_manager" method="_on_draw_ended"]
-[connection signal="draw_ended" from="game/draw" to="game/beat_receptor" method="_on_draw_draw_ended"]
 [connection signal="draw_started" from="game/draw" to="game/beat_receptor" method="_on_draw_draw_started"]
 [connection signal="shape_accuracy_ready" from="game/draw" to="game/target_shape/accuracy_manager" method="_on_draw_shape_accuracy_ready"]
-[connection signal="health_depleted" from="UI/HealthBar" to="UI/Game Over" method="_on_health_bar_health_depleted"]
+[connection signal="shape_accuracy_ready" from="game/draw" to="game/beat_receptor" method="_on_draw_shape_accuracy_ready"]
 [connection signal="animation_finished" from="UI/RB/Mio" to="UI/RB/Mio" method="_on_animation_finished"]
 [connection signal="button_down" from="UI/PauseButton" to="UI/PauseButton" method="_on_button_down"]
 [connection signal="pressed" from="UI/Game Over/Menu/VBoxContainer2/VBoxContainer/Restart" to="UI/Game Over" method="_on_restart_pressed"]
@@ -1574,3 +1708,4 @@ text = "RESYNC TRIGGERED: 0x"
 [connection signal="pressed" from="UI/PauseScreen/VBoxContainer/Continue" to="UI/PauseScreen" method="_on_continue_pressed"]
 [connection signal="pressed" from="UI/PauseScreen/VBoxContainer/Restart" to="UI/PauseScreen" method="_on_restart_pressed"]
 [connection signal="pressed" from="UI/PauseScreen/VBoxContainer/Quit" to="UI/PauseScreen" method="_on_quit_pressed"]
+[connection signal="health_depleted" from="UI/health_bar" to="UI/Game Over" method="_on_health_bar_health_depleted"]

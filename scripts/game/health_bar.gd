@@ -1,10 +1,10 @@
-# health_bar.gd — Gameplay HP bar (node: UI/HealthBar): beat judgements move
-# health, drawn as the width of the $Filled child. PERFECT/OK/BAD heal while
+# health_bar.gd — Gameplay HP bar (node: UI/health_bar): beat judgements move
+# health, drawn as the ProgressBar value. PERFECT/OK/BAD heal while
 # MISS damages, scaled by chart OD (high OD = more damage/less heal, low OD
 # = less damage/more heal, OD 5 neutral). Fed per-hit via
 # ScoreManager.hit_applied; game.gd calls reset_health() on run start.
 # RETURN: health 0..1 fraction plus health_changed / health_depleted signals
-extends ColorRect
+extends ProgressBar
 
 signal health_changed(health: float)
 signal health_depleted
@@ -34,10 +34,12 @@ var _display := 1.0
 var _od := 5.0
 var _dead := false
 
-@onready var filled: ColorRect = $Filled
-
 
 func _ready() -> void:
+	min_value = 0.0
+	max_value = 1.0
+	step = 0.001
+	_setup_styles()
 	_od = GestureRecognizer.od_from_chart(Global.current_chart)
 	var score := get_node_or_null("%accuracy_manager")
 	if score != null and score.has_signal("hit_applied"):
@@ -47,8 +49,6 @@ func _ready() -> void:
 
 
 func _process(delta: float) -> void:
-	if filled == null:
-		return
 	if is_equal_approx(_display, health):
 		return
 	_display = lerpf(_display, health, clampf(smooth_speed * delta, 0.0, 1.0))
@@ -112,9 +112,14 @@ func _on_hit_applied(kind: int) -> void:
 
 
 func _update_bar() -> void:
-	if filled == null:
-		return
-	var full := size.x
-	if full <= 0.0:
-		full = 209.0
-	filled.offset_right = filled.offset_left + full * _display
+	value = clampf(_display, 0.0, 1.0)
+
+
+func _setup_styles() -> void:
+	# Replicates the old ColorRect look (dark bg, red fill) via theme styles.
+	var bg := StyleBoxFlat.new()
+	bg.bg_color = Color(0.20152658, 0.20152658, 0.20152658, 1)
+	var fill := StyleBoxFlat.new()
+	fill.bg_color = Color(1, 0, 0, 1)
+	add_theme_stylebox_override("background", bg)
+	add_theme_stylebox_override("fill", fill)

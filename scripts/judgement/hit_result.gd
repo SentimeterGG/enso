@@ -12,6 +12,7 @@ const WEIGHTS := {
 	Kind.OK: 0.6667,
 	Kind.BAD: 0.3334,
 	Kind.MISS: 0.0,
+	Kind.BAD_DRAW: 0.0,
 }
 
 const LABELS := {
