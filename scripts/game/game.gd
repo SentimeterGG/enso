@@ -37,6 +37,7 @@ func _ready():
 		%BG.visible = true
 		%VideoStreamPlayer.visible = false
 	note_manager.bake(Global.current_chart)
+	note_manager.reposition()
 	BgMusic.load_song(Global.load_safely(Global.current_chart.song_path()))
 	DiscordRPC.set_activity(
 		"Drawing Shape",
@@ -57,8 +58,13 @@ func _on_animator_animation_finished(anim_name: StringName) -> void:
 		if hb != null and hb.has_method("reset_health"):
 			hb.reset_health()
 		note_manager._start()
-		BgMusic.start()
 		animator.play("bg_fade")
+		# Preroll silence: notes scroll in from offscreen during this so the
+		# first note lands on the receptor exactly when its hit_time plays.
+		await get_tree().create_timer(note_manager.calc_preroll()).timeout
+		if not is_inside_tree():
+			return
+		BgMusic.start()
 		video_stream_player.play()
 	elif anim_name == "Outro":
 		# Failed during the outro: the game-over menu already owns the screen.

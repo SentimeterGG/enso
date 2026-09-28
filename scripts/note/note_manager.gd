@@ -21,6 +21,9 @@ var scroll_mode: ScrollMode = ScrollMode.DELTA
 var start = false
 var add_counter = true
 var resync_counter = 0
+## Silence (seconds) scrolled before the music starts so the repositioned
+## first note arrives at the receptor exactly on its hit_time.
+var preroll_sec := 0.0
 
 
 func _start():
@@ -49,6 +52,73 @@ func _process(delta: float) -> void:
 				# resync_label.text = (
 				# 	"RESYNC TRIGGERED: " + str(resync_counter) + "x" + "\n MUSIC_CLOCK"
 				# )
+
+
+# reposition the note_column to always make sure the first beat_point poisition is always on get_viewport_width() + 20px
+func reposition() -> void:
+	if not is_inside_tree() or beat_column == null or beat_column.get_child_count() == 0:
+		return
+	var leftmost: Control = null
+	for child in beat_column.get_children():
+		var c := child as Control
+		if c == null:
+			continue
+		if leftmost == null or c.position.x < leftmost.position.x:
+			leftmost = c
+	if leftmost == null:
+		return
+	var target_x := get_viewport_rect().size.x + 42.0
+	if leftmost.global_position.x >= target_x:
+		return
+	position.x += target_x - leftmost.global_position.x
+
+
+## Earliest hit_time in the beat column, or -1 when empty.
+func first_note_time() -> float:
+	var t := -1.0
+	if beat_column == null:
+		return t
+	for child in beat_column.get_children():
+		var ht := float(child.get("hit_time"))
+		if t < 0.0 or ht < t:
+			t = ht
+	return t
+
+
+## Exact pre-music silence so visuals match the audio clock: the leftmost
+## note travels (first_x - receptor_x) / px_per_second to arrive, and it is
+## due at t_first — the difference is the delay before BgMusic.start().
+## When negative (late first note) the column snaps back to absolute
+## alignment (position.x == _start_x) where the note sits offscreen on its
+## own, and no delay is needed.
+func calc_preroll() -> float:
+	preroll_sec = 0.0
+	if px_per_second <= 0.0 or beat_column == null or beat_column.get_child_count() == 0:
+		return preroll_sec
+	var t_first := first_note_time()
+	if t_first < 0.0:
+		return preroll_sec
+	var receptor := get_node_or_null("%beat_receptor") as Node2D
+	if receptor == null:
+		return preroll_sec
+	var first_x := 0.0
+	var found := false
+	for child in beat_column.get_children():
+		var c := child as Control
+		if c == null:
+			continue
+		if not found or c.global_position.x < first_x:
+			first_x = c.global_position.x
+			found = true
+	if not found:
+		return preroll_sec
+	var p := (first_x - receptor.global_position.x) / px_per_second - t_first
+	if p <= 0.0:
+		position.x = _start_x
+		preroll_sec = 0.0
+	else:
+		preroll_sec = p
+	return preroll_sec
 
 
 func bake(chart_data: ChartData):
@@ -86,3 +156,4 @@ func bake(chart_data: ChartData):
 		shape_point.color = col
 		shape_layer.add_child(shape_point)
 		shape_point.init(chart_data.shape_points_at(index))
+	reposition()

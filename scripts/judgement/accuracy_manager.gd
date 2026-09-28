@@ -44,7 +44,7 @@ func reset() -> void:
 	for kind in counts:
 		counts[kind] = 0
 	combo = 0
-	avg_accuracy = 0.0
+	avg_accuracy = 100.0
 	_update_ui()
 
 
@@ -70,7 +70,7 @@ func _update_ui() -> void:
 	avg_accuracy_label.text = ("%.2f" % avg_accuracy) + "%"
 	_combo_label.text = str(combo) + "x"
 	_perfect_label.text = "PERFECT: " + str(int(counts.get(HitResult.Kind.PERFECT, 0)))
-	_okay_label.text = "OKAY: " + str(int(counts.get(HitResult.Kind.OK, 0)))
+	_okay_label.text = "OK: " + str(int(counts.get(HitResult.Kind.OK, 0)))
 	_bad_label.text = "BAD: " + str(int(counts.get(HitResult.Kind.BAD, 0)))
 	_miss_label.text = "MISS: " + str(int(counts.get(HitResult.Kind.MISS, 0)))
 

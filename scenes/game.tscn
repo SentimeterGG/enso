@@ -1156,6 +1156,32 @@ script = ExtResource("3_rysoc")
 stream = ExtResource("7_37s47")
 bus = &"Effect"
 
+[node name="target_shape2" type="Line2D" parent="game" unique_id=1867801733]
+unique_name_in_owner = true
+process_mode = 1
+self_modulate = Color(1, 1, 1, 0)
+position = Vector2(295, 155)
+width = 5.0
+script = ExtResource("3_gee14")
+
+[node name="accuracy_manager" type="Node2D" parent="game/target_shape2" unique_id=367667129]
+process_mode = 1
+modulate = Color(1, 1, 1, 0.59999996)
+position = Vector2(308, 172)
+script = ExtResource("2_lbhrr")
+
+[node name="judge_spawner" type="Node2D" parent="game/target_shape2/accuracy_manager" unique_id=165336825]
+position = Vector2(-537, -125)
+script = ExtResource("3_rysoc")
+
+[node name="drawing_judge_spawner" type="Node2D" parent="game/target_shape2/accuracy_manager" unique_id=341940654]
+position = Vector2(-97, -121)
+script = ExtResource("3_rysoc")
+
+[node name="MissSound" type="AudioStreamPlayer" parent="game/target_shape2/accuracy_manager" unique_id=818182452]
+stream = ExtResource("7_37s47")
+bus = &"Effect"
+
 [node name="draw" parent="game" unique_id=2118743800 node_paths=PackedStringArray("target_shape") instance=ExtResource("10_vtaks")]
 unique_name_in_owner = true
 process_mode = 1
