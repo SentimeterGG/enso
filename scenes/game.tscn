@@ -26,6 +26,7 @@
 [ext_resource type="Script" uid="uid://bqeaom200sf3p" path="res://scripts/game/health_bar.gd" id="24_e1j6l"]
 [ext_resource type="Texture2D" uid="uid://d2v3ioaco24fq" path="res://assets/sprites/UI/cracked_glass.png" id="24_pl11u"]
 [ext_resource type="Script" uid="uid://jmvij2ax1tfa" path="res://scripts/ui/game_over.gd" id="24_qnb83"]
+[ext_resource type="Script" uid="uid://b8wsy2lnf20cf" path="res://scripts/ui/pause_button.gd" id="24_suyxu"]
 [ext_resource type="AudioStream" uid="uid://jq5s2ky3stct" path="res://assets/sound/glass-breakl.mp3" id="25_bhx41"]
 [ext_resource type="VideoStream" uid="uid://cgqijtlaspuc3" path="res://levels/Wasurete Yaranai by kessoku band mapped by ENSO Team/Wasurete.ogv" id="28_sww3w"]
 
@@ -1378,6 +1379,23 @@ text = "100.00%"
 horizontal_alignment = 1
 vertical_alignment = 1
 
+[node name="PauseButton" type="Button" parent="UI" unique_id=846645553]
+layout_mode = 1
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -140.0
+offset_top = -81.0
+offset_right = -107.0
+offset_bottom = -46.0
+grow_horizontal = 0
+grow_vertical = 0
+theme_override_font_sizes/font_size = 19
+text = "||"
+script = ExtResource("24_suyxu")
+
 [node name="LB" type="MarginContainer" parent="UI" unique_id=884428955]
 layout_mode = 1
 anchors_preset = 2
@@ -1525,6 +1543,7 @@ theme = ExtResource("9_0tnpc")
 text = "QUIT"
 
 [node name="PauseScreen" type="Control" parent="UI" unique_id=737804048]
+unique_name_in_owner = true
 process_mode = 3
 layout_mode = 1
 anchors_preset = 15
@@ -1590,6 +1609,7 @@ layout_mode = 1
 [connection signal="shape_accuracy_ready" from="game/draw" to="game/target_shape/accuracy_manager" method="_on_draw_shape_accuracy_ready"]
 [connection signal="health_depleted" from="UI/HealthBar" to="UI/Game Over" method="_on_health_bar_health_depleted"]
 [connection signal="animation_finished" from="UI/RB/Mio" to="UI/RB/Mio" method="_on_animation_finished"]
+[connection signal="button_down" from="UI/PauseButton" to="UI/PauseButton" method="_on_button_down"]
 [connection signal="pressed" from="UI/Game Over/Menu/VBoxContainer2/VBoxContainer/Restart" to="UI/Game Over" method="_on_restart_pressed"]
 [connection signal="pressed" from="UI/Game Over/Menu/VBoxContainer2/VBoxContainer/Quit" to="UI/Game Over" method="_on_quit_pressed"]
 [connection signal="pressed" from="UI/PauseScreen/VBoxContainer/Continue" to="UI/PauseScreen" method="_on_continue_pressed"]
