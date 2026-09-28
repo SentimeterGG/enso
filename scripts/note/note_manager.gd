@@ -2,86 +2,87 @@
 # spawner-to-receptor distance for sync timing and forwards spawn() calls to
 # the beat column with hit time, scroll speed and color.
 # RETURN: scrolling beat notes spawned down the lane
-extends Node2D
+extends VBoxContainer
 
-@export var px_per_sec := 400.0
-
-@onready var shape_column: Node2D = $shape_column
-@onready var beat_column: Node2D = $beat_column
-@onready var receptor = $beat_column/beat_receptor
-@onready var spawner: Node2D = $beat_column/beat_spawner
-const _SONG_TIME_SNAP_THRESHOLD := 0.15
-const _SONG_TIME_DEADZONE := 0.012
-const _SONG_TIME_LERP_WEIGHT := 0.05
-var _smooth_song_time := 0.0
-var _song_time_initialized := false
-
-
-func _ready() -> void:
-	px_per_sec = Global.settingsData.scroll_speed
-
-
-func lane_length() -> float:
-	return spawner.position.x - receptor.position.x
+@export var px_per_second: float = 400.0
+@onready var shape_column: Control = $shape_column
+@onready var beat_column: Control = $beat_column
+const BEAT_SCENE: PackedScene = preload("res://scenes/beat_point.tscn")
+const SHAPE_SCENE: PackedScene = preload("res://scenes/shape_point.tscn")
+const NOTE_SIZE := 42.0
+const RESYNC_INTERVAL := 30.0
+const RESYNC_DURATION := 0.2
+var next_resync = 30.0
+var resync_end = 30.1
+enum ScrollMode { DELTA, MUSIC_CLOCK }
+var scroll_mode: ScrollMode = ScrollMode.DELTA
+@onready var _start_x = %beat_receptor.position.x
+# @onready var resync_label: Label = %resync_label
+var start = false
+var add_counter = true
+var resync_counter = 0
 
 
-func spawn(hit_time: float, color: Color = Color.WHITE, beat_id: String = ""):
-	beat_column.spawn_beat(hit_time, receptor.position.x, px_per_sec, color, beat_id)
+func _start():
+	start = true
 
 
 func _process(delta: float) -> void:
-	_update_smooth_song_time(delta)
+	var music_time = BgMusic.get_playback_position()
+	if start:
+		if music_time > next_resync:
+			if add_counter == true:
+				resync_counter += 1
+				add_counter = false
+			scroll_mode = ScrollMode.MUSIC_CLOCK
+			resync_end = music_time + RESYNC_DURATION
+			next_resync = music_time + RESYNC_INTERVAL
+		elif scroll_mode == ScrollMode.MUSIC_CLOCK and music_time > resync_end:
+			scroll_mode = ScrollMode.DELTA
+			add_counter = true
+		match scroll_mode:
+			ScrollMode.DELTA:
+				self.position.x -= px_per_second * delta
+				# resync_label.text = "RESYNC TRIGGERED: " + str(resync_counter) + "x" + "\n DELTA"
+			ScrollMode.MUSIC_CLOCK:
+				self.position.x = _start_x - BgMusic.get_playback_position() * px_per_second
+				# resync_label.text = (
+				# 	"RESYNC TRIGGERED: " + str(resync_counter) + "x" + "\n MUSIC_CLOCK"
+				# )
 
 
-func spawn_shape(
-	width: float,
-	line_points: PackedVector2Array,
-	hit_time: float,
-	color: Color = Color.WHITE,
-):
-	shape_column.spawn_beat(width, line_points, hit_time, receptor.position.x, px_per_sec, color)
-
-
-func _preroll_sec() -> float:
-	var scene := %game
-	if scene != null and scene.has_method("get_preroll_sec"):
-		return float(scene.call("get_preroll_sec"))
-	return 0.0
-
-
-func _update_smooth_song_time(delta: float) -> void:
-	if BgMusic.playing:
-		var real_time := (
-			BgMusic.get_playback_position()
-			+ AudioServer.get_time_since_last_mix()
-			- AudioServer.get_output_latency()
-			+ _preroll_sec()
-		)
-
-		if not _song_time_initialized:
-			_smooth_song_time = real_time
-			_song_time_initialized = true
-			return
-
-		# always advance by delta first — this is what keeps it smooth
-		_smooth_song_time += delta
-
-		var error := real_time - _smooth_song_time
-		if absf(error) > _SONG_TIME_SNAP_THRESHOLD:
-			# big desync (seek/pause/resume) — snap immediately
-			_smooth_song_time = real_time
-		elif absf(error) > _SONG_TIME_DEADZONE:
-			# small real drift — correct gently, don't chase every jitter
-			_smooth_song_time += error * _SONG_TIME_LERP_WEIGHT
-		# else: error is just mixer jitter noise — ignore it, keep the delta-driven value
-	else:
-		_song_time_initialized = false
-		var scene := %game
-		if scene != null and scene.has_method("get_virtual_song_time"):
-			_smooth_song_time = float(scene.call("get_virtual_song_time"))
-		else:
-			_smooth_song_time = 0.0
-
-
-func get_song_time() -> float:
-	return _smooth_song_time
+func bake(chart_data: ChartData):
+	px_per_second = Global.settingsData.scroll_speed
+	if chart_data == null or chart_data.is_empty():
+		return
+	var beat_layer: Control = $beat_column
+	var shape_layer: Control = $shape_column
+	for index in chart_data.note_count():
+		var note: Dictionary = chart_data.get_note(index)
+		var ms := chart_data.note_time(index)
+		if ms <= 0.0:
+			ms = float(note.get("time", 0.0))
+		var id := str(note.get("id", ""))
+		var beat_point := BEAT_SCENE.instantiate() as Control
+		beat_point.position = Vector2(ms / 1000.0 * px_per_second, 0.0)
+		beat_point.set("hit_time", ms / 1000.0)
+		beat_point.set("beat_id", id)
+		beat_point.self_modulate = chart_data.shape_colors.get(id, Color.WHITE)
+		beat_point.mouse_filter = Control.MOUSE_FILTER_IGNORE
+		beat_layer.add_child(beat_point)
+	for index in chart_data.shape_count():
+		var shape_id := ""
+		if index < chart_data.shape_ids.size():
+			shape_id = str(chart_data.shape_ids[index])
+		var shape_time: Array = chart_data.shape_time(index)
+		var start_ms := float(shape_time[0])
+		var end_ms := float(shape_time[1])
+		var width_px := NOTE_SIZE + maxf(0.0, end_ms - start_ms) / 1000.0 * px_per_second
+		var shape_point := SHAPE_SCENE.instantiate() as Control
+		shape_point.position = Vector2(start_ms / 1000.0 * px_per_second, 0.0)
+		shape_point.size = Vector2(width_px, NOTE_SIZE)
+		shape_point.mouse_filter = Control.MOUSE_FILTER_IGNORE
+		var col: Color = chart_data.shape_colors.get(shape_id, Color.WHITE)
+		shape_point.color = col
+		shape_layer.add_child(shape_point)
+		shape_point.init(chart_data.shape_points_at(index))

@@ -24,17 +24,22 @@ func change_song(p_stream: AudioStream = null, p_seek: float = 0.0) -> void:
 	tween.tween_property(self, "volume_db", FULL_DB, FADE_DURATION)
 
 
-func start_song(p_stream: AudioStream = null, p_seek: float = 0.0) -> void:
+func load_song(p_stream: AudioStream = null, p_seek: float = 0.0) -> void:
 	volume_db = FULL_DB
 	stream = p_stream
+
+
+func start():
 	play()
 
 
 func _disable_loop():
 	loop = false
 
+
 func enable_loop():
 	loop = true
+
 
 func _on_finished() -> void:
 	if loop == true:

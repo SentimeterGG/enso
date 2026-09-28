@@ -57,8 +57,8 @@ func _stop_gameplay() -> void:
 	var scene := get_tree().current_scene
 	if scene == null:
 		return
-	var tween = %note_manager.create_tween()
-	tween.tween_property(%note_manager, "modulate:a", 0.0, 1.0)
+	var tween = %note_column.create_tween()
+	tween.tween_property(%note_column, "modulate:a", 0.0, 1.0)
 	await tween.finished
 	var bg := get_node_or_null("/root/BgMusic") as AudioStreamPlayer
 	if bg != null:
