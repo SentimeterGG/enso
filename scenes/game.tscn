@@ -6,11 +6,10 @@
 [ext_resource type="Script" uid="uid://bil15ch0n2iyd" path="res://scripts/note/shape/target_shape.gd" id="3_gee14"]
 [ext_resource type="Script" uid="uid://bw45dflr7vand" path="res://scripts/judgement/judge_spawner.gd" id="3_rysoc"]
 [ext_resource type="Script" uid="uid://4t7iids2300s" path="res://scripts/note/note_manager.gd" id="5_p57ef"]
-[ext_resource type="Script" uid="uid://3g8m7mw6ywns" path="res://scripts/note/beat/beat_column.gd" id="6_u5sy4"]
 [ext_resource type="AudioStream" uid="uid://ds4tl7n4oqlkk" path="res://assets/sound/miss-sound.mp3" id="7_37s47"]
 [ext_resource type="Texture2D" uid="uid://dnnjjgvh1pcgl" path="res://assets/sprites/UI/shape/circle_outline.png" id="7_ca42v"]
 [ext_resource type="Theme" uid="uid://cpocn8agag6ib" path="res://resources/theme/Theme.tres" id="9_0tnpc"]
-[ext_resource type="Script" uid="uid://bh3hkt7fb36kw" path="res://scripts/note/shape/shape_column.gd" id="9_kvuet"]
+[ext_resource type="Script" uid="uid://dcstmiulov8vs" path="res://scripts/note/beat/beat_receptor.gd" id="9_qnb83"]
 [ext_resource type="Texture2D" uid="uid://c57tsdrlvc70s" path="res://assets/sprites/circle.png" id="9_rysoc"]
 [ext_resource type="Texture2D" uid="uid://b3v8a03h3ikfs" path="res://assets/sprites/UI/corner.png" id="10_kvpfn"]
 [ext_resource type="PackedScene" uid="uid://b7rlmo61qxu8s" path="res://scenes/draw.tscn" id="10_vtaks"]
@@ -64,98 +63,86 @@ length = 3.0000000000000004
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
-tracks/0/path = NodePath("target_shape/accuracy_manager:modulate")
+tracks/0/path = NodePath("../UI/COUNTDOWN:text")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
-"times": PackedFloat32Array(1.8333338, 2.6000001),
-"transitions": PackedFloat32Array(0.18, 0.18),
-"update": 0,
-"values": [Color(1, 1, 1, 0), Color(1, 1, 1, 1)]
-}
-tracks/1/type = "value"
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/path = NodePath("note_manager:modulate")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/keys = {
-"times": PackedFloat32Array(1.8000005, 2.6333334),
-"transitions": PackedFloat32Array(0.18, 0.18),
-"update": 0,
-"values": [Color(1, 1, 1, 0), Color(1, 1, 1, 1)]
-}
-tracks/2/type = "value"
-tracks/2/imported = false
-tracks/2/enabled = true
-tracks/2/path = NodePath("../UI/COUNTDOWN:text")
-tracks/2/interp = 1
-tracks/2/loop_wrap = true
-tracks/2/keys = {
 "times": PackedFloat32Array(0, 0.3, 0.53333336, 0.8, 1.1, 2.7333333),
 "transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1),
 "update": 1,
 "values": ["", "1", "2", "3", "GO", ""]
 }
-tracks/3/type = "value"
-tracks/3/imported = false
-tracks/3/enabled = true
-tracks/3/path = NodePath("../UI/COUNTDOWN:modulate")
-tracks/3/interp = 1
-tracks/3/loop_wrap = true
-tracks/3/keys = {
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("../UI/COUNTDOWN:modulate")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
 "times": PackedFloat32Array(1.4666667, 2.2666667),
 "transitions": PackedFloat32Array(0.30778638, 0.20306318),
 "update": 0,
 "values": [Color(1, 1, 1, 1), Color(1, 1, 1, 0)]
 }
-tracks/4/type = "value"
-tracks/4/imported = false
-tracks/4/enabled = true
-tracks/4/path = NodePath("../UI/ComboCounter:modulate")
-tracks/4/interp = 1
-tracks/4/loop_wrap = true
-tracks/4/keys = {
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("../UI/ComboCounter:modulate")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
 "times": PackedFloat32Array(1.8333333, 2.6333334),
 "transitions": PackedFloat32Array(1, 1),
 "update": 0,
 "values": [Color(1, 1, 1, 0), Color(1, 1, 1, 0.47058824)]
 }
-tracks/5/type = "value"
-tracks/5/imported = false
-tracks/5/enabled = true
-tracks/5/path = NodePath("../UI/HitCounter:modulate")
-tracks/5/interp = 1
-tracks/5/loop_wrap = true
-tracks/5/keys = {
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("../UI/HitCounter:modulate")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
 "times": PackedFloat32Array(1.8333333, 2.6333334),
 "transitions": PackedFloat32Array(1, 1),
 "update": 0,
 "values": [Color(1, 1, 1, 0), Color(1, 1, 1, 1)]
 }
-tracks/6/type = "value"
-tracks/6/imported = false
-tracks/6/enabled = true
-tracks/6/path = NodePath("../UI/HealthBar:modulate")
-tracks/6/interp = 1
-tracks/6/loop_wrap = true
-tracks/6/keys = {
+tracks/4/type = "value"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath("../UI/HealthBar:modulate")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/keys = {
 "times": PackedFloat32Array(2.1333332, 2.9333334),
 "transitions": PackedFloat32Array(1, 1),
 "update": 0,
 "values": [Color(1, 1, 1, 0), Color(1, 1, 1, 1)]
 }
-tracks/7/type = "value"
-tracks/7/imported = false
-tracks/7/enabled = true
-tracks/7/path = NodePath("../UI/HealthBar:offset_transform_position")
-tracks/7/interp = 1
-tracks/7/loop_wrap = true
-tracks/7/keys = {
+tracks/5/type = "value"
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/path = NodePath("../UI/HealthBar:offset_transform_position")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/keys = {
 "times": PackedFloat32Array(2.2666667, 2.9333334),
 "transitions": PackedFloat32Array(0.18, 0.18),
 "update": 0,
 "values": [Vector2(0, 10), Vector2(0, 0)]
+}
+tracks/6/type = "value"
+tracks/6/imported = false
+tracks/6/enabled = true
+tracks/6/path = NodePath("target_shape:modulate")
+tracks/6/interp = 1
+tracks/6/loop_wrap = true
+tracks/6/keys = {
+"times": PackedFloat32Array(1.8333334, 2.5999997),
+"transitions": PackedFloat32Array(0.18, 0.18),
+"update": 0,
+"values": [Color(1, 1, 1, 0), Color(1, 1, 1, 1)]
 }
 
 [sub_resource type="Animation" id="Animation_bt5mj"]
@@ -164,11 +151,11 @@ length = 0.7
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
-tracks/0/path = NodePath("note_manager:modulate")
+tracks/0/path = NodePath("../UI/ComboCounter:modulate")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
-"times": PackedFloat32Array(0.033333335, 0.5666667),
+"times": PackedFloat32Array(0, 0.53333336),
 "transitions": PackedFloat32Array(0.18, 1),
 "update": 0,
 "values": [Color(1, 1, 1, 1), Color(1, 1, 1, 0)]
@@ -176,7 +163,7 @@ tracks/0/keys = {
 tracks/1/type = "value"
 tracks/1/imported = false
 tracks/1/enabled = true
-tracks/1/path = NodePath("../UI/ComboCounter:modulate")
+tracks/1/path = NodePath("../UI/HitCounter:modulate")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/keys = {
@@ -188,7 +175,7 @@ tracks/1/keys = {
 tracks/2/type = "value"
 tracks/2/imported = false
 tracks/2/enabled = true
-tracks/2/path = NodePath("../UI/HitCounter:modulate")
+tracks/2/path = NodePath("../UI/RB/Mio:modulate")
 tracks/2/interp = 1
 tracks/2/loop_wrap = true
 tracks/2/keys = {
@@ -200,36 +187,12 @@ tracks/2/keys = {
 tracks/3/type = "value"
 tracks/3/imported = false
 tracks/3/enabled = true
-tracks/3/path = NodePath("target_shape/accuracy_manager:modulate")
+tracks/3/path = NodePath("target_shape:modulate")
 tracks/3/interp = 1
 tracks/3/loop_wrap = true
 tracks/3/keys = {
 "times": PackedFloat32Array(0, 0.53333336),
 "transitions": PackedFloat32Array(0.18, 1),
-"update": 0,
-"values": [Color(1, 1, 1, 1), Color(1, 1, 1, 0)]
-}
-tracks/4/type = "value"
-tracks/4/imported = false
-tracks/4/enabled = true
-tracks/4/path = NodePath("../UI/RB/Mio:modulate")
-tracks/4/interp = 1
-tracks/4/loop_wrap = true
-tracks/4/keys = {
-"times": PackedFloat32Array(0, 0.53333336),
-"transitions": PackedFloat32Array(0.18, 1),
-"update": 0,
-"values": [Color(1, 1, 1, 1), Color(1, 1, 1, 0)]
-}
-tracks/5/type = "value"
-tracks/5/imported = false
-tracks/5/enabled = true
-tracks/5/path = NodePath("%avg_accuracy:modulate")
-tracks/5/interp = 1
-tracks/5/loop_wrap = true
-tracks/5/keys = {
-"times": PackedFloat32Array(0, 0.53333336),
-"transitions": PackedFloat32Array(1, 1),
 "update": 0,
 "values": [Color(1, 1, 1, 1), Color(1, 1, 1, 0)]
 }
@@ -239,31 +202,31 @@ length = 0.001
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
-tracks/0/path = NodePath("target_shape/accuracy_manager:modulate")
+tracks/0/path = NodePath("../UI/COUNTDOWN:text")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
 "times": PackedFloat32Array(0),
 "transitions": PackedFloat32Array(1),
-"update": 0,
-"values": [Color(1, 1, 1, 0)]
+"update": 1,
+"values": [""]
 }
 tracks/1/type = "value"
 tracks/1/imported = false
 tracks/1/enabled = true
-tracks/1/path = NodePath("../UI/COUNTDOWN:text")
+tracks/1/path = NodePath("../UI/COUNTDOWN:modulate")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/keys = {
 "times": PackedFloat32Array(0),
 "transitions": PackedFloat32Array(1),
-"update": 1,
-"values": [""]
+"update": 0,
+"values": [Color(1, 1, 1, 0)]
 }
 tracks/2/type = "value"
 tracks/2/imported = false
 tracks/2/enabled = true
-tracks/2/path = NodePath("../UI/COUNTDOWN:modulate")
+tracks/2/path = NodePath("../UI/ComboCounter:modulate")
 tracks/2/interp = 1
 tracks/2/loop_wrap = true
 tracks/2/keys = {
@@ -275,7 +238,7 @@ tracks/2/keys = {
 tracks/3/type = "value"
 tracks/3/imported = false
 tracks/3/enabled = true
-tracks/3/path = NodePath("../UI/ComboCounter:modulate")
+tracks/3/path = NodePath("../UI/HitCounter:modulate")
 tracks/3/interp = 1
 tracks/3/loop_wrap = true
 tracks/3/keys = {
@@ -287,7 +250,7 @@ tracks/3/keys = {
 tracks/4/type = "value"
 tracks/4/imported = false
 tracks/4/enabled = true
-tracks/4/path = NodePath("../UI/HitCounter:modulate")
+tracks/4/path = NodePath("../TransOffset/Background:modulate")
 tracks/4/interp = 1
 tracks/4/loop_wrap = true
 tracks/4/keys = {
@@ -299,11 +262,11 @@ tracks/4/keys = {
 tracks/5/type = "value"
 tracks/5/imported = false
 tracks/5/enabled = true
-tracks/5/path = NodePath("../TransOffset/Background:modulate")
+tracks/5/path = NodePath("../UI/RB/Mio:modulate")
 tracks/5/interp = 1
 tracks/5/loop_wrap = true
 tracks/5/keys = {
-"times": PackedFloat32Array(0),
+"times": PackedFloat32Array(0.06666667),
 "transitions": PackedFloat32Array(1),
 "update": 0,
 "values": [Color(1, 1, 1, 0)]
@@ -311,47 +274,23 @@ tracks/5/keys = {
 tracks/6/type = "value"
 tracks/6/imported = false
 tracks/6/enabled = true
-tracks/6/path = NodePath("note_manager:modulate")
+tracks/6/path = NodePath("../UI/HealthBar:offset_transform_position")
 tracks/6/interp = 1
 tracks/6/loop_wrap = true
 tracks/6/keys = {
-"times": PackedFloat32Array(0.033333335),
-"transitions": PackedFloat32Array(1),
-"update": 0,
-"values": [Color(1, 1, 1, 0)]
-}
-tracks/7/type = "value"
-tracks/7/imported = false
-tracks/7/enabled = true
-tracks/7/path = NodePath("../UI/RB/Mio:modulate")
-tracks/7/interp = 1
-tracks/7/loop_wrap = true
-tracks/7/keys = {
-"times": PackedFloat32Array(0.06666667),
-"transitions": PackedFloat32Array(1),
-"update": 0,
-"values": [Color(1, 1, 1, 0)]
-}
-tracks/8/type = "value"
-tracks/8/imported = false
-tracks/8/enabled = true
-tracks/8/path = NodePath("../UI/HealthBar:offset_transform_position")
-tracks/8/interp = 1
-tracks/8/loop_wrap = true
-tracks/8/keys = {
 "times": PackedFloat32Array(0),
 "transitions": PackedFloat32Array(1),
 "update": 0,
 "values": [Vector2(0, 0)]
 }
-tracks/9/type = "value"
-tracks/9/imported = false
-tracks/9/enabled = true
-tracks/9/path = NodePath("%avg_accuracy:modulate")
-tracks/9/interp = 1
-tracks/9/loop_wrap = true
-tracks/9/keys = {
-"times": PackedFloat32Array(0),
+tracks/7/type = "value"
+tracks/7/imported = false
+tracks/7/enabled = true
+tracks/7/path = NodePath("target_shape:modulate")
+tracks/7/interp = 1
+tracks/7/loop_wrap = true
+tracks/7/keys = {
+"times": PackedFloat32Array(0.033333335),
 "transitions": PackedFloat32Array(1),
 "update": 0,
 "values": [Color(1, 1, 1, 1)]
@@ -1041,8 +980,14 @@ _data = {
 
 [node name="gamecanvas" type="CanvasLayer" unique_id=989436332]
 
-[node name="game" type="Node2D" parent="." unique_id=1374663414]
+[node name="game" type="Control" parent="." unique_id=1342730243]
 unique_name_in_owner = true
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
 script = ExtResource("1_uwrxv")
 
 [node name="animator" type="AnimationPlayer" parent="game" unique_id=751108128]
@@ -1051,8 +996,8 @@ process_mode = 3
 libraries/ = SubResource("AnimationLibrary_vtaks")
 
 [node name="target_shape" type="Line2D" parent="game" unique_id=129393694]
+unique_name_in_owner = true
 process_mode = 1
-self_modulate = Color(1, 1, 1, 0)
 position = Vector2(295, 155)
 width = 5.0
 script = ExtResource("3_gee14")
@@ -1060,7 +1005,6 @@ script = ExtResource("3_gee14")
 [node name="accuracy_manager" type="Node2D" parent="game/target_shape" unique_id=1262186888]
 unique_name_in_owner = true
 process_mode = 1
-modulate = Color(1, 1, 1, 0)
 position = Vector2(308, 172)
 script = ExtResource("2_lbhrr")
 
@@ -1078,39 +1022,6 @@ script = ExtResource("3_rysoc")
 stream = ExtResource("7_37s47")
 bus = &"Effect"
 
-[node name="note_manager" type="Node2D" parent="game" unique_id=1684941741]
-unique_name_in_owner = true
-process_mode = 1
-modulate = Color(1, 1, 1, 0)
-position = Vector2(48, 48)
-script = ExtResource("5_p57ef")
-
-[node name="beat_column" type="Node2D" parent="game/note_manager" unique_id=1656757356]
-script = ExtResource("6_u5sy4")
-
-[node name="beat_receptor" type="Sprite2D" parent="game/note_manager/beat_column" unique_id=1856949370]
-texture_filter = 1
-position = Vector2(16, 16)
-scale = Vector2(3, 3)
-texture = ExtResource("7_ca42v")
-
-[node name="beat_receptor_clicked" type="Sprite2D" parent="game/note_manager/beat_column" unique_id=659919077]
-texture_filter = 1
-position = Vector2(16, 16)
-scale = Vector2(3, 3)
-texture = ExtResource("9_rysoc")
-
-[node name="beat_spawner" type="Node2D" parent="game/note_manager/beat_column" unique_id=1101375677]
-position = Vector2(664, 16)
-
-[node name="shape_column" type="Node2D" parent="game/note_manager" unique_id=1719142597]
-unique_name_in_owner = true
-position = Vector2(0, 58)
-script = ExtResource("9_kvuet")
-
-[node name="shape_spawner" type="Node2D" parent="game/note_manager/shape_column" unique_id=1877341765]
-position = Vector2(664, 16)
-
 [node name="draw" parent="game" unique_id=2118743800 node_paths=PackedStringArray("target_shape") instance=ExtResource("10_vtaks")]
 unique_name_in_owner = true
 process_mode = 1
@@ -1122,6 +1033,42 @@ min_direction_sample = 2.0
 direction_threshold_degrees = 45.0
 recognizer = SubResource("Resource_ir15t")
 target_shape = NodePath("../target_shape")
+
+[node name="beat_receptor" type="Sprite2D" parent="game" unique_id=1856949370]
+unique_name_in_owner = true
+texture_filter = 1
+position = Vector2(61, 61.000004)
+scale = Vector2(2.625, 2.625)
+texture = ExtResource("7_ca42v")
+script = ExtResource("9_qnb83")
+
+[node name="beat_receptor_clicked" type="Sprite2D" parent="game/beat_receptor" unique_id=659919077]
+texture_filter = 1
+texture = ExtResource("9_rysoc")
+
+[node name="note_column" type="VBoxContainer" parent="game" unique_id=1003634210]
+unique_name_in_owner = true
+physics_interpolation_mode = 1
+layout_mode = 1
+anchors_preset = 10
+anchor_right = 1.0
+offset_left = 40.0
+offset_top = 40.0
+offset_right = 40.0
+offset_bottom = 132.0
+grow_horizontal = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 8
+script = ExtResource("5_p57ef")
+
+[node name="beat_column" type="Control" parent="game/note_column" unique_id=733562054]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="shape_column" type="Control" parent="game/note_column" unique_id=1170795075]
+layout_mode = 2
+size_flags_vertical = 3
 
 [node name="TransOffset" type="Control" parent="." unique_id=532337667]
 unique_name_in_owner = true
@@ -1186,6 +1133,7 @@ grow_horizontal = 2
 grow_vertical = 2
 
 [node name="HealthBar" type="ColorRect" parent="UI" unique_id=2084511347]
+modulate = Color(1, 1, 1, 0)
 layout_mode = 1
 anchors_preset = 7
 anchor_left = 0.5
@@ -1208,10 +1156,16 @@ anchors_preset = 4
 anchor_top = 0.5
 anchor_bottom = 0.5
 offset_top = -5.0
-offset_right = 72.5
+offset_right = 199.5
 offset_bottom = 4.0
 grow_vertical = 2
 color = Color(1, 0, 0, 1)
+
+[node name="WinScreen" parent="UI" unique_id=107879033 instance=ExtResource("21_bt5mj")]
+unique_name_in_owner = true
+visible = false
+z_index = 22
+layout_mode = 1
 
 [node name="HitCounter" type="Control" parent="UI" unique_id=324871254]
 modulate = Color(1, 1, 1, 0)
@@ -1592,20 +1546,25 @@ layout_mode = 2
 theme = ExtResource("9_0tnpc")
 text = "QUIT"
 
-[node name="WinScreen" parent="UI" unique_id=107879033 instance=ExtResource("21_bt5mj")]
+[node name="resync_label" type="Label" parent="." unique_id=862891811]
 unique_name_in_owner = true
-visible = false
-z_index = 22
-layout_mode = 1
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -160.0
+offset_top = -17.0
+grow_horizontal = 0
+grow_vertical = 0
+text = "RESYNC TRIGGERED: 0x"
 
 [connection signal="animation_finished" from="game/animator" to="game" method="_on_animator_animation_finished"]
 [connection signal="animation_finished" from="game/animator" to="UI/PauseScreen" method="_on_animator_animation_finished"]
-[connection signal="bad_draw" from="game/target_shape/accuracy_manager" to="game/note_manager/beat_column" method="_on_accuracy_manager_bad_draw"]
-[connection signal="beat_hit" from="game/note_manager/beat_column" to="game/target_shape/accuracy_manager/judge_spawner" method="_on_beat_column_beat_hit"]
-[connection signal="draw_direction_changes" from="game/draw" to="game/note_manager/beat_column" method="_on_draw_direction_changes"]
+[connection signal="draw_direction_changes" from="game/draw" to="game/beat_receptor" method="_on_draw_draw_direction_changes"]
 [connection signal="draw_ended" from="game/draw" to="game/target_shape/accuracy_manager" method="_on_draw_ended"]
-[connection signal="draw_ended" from="game/draw" to="game/note_manager/beat_column" method="_on_draw_draw_ended"]
-[connection signal="draw_started" from="game/draw" to="game/note_manager/beat_column" method="_on_draw_started"]
+[connection signal="draw_ended" from="game/draw" to="game/beat_receptor" method="_on_draw_draw_ended"]
+[connection signal="draw_started" from="game/draw" to="game/beat_receptor" method="_on_draw_draw_started"]
 [connection signal="shape_accuracy_ready" from="game/draw" to="game/target_shape/accuracy_manager" method="_on_draw_shape_accuracy_ready"]
 [connection signal="health_depleted" from="UI/HealthBar" to="UI/Game Over" method="_on_health_bar_health_depleted"]
 [connection signal="animation_finished" from="UI/RB/Mio" to="UI/RB/Mio" method="_on_animation_finished"]
