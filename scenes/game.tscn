@@ -122,7 +122,7 @@ tracks/4/keys = {
 tracks/5/type = "value"
 tracks/5/imported = false
 tracks/5/enabled = true
-tracks/5/path = NodePath("%game/../UI/health_bar:offset_transform_position")
+tracks/5/path = NodePath("../UI/health_bar:offset_transform_position")
 tracks/5/interp = 1
 tracks/5/loop_wrap = true
 tracks/5/keys = {
@@ -134,7 +134,7 @@ tracks/5/keys = {
 tracks/6/type = "value"
 tracks/6/imported = false
 tracks/6/enabled = true
-tracks/6/path = NodePath("%game/../UI/health_bar:modulate")
+tracks/6/path = NodePath("../UI/health_bar:modulate")
 tracks/6/interp = 1
 tracks/6/loop_wrap = true
 tracks/6/keys = {
@@ -198,7 +198,7 @@ tracks/3/keys = {
 tracks/4/type = "value"
 tracks/4/imported = false
 tracks/4/enabled = true
-tracks/4/path = NodePath("%game/../UI/health_bar:modulate")
+tracks/4/path = NodePath("../UI/health_bar:modulate")
 tracks/4/interp = 1
 tracks/4/loop_wrap = true
 tracks/4/keys = {
@@ -210,7 +210,7 @@ tracks/4/keys = {
 tracks/5/type = "value"
 tracks/5/imported = false
 tracks/5/enabled = true
-tracks/5/path = NodePath("%game/../UI/health_bar:offset_transform_position")
+tracks/5/path = NodePath("../UI/health_bar:offset_transform_position")
 tracks/5/interp = 1
 tracks/5/loop_wrap = true
 tracks/5/keys = {
@@ -345,7 +345,7 @@ tracks/5/keys = {
 tracks/6/type = "value"
 tracks/6/imported = false
 tracks/6/enabled = true
-tracks/6/path = NodePath("%game/../UI/health_bar:offset_transform_position")
+tracks/6/path = NodePath("../UI/health_bar:offset_transform_position")
 tracks/6/interp = 1
 tracks/6/loop_wrap = true
 tracks/6/keys = {
@@ -357,7 +357,7 @@ tracks/6/keys = {
 tracks/7/type = "value"
 tracks/7/imported = false
 tracks/7/enabled = true
-tracks/7/path = NodePath("%game/../UI/health_bar:modulate")
+tracks/7/path = NodePath("../UI/health_bar:modulate")
 tracks/7/interp = 1
 tracks/7/loop_wrap = true
 tracks/7/keys = {
@@ -996,6 +996,37 @@ _data = {
 &"on_hit_anim": SubResource("Animation_3x338")
 }
 
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_0gbic"]
+content_margin_left = 7.0
+content_margin_top = 7.0
+content_margin_right = 7.0
+content_margin_bottom = 7.0
+bg_color = Color(0.13319641, 0.13319641, 0.13319638, 0.34509805)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.31801978, 0.31801984, 0.31801954, 0.3019608)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_e41g7"]
+content_margin_left = 46.0
+content_margin_top = 7.0
+content_margin_right = 46.0
+content_margin_bottom = 7.0
+bg_color = Color(0.23753929, 0.23753908, 0.23753911, 0.6784314)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_0lrm4"]
+content_margin_left = 7.0
+content_margin_top = 7.0
+content_margin_right = 7.0
+content_margin_bottom = 7.0
+bg_color = Color(0.13319641, 0.13319641, 0.13319638, 0.34509805)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.8, 0, 0, 1)
+
 [sub_resource type="Animation" id="Animation_qnb83"]
 length = 0.001
 tracks/0/type = "value"
@@ -1080,6 +1111,109 @@ _data = {
 &"RESET": SubResource("Animation_qnb83"),
 &"show": SubResource("Animation_bhx41")
 }
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_sgl2t"]
+content_margin_left = 46.0
+content_margin_top = 7.0
+content_margin_right = 46.0
+content_margin_bottom = 7.0
+bg_color = Color(1, 0.8627451, 0.3254902, 0.34509805)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.31801978, 0.31801984, 0.31801954, 0.3019608)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_v2yb1"]
+content_margin_left = 46.0
+content_margin_top = 7.0
+content_margin_right = 46.0
+content_margin_bottom = 7.0
+bg_color = Color(0.86888564, 0.99999994, 0.8559546, 0.18039216)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_qouja"]
+content_margin_left = 46.0
+content_margin_top = 7.0
+content_margin_right = 46.0
+content_margin_bottom = 7.0
+bg_color = Color(1, 0.8627451, 0.3254902, 0.34509805)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.8, 0, 0, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_wljb1"]
+content_margin_left = 46.0
+content_margin_top = 7.0
+content_margin_right = 46.0
+content_margin_bottom = 7.0
+bg_color = Color(1, 0.8627451, 0.3254902, 0.34509805)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.8, 0, 0, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_js0lu"]
+content_margin_left = 46.0
+content_margin_top = 7.0
+content_margin_right = 46.0
+content_margin_bottom = 7.0
+bg_color = Color(0.56078434, 0.13333334, 0.13333334, 0.34509805)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.31801978, 0.31801984, 0.31801954, 0.3019608)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_gxtfn"]
+content_margin_left = 46.0
+content_margin_top = 7.0
+content_margin_right = 46.0
+content_margin_bottom = 7.0
+bg_color = Color(0.56078434, 0.13333334, 0.13333334, 0.34509805)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.8, 0, 0, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_qnb83"]
+content_margin_left = 46.0
+content_margin_top = 7.0
+content_margin_right = 46.0
+content_margin_bottom = 7.0
+bg_color = Color(0.7137255, 1, 0.6901961, 0.34509805)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.31801978, 0.31801984, 0.31801954, 0.3019608)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_sww3w"]
+content_margin_left = 46.0
+content_margin_top = 7.0
+content_margin_right = 46.0
+content_margin_bottom = 7.0
+bg_color = Color(0.7137255, 1, 0.6901961, 0.34509805)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.8, 0, 0, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_suyxu"]
+content_margin_left = 46.0
+content_margin_top = 7.0
+content_margin_right = 46.0
+content_margin_bottom = 7.0
+bg_color = Color(0.7137255, 1, 0.6901961, 0.34509805)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.8, 0, 0, 1)
 
 [node name="gamecanvas" type="CanvasLayer" unique_id=989436332]
 
@@ -1416,18 +1550,22 @@ visible_ratio = 2.857143
 
 [node name="PauseButton" type="Button" parent="UI" unique_id=846645553]
 layout_mode = 1
-anchors_preset = 3
-anchor_left = 1.0
+anchors_preset = 7
+anchor_left = 0.5
 anchor_top = 1.0
-anchor_right = 1.0
+anchor_right = 0.5
 anchor_bottom = 1.0
-offset_left = -140.0
-offset_top = -81.0
-offset_right = -107.0
-offset_bottom = -46.0
-grow_horizontal = 0
+offset_left = -16.0
+offset_top = -56.0
+offset_right = 17.0
+offset_bottom = -21.0
+grow_horizontal = 2
 grow_vertical = 0
 theme_override_font_sizes/font_size = 19
+theme_override_styles/normal = SubResource("StyleBoxFlat_0gbic")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_e41g7")
+theme_override_styles/hover = SubResource("StyleBoxFlat_0lrm4")
+theme_override_styles/focus = SubResource("StyleBoxFlat_0lrm4")
 text = "||"
 script = ExtResource("24_suyxu")
 
@@ -1548,15 +1686,14 @@ color = Color(0, 0, 0, 0.8235294)
 
 [node name="VBoxContainer2" type="VBoxContainer" parent="UI/Game Over/Menu" unique_id=2067654694]
 layout_mode = 1
-anchors_preset = 8
-anchor_left = 0.5
+anchors_preset = 14
 anchor_top = 0.5
-anchor_right = 0.5
+anchor_right = 1.0
 anchor_bottom = 0.5
-offset_left = -111.0
-offset_top = -66.5
-offset_right = 111.0
-offset_bottom = 66.5
+offset_left = 108.0
+offset_top = -70.5
+offset_right = -108.0
+offset_bottom = 70.5
 grow_horizontal = 2
 grow_vertical = 2
 theme_override_constants/separation = 22
@@ -1574,17 +1711,38 @@ theme_override_constants/separation = 6
 [node name="Restart" type="Button" parent="UI/Game Over/Menu/VBoxContainer2/VBoxContainer" unique_id=443015531]
 layout_mode = 2
 theme = ExtResource("9_0tnpc")
+theme_override_styles/normal = SubResource("StyleBoxFlat_sgl2t")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_v2yb1")
+theme_override_styles/hover = SubResource("StyleBoxFlat_qouja")
+theme_override_styles/focus = SubResource("StyleBoxFlat_wljb1")
 text = "RESTART"
 
 [node name="Quit" type="Button" parent="UI/Game Over/Menu/VBoxContainer2/VBoxContainer" unique_id=2108236691]
 layout_mode = 2
 theme = ExtResource("9_0tnpc")
+theme_override_styles/normal = SubResource("StyleBoxFlat_js0lu")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_v2yb1")
+theme_override_styles/hover = SubResource("StyleBoxFlat_gxtfn")
+theme_override_styles/focus = SubResource("StyleBoxFlat_gxtfn")
 text = "QUIT"
+
+[node name="health_bar" type="ProgressBar" parent="UI" unique_id=317437120]
+layout_mode = 1
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_left = 42.0
+offset_top = -130.0
+offset_right = 145.0
+offset_bottom = -117.0
+grow_vertical = 0
+offset_transform_enabled = true
+theme_override_font_sizes/font_size = 6
+script = ExtResource("24_e1j6l")
 
 [node name="PauseScreen" type="Control" parent="UI" unique_id=737804048]
 unique_name_in_owner = true
 process_mode = 3
-visible = false
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -1604,50 +1762,44 @@ color = Color(0, 0, 0, 0.75686276)
 
 [node name="VBoxContainer" type="VBoxContainer" parent="UI/PauseScreen" unique_id=1832175987]
 layout_mode = 1
-anchors_preset = 8
-anchor_left = 0.5
+anchors_preset = 14
 anchor_top = 0.5
-anchor_right = 0.5
+anchor_right = 1.0
 anchor_bottom = 0.5
-offset_left = -96.5
+offset_left = 108.0
 offset_top = -50.5
-offset_right = 96.5
+offset_right = -108.0
 offset_bottom = 50.5
 grow_horizontal = 2
 grow_vertical = 2
-theme_override_constants/separation = 4
+theme_override_constants/separation = 10
 
 [node name="Continue" type="Button" parent="UI/PauseScreen/VBoxContainer" unique_id=1308529469]
 layout_mode = 2
 theme = ExtResource("9_0tnpc")
+theme_override_styles/normal = SubResource("StyleBoxFlat_qnb83")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_v2yb1")
+theme_override_styles/hover = SubResource("StyleBoxFlat_sww3w")
+theme_override_styles/focus = SubResource("StyleBoxFlat_suyxu")
 text = "CONTINUE"
 
 [node name="Restart" type="Button" parent="UI/PauseScreen/VBoxContainer" unique_id=2137682166]
 layout_mode = 2
 theme = ExtResource("9_0tnpc")
+theme_override_styles/normal = SubResource("StyleBoxFlat_sgl2t")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_v2yb1")
+theme_override_styles/hover = SubResource("StyleBoxFlat_qouja")
+theme_override_styles/focus = SubResource("StyleBoxFlat_wljb1")
 text = "RESTART"
 
 [node name="Quit" type="Button" parent="UI/PauseScreen/VBoxContainer" unique_id=1588165413]
 layout_mode = 2
 theme = ExtResource("9_0tnpc")
+theme_override_styles/normal = SubResource("StyleBoxFlat_js0lu")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_v2yb1")
+theme_override_styles/hover = SubResource("StyleBoxFlat_gxtfn")
+theme_override_styles/focus = SubResource("StyleBoxFlat_gxtfn")
 text = "QUIT"
-
-[node name="health_bar" type="ProgressBar" parent="UI" unique_id=317437120]
-layout_mode = 1
-anchors_preset = 7
-anchor_left = 0.5
-anchor_top = 1.0
-anchor_right = 0.5
-anchor_bottom = 1.0
-offset_left = -104.0
-offset_top = -52.0
-offset_right = 104.0
-offset_bottom = -33.0
-grow_horizontal = 2
-grow_vertical = 0
-offset_transform_enabled = true
-theme_override_font_sizes/font_size = 10
-script = ExtResource("24_e1j6l")
 
 [node name="resync_label" type="Label" parent="." unique_id=862891811]
 unique_name_in_owner = true
@@ -1675,7 +1827,7 @@ text = "RESYNC TRIGGERED: 0x"
 [connection signal="button_down" from="UI/PauseButton" to="UI/PauseButton" method="_on_button_down"]
 [connection signal="pressed" from="UI/Game Over/Menu/VBoxContainer2/VBoxContainer/Restart" to="UI/Game Over" method="_on_restart_pressed"]
 [connection signal="pressed" from="UI/Game Over/Menu/VBoxContainer2/VBoxContainer/Quit" to="UI/Game Over" method="_on_quit_pressed"]
+[connection signal="health_depleted" from="UI/health_bar" to="UI/Game Over" method="_on_health_bar_health_depleted"]
 [connection signal="pressed" from="UI/PauseScreen/VBoxContainer/Continue" to="UI/PauseScreen" method="_on_continue_pressed"]
 [connection signal="pressed" from="UI/PauseScreen/VBoxContainer/Restart" to="UI/PauseScreen" method="_on_restart_pressed"]
 [connection signal="pressed" from="UI/PauseScreen/VBoxContainer/Quit" to="UI/PauseScreen" method="_on_quit_pressed"]
-[connection signal="health_depleted" from="UI/health_bar" to="UI/Game Over" method="_on_health_bar_health_depleted"]

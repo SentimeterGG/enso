@@ -138,6 +138,37 @@ _data = {
 &"show": SubResource("Animation_2l6cc")
 }
 
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_0gbic"]
+content_margin_left = 46.0
+content_margin_top = 7.0
+content_margin_right = 46.0
+content_margin_bottom = 7.0
+bg_color = Color(0.13319641, 0.13319641, 0.13319638, 0.34509805)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.31801978, 0.31801984, 0.31801954, 0.3019608)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_e41g7"]
+content_margin_left = 46.0
+content_margin_top = 7.0
+content_margin_right = 46.0
+content_margin_bottom = 7.0
+bg_color = Color(0.23753929, 0.23753908, 0.23753911, 0.6784314)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_0lrm4"]
+content_margin_left = 46.0
+content_margin_top = 7.0
+content_margin_right = 46.0
+content_margin_bottom = 7.0
+bg_color = Color(0.13319641, 0.13319641, 0.13319638, 0.34509805)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.8, 0, 0, 1)
+
 [node name="WinScreen" type="Control" unique_id=107879033]
 layout_mode = 3
 anchors_preset = 15
@@ -205,11 +236,15 @@ layout_mode = 2
 size_flags_horizontal = 4
 theme_override_font_sizes/font_size = 28
 text = "100"
+horizontal_alignment = 1
+vertical_alignment = 1
 
 [node name="Label2" type="Label" parent="MarginContainer/HBoxContainer/Panel/MarginContainer/Control/Miss" unique_id=84435322]
 layout_mode = 2
 size_flags_horizontal = 4
 text = "MISS"
+horizontal_alignment = 1
+vertical_alignment = 1
 
 [node name="Bad" type="VBoxContainer" parent="MarginContainer/HBoxContainer/Panel/MarginContainer/Control" unique_id=79273770]
 layout_mode = 1
@@ -231,11 +266,15 @@ layout_mode = 2
 size_flags_horizontal = 4
 theme_override_font_sizes/font_size = 28
 text = "10"
+horizontal_alignment = 1
+vertical_alignment = 1
 
 [node name="Label2" type="Label" parent="MarginContainer/HBoxContainer/Panel/MarginContainer/Control/Bad" unique_id=2038449191]
 layout_mode = 2
 size_flags_horizontal = 4
 text = "BAD"
+horizontal_alignment = 1
+vertical_alignment = 1
 
 [node name="Perfect" type="VBoxContainer" parent="MarginContainer/HBoxContainer/Panel/MarginContainer/Control" unique_id=29641209]
 layout_mode = 1
@@ -251,10 +290,14 @@ layout_mode = 2
 size_flags_horizontal = 4
 theme_override_font_sizes/font_size = 28
 text = "100"
+horizontal_alignment = 1
+vertical_alignment = 1
 
 [node name="Label2" type="Label" parent="MarginContainer/HBoxContainer/Panel/MarginContainer/Control/Perfect" unique_id=2065266363]
 layout_mode = 2
 text = "PERFECT"
+horizontal_alignment = 1
+vertical_alignment = 1
 
 [node name="Good" type="VBoxContainer" parent="MarginContainer/HBoxContainer/Panel/MarginContainer/Control" unique_id=1376499774]
 layout_mode = 1
@@ -275,20 +318,33 @@ layout_mode = 2
 size_flags_horizontal = 4
 theme_override_font_sizes/font_size = 28
 text = "100"
+horizontal_alignment = 1
+vertical_alignment = 1
 
 [node name="Label2" type="Label" parent="MarginContainer/HBoxContainer/Panel/MarginContainer/Control/Good" unique_id=1873253468]
 layout_mode = 2
 size_flags_horizontal = 4
 text = "GOOD"
+horizontal_alignment = 1
+vertical_alignment = 1
 
 [node name="AccuracyLabel" type="Label" parent="MarginContainer/HBoxContainer/Panel/MarginContainer/Control" unique_id=1121812141]
 unique_name_in_owner = true
-layout_mode = 0
-offset_left = 13.0
-offset_top = 193.0
-offset_right = 205.0
-offset_bottom = 215.0
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -81.0
+offset_top = -40.0
+offset_right = 82.0
+offset_bottom = -18.0
+grow_horizontal = 2
+grow_vertical = 0
 text = "ACCURACY: 100%"
+horizontal_alignment = 1
+vertical_alignment = 1
 
 [node name="Control" type="Control" parent="MarginContainer/HBoxContainer" unique_id=1685957736]
 layout_mode = 2
@@ -353,13 +409,25 @@ offset_top = -60.0
 offset_right = 80.5
 grow_horizontal = 2
 grow_vertical = 0
+theme_override_constants/separation = 10
 
 [node name="Button" type="Button" parent="MarginContainer/HBoxContainer/Control/Button" unique_id=952298941]
 layout_mode = 2
+size_flags_vertical = 0
+theme_override_font_sizes/font_size = 13
+theme_override_styles/normal = SubResource("StyleBoxFlat_0gbic")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_e41g7")
+theme_override_styles/hover = SubResource("StyleBoxFlat_0lrm4")
+theme_override_styles/focus = SubResource("StyleBoxFlat_0lrm4")
 text = "RESTART"
 
 [node name="BackToMenu" type="Button" parent="MarginContainer/HBoxContainer/Control/Button" unique_id=1318194569]
 layout_mode = 2
+theme_override_font_sizes/font_size = 13
+theme_override_styles/normal = SubResource("StyleBoxFlat_0gbic")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_e41g7")
+theme_override_styles/hover = SubResource("StyleBoxFlat_0lrm4")
+theme_override_styles/focus = SubResource("StyleBoxFlat_0lrm4")
 text = "BACK TO MENU"
 
 [node name="Title" type="VBoxContainer" parent="MarginContainer/HBoxContainer/Control" unique_id=1087983556]

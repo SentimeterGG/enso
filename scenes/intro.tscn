@@ -3,7 +3,7 @@
 [ext_resource type="AudioStream" uid="uid://deiuig3cvhut6" path="res://assets/sound/WelcomeToENSO.mp3" id="1_4bx60"]
 [ext_resource type="Script" uid="uid://dv7xb0tfkadtx" path="res://scripts/intro.gd" id="1_i2l1n"]
 [ext_resource type="FontFile" uid="uid://cwhe7euewv5f6" path="res://assets/fonts/ttf/PixelCode.ttf" id="2_4bx60"]
-[ext_resource type="Texture2D" uid="uid://dcshijaxvl882" path="res://assets/branding/ENSO-Text.png" id="5_es01l"]
+[ext_resource type="FontFile" uid="uid://o0cdle58rn3j" path="res://assets/fonts/ithaca.medium.ttf" id="5_es01l"]
 [ext_resource type="PackedScene" uid="uid://dj8lgkjrkbvka" path="res://scenes/loading_system_scene.tscn" id="5_wfs7u"]
 
 [sub_resource type="Animation" id="Animation_i2l1n"]
@@ -19,6 +19,18 @@ tracks/0/keys = {
 "transitions": PackedFloat32Array(1),
 "update": 0,
 "values": [1.0]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("RB/Title:visible_ratio")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [0.0]
 }
 
 [sub_resource type="Animation" id="Animation_wfs7u"]
@@ -75,6 +87,18 @@ tracks/3/keys = {
 "update": 0,
 "values": [Color(1, 1, 1, 0), Color(1, 1, 1, 1)]
 }
+tracks/4/type = "value"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath("RB/Title:visible_ratio")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/keys = {
+"times": PackedFloat32Array(0.70000005, 1.0333333),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [0.0, 1.0]
+}
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_es01l"]
 _data = {
@@ -105,17 +129,16 @@ libraries/ = SubResource("AnimationLibrary_es01l")
 autoplay = &"intro"
 
 [node name="Welcome" type="Label" parent="." unique_id=1520566760]
-modulate = Color(1, 1, 1, 0)
 layout_mode = 1
 anchors_preset = 3
 anchor_left = 1.0
 anchor_top = 1.0
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_left = -159.0
-offset_top = -145.0
-offset_right = -46.0
-offset_bottom = -122.0
+offset_left = -135.0
+offset_top = -121.0
+offset_right = -22.0
+offset_bottom = -98.0
 grow_horizontal = 0
 grow_vertical = 0
 offset_transform_enabled = true
@@ -132,7 +155,7 @@ layout_mode = 1
 sceneName = "uid://ql5w4t6kd2jq"
 
 [node name="RB" type="MarginContainer" parent="." unique_id=146546973]
-modulate = Color(1, 1, 1, 0)
+modulate = Color(1, 1, 1, 0.44444448)
 layout_mode = 1
 anchors_preset = 3
 anchor_left = 1.0
@@ -146,7 +169,20 @@ grow_vertical = 0
 theme_override_constants/margin_right = 16
 theme_override_constants/margin_bottom = 16
 
-[node name="Title" type="TextureRect" parent="RB" unique_id=250998074]
+[node name="Title" type="Label" parent="RB" unique_id=841755571]
+unique_name_in_owner = true
 layout_mode = 2
 offset_transform_enabled = true
-texture = ExtResource("5_es01l")
+offset_transform_position_ratio = Vector2(0, 0.205)
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 0.23529412)
+theme_override_constants/shadow_offset_x = 4
+theme_override_constants/shadow_offset_y = 4
+theme_override_constants/shadow_outline_size = 0
+theme_override_fonts/font = ExtResource("5_es01l")
+theme_override_font_sizes/font_size = 109
+text = "ENSO"
+horizontal_alignment = 2
+visible_characters = 0
+visible_characters_behavior = 1
+visible_ratio = 0.0

@@ -15,6 +15,8 @@ config/description="A rythm game where the player draws shapes in time with the 
 config/version="v1.0.0-alpha"
 run/main_scene="uid://c5f051rryjurh"
 config/features=PackedStringArray("4.7", "GL Compatibility")
+boot_splash/bg_color=Color(0, 0, 0, 1)
+boot_splash/show_image=false
 config/icon="uid://njbm4iom75t2"
 
 [audio]
