@@ -14,7 +14,12 @@ func _ready() -> void:
 func _on_beat_column_beat_hit(error_ms: float, _beat_id: String = "") -> void:
 	var od := _od()
 	var kind := HitResult.classify(error_ms, od)
-
+	if kind != HitResult.Kind.MISS:
+		score.combo += 1
+		score._play_combo_anim(true)
+	else:
+		score.combo = 0
+		score._play_combo_anim(false)
 	_spawn_kind(kind)
 	score.insert(kind)
 
