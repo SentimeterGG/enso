@@ -7,10 +7,13 @@ var _flash_time_left: float = 0.0
 @onready var _score: ScoreManager = %accuracy_manager
 @onready var _column: Control = %beat_column
 @onready var _target_shape: Line2D = %target_shape
+@onready var _draw: Line2D = %draw
 var last_beat_id = ""
 
 
 func _ready() -> void:
+	beat_receptor_clicked.texture = SkinManager.beat_receptor_clicked
+	texture = SkinManager.beat_receptor
 	beat_receptor_clicked.visible = false
 
 
@@ -23,6 +26,7 @@ func _process(delta: float) -> void:
 
 
 func _on_draw_draw_started() -> void:
+	_draw.modulate = Color.WHITE
 	try_hit()
 
 
@@ -95,6 +99,11 @@ func _od() -> float:
 	return 0.0
 
 
-func _on_draw_draw_ended() -> void:
+func _on_draw_shape_accuracy_ready(accuracy: float) -> void:
+	if _score != null and accuracy > _score.DRAW_BAD_ACCURACY:
+		# set the color to the last_beat point color
+		var col := Color.WHITE
+		if Global.current_chart != null:
+			col = Global.current_chart.shape_colors.get(last_beat_id, Color.WHITE)
+		_draw.modulate = col
 	last_beat_id = ""
-	pass  # Replace with function body.

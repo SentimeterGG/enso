@@ -29,7 +29,6 @@ var _synced_stream: AudioStream = null
 ## fire ~0.3s later and override the real selection's song.
 var _initial_select_done: bool = false
 @onready var draw_here_label: Label = %"Draw Here"
-@onready var preview_bg: TextureRect = %PreviewBG
 @onready var beat_sound: AudioStreamPlayer = $"beat_sound"
 @onready var draw_manager: Line2D = $draw
 @onready var level_list: Control = $"Main Content/HBoxContainer/RSide/Level List"
@@ -38,6 +37,7 @@ var _initial_select_done: bool = false
 
 func _ready() -> void:
 	$AnimationPlayer.play("Opening")
+	GlobalBackground.set_base_alpha(0.4)
 	call_deferred("_warn_skipped_incomplete")
 	call_deferred("_select_current_bg_song")
 	DiscordRPC.set_activity("Choosing A Map", "")
@@ -136,10 +136,7 @@ func play_selected() -> void:
 	if level_list == null:
 		push_warning("level_selector: level list not found.")
 		return
-	if has_node("/root/BgMusic"):
-		var bg := get_node("/root/BgMusic") as AudioStreamPlayer
-		if bg != null:
-			bg.change_song()
+	BgMusic.change_song()
 	var chart := LevelLoader.load_selected(level_list)
 	if chart.is_empty():
 		push_warning("level_selector: selected chart failed to load, staying put.")
@@ -159,6 +156,7 @@ func _on_animation_player_animation_finished(anim_name: StringName) -> void:
 func _on_draw_guessed_shape(shape: String) -> void:
 	if shape == "circle":
 		_pending_game = false
+		GlobalBackground.change(null)
 		$AnimationPlayer.play("Out")
 	elif shape == "triangle":
 		play_selected()
@@ -254,20 +252,7 @@ func _on_level_item_hovered(chart_path: String) -> void:
 	_current_offset = chart.beat_offset()
 
 	# Fade transition: old becomes invisible, new appears
-	var new_texture := Global.load_safely(chart.get_bg())
-	if _bg_tween != null and _bg_tween.is_valid():
-		_bg_tween.kill()
-	preview_bg.modulate.a = 1.0
-	_bg_tween = create_tween()
-	_bg_tween.tween_property(preview_bg, "modulate:a", 0.0, 0.2)
-	_bg_tween.tween_property(preview_bg, "texture", new_texture, 0.0).set_delay(0.2)
-	(
-		_bg_tween
-		. tween_property(preview_bg, "modulate:a", 1.0, 0.5)
-		. set_delay(0.2)
-		. set_trans(Tween.TRANS_CUBIC)
-		. set_ease(Tween.EASE_OUT)
-	)
+	GlobalBackground.change(str(chart.get_bg()))
 
 	var beat_duration := 1.0 / _current_bpm if _current_bpm > 0.0 else 0.5
 	var preview := chart.preview_start()
