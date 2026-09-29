@@ -2,7 +2,7 @@
 # animations, enables free drawing after the intro, and goes to the level
 # selector scene when a circle gesture is recognized.
 # RETURN: route to the level selector when a circle is drawn
-extends Control
+extends CanvasLayer
 
 enum GoTo { NONE, PLAY, SETTINGS, EDITOR }
 const PULSE_STRENGTH := 0.05
@@ -12,7 +12,6 @@ const PULSE_FALLOFF := 0.25
 @onready var title = %Title
 @onready var version_label = %Version
 @onready var updater = %updater
-@onready var bg: TextureRect = $MainMenuLayer/BG
 var go_to: GoTo = GoTo.NONE
 var _pulse_tween: Tween = null
 var _current_bpm: float
@@ -25,15 +24,16 @@ var mouse_hovered: bool = false
 var BG_Image: Array[String] = [
 	"res://assets/sprites/menu_bg/bg2.png",
 	"res://assets/sprites/menu_bg/ShapesBG.png",
-	
 ]
 
 var BG_path: String
 
+
 func _ready() -> void:
 	randomize()
 	BG_path = BG_Image.pick_random()
-	bg.texture = load(BG_path)
+	GlobalBackground.set_base_alpha(1.0)
+	GlobalBackground.change(BG_path)
 	version_label.text = app_version
 	updater.check_update(app_version)
 	VolumePopup.can_popup = true
@@ -65,7 +65,7 @@ func _physics_process(_delta: float) -> void:
 	# Guard Rail
 	#print(mouse_hovered)
 	#if _current_bpm <= 0.0 or draw_here_label == null or title == null:
-		#return
+	#return
 	if BgMusic == null or not BgMusic.playing:
 		return
 	var beat_duration := 1.0 / _current_bpm
@@ -100,12 +100,15 @@ func _on_draw_guessed_shape(shape: String) -> void:
 	match shape:
 		"circle":
 			go_to = GoTo.PLAY
+			GlobalBackground.change(null)
 			%Transition.play("Out")
 		"line":
 			go_to = GoTo.SETTINGS
+			GlobalBackground.change(null)
 			%Transition.play("Out")
 		"square":
 			go_to = GoTo.EDITOR
+			GlobalBackground.change(null)
 			%Transition.play("Out")
 		"exit":
 			%Transition.play("Exit Game")

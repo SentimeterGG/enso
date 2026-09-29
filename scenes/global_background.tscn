@@ -1,0 +1,23 @@
+[gd_scene format=3 uid="uid://dn2x1lhta4dn1"]
+
+[ext_resource type="Texture2D" uid="uid://c5y41evpmy05y" path="res://assets/sprites/menu_bg/ShapesBG.png" id="1_evx8p"]
+[ext_resource type="Script" uid="uid://cgkyyr4bji6o" path="res://scripts/ui/menu_background.gd" id="2_cgxjn"]
+
+[node name="BG" type="TextureRect" unique_id=1367899829]
+modulate = Color(1, 1, 1, 0.9250001)
+self_modulate = Color(1, 1, 1, 0.777)
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_right = 30.442383
+offset_bottom = 14.0
+grow_horizontal = 2
+grow_vertical = 2
+offset_transform_enabled = true
+offset_transform_position = Vector2(-24, 0)
+texture = ExtResource("1_evx8p")
+expand_mode = 2
+stretch_mode = 6
+script = ExtResource("2_cgxjn")
+parallax_strength = 15.52
+smoothing_speed = 4.275

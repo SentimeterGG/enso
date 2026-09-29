@@ -11,11 +11,14 @@ var CHART_PATH := "res://levels/Wasurete Yaranai by kessoku band mapped by ENSO 
 @onready var target_shape: Line2D = $target_shape
 @onready var animator: AnimationPlayer = %animator
 @onready var video_stream_player = %VideoStreamPlayer
-@onready var bg_sprite: TextureRect = %BG
 @onready var accuracy_manager := %accuracy_manager
+var video_bg_visible = false
+var _video_fade_tween: Tween = null
 
 
 func _ready():
+	video_stream_player.modulate = Color(1.0, 1.0, 1.0, Global.settingsData.bg_visibilty * 0.01)
+	GlobalBackground.disable_parallax()
 	BgMusic.change_song(null)
 	BgMusic._disable_loop()
 	Input.set_custom_mouse_cursor(SkinManager.cursor_sprite, Input.CURSOR_ARROW, Vector2(12, 12))
@@ -24,18 +27,13 @@ func _ready():
 		Global.current_chart = LevelLoader.load_chart(CHART_PATH)
 	if Global.current_chart.get_video_background() != "":
 		video_stream_player.stream = Global.load_safely(Global.current_chart.get_video_background())
-	if Global.current_chart.get_bg() != "":
-		bg_sprite.texture = Global.load_safely(Global.current_chart.get_bg())
 	if Global.settingsData.video_bg:
 		if Global.current_chart.get_video_background() == "":
-			%BG.visible = true
-			%VideoStreamPlayer.visible = false
+			video_bg_visible = false
 		else:
-			%BG.visible = false
-			%VideoStreamPlayer.visible = true
+			video_bg_visible = true
 	else:
-		%BG.visible = true
-		%VideoStreamPlayer.visible = false
+		video_bg_visible = false
 	note_manager.bake(Global.current_chart)
 	note_manager.reposition()
 	BgMusic.load_song(Global.load_safely(Global.current_chart.song_path()))
@@ -58,27 +56,39 @@ func _on_animator_animation_finished(anim_name: StringName) -> void:
 		if hb != null and hb.has_method("reset_health"):
 			hb.reset_health()
 		note_manager._start()
-		animator.play("bg_fade")
-		# Preroll silence: notes scroll in from offscreen during this so the
-		# first note lands on the receptor exactly when its hit_time plays.
-		await get_tree().create_timer(note_manager.calc_preroll()).timeout
+		var preroll: float = note_manager.calc_preroll()
+		await get_tree().create_timer(preroll).timeout
 		if not is_inside_tree():
 			return
 		BgMusic.start()
-		video_stream_player.play()
+		GlobalBackground.set_base_alpha(Global.settingsData.bg_visibilty * 0.01)
+		if video_bg_visible == true:
+			_fade_in_video_bg(0.7)
+			video_stream_player.play()
 	elif anim_name == "Outro":
 		# Failed during the outro: the game-over menu already owns the screen.
-		var go := $"UI/Game Over"
+		var go := %"Game Over"
 		if go == null or not go.visible:
-			%WinScreen._show(%accuracy_manager._get_counts(), %accuracy_manager.combined_acc())
-	%TransOffset.modulate = Color(1.0, 1.0, 1.0, Global.settingsData.bg_visibilty * 0.01)
+			%WinScreen._show(%accuracy_manager._get_counts(), %accuracy_manager.avg_accuracy)
+
+
+func _fade_in_video_bg(duration: float) -> void:
+	var bg: CanvasItem = %video_bg
+	bg.visible = true
+	bg.modulate.a = 0.0
+	if _video_fade_tween != null and _video_fade_tween.is_valid():
+		_video_fade_tween.kill()
+	_video_fade_tween = bg.create_tween()
+	(
+		_video_fade_tween
+		. tween_property(bg, "modulate:a", 1.0, duration)
+		. set_trans(Tween.TRANS_QUAD)
+		. set_ease(Tween.EASE_OUT)
+	)
 
 
 func _on_bg_music_finished():
 	draw_manager.stop()
-	%shape_column.visible = false
-	var tween = %BG.create_tween()
-	tween.tween_property(%BG, "modulate:a", 0.0, 1.0)
 	animator.play("Outro")
 	pass
 
@@ -88,3 +98,4 @@ func _exit_tree() -> void:
 		load("res://assets/sprites/UI/crosshair.png"), Input.CURSOR_ARROW, Vector2(21, 21)
 	)
 	BgMusic.enable_loop()
+	GlobalBackground.enable_parallax()

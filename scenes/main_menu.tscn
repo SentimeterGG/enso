@@ -2,7 +2,6 @@
 
 [ext_resource type="Script" uid="uid://ct0hqbunx5sk2" path="res://scripts/ui/main_menu.gd" id="1_wu84c"]
 [ext_resource type="FontFile" uid="uid://bprqivnp1xsie" path="res://assets/fonts/ttf/PixelCode-Medium.ttf" id="2_ekxnf"]
-[ext_resource type="Texture2D" uid="uid://c7yq5qxfw7hw7" path="res://assets/sprites/menu_bg/bg2.png" id="2_jk1qb"]
 [ext_resource type="FontFile" uid="uid://o0cdle58rn3j" path="res://assets/fonts/ithaca.medium.ttf" id="4_lgwnu"]
 [ext_resource type="Texture2D" uid="uid://dnnjjgvh1pcgl" path="res://assets/sprites/UI/shape/circle_outline.png" id="4_rtw2f"]
 [ext_resource type="Texture2D" uid="uid://tmnmfhy3dr8v" path="res://assets/sprites/UI/shape/line.png" id="6_oa1go"]
@@ -10,7 +9,6 @@
 [ext_resource type="Texture2D" uid="uid://cabfu47vn8duh" path="res://assets/sprites/UI/shape/square.png" id="7_tbmy8"]
 [ext_resource type="Texture2D" uid="uid://d1l8efpko56a3" path="res://assets/sprites/UI/shape/exit.png" id="8_jk1qb"]
 [ext_resource type="PackedScene" uid="uid://c5jtf6aywtkgq" path="res://scenes/updater.tscn" id="10_5dd4i"]
-[ext_resource type="Script" uid="uid://cgkyyr4bji6o" path="res://scripts/ui/menu_background.gd" id="11_lgwnu"]
 
 [sub_resource type="Gradient" id="Gradient_jk1qb"]
 offsets = PackedFloat32Array(0, 0.6886792)
@@ -328,7 +326,7 @@ tracks/6/keys = {
 "times": PackedFloat32Array(0.8666667, 1.5666667),
 "transitions": PackedFloat32Array(1, 1),
 "update": 0,
-"values": [Color(1, 1, 1, 0), Color(1, 1, 1, 1)]
+"values": [Color(1, 1, 1, 0), Color(1, 1, 1, 0)]
 }
 
 [sub_resource type="Animation" id="Animation_wu84c"]
@@ -586,37 +584,10 @@ _data = {
 &"first_time_opening": SubResource("Animation_jk1qb")
 }
 
-[node name="Main Menu" type="Control" unique_id=918291299]
-layout_mode = 3
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
+[node name="MainMenu" type="CanvasLayer" unique_id=1220236649]
 script = ExtResource("1_wu84c")
 
-[node name="MainMenuLayer" type="CanvasLayer" parent="." unique_id=1220236649]
-
-[node name="BG" type="TextureRect" parent="MainMenuLayer" unique_id=1003578820]
-modulate = Color(1, 1, 1, 0.9250001)
-self_modulate = Color(1, 1, 1, 0.777)
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-offset_left = -15.221191
-offset_top = -7.0
-offset_right = 15.221191
-offset_bottom = 7.0
-grow_horizontal = 2
-grow_vertical = 2
-texture = ExtResource("2_jk1qb")
-expand_mode = 2
-stretch_mode = 6
-script = ExtResource("11_lgwnu")
-parallax_strength = 15.52
-smoothing_speed = 4.275
-
-[node name="Gradeint" type="TextureRect" parent="MainMenuLayer" unique_id=852865061]
+[node name="Gradeint" type="TextureRect" parent="." unique_id=852865061]
 self_modulate = Color(1, 1, 1, 0.66200006)
 anchors_preset = 15
 anchor_right = 1.0
@@ -625,7 +596,7 @@ grow_horizontal = 2
 grow_vertical = 2
 texture = SubResource("GradientTexture2D_jk1qb")
 
-[node name="RB" type="MarginContainer" parent="MainMenuLayer" unique_id=1542492256]
+[node name="RB" type="MarginContainer" parent="." unique_id=1542492256]
 z_index = 2
 anchors_preset = 3
 anchor_left = 1.0
@@ -639,7 +610,7 @@ grow_vertical = 0
 theme_override_constants/margin_right = 16
 theme_override_constants/margin_bottom = 16
 
-[node name="Title" type="Label" parent="MainMenuLayer/RB" unique_id=1895345410]
+[node name="Title" type="Label" parent="RB" unique_id=1895345410]
 unique_name_in_owner = true
 layout_mode = 2
 offset_transform_enabled = true
@@ -654,7 +625,7 @@ theme_override_font_sizes/font_size = 109
 text = "ENSO"
 horizontal_alignment = 2
 
-[node name="LB" type="MarginContainer" parent="MainMenuLayer" unique_id=1924146745]
+[node name="LB" type="MarginContainer" parent="." unique_id=1924146745]
 anchors_preset = 2
 anchor_top = 1.0
 anchor_bottom = 1.0
@@ -668,18 +639,18 @@ theme_override_constants/margin_left = 24
 theme_override_constants/margin_right = 0
 theme_override_constants/margin_bottom = 24
 
-[node name="MarginContainer" type="MarginContainer" parent="MainMenuLayer/LB" unique_id=238039884]
+[node name="MarginContainer" type="MarginContainer" parent="LB" unique_id=238039884]
 layout_mode = 2
 theme_override_constants/margin_left = 18
 theme_override_constants/margin_bottom = 12
 
-[node name="VBoxContainer" type="VBoxContainer" parent="MainMenuLayer/LB/MarginContainer" unique_id=1512830362]
+[node name="VBoxContainer" type="VBoxContainer" parent="LB/MarginContainer" unique_id=1512830362]
 layout_mode = 2
 size_flags_horizontal = 0
 size_flags_vertical = 8
 theme_override_constants/separation = 12
 
-[node name="Circle to Play" type="HBoxContainer" parent="MainMenuLayer/LB/MarginContainer/VBoxContainer" unique_id=2077575685]
+[node name="Circle to Play" type="HBoxContainer" parent="LB/MarginContainer/VBoxContainer" unique_id=2077575685]
 modulate = Color(1, 1, 1, 0)
 self_modulate = Color(1, 1, 1, 0)
 layout_mode = 2
@@ -688,13 +659,13 @@ size_flags_vertical = 8
 offset_transform_enabled = true
 theme_override_constants/separation = 12
 
-[node name="TextureRect" type="TextureRect" parent="MainMenuLayer/LB/MarginContainer/VBoxContainer/Circle to Play" unique_id=1090294468]
+[node name="TextureRect" type="TextureRect" parent="LB/MarginContainer/VBoxContainer/Circle to Play" unique_id=1090294468]
 modulate = Color(1, 0, 0, 1)
 custom_minimum_size = Vector2(28, 0.025)
 layout_mode = 2
 texture = ExtResource("4_rtw2f")
 
-[node name="Play" type="Label" parent="MainMenuLayer/LB/MarginContainer/VBoxContainer/Circle to Play" unique_id=1478556492]
+[node name="Play" type="Label" parent="LB/MarginContainer/VBoxContainer/Circle to Play" unique_id=1478556492]
 layout_mode = 2
 size_flags_horizontal = 8
 size_flags_vertical = 8
@@ -704,7 +675,7 @@ text = "PLAY"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="Line To Settings" type="HBoxContainer" parent="MainMenuLayer/LB/MarginContainer/VBoxContainer" unique_id=772882030]
+[node name="Line To Settings" type="HBoxContainer" parent="LB/MarginContainer/VBoxContainer" unique_id=772882030]
 modulate = Color(1, 1, 1, 0)
 layout_mode = 2
 size_flags_horizontal = 0
@@ -712,13 +683,13 @@ size_flags_vertical = 8
 offset_transform_enabled = true
 theme_override_constants/separation = 12
 
-[node name="TextureRect" type="TextureRect" parent="MainMenuLayer/LB/MarginContainer/VBoxContainer/Line To Settings" unique_id=1786875336]
+[node name="TextureRect" type="TextureRect" parent="LB/MarginContainer/VBoxContainer/Line To Settings" unique_id=1786875336]
 modulate = Color(1, 0, 0, 1)
 custom_minimum_size = Vector2(28, 0.025)
 layout_mode = 2
 texture = ExtResource("6_oa1go")
 
-[node name="Play" type="Label" parent="MainMenuLayer/LB/MarginContainer/VBoxContainer/Line To Settings" unique_id=1560500947]
+[node name="Play" type="Label" parent="LB/MarginContainer/VBoxContainer/Line To Settings" unique_id=1560500947]
 layout_mode = 2
 size_flags_horizontal = 8
 size_flags_vertical = 8
@@ -728,7 +699,7 @@ text = "SETTINGS"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="Square to Level Editor" type="HBoxContainer" parent="MainMenuLayer/LB/MarginContainer/VBoxContainer" unique_id=1900421109]
+[node name="Square to Level Editor" type="HBoxContainer" parent="LB/MarginContainer/VBoxContainer" unique_id=1900421109]
 modulate = Color(1, 1, 1, 0)
 layout_mode = 2
 size_flags_horizontal = 0
@@ -736,13 +707,13 @@ size_flags_vertical = 8
 offset_transform_enabled = true
 theme_override_constants/separation = 12
 
-[node name="TextureRect" type="TextureRect" parent="MainMenuLayer/LB/MarginContainer/VBoxContainer/Square to Level Editor" unique_id=770564656]
+[node name="TextureRect" type="TextureRect" parent="LB/MarginContainer/VBoxContainer/Square to Level Editor" unique_id=770564656]
 modulate = Color(1, 0, 0, 1)
 custom_minimum_size = Vector2(28, 0.025)
 layout_mode = 2
 texture = ExtResource("7_tbmy8")
 
-[node name="Play" type="Label" parent="MainMenuLayer/LB/MarginContainer/VBoxContainer/Square to Level Editor" unique_id=2004811886]
+[node name="Play" type="Label" parent="LB/MarginContainer/VBoxContainer/Square to Level Editor" unique_id=2004811886]
 layout_mode = 2
 size_flags_horizontal = 8
 size_flags_vertical = 8
@@ -752,7 +723,7 @@ text = "LEVEL EDITOR"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="Square to Level Editor2" type="HBoxContainer" parent="MainMenuLayer/LB/MarginContainer/VBoxContainer" unique_id=201507613]
+[node name="Square to Level Editor2" type="HBoxContainer" parent="LB/MarginContainer/VBoxContainer" unique_id=201507613]
 modulate = Color(1, 1, 1, 0)
 layout_mode = 2
 size_flags_horizontal = 0
@@ -761,13 +732,13 @@ offset_transform_enabled = true
 offset_transform_position = Vector2(0, 9)
 theme_override_constants/separation = 12
 
-[node name="TextureRect" type="TextureRect" parent="MainMenuLayer/LB/MarginContainer/VBoxContainer/Square to Level Editor2" unique_id=1551613104]
+[node name="TextureRect" type="TextureRect" parent="LB/MarginContainer/VBoxContainer/Square to Level Editor2" unique_id=1551613104]
 modulate = Color(1, 0, 0, 1)
 custom_minimum_size = Vector2(28, 0.025)
 layout_mode = 2
 texture = ExtResource("8_jk1qb")
 
-[node name="Play" type="Label" parent="MainMenuLayer/LB/MarginContainer/VBoxContainer/Square to Level Editor2" unique_id=540336014]
+[node name="Play" type="Label" parent="LB/MarginContainer/VBoxContainer/Square to Level Editor2" unique_id=540336014]
 layout_mode = 2
 size_flags_horizontal = 8
 size_flags_vertical = 8
@@ -777,7 +748,7 @@ text = "EXIT"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="Draw Here" type="Label" parent="MainMenuLayer" unique_id=1349514367]
+[node name="Draw Here" type="Label" parent="." unique_id=1349514367]
 unique_name_in_owner = true
 modulate = Color(1, 1, 1, 0.39215687)
 self_modulate = Color(1, 1, 1, 0)
@@ -800,7 +771,7 @@ text = "DRAW HERE"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="RT" type="MarginContainer" parent="MainMenuLayer" unique_id=538677521]
+[node name="RT" type="MarginContainer" parent="." unique_id=538677521]
 anchors_preset = 1
 anchor_left = 1.0
 anchor_right = 1.0
@@ -810,17 +781,17 @@ grow_horizontal = 0
 theme_override_constants/margin_top = 24
 theme_override_constants/margin_right = 24
 
-[node name="Transition" type="AnimationPlayer" parent="MainMenuLayer" unique_id=950463086]
+[node name="Transition" type="AnimationPlayer" parent="." unique_id=950463086]
 unique_name_in_owner = true
 root_node = NodePath("../Draw Here")
 libraries/ = SubResource("AnimationLibrary_wu84c")
 
-[node name="draw" parent="MainMenuLayer" unique_id=2118743800 instance=ExtResource("6_rtw2f")]
+[node name="draw" parent="." unique_id=2118743800 instance=ExtResource("6_rtw2f")]
 unique_name_in_owner = true
 weight = 0.5
 guess_mode = true
 
-[node name="Version" type="Label" parent="MainMenuLayer" unique_id=1065876583]
+[node name="Version" type="Label" parent="." unique_id=1065876583]
 unique_name_in_owner = true
 anchors_preset = 1
 anchor_left = 1.0
@@ -832,11 +803,11 @@ offset_bottom = 27.0
 grow_horizontal = 0
 text = "1.0.0"
 
-[node name="updater" parent="MainMenuLayer" unique_id=456196311 instance=ExtResource("10_5dd4i")]
+[node name="updater" parent="." unique_id=456196311 instance=ExtResource("10_5dd4i")]
 unique_name_in_owner = true
 mouse_filter = 2
 
-[node name="FadeIN" type="ColorRect" parent="MainMenuLayer" unique_id=171573630]
+[node name="FadeIN" type="ColorRect" parent="." unique_id=171573630]
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -845,7 +816,5 @@ grow_vertical = 2
 mouse_filter = 2
 color = Color(0, 0, 0, 1)
 
-[connection signal="mouse_entered" from="MainMenuLayer/Draw Here" to="." method="_on_draw_here_mouse_entered"]
-[connection signal="mouse_exited" from="MainMenuLayer/Draw Here" to="." method="_on_draw_here_mouse_exited"]
-[connection signal="animation_finished" from="MainMenuLayer/Transition" to="." method="_on_transition_animation_finished"]
-[connection signal="guessed_shape" from="MainMenuLayer/draw" to="." method="_on_draw_guessed_shape"]
+[connection signal="animation_finished" from="Transition" to="." method="_on_transition_animation_finished"]
+[connection signal="guessed_shape" from="draw" to="." method="_on_draw_guessed_shape"]
