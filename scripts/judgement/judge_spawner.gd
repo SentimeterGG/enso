@@ -18,6 +18,9 @@ func _on_beat_column_beat_hit(error_ms: float, _beat_id: String = "") -> void:
 		score.combo += 1
 		score._play_combo_anim(true)
 	else:
+		if score.combo > 20:
+			%MissSound.stop()
+			%MissSound.play()
 		score.combo = 0
 		score._play_combo_anim(false)
 	_spawn_kind(kind)
