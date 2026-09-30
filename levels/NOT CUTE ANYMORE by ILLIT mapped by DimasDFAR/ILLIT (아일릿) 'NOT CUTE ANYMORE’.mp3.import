@@ -1,0 +1,19 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+uid="uid://m8xhgptxsvis"
+path="res://.godot/imported/ILLIT (아일릿) 'NOT CUTE ANYMORE’.mp3-d94d9c487aa581c3493e886b57a1ba42.mp3str"
+
+[deps]
+
+source_file="res://levels/NOT CUTE ANYMORE by ILLIT mapped by DimasDFAR/ILLIT (아일릿) 'NOT CUTE ANYMORE’.mp3"
+dest_files=["res://.godot/imported/ILLIT (아일릿) 'NOT CUTE ANYMORE’.mp3-d94d9c487aa581c3493e886b57a1ba42.mp3str"]
+
+[params]
+
+loop=false
+loop_offset=0
+bpm=0
+beat_count=0
+bar_beats=4
