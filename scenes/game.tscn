@@ -1217,22 +1217,30 @@ border_color = Color(0.8, 0, 0, 1)
 
 [node name="gamecanvas" type="CanvasLayer" unique_id=989436332]
 
-[node name="video_bg" type="AspectRatioContainer" parent="." unique_id=2038525002]
+[node name="Background" type="Control" parent="." unique_id=1645579570]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="video_bg" type="AspectRatioContainer" parent="Background" unique_id=2038525002]
 unique_name_in_owner = true
-visible = false
+layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 ratio = 1.7778
-stretch_mode = 1
+stretch_mode = 3
 
-[node name="ColorRect" type="ColorRect" parent="video_bg" unique_id=2041659931]
+[node name="ColorRect" type="ColorRect" parent="Background/video_bg" unique_id=2041659931]
 layout_mode = 2
 color = Color(0, 0, 0, 1)
 
-[node name="VideoStreamPlayer" type="VideoStreamPlayer" parent="video_bg" unique_id=1422143938]
+[node name="VideoStreamPlayer" type="VideoStreamPlayer" parent="Background/video_bg" unique_id=1422143938]
 unique_name_in_owner = true
 modulate = Color(1, 1, 1, 0.386)
 layout_mode = 2
@@ -1496,6 +1504,20 @@ vertical_alignment = 1
 unique_name_in_owner = true
 libraries/ = SubResource("AnimationLibrary_264po")
 
+[node name="health_bar" type="ProgressBar" parent="UI" unique_id=317437120]
+layout_mode = 1
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_left = 42.0
+offset_top = -130.0
+offset_right = 145.0
+offset_bottom = -117.0
+grow_vertical = 0
+offset_transform_enabled = true
+theme_override_font_sizes/font_size = 6
+script = ExtResource("24_e1j6l")
+
 [node name="RB" type="MarginContainer" parent="UI" unique_id=773312028]
 layout_mode = 1
 anchors_preset = 3
@@ -1726,20 +1748,6 @@ theme_override_styles/hover = SubResource("StyleBoxFlat_gxtfn")
 theme_override_styles/focus = SubResource("StyleBoxFlat_gxtfn")
 text = "QUIT"
 
-[node name="health_bar" type="ProgressBar" parent="UI" unique_id=317437120]
-layout_mode = 1
-anchors_preset = 2
-anchor_top = 1.0
-anchor_bottom = 1.0
-offset_left = 42.0
-offset_top = -130.0
-offset_right = 145.0
-offset_bottom = -117.0
-grow_vertical = 0
-offset_transform_enabled = true
-theme_override_font_sizes/font_size = 6
-script = ExtResource("24_e1j6l")
-
 [node name="PauseScreen" type="Control" parent="UI" unique_id=737804048]
 unique_name_in_owner = true
 process_mode = 3
@@ -1823,11 +1831,11 @@ text = "RESYNC TRIGGERED: 0x"
 [connection signal="draw_started" from="game/draw" to="game/beat_receptor" method="_on_draw_draw_started"]
 [connection signal="shape_accuracy_ready" from="game/draw" to="game/target_shape/accuracy_manager" method="_on_draw_shape_accuracy_ready"]
 [connection signal="shape_accuracy_ready" from="game/draw" to="game/beat_receptor" method="_on_draw_shape_accuracy_ready"]
+[connection signal="health_depleted" from="UI/health_bar" to="UI/Game Over" method="_on_health_bar_health_depleted"]
 [connection signal="animation_finished" from="UI/RB/Mio" to="UI/RB/Mio" method="_on_animation_finished"]
 [connection signal="button_down" from="UI/PauseButton" to="UI/PauseButton" method="_on_button_down"]
 [connection signal="pressed" from="UI/Game Over/Menu/VBoxContainer2/VBoxContainer/Restart" to="UI/Game Over" method="_on_restart_pressed"]
 [connection signal="pressed" from="UI/Game Over/Menu/VBoxContainer2/VBoxContainer/Quit" to="UI/Game Over" method="_on_quit_pressed"]
-[connection signal="health_depleted" from="UI/health_bar" to="UI/Game Over" method="_on_health_bar_health_depleted"]
 [connection signal="pressed" from="UI/PauseScreen/VBoxContainer/Continue" to="UI/PauseScreen" method="_on_continue_pressed"]
 [connection signal="pressed" from="UI/PauseScreen/VBoxContainer/Restart" to="UI/PauseScreen" method="_on_restart_pressed"]
 [connection signal="pressed" from="UI/PauseScreen/VBoxContainer/Quit" to="UI/PauseScreen" method="_on_quit_pressed"]
