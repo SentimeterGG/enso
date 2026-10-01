@@ -250,8 +250,7 @@ func _poll_frames() -> void:
 		var length: int = _pipe.get_32()
 		var body: Dictionary = {}
 		if length > 0:
-			var parsed: Variant = JSON.parse_string(
-				_pipe.get_buffer(length).get_string_from_utf8())
+			var parsed: Variant = JSON.parse_string(_pipe.get_buffer(length).get_string_from_utf8())
 			if parsed is Dictionary:
 				body = parsed
 		_handle_frame(op, body)
@@ -260,8 +259,11 @@ func _poll_frames() -> void:
 func _handle_frame(op: int, body: Dictionary) -> void:
 	match op:
 		_OP_FRAME:
-			if not _ready_received and str(body.get("cmd", "")) == "DISPATCH" \
-					and str(body.get("evt", "")) == "READY":
+			if (
+				not _ready_received
+				and str(body.get("cmd", "")) == "DISPATCH"
+				and str(body.get("evt", "")) == "READY"
+			):
 				_ready_received = true
 				_activity_dirty = true  # Reassert the wanted presence.
 				var user: Variant = (body.get("data", {}) as Dictionary).get("user", {})

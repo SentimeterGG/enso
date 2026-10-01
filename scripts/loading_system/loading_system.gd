@@ -1,14 +1,14 @@
 extends Control
 class_name LoadingSystem
 
-var progress  = []
+var progress = []
 @export_file("*.tscn") var sceneName: String
 var sceneLoadStatus = 0
+
 
 # Called when the node enters the scene tree for the first time.
 func load_scene():
 	ResourceLoader.load_threaded_request(sceneName)
-	
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.

@@ -14,13 +14,11 @@ func _ready() -> void:
 
 ## Sets the discord activity
 func set_activity(details: String, state: String) -> void:
-	presence.set_activity({
-		"details": details,
-		"state": state,
-		"timestamps": {
-			"start": int(Time.get_unix_time_from_system())
-		},
-		"assets": {
-			"large_image": "enso-logo"
+	presence.set_activity(
+		{
+			"details": details,
+			"state": state,
+			"timestamps": {"start": int(Time.get_unix_time_from_system())},
+			"assets": {"large_image": "enso-logo"}
 		}
-	})
+	)

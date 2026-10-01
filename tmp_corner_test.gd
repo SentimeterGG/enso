@@ -79,7 +79,9 @@ func _rounded(legs: Array, radius: float, speed: float) -> Array:
 		var prev_p: Vector2 = pts[i - 1]
 		var corner: Vector2 = pts[i]
 		var next_p: Vector2 = pts[i + 1]
-		var r: float = minf(radius, minf(prev_p.distance_to(corner), next_p.distance_to(corner)) * 0.4)
+		var r: float = minf(
+			radius, minf(prev_p.distance_to(corner), next_p.distance_to(corner)) * 0.4
+		)
 		var enter: Vector2 = corner + (prev_p - corner).normalized() * r
 		var exit_p: Vector2 = corner + (next_p - corner).normalized() * r
 		out.append([cur, enter, speed])
@@ -149,13 +151,27 @@ func _process(delta: float) -> void:
 	c["t"] = t
 	var pos: Vector2 = a.lerp(b, t)
 	c["pos"] = pos
-	c["maxrot"] = maxf(float(c.get("maxrot", 0.0)), absf(rad_to_deg(float(_node.get("_turn_total")) - float(_node.get("_window")[0].y))))
+	c["maxrot"] = maxf(
+		float(c.get("maxrot", 0.0)),
+		absf(rad_to_deg(float(_node.get("_turn_total")) - float(_node.get("_window")[0].y)))
+	)
 	_node._track_direction(pos)
 
 	if t >= 1.0 and leg == legs.size() - 1:
 		var got: int = c.get("got", 0)
 		var want: int = c["want"]
-		_results.append("%s %-30s %d (want %d) maxrot=%.0f" % ["ok " if got == want else "BAD", c["label"], got, want, float(c.get("maxrot", 0.0))])
+		_results.append(
+			(
+				"%s %-30s %d (want %d) maxrot=%.0f"
+				% [
+					"ok " if got == want else "BAD",
+					c["label"],
+					got,
+					want,
+					float(c.get("maxrot", 0.0))
+				]
+			)
+		)
 		print(_results[-1])
 		_idx += 1
 		if _idx < _cases.size():

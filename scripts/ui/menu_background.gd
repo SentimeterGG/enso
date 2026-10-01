@@ -22,6 +22,7 @@ func _ready() -> void:
 	_base_alpha = modulate.a
 	_calculate_max_offset()
 
+
 func disable_parallax() -> void:
 	if not parallax_enabled and (_parallax_tween == null or not _parallax_tween.is_valid()):
 		return
@@ -71,7 +72,8 @@ func _kill_parallax_tween() -> void:
 	if _parallax_tween != null and _parallax_tween.is_valid():
 		_parallax_tween.kill()
 	_parallax_tween = null
-	
+
+
 func _calculate_max_offset() -> void:
 	# How much overflow the scale creates, in local (unscaled) pixels
 	var overflow := size * (zoom_factor - 1.0) / 2.0
@@ -98,7 +100,11 @@ func _physics_process(delta: float) -> void:
 
 
 func change(path: Variant = null) -> void:
-	if path == null or (path is String and (path as String).is_empty()) or (path is StringName and String(path).is_empty()):
+	if (
+		path == null
+		or (path is String and (path as String).is_empty())
+		or (path is StringName and String(path).is_empty())
+	):
 		clear_background()
 		return
 	var path_str := String(path)

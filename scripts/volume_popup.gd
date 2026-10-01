@@ -13,15 +13,18 @@ const HIDE_DELAY := 2.0
 
 @onready var music_slider: HSlider = $CenterContainer/VBoxContainer/VBoxContainer/HBoxContainer/Music
 @onready var music_label: Label = $CenterContainer/VBoxContainer/VBoxContainer/HBoxContainer/Label
-@onready var master_slider: HSlider = $CenterContainer/VBoxContainer/VBoxContainer2/HBoxContainer/Music
+@onready
+var master_slider: HSlider = $CenterContainer/VBoxContainer/VBoxContainer2/HBoxContainer/Music
 @onready var master_label: Label = $CenterContainer/VBoxContainer/VBoxContainer2/HBoxContainer/Label
-@onready var effects_slider: HSlider = $CenterContainer/VBoxContainer/VBoxContainer3/HBoxContainer/Music
+@onready
+var effects_slider: HSlider = $CenterContainer/VBoxContainer/VBoxContainer3/HBoxContainer/Music
 @onready var effects_label: Label = $CenterContainer/VBoxContainer/VBoxContainer3/HBoxContainer/Label
 
 var _is_visible := false
 var _pop_tween: Tween
 var _hide_token := 0
 var can_popup: bool = true
+
 
 func _ready() -> void:
 	visible = false
@@ -38,10 +41,11 @@ func _ready() -> void:
 func _set_ignore_recursive(node: Node) -> void:
 	for child in node.get_children():
 		if child is HSlider:
-			continue # sliders must stay STOP to be draggable
+			continue  # sliders must stay STOP to be draggable
 		if child is Control:
 			child.mouse_filter = Control.MOUSE_FILTER_IGNORE
 		_set_ignore_recursive(child)
+
 
 func grab_volume_config():
 	_apply_bus_volume("Effect", Global.settingsData.effects_volume)
@@ -51,12 +55,12 @@ func grab_volume_config():
 	_apply_bus_volume("Music", Global.settingsData.music_volume)
 	_update_label(music_slider, music_label)
 
+
 # Just pushes to AudioServer — no Global writes, no disk saves.
 func _apply_bus_volume(bus_name: String, value: float) -> void:
 	var idx := AudioServer.get_bus_index(bus_name)
 	if idx != -1:
 		AudioServer.set_bus_volume_db(idx, _slider_to_db(value))
-
 
 
 func save_volume():
@@ -65,11 +69,14 @@ func save_volume():
 	Global.settingsData.music_volume = music_slider.value
 	Global.save(Global.settingsData, Global.settingsData.save_file_name)
 
+
 func _unhandled_input(event: InputEvent) -> void:
 	if event is InputEventMouseButton and event.pressed:
 		if event.button_index == MOUSE_BUTTON_WHEEL_UP and not _mouse_over_slider() and can_popup:
 			_scroll_volume(VOLUME_STEP)
-		elif event.button_index == MOUSE_BUTTON_WHEEL_DOWN and not _mouse_over_slider() and can_popup:
+		elif (
+			event.button_index == MOUSE_BUTTON_WHEEL_DOWN and not _mouse_over_slider() and can_popup
+		):
 			_scroll_volume(-VOLUME_STEP)
 
 
@@ -140,10 +147,11 @@ func _restart_hide_timer() -> void:
 	_hide_token += 1
 	var token := _hide_token
 	var timer := get_tree().create_timer(HIDE_DELAY)
-	timer.timeout.connect(func() -> void:
-		# Ignore timers superseded by a newer scroll.
-		if token == _hide_token:
-			_hide_popup()
+	timer.timeout.connect(
+		func() -> void:
+			# Ignore timers superseded by a newer scroll.
+			if token == _hide_token:
+				_hide_popup()
 	)
 
 
@@ -161,7 +169,6 @@ func _adjust_master_volume(delta: float) -> void:
 	master_slider.set_value_no_signal(_db_to_slider(new_db))
 	_update_label(master_slider, master_label)
 	%OsuHitSound.play()
-
 
 
 func _connect_sliders() -> void:
@@ -200,7 +207,6 @@ func _on_effects_changed(value: float) -> void:
 	%OsuHitSound.play()
 
 
-
 func _set_bus_volume(bus_name: String, value: float) -> void:
 	_apply_bus_volume(bus_name, value)
 	save_volume()
@@ -211,7 +217,6 @@ func _get_bus_slider_value(bus_name: String) -> float:
 	if idx != -1:
 		return _db_to_slider(AudioServer.get_bus_volume_db(idx))
 	return 100.0
-
 
 
 func _slider_to_db(val: float) -> float:
@@ -229,16 +234,17 @@ func _update_label(slider: HSlider, label: Label) -> void:
 func _set_scale(s: float) -> void:
 	scale = Vector2.ONE * s
 
+
 func _mouse_over_slider() -> bool:
 	var mouse_pos := get_global_mouse_position()
-	
+
 	if music_slider.get_global_rect().has_point(mouse_pos):
 		return true
-	
+
 	if master_slider.get_global_rect().has_point(mouse_pos):
 		return true
-	
+
 	if effects_slider.get_global_rect().has_point(mouse_pos):
 		return true
-	
+
 	return false

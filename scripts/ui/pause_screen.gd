@@ -68,6 +68,7 @@ func _on_continue_pressed() -> void:
 	else:
 		_finish_resume()
 
+
 func _on_restart_pressed() -> void:
 	if _busy or _resuming or not _paused:
 		return
@@ -180,7 +181,7 @@ func _on_animator_animation_finished(anim_name: StringName) -> void:
 			return
 		# 3. Countdown done -> actually continue (unpause).
 		_finish_resume()
-	pass # Replace with function body.
+	pass  # Replace with function body.
 
 
 ## Shared unpause after the countdown (menu already hidden).
