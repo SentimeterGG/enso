@@ -1301,7 +1301,6 @@ joint_mode = 0
 begin_cap_mode = 1
 end_cap_mode = 1
 weight = 0.8
-min_direction_sample = 2.0
 direction_threshold_degrees = 45.0
 recognizer = SubResource("Resource_ir15t")
 target_shape = NodePath("../target_shape")
@@ -1802,7 +1801,6 @@ text = "RESYNC TRIGGERED: 0x"
 [connection signal="animation_finished" from="game/animator" to="UI/PauseScreen" method="_on_animator_animation_finished"]
 [connection signal="draw_direction_changes" from="game/draw" to="game/beat_receptor" method="_on_draw_draw_direction_changes"]
 [connection signal="draw_ended" from="game/draw" to="game/target_shape" method="_on_draw_draw_ended"]
-[connection signal="draw_ended" from="game/draw" to="game/target_shape/accuracy_manager" method="_on_draw_ended"]
 [connection signal="draw_started" from="game/draw" to="game/beat_receptor" method="_on_draw_draw_started"]
 [connection signal="shape_accuracy_ready" from="game/draw" to="game/target_shape/accuracy_manager" method="_on_draw_shape_accuracy_ready"]
 [connection signal="shape_accuracy_ready" from="game/draw" to="game/beat_receptor" method="_on_draw_shape_accuracy_ready"]

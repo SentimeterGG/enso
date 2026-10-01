@@ -298,3 +298,4 @@ func _input(event: InputEvent) -> void:
 
 func _exit_tree() -> void:
 	_dead = true
+	
