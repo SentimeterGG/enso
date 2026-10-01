@@ -105,5 +105,5 @@ func _on_draw_shape_accuracy_ready(accuracy: float) -> void:
 		var col := Color.WHITE
 		if Global.current_chart != null:
 			col = Global.current_chart.shape_colors.get(last_beat_id, Color.WHITE)
-		_draw.modulate = col
+		_draw.get_child(0).modulate = col
 	last_beat_id = ""
