@@ -27,6 +27,7 @@ signal hit_applied(kind: int)
 @onready var _bad_label = %BadCount
 @onready var _miss_label = %MissCount
 @onready var _judge_spawner = %judge_spawner
+@onready var _draw = %draw
 const DRAW_BAD_ACCURACY := 65.0
 var od: float = 0.0
 var counts := {
