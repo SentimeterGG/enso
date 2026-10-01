@@ -14,3 +14,5 @@ script = ExtResource("1_bdgod")
 position = Vector2(11, 12.000001)
 scale = Vector2(0.48333332, 0.48333332)
 points = PackedVector2Array(0, 0, 40, 0, 40, 40)
+begin_cap_mode = 1
+end_cap_mode = 1
