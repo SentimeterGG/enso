@@ -36,6 +36,7 @@ var _initial_select_done: bool = false
 
 
 func _ready() -> void:
+	GlobalBackground.texture_filter = CanvasItem.TEXTURE_FILTER_LINEAR
 	$AnimationPlayer.play("Opening")
 	GlobalBackground.set_base_alpha(0.4)
 	call_deferred("_warn_skipped_incomplete")

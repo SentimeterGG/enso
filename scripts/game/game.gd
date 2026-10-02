@@ -17,7 +17,7 @@ var _video_fade_tween: Tween = null
 
 
 func _ready():
-	video_stream_player.modulate = Color(1.0, 1.0, 1.0, Global.settingsData.bg_visibilty * 0.01)
+	%video_bg.modulate = Color(1.0, 1.0, 1.0, Global.settingsData.bg_visibilty * 0.01)
 	GlobalBackground.disable_parallax()
 	BgMusic.change_song(null)
 	BgMusic._disable_loop()
@@ -30,6 +30,7 @@ func _ready():
 	if Global.settingsData.video_bg:
 		if Global.current_chart.get_video_background() == "":
 			video_bg_visible = false
+			%video_bg.visible = false
 		else:
 			video_bg_visible = true
 	else:

@@ -34,6 +34,7 @@ func _ready() -> void:
 	BG_path = BG_Image.pick_random()
 	GlobalBackground.set_base_alpha(1.0)
 	GlobalBackground.change(BG_path)
+	GlobalBackground.texture_filter = CanvasItem.TEXTURE_FILTER_NEAREST
 	version_label.text = app_version
 	updater.check_update(app_version)
 	VolumePopup.can_popup = true
