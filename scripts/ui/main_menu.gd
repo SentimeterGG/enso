@@ -30,6 +30,7 @@ var BG_path: String
 
 
 func _ready() -> void:
+	DiscordRPC.set_activity("in Main Menu", "Chilling...")
 	randomize()
 	BG_path = BG_Image.pick_random()
 	GlobalBackground.set_base_alpha(1.0)

@@ -9,7 +9,7 @@ func _ready() -> void:
 	presence.app_id = APP_ID
 	add_child(presence)
 
-	set_activity("Main Menu", "Choosing a map...")
+	set_activity("in Main Menu", "Chilling...")
 
 
 ## Sets the discord activity

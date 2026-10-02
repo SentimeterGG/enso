@@ -36,12 +36,12 @@ var _initial_select_done: bool = false
 
 
 func _ready() -> void:
+	DiscordRPC.set_activity("in Level Selector", "Choosing a beatmap...")
 	GlobalBackground.texture_filter = CanvasItem.TEXTURE_FILTER_LINEAR
 	$AnimationPlayer.play("Opening")
 	GlobalBackground.set_base_alpha(0.4)
 	call_deferred("_warn_skipped_incomplete")
 	call_deferred("_select_current_bg_song")
-	DiscordRPC.set_activity("Choosing A Map", "")
 
 
 ## Toast when level_list hid incomplete (solo-note) charts.
