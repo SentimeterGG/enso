@@ -32,8 +32,7 @@ var _initial_select_done: bool = false
 @onready var draw_here_label: Label = %"Draw Here"
 @onready var beat_sound: AudioStreamPlayer = $"beat_sound"
 @onready var draw_manager: Line2D = $draw
-@onready var level_list: Control = $"Main Content/HBoxContainer/RSide/Level List"
-@onready var _notification: Control = get_node_or_null("%Notification")
+@onready var level_list: Control = $"Main Content/HBoxContainer/RSide/VBoxContainer/Level List"
 
 
 func _ready() -> void:
@@ -109,10 +108,7 @@ func _warn_skipped_incomplete() -> void:
 	if n <= 0:
 		return
 	var msg := "%d incomplete level%s hidden (solo notes need setup)." % [n, "" if n == 1 else "s"]
-	if _notification != null and _notification.has_method("show_message"):
-		_notification.call("show_message", msg, false, 4.0)
-	else:
-		push_warning("level_selector: " + msg)
+	Notification.show_toast("Levels Hidden", msg, NotificationToast.Kind.INFO, 4.0)
 
 
 ## Center/highlight the row matching what BgMusic is playing, so the

@@ -1,7 +1,6 @@
 extends Control
 
 @onready var http_request: HTTPRequest = $HTTPRequest
-@onready var notification = %Notification
 var curr_version = null
 
 
@@ -18,9 +17,17 @@ func check_update(current_ver: String):
 func compare(latest_ver: String) -> int:
 	var result := compare_versions(str(curr_version), latest_ver)
 	if result < 0:
-		notification.show_message("New Update Found")
+		Notification.show_toast(
+			"New Update Found",
+			"Version x.x.x is available",
+			NotificationToast.Kind.SUCCESS,
+		)
 	else:
-		Notification.show_toast("New Update Found", "Version x.x.x is available")
+		Notification.show_toast(
+			"Up to Date",
+			"You are running the latest version.",
+			NotificationToast.Kind.INFO,
+		)
 	return result
 
 

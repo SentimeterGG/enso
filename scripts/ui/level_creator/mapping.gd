@@ -174,15 +174,6 @@ func _process(_delta: float) -> void:
 			mapping_player.stop()
 
 
-func _notify_creator(text: String, is_error: bool = false) -> void:
-	if _root_creator != null and _root_creator.has_method("_notify"):
-		_root_creator._notify(text, is_error)
-	elif is_error:
-		push_error(text)
-	else:
-		print(text)
-
-
 func _unhandled_key_input(event: InputEvent) -> void:
 	if event is InputEventKey and event.pressed and not event.echo:
 		match event.physical_keycode:
@@ -191,13 +182,23 @@ func _unhandled_key_input(event: InputEvent) -> void:
 					add_beat_at_current()
 					get_viewport().set_input_as_handled()
 				else:
-					_notify_creator("Must add difficulty first", true)
+					Notification.show_toast(
+						"Difficulty Missing",
+						"Must add difficulty first.",
+						NotificationToast.Kind.WARN,
+						2.6,
+					)
 			KEY_N:
 				if _difficulty_option.selected != -1:
 					remove_beat_at_current()
 					get_viewport().set_input_as_handled()
 				else:
-					_notify_creator("Must add difficulty first", true)
+					Notification.show_toast(
+						"Difficulty Missing",
+						"Must add difficulty first.",
+						NotificationToast.Kind.WARN,
+						2.6,
+					)
 			KEY_SPACE:
 				_on_start_pressed()
 				get_viewport().set_input_as_handled()
@@ -1426,11 +1427,21 @@ func _save_current_difficulty_state() -> void:
 func _on_add_difficulty_confirmation_pressed() -> void:
 	var raw_name := _add_diff_name_edit.text.strip_edges()
 	if raw_name.is_empty():
-		_notify_creator("Difficulty name can't be empty.", true)
+		Notification.show_toast(
+			"Invalid Difficulty",
+			"Difficulty name can't be empty.",
+			NotificationToast.Kind.WARN,
+			2.6,
+		)
 		return
 	for existing in difficulties.keys():
 		if str(existing).to_lower() == raw_name.to_lower():
-			_notify_creator('A difficulty named "%s" already exists.' % existing, true)
+			Notification.show_toast(
+				"Invalid Difficulty",
+				'A difficulty named "%s" already exists.' % existing,
+				NotificationToast.Kind.WARN,
+				2.6,
+			)
 			return
 	# Flush whatever's currently loaded before switching to the new (empty) one.
 	_save_current_difficulty_state()
@@ -1451,26 +1462,50 @@ func _on_add_difficulty_confirmation_pressed() -> void:
 
 func _on_save_changes_on_current_diff_pressed() -> void:
 	if _current_difficulty.is_empty():
-		_notify_creator("No difficulty selected.", true)
+		Notification.show_toast(
+			"Difficulty Missing",
+			"No difficulty selected.",
+			NotificationToast.Kind.WARN,
+			2.6,
+		)
 		return
 	_save_current_difficulty_state()
-	_notify_creator('Saved "%s".' % _current_difficulty)
+	Notification.show_toast(
+		"Difficulty Saved",
+		'Saved "%s".' % _current_difficulty,
+		NotificationToast.Kind.SUCCESS,
+	)
 	pass # Replace with function body.
 
 
 func _on_edit_difficulty_name_button_pressed() -> void:
 	if _current_difficulty.is_empty():
-		_notify_creator("Select a difficulty first.", true)
+		Notification.show_toast(
+			"Difficulty Missing",
+			"Select a difficulty first.",
+			NotificationToast.Kind.WARN,
+			2.6,
+		)
 		return
 	var new_name := _edit_diff_name_edit.text.strip_edges()
 	if new_name.is_empty():
-		_notify_creator("Difficulty name can't be empty.", true)
+		Notification.show_toast(
+			"Invalid Difficulty",
+			"Difficulty name can't be empty.",
+			NotificationToast.Kind.WARN,
+			2.6,
+		)
 		return
 	if new_name == _current_difficulty:
 		return
 	for existing in difficulties.keys():
 		if str(existing).to_lower() == new_name.to_lower():
-			_notify_creator('A difficulty named "%s" already exists.' % existing, true)
+			Notification.show_toast(
+				"Invalid Difficulty",
+				'A difficulty named "%s" already exists.' % existing,
+				NotificationToast.Kind.WARN,
+				2.6,
+			)
 			return
 	difficulties[new_name] = difficulties[_current_difficulty]
 	difficulties.erase(_current_difficulty)
@@ -1479,7 +1514,11 @@ func _on_edit_difficulty_name_button_pressed() -> void:
 			_difficulty_option.set_item_text(i, new_name)
 			break
 	_current_difficulty = new_name
-	_notify_creator('Renamed to "%s".' % new_name)
+	Notification.show_toast(
+		"Difficulty Renamed",
+		'Renamed to "%s".' % new_name,
+		NotificationToast.Kind.SUCCESS,
+	)
 	pass # Replace with function body.
 
 

@@ -86,21 +86,37 @@ func _on_export_button_pressed() -> void:
 func _on_export_popup_dir_selected(dir: String) -> void:
 	if dir.is_empty():
 		push_error("Invalid export folder.")
-		_notify("Invalid export folder.", true)
+		Notification.show_toast(
+			"Export Failed",
+			"Invalid export folder.",
+			NotificationToast.Kind.WARN,
+		)
 		return
 	export_requested.emit(dir)
 	if metadata_group == null or not metadata_group.has_method("when_export"):
 		push_error("METADATA missing when_export().")
-		_notify("METADATA missing when_export().", true)
+		Notification.show_toast(
+			"Export Failed",
+			"METADATA missing when_export().",
+			NotificationToast.Kind.WARN,
+		)
 		return
 	if mapping_group == null or not mapping_group.has_method("get_difficulties_data"):
 		push_error("MAPPING missing get_difficulties_data().")
-		_notify("MAPPING missing get_difficulties_data().", true)
+		Notification.show_toast(
+			"Export Failed",
+			"MAPPING missing get_difficulties_data().",
+			NotificationToast.Kind.WARN,
+		)
 		return
 
 	var diffs: Dictionary = mapping_group.get_difficulties_data()
 	if diffs.is_empty():
-		_notify("Add at least one difficulty before exporting.", true)
+		Notification.show_toast(
+			"Difficulty Missing",
+			"Add at least one difficulty before exporting.",
+			NotificationToast.Kind.WARN,
+		)
 		return
 
 	var data: Dictionary = metadata_group.when_export()
@@ -121,7 +137,11 @@ func _on_export_popup_dir_selected(dir: String) -> void:
 		var err := DirAccess.make_dir_recursive_absolute(out_dir)
 		if err != OK:
 			push_error("Failed to create folder: " + out_dir + " " + error_string(err))
-			_notify("Failed to create folder.", true)
+			Notification.show_toast(
+				"Export Failed",
+				"Failed to create folder.",
+				NotificationToast.Kind.WARN,
+			)
 			return
 
 	var src_song := str(data.get("song_src", "")).strip_edges()
@@ -160,23 +180,17 @@ func _on_export_popup_dir_selected(dir: String) -> void:
 					+ error_string(FileAccess.get_open_error())
 				)
 			)
-			_notify("Failed to write %s." % file_name, true)
+			Notification.show_toast(
+				"Export Failed",
+				"Failed to write %s." % file_name,
+				NotificationToast.Kind.WARN,
+			)
 			continue
 		f.store_string(text)
 		f.close()
 		written.append(str(diff_name))
 
 	_notify_export_result(diffs, written, folder_name)
-
-
-## Toast helper: %Notification (scenes/notification.tscn) or push_* fallback.
-func _notify(text: String, is_error: bool = false) -> void:
-	if _notification != null and _notification.has_method("show_message"):
-		_notification.call("show_message", text, is_error)
-	elif is_error:
-		push_error(text)
-	else:
-		print(text)
 
 
 ## Import toast: beats/shapes loaded + solo warning when incomplete.
@@ -585,13 +599,21 @@ func _exit_tree() -> void:
 func _on_import_popup_dir_selected(dir: String) -> void:
 	if dir.is_empty() or not DirAccess.dir_exists_absolute(dir):
 		push_error("Invalid chart folder: " + dir)
-		_notify("Invalid chart folder.", true)
+		Notification.show_toast(
+			"Import Failed",
+			"Invalid chart folder.",
+			NotificationToast.Kind.WARN,
+		)
 		return
 
 	var chart_paths := _find_enso_files(dir)
 	if chart_paths.is_empty():
 		push_error("No .enso files found in: " + dir)
-		_notify("No .enso files found in that folder.", true)
+		Notification.show_toast(
+			"Difficulty Missing",
+			"No .enso files found in that folder.",
+			NotificationToast.Kind.WARN,
+		)
 		return
 
 	chart_paths.sort() # stable, predictable difficulty order in the dropdown
@@ -641,7 +663,11 @@ func _find_enso_files(dir: String) -> Array[String]:
 
 func _notify_folder_import_result(imported: Array[String], failed: Array[String]) -> void:
 	if imported.is_empty():
-		_notify("Import failed — no valid .enso files.", true)
+		Notification.show_toast(
+			"Import Failed",
+			"No valid .enso files.",
+			NotificationToast.Kind.WARN,
+		)
 		return
 	var msg := (
 		"Imported %d difficult%s: %s"
@@ -649,5 +675,17 @@ func _notify_folder_import_result(imported: Array[String], failed: Array[String]
 	)
 	if not failed.is_empty():
 		msg += " (%d failed: %s)" % [failed.size(), ", ".join(failed)]
-	_notify(msg, not failed.is_empty())
+	if not failed.is_empty():
+		Notification.show_toast(
+			"Import Completed with Errors",
+			msg,
+			NotificationToast.Kind.WARN,
+			4.0,
+		)
+	else:
+		Notification.show_toast(
+			"Import Complete",
+			msg,
+			NotificationToast.Kind.SUCCESS,
+		)
 	pass # Replace with function body.
