@@ -193,20 +193,30 @@ func _notify_import_result(chart: ChartData, diff_name: String) -> void:
 			solo = (mapping_group.call("get_solo_beats_ms") as Array).size()
 		else:
 			solo = maxi(0, beats - shapes)
+
+	var title := 'Imported "%s"' % diff_name
 	if solo > 0 or chart.is_incomplete():
-		_notify(
-			(
-				'Imported "%s": %d beats, %d shapes — %d solo need setup.'
-				% [diff_name, beats, shapes, solo]
-			)
+		Notification.show_toast(
+			title,
+			"%d beats, %d shapes. %d solo need setup." % [beats, shapes, solo],
+			NotificationToast.Kind.WARN,
+			4.0,
 		)
 	else:
-		_notify('Imported "%s": %d beats, %d shapes.' % [diff_name, beats, shapes])
+		Notification.show_toast(
+			title,
+			"%d beats, %d shapes." % [beats, shapes],
+			NotificationToast.Kind.SUCCESS,
+		)
 
 
 func _notify_export_result(diffs: Dictionary, written: Array[String], folder_name: String) -> void:
 	if written.is_empty():
-		_notify("Export failed — no difficulty files were written.", true)
+		Notification.show_toast(
+			"Export failed",
+			"No difficulty files were written.",
+			NotificationToast.Kind.WARN,
+		)
 		return
 	var total_beats := 0
 	var total_shapes := 0
@@ -224,20 +234,22 @@ func _notify_export_result(diffs: Dictionary, written: Array[String], folder_nam
 		for b in beats:
 			if not used.has(int(b)):
 				total_solo += 1
+
+	var title := 'Exported "%s"' % folder_name
 	var names := ", ".join(written)
 	if total_solo > 0:
-		_notify(
-			(
-				"Exported %s: %s (%d beats, %d shapes, %d solo hidden from list)."
-				% [folder_name, names, total_beats, total_shapes, total_solo]
-			)
+		Notification.show_toast(
+			title,
+			"%s: %d beats, %d shapes. %d solo hidden from list."
+			% [names, total_beats, total_shapes, total_solo],
+			NotificationToast.Kind.WARN,
+			4.0,
 		)
 	else:
-		_notify(
-			(
-				"Exported %s: %s (%d beats, %d shapes)."
-				% [folder_name, names, total_beats, total_shapes]
-			)
+		Notification.show_toast(
+			title,
+			"%s: %d beats, %d shapes." % [names, total_beats, total_shapes],
+			NotificationToast.Kind.SUCCESS,
 		)
 
 

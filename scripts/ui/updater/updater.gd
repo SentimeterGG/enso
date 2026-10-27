@@ -20,7 +20,7 @@ func compare(latest_ver: String) -> int:
 	if result < 0:
 		notification.show_message("New Update Found")
 	else:
-		print("Latest Update")
+		Notification.show_toast("New Update Found", "Version x.x.x is available")
 	return result
 
 

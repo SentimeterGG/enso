@@ -2,47 +2,125 @@
 
 [ext_resource type="Script" uid="uid://cfrg4twtv4eun" path="res://scripts/ui/notification.gd" id="1"]
 [ext_resource type="Theme" uid="uid://cpocn8agag6ib" path="res://resources/theme/Theme.tres" id="1_j6hwb"]
+[ext_resource type="StyleBox" uid="uid://dqbqam4mckjki" path="res://resources/theme/Notification/warn.tres" id="1_yejxv"]
+[ext_resource type="Texture2D" uid="uid://ceht3wr4q2547" path="res://assets/sprites/UI/icons/icons.png" id="2_mfwk2"]
 
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_j6hwb"]
-bg_color = Color(0.14901961, 0.14901961, 0.14901961, 1)
-border_width_left = 4
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_yejxv"]
+load_path = "res://.godot/imported/icons.png-873fce6f98d494b658cf46d0a479e9b0.ctex"
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_8ldpm"]
+atlas = SubResource("CompressedTexture2D_yejxv")
+region = Rect2(80, 0, 16, 16)
+
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_tafmc"]
+load_path = "res://.godot/imported/icons.png-873fce6f98d494b658cf46d0a479e9b0.ctex"
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_syajt"]
+atlas = SubResource("CompressedTexture2D_tafmc")
+region = Rect2(64, 0, 16, 16)
+
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_1fyay"]
+load_path = "res://.godot/imported/icons.png-873fce6f98d494b658cf46d0a479e9b0.ctex"
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_2iyk2"]
+atlas = SubResource("CompressedTexture2D_1fyay")
+region = Rect2(48, 0, 16, 16)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_8ldpm"]
+bg_color = Color(0.60038817, 0.60038817, 0.60038817, 0)
 border_width_top = 1
-border_width_right = 4
+border_width_right = 1
 border_width_bottom = 1
 border_color = Color(0.43137255, 0.43137255, 0.43137255, 1)
 
+[sub_resource type="AtlasTexture" id="AtlasTexture_ehw80"]
+atlas = ExtResource("2_mfwk2")
+region = Rect2(80, 0, 16, 16)
+
 [node name="Notification" type="PanelContainer" unique_id=322623548]
 unique_name_in_owner = true
-z_index = 200
-anchors_preset = 5
-anchor_left = 0.5
-anchor_right = 0.5
-offset_left = -152.5
-offset_top = 32.0
-offset_right = 152.5
-offset_bottom = 67.0
-grow_horizontal = 2
+z_index = 356
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -237.0
+offset_bottom = 46.0
+grow_horizontal = 0
 mouse_filter = 2
-theme_override_styles/panel = SubResource("StyleBoxFlat_j6hwb")
+theme_override_styles/panel = ExtResource("1_yejxv")
 script = ExtResource("1")
+icon_info = SubResource("AtlasTexture_8ldpm")
+icon_success = SubResource("AtlasTexture_syajt")
+icon_warn = SubResource("AtlasTexture_2iyk2")
+
+[node name="Panel" type="Panel" parent="." unique_id=1299414943]
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_8ldpm")
 
 [node name="Margin" type="MarginContainer" parent="." unique_id=329296419]
 layout_mode = 2
-theme_override_constants/margin_left = 12
-theme_override_constants/margin_top = 8
-theme_override_constants/margin_right = 12
+theme_override_constants/margin_left = 8
+theme_override_constants/margin_top = 7
+theme_override_constants/margin_right = 8
 theme_override_constants/margin_bottom = 8
 
-[node name="Label" type="Label" parent="Margin" unique_id=786106384]
+[node name="HBoxContainer" type="HBoxContainer" parent="Margin" unique_id=348948395]
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="AspectRatioContainer" type="AspectRatioContainer" parent="Margin/HBoxContainer" unique_id=447608707]
+layout_mode = 2
+
+[node name="Panel" type="Panel" parent="Margin/HBoxContainer/AspectRatioContainer" unique_id=1971171688]
+custom_minimum_size = Vector2(28, 0)
+custom_maximum_size = Vector2(28, -1)
+layout_mode = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="Margin/HBoxContainer/AspectRatioContainer/Panel" unique_id=1666846761]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 6
+theme_override_constants/margin_top = 6
+theme_override_constants/margin_right = 6
+theme_override_constants/margin_bottom = 6
+
+[node name="TextureRect" type="TextureRect" parent="Margin/HBoxContainer/AspectRatioContainer/Panel/MarginContainer" unique_id=1636987635]
+layout_mode = 2
+texture = SubResource("AtlasTexture_ehw80")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Margin/HBoxContainer" unique_id=1477636644]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 2
+
+[node name="Title" type="Label" parent="Margin/HBoxContainer/VBoxContainer" unique_id=736752147]
+custom_maximum_size = Vector2(180, -1)
 layout_mode = 2
 theme = ExtResource("1_j6hwb")
 theme_override_font_sizes/font_size = 10
-text = "Notification"
-horizontal_alignment = 1
+text = "3 SONG ADDED"
+autowrap_mode = 3
+
+[node name="Body" type="Label" parent="Margin/HBoxContainer/VBoxContainer" unique_id=1267380361]
+custom_maximum_size = Vector2(180, -1)
+layout_mode = 2
+theme = ExtResource("1_j6hwb")
+theme_override_colors/font_color = Color(0.47788018, 0.47788012, 0.47788012, 1)
+theme_override_font_sizes/font_size = 8
+text = "Go check it out on level menu"
 autowrap_mode = 3
 
 [node name="Button" type="Button" parent="." unique_id=2085059274]
 self_modulate = Color(1, 1, 1, 0)
 layout_mode = 2
+
+[node name="DurationVisual" type="ColorRect" parent="." unique_id=1110815178]
+custom_minimum_size = Vector2(0, 3)
+layout_mode = 2
+size_flags_vertical = 8
 
 [connection signal="pressed" from="Button" to="." method="_on_button_pressed"]

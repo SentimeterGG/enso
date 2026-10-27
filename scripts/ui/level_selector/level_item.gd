@@ -47,7 +47,7 @@ func set_selected(selected: bool) -> void:
 
 	panel.add_theme_stylebox_override("panel", STYLE_FOCUSED_PULSE)
 	_pulse_tween = create_tween()
-	_pulse_tween.tween_interval(0.2)
+	_pulse_tween.tween_interval(0.1)
 	_pulse_tween.tween_callback(panel.add_theme_stylebox_override.bind("panel", STYLE_FOCUSED))
 
 	emit_signal("hovered", chart_path)

@@ -10,7 +10,6 @@
 [ext_resource type="Script" uid="uid://b8lss2my82vt3" path="res://scripts/ui/level_selector/level_list.gd" id="9_ax7y8"]
 [ext_resource type="AudioStream" uid="uid://dybpytxnyej66" path="res://assets/sound/osu-hit-sound.mp3" id="10_ljvb0"]
 [ext_resource type="PackedScene" uid="uid://b7rlmo61qxu8s" path="res://scenes/draw.tscn" id="10_v1k4p"]
-[ext_resource type="PackedScene" uid="uid://ck7x5mmeskxsl" path="res://scenes/notification.tscn" id="11_notif"]
 
 [sub_resource type="CompressedTexture2D" id="CompressedTexture2D_f20t4"]
 load_path = "res://.godot/imported/icons.png-873fce6f98d494b658cf46d0a479e9b0.ctex"
@@ -634,14 +633,6 @@ guess_mode = true
 stream = ExtResource("10_ljvb0")
 volume_db = 24.0
 bus = &"Effect"
-
-[node name="Notification" parent="." unique_id=443003223 instance=ExtResource("11_notif")]
-visible = false
-layout_mode = 1
-offset_left = -153.0
-offset_top = 48.0
-offset_right = 152.0
-offset_bottom = 88.0
 
 [connection signal="mouse_entered" from="Main Content/HBoxContainer/LSide/MarginContainer/VBoxContainer/LevelDetails/PlaySection/SignHerePanel" to="." method="_on_sign_mouse_entered"]
 [connection signal="mouse_exited" from="Main Content/HBoxContainer/LSide/MarginContainer/VBoxContainer/LevelDetails/PlaySection/SignHerePanel" to="." method="_on_sign_mouse_exited"]
