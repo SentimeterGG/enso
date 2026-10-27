@@ -2,7 +2,7 @@ extends TextureRect
 
 @export var parallax_strength: float = 20.0
 @export var smoothing_speed: float = 5.0
-@export var zoom_factor: float = 1.1  # 1.1 = 10% oversized, gives you overflow margin
+@export var zoom_factor: float = 1.1 # 1.1 = 10% oversized, gives you overflow margin
 @export var fade_duration: float = 0.35
 @export var parallax_toggle_duration: float = 0.4
 
@@ -31,15 +31,15 @@ func disable_parallax() -> void:
 	_parallax_tween = create_tween().set_parallel(true)
 	(
 		_parallax_tween
-		. tween_property(self, "position", origin_position, parallax_toggle_duration)
-		. set_trans(Tween.TRANS_QUAD)
-		. set_ease(Tween.EASE_OUT)
+		.tween_property(self, "position", origin_position, parallax_toggle_duration)
+		.set_trans(Tween.TRANS_QUAD)
+		.set_ease(Tween.EASE_OUT)
 	)
 	(
 		_parallax_tween
-		. tween_property(self, "scale", Vector2.ONE, parallax_toggle_duration)
-		. set_trans(Tween.TRANS_QUAD)
-		. set_ease(Tween.EASE_OUT)
+		.tween_property(self, "scale", Vector2.ONE, parallax_toggle_duration)
+		.set_trans(Tween.TRANS_QUAD)
+		.set_ease(Tween.EASE_OUT)
 	)
 
 
@@ -51,15 +51,15 @@ func enable_parallax() -> void:
 	_parallax_tween = create_tween().set_parallel(true)
 	(
 		_parallax_tween
-		. tween_property(self, "scale", Vector2(zoom_factor, zoom_factor), parallax_toggle_duration)
-		. set_trans(Tween.TRANS_QUAD)
-		. set_ease(Tween.EASE_OUT)
+		.tween_property(self, "scale", Vector2(zoom_factor, zoom_factor), parallax_toggle_duration)
+		.set_trans(Tween.TRANS_QUAD)
+		.set_ease(Tween.EASE_OUT)
 	)
 	(
 		_parallax_tween
-		. tween_property(self, "position", origin_position, parallax_toggle_duration)
-		. set_trans(Tween.TRANS_QUAD)
-		. set_ease(Tween.EASE_OUT)
+		.tween_property(self, "position", origin_position, parallax_toggle_duration)
+		.set_trans(Tween.TRANS_QUAD)
+		.set_ease(Tween.EASE_OUT)
 	)
 	_parallax_tween.chain().tween_callback(_on_parallax_tween_finished)
 
@@ -101,8 +101,7 @@ func _physics_process(delta: float) -> void:
 
 func change(path: Variant = null) -> void:
 	if (
-		path == null
-		or (path is String and (path as String).is_empty())
+		path == null or (path is String and (path as String).is_empty())
 		or (path is StringName and String(path).is_empty())
 	):
 		clear_background()
@@ -120,9 +119,9 @@ func change(path: Variant = null) -> void:
 			_fade_tween = create_tween()
 			(
 				_fade_tween
-				. tween_property(self, "modulate:a", _base_alpha, fade_duration)
-				. set_trans(Tween.TRANS_QUAD)
-				. set_ease(Tween.EASE_OUT)
+				.tween_property(self, "modulate:a", _base_alpha, fade_duration)
+				.set_trans(Tween.TRANS_QUAD)
+				.set_ease(Tween.EASE_OUT)
 			)
 		return
 	if _fade_tween != null and _fade_tween.is_valid():
@@ -130,16 +129,16 @@ func change(path: Variant = null) -> void:
 	_fade_tween = create_tween()
 	(
 		_fade_tween
-		. tween_property(self, "modulate:a", 0.0, fade_duration)
-		. set_trans(Tween.TRANS_QUAD)
-		. set_ease(Tween.EASE_IN)
+		.tween_property(self, "modulate:a", 0.0, fade_duration)
+		.set_trans(Tween.TRANS_QUAD)
+		.set_ease(Tween.EASE_IN)
 	)
 	_fade_tween.tween_callback(_apply_texture.bind(new_tex))
 	(
 		_fade_tween
-		. tween_property(self, "modulate:a", _base_alpha, fade_duration)
-		. set_trans(Tween.TRANS_QUAD)
-		. set_ease(Tween.EASE_OUT)
+		.tween_property(self, "modulate:a", _base_alpha, fade_duration)
+		.set_trans(Tween.TRANS_QUAD)
+		.set_ease(Tween.EASE_OUT)
 	)
 
 
@@ -150,9 +149,9 @@ func set_base_alpha(new: float):
 	_fade_tween = create_tween()
 	(
 		_fade_tween
-		. tween_property(self, "modulate:a", _base_alpha, fade_duration)
-		. set_trans(Tween.TRANS_QUAD)
-		. set_ease(Tween.EASE_OUT)
+		.tween_property(self, "modulate:a", _base_alpha, fade_duration)
+		.set_trans(Tween.TRANS_QUAD)
+		.set_ease(Tween.EASE_OUT)
 	)
 
 
@@ -164,9 +163,9 @@ func clear_background() -> void:
 	_fade_tween = create_tween()
 	(
 		_fade_tween
-		. tween_property(self, "modulate:a", 0.0, fade_duration)
-		. set_trans(Tween.TRANS_QUAD)
-		. set_ease(Tween.EASE_IN)
+		.tween_property(self, "modulate:a", 0.0, fade_duration)
+		.set_trans(Tween.TRANS_QUAD)
+		.set_ease(Tween.EASE_IN)
 	)
 	_fade_tween.tween_callback(_apply_texture.bind(null))
 

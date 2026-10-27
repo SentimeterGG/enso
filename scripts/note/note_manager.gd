@@ -14,7 +14,10 @@ const RESYNC_INTERVAL := 30.0
 const RESYNC_DURATION := 0.2
 var next_resync = 30.0
 var resync_end = 30.1
-enum ScrollMode { DELTA, MUSIC_CLOCK }
+enum ScrollMode {
+	DELTA,
+	MUSIC_CLOCK,
+}
 var scroll_mode: ScrollMode = ScrollMode.DELTA
 @onready var _start_x = %beat_receptor.position.x
 # @onready var resync_label: Label = %resync_label

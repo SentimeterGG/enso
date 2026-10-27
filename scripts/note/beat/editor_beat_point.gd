@@ -21,8 +21,14 @@ func _ready() -> void:
 	button.flat = true
 	button.focus_mode = Control.FOCUS_NONE
 	button.pressed.connect(_on_button_pressed)
-	button.button_down.connect(func() -> void: drag_started.emit(beat_ms))
-	button.button_up.connect(func() -> void: drag_ended.emit(beat_ms))
+	button.button_down.connect(
+		func() -> void:
+			drag_started.emit(beat_ms),
+	)
+	button.button_up.connect(
+		func() -> void:
+			drag_ended.emit(beat_ms),
+	)
 
 
 func set_selected(selected: bool) -> void:

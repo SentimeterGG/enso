@@ -53,7 +53,7 @@ func _sync_slider(player: AudioStreamPlayer, slider: HSlider, label: LineEdit) -
 	if player.stream == null:
 		return
 	if label.has_focus():
-		return  # don't clobber what the user is currently typing
+		return # don't clobber what the user is currently typing
 	if player.playing and not player.stream_paused:
 		var ms := int(player.get_playback_position() * 1000.0)
 		ms = clampi(ms, int(slider.min_value), int(slider.max_value))
@@ -251,7 +251,9 @@ func _on_beat_nudge_plus() -> void:
 ## counter invalidate stale stop-timers so spam-clicking never queues or drops.
 func _do_nudge(slider: HSlider, label: LineEdit, player: AudioStreamPlayer, dir: float) -> void:
 	var marker_ms := clampi(
-		int(slider.value) + int(NUDGE_MS * dir), int(slider.min_value), int(slider.max_value)
+		int(slider.value) + int(NUDGE_MS * dir),
+		int(slider.min_value),
+		int(slider.max_value),
 	)
 	slider.set_value_no_signal(marker_ms)
 	label.text = _format_ms(marker_ms)
@@ -299,8 +301,7 @@ func _format_ms(ms: int) -> String:
 func _on_preview_changed(v: float) -> void:
 	_preview_label.text = _format_ms(int(v))
 	if (
-		_preview_player.stream != null
-		and _preview_player.playing
+		_preview_player.stream != null and _preview_player.playing
 		and not _preview_player.stream_paused
 	):
 		_preview_player.play(float(v) / 1000.0)
@@ -334,16 +335,19 @@ func _on_beat_edit_focus_exited() -> void:
 
 
 func _apply_typed_time(
-	edit: LineEdit, slider: HSlider, player: AudioStreamPlayer, text: String
+	edit: LineEdit,
+	slider: HSlider,
+	player: AudioStreamPlayer,
+	text: String,
 ) -> void:
 	if edit == null or slider == null:
 		return
 	var ms := _parse_ms(text)
 	if ms < 0:
-		edit.text = _format_ms(int(slider.value))  # invalid: revert
+		edit.text = _format_ms(int(slider.value)) # invalid: revert
 		return
 	ms = clampi(ms, int(slider.min_value), int(slider.max_value))
-	slider.value = ms  # emits value_changed -> seeks if playing, updates field
+	slider.value = ms # emits value_changed -> seeks if playing, updates field
 	edit.text = _format_ms(ms)
 	edit.caret_column = edit.text.length()
 
@@ -369,9 +373,9 @@ func _parse_ms(raw: String) -> int:
 			return -1
 		return int(mins) * 60000 + int(round(float(secs) * 1000.0))
 	if s.is_valid_int():
-		return int(s)  # plain number = milliseconds
+		return int(s) # plain number = milliseconds
 	if s.is_valid_float():
-		return int(round(float(s) * 1000.0))  # decimal without unit = seconds
+		return int(round(float(s) * 1000.0)) # decimal without unit = seconds
 	return -1
 
 
@@ -450,9 +454,9 @@ func _on_load_video_bg_file_selected(path: String) -> void:
 
 func _on_browse_video_bg_button_pressed() -> void:
 	_load_video_bg_dialog.popup_centered(Vector2i(600, 400))
-	pass  # Replace with function body.
+	pass # Replace with function body.
 
 
 func _on_browse_bg_path_pressed() -> void:
 	_load_bg_dialog.popup_centered(Vector2i(600, 400))
-	pass  # Replace with function body.
+	pass # Replace with function body.

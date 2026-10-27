@@ -5,7 +5,13 @@
 class_name HitResult
 extends RefCounted
 
-enum Kind { PERFECT, OK, BAD, MISS, BAD_DRAW }
+enum Kind {
+	PERFECT,
+	OK,
+	BAD,
+	MISS,
+	BAD_DRAW,
+}
 
 const WEIGHTS := {
 	Kind.PERFECT: 1.0,

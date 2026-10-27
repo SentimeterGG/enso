@@ -4,8 +4,7 @@
 extends Control
 class_name gameplay_manager
 
-@export
-var CHART_PATH := "res://levels/Wasurete Yaranai by kessoku band mapped by ENSO Team/chart.enso"
+@export var CHART_PATH := "res://levels/Wasurete Yaranai by kessoku band mapped by ENSO Team/chart.enso"
 @onready var draw_manager: Line2D = %draw
 @onready var note_manager: VBoxContainer = %note_column
 @onready var target_shape: Line2D = $target_shape
@@ -40,7 +39,7 @@ func _ready():
 	BgMusic.load_song(Global.load_safely(Global.current_chart.song_path()))
 	DiscordRPC.set_activity(
 		"Drawing Shape",
-		Global.current_chart.get_song_title() + " - " + Global.current_chart.get_song_source()
+		Global.current_chart.get_song_title() + " - " + Global.current_chart.get_song_source(),
 	)
 
 
@@ -82,9 +81,9 @@ func _fade_in_video_bg(duration: float) -> void:
 	_video_fade_tween = bg.create_tween()
 	(
 		_video_fade_tween
-		. tween_property(bg, "modulate:a", 1.0, duration)
-		. set_trans(Tween.TRANS_QUAD)
-		. set_ease(Tween.EASE_OUT)
+		.tween_property(bg, "modulate:a", 1.0, duration)
+		.set_trans(Tween.TRANS_QUAD)
+		.set_ease(Tween.EASE_OUT)
 	)
 
 
@@ -96,7 +95,9 @@ func _on_bg_music_finished():
 
 func _exit_tree() -> void:
 	Input.set_custom_mouse_cursor(
-		load("res://assets/sprites/UI/crosshair.png"), Input.CURSOR_ARROW, Vector2(21, 21)
+		load("res://assets/sprites/UI/crosshair.png"),
+		Input.CURSOR_ARROW,
+		Vector2(21, 21),
 	)
 	BgMusic.enable_loop()
 	GlobalBackground.enable_parallax()

@@ -191,7 +191,7 @@ var open_tail_trim: float = 0.08
 @export_range(1, 200, 1) var debug_max_captures: int = 20
 
 # Last compare() debug capture (empty Dictionary when nothing captured yet).
-var debug_last: Dictionary = {}
+var debug_last: Dictionary = { }
 # Ring buffer of recent compare() debug captures, oldest first.
 var debug_captures: Array[Dictionary] = []
 
@@ -199,7 +199,7 @@ var debug_captures: Array[Dictionary] = []
 var _unit_circle_cache: PackedVector2Array = PackedVector2Array()
 
 # Lazy template library used by guess()
-var _template_cache: Dictionary = {}
+var _template_cache: Dictionary = { }
 # Template names in a fixed, deterministic order (parallel to _template_cache).
 var _template_names: Array[String] = []
 var _templates_ready := false
@@ -224,6 +224,7 @@ class TargetData:
 	var unit_points: PackedVector2Array
 	var unit_rev_points: PackedVector2Array
 	var unit_max_radius: float
+
 
 	func _init(points: PackedVector2Array, recognizer: GestureRecognizer) -> void:
 		raw_points = points
@@ -279,7 +280,6 @@ func build_player_data(points: PackedVector2Array) -> PlayerData:
 		pd.peaks = radial_peaks(pd.norm)
 		pd.peaks_ready = true
 	return pd
-
 
 # --- Public Entry Points ---
 
@@ -391,33 +391,16 @@ func _template_points(kind: String) -> PackedVector2Array:
 			return arr
 		"square":
 			return PackedVector2Array(
-				[
-					Vector2(-1, -1),
-					Vector2(-1, 1),
-					Vector2(1, 1),
-					Vector2(1, -1),
-					Vector2(-1, -1),
-				]
+				[Vector2(-1, -1), Vector2(-1, 1), Vector2(1, 1), Vector2(1, -1), Vector2(-1, -1)]
 			)
 		"triangle":
 			return PackedVector2Array(
-				[
-					Vector2(1, 1),
-					Vector2(0, -1),
-					Vector2(-1, 1),
-					Vector2(1, 1),
-				]
+				[Vector2(1, 1), Vector2(0, -1), Vector2(-1, 1), Vector2(1, 1)]
 			)
 
 		"exit":
 			return PackedVector2Array(
-				[
-					Vector2(-1, 1),
-					Vector2(1, -1),
-					Vector2(1, 1),
-					Vector2(-1, -1),
-					Vector2(-1, 1),
-				]
+				[Vector2(-1, 1), Vector2(1, -1), Vector2(1, 1), Vector2(-1, -1), Vector2(-1, 1)]
 			)
 	return PackedVector2Array()
 
@@ -426,7 +409,7 @@ func compare_to_target_data(player: PackedVector2Array, target: TargetData) -> f
 	if player.size() < 2 or target.normalized_points.size() < 2:
 		return 0.0
 	var pd := build_player_data(player)
-	var debug_out := {}
+	var debug_out := { }
 	var score := _score_player_data(pd, target, debug_out)
 	if debug_enabled:
 		_debug_store_capture(player, pd, target, score, debug_out)
@@ -436,7 +419,7 @@ func compare_to_target_data(player: PackedVector2Array, target: TargetData) -> f
 ## Drops all stored debug captures and resets `debug_last`.
 func clear_debug_captures() -> void:
 	debug_captures.clear()
-	debug_last = {}
+	debug_last = { }
 
 
 ## Snapshot of every tuning value that influences scoring. Stored with each
@@ -490,7 +473,7 @@ func _debug_store_capture(
 	pd: PlayerData,
 	target: TargetData,
 	score: float,
-	breakdown: Dictionary
+	breakdown: Dictionary,
 ) -> void:
 	var capture := {
 		"time_utc": Time.get_datetime_string_from_system(true),
@@ -534,7 +517,6 @@ func save_debug_captures(path: String) -> Error:
 	f.store_string(JSON.stringify(debug_captures, "\t"))
 	f.close()
 	return OK
-
 
 # --- Difficulty (overall_difficulty 1-10) & Quality Bands ---
 
@@ -603,7 +585,6 @@ func quality_of(score: float) -> String:
 func is_pass(score: float) -> bool:
 	return score >= bad_threshold
 
-
 # --- Straight-stroke & Line-orientation helpers ---
 
 
@@ -633,7 +614,8 @@ func _line_angle(points: PackedVector2Array) -> float:
 ## 90 deg -> ~0.0 (with the default 25-deg tolerance), so perpendicular lines
 ## always fail while sloppy lines (a few deg off) keep their score.
 func _line_orientation_factor(
-	player_norm: PackedVector2Array, target_norm: PackedVector2Array
+	player_norm: PackedVector2Array,
+	target_norm: PackedVector2Array,
 ) -> float:
 	var diff := absf(
 		wrapf(_line_angle(player_norm) - _line_angle(target_norm), -PI / 2.0, PI / 2.0)
@@ -646,7 +628,7 @@ func _line_orientation_factor(
 ## in `pd` and is shared across every target in a guess()/compare() run.
 ## When `debug_out` is provided (compare path) it is filled with the score
 ## breakdown (structural/positional/distance/weight); guess() leaves it empty.
-func _score_player_data(pd: PlayerData, target: TargetData, debug_out: Dictionary = {}) -> float:
+func _score_player_data(pd: PlayerData, target: TargetData, debug_out: Dictionary = { }) -> float:
 	if target.normalized_points.size() < 2:
 		return 0.0
 
@@ -687,10 +669,14 @@ func _score_player_data(pd: PlayerData, target: TargetData, debug_out: Dictionar
 					pd.unit = unit_square_normalize(pd.norm)
 					pd.unit_ready = true
 				var unit_search := _unit_rotation_search(
-					pd.norm, target, -1.0, pd.corner_p, pd.unit
+					pd.norm,
+					target,
+					-1.0,
+					pd.corner_p,
+					pd.unit,
 				)
 				distance = unit_search[0]
-				unit_search_dist = distance  # Store for step 2
+				unit_search_dist = distance # Store for step 2
 				effective_tolerance = open_unit_tolerance
 			else:
 				distance = _rotation_search(pd.norm, target, pd.corner_p)[0]
@@ -729,7 +715,12 @@ func _score_player_data(pd: PlayerData, target: TargetData, debug_out: Dictionar
 	if not player_closed and enable_unit_square_open and open_rotation_reject:
 		if not (pd.is_line and target.is_line):
 			score *= _open_rotation_factor(
-				pd.norm, target, structural, pd.corner_p, pd.unit, unit_search_dist
+				pd.norm,
+				target,
+				structural,
+				pd.corner_p,
+				pd.unit,
+				unit_search_dist,
 			)
 
 	if player_closed:
@@ -817,7 +808,7 @@ func _open_rotation_factor(
 	structural: float,
 	corner_p: Array[float],
 	player_unit: PackedVector2Array,
-	near_dist: float
+	near_dist: float,
 ) -> float:
 	# REMOVE: Calling _unit_rotation_search 2x Performance issue
 	# var near_dist: float = _unit_rotation_search(
@@ -842,7 +833,6 @@ func _open_rotation_factor(
 	if structural < open_rot_struct_gate:
 		return 0.0
 	return 1.0
-
 
 # --- Preprocessing Pipeline ---
 
@@ -963,7 +953,6 @@ func rotate_to_zero(points: PackedVector2Array) -> PackedVector2Array:
 		result[i] = (points[i] - c).rotated(-angle) + c
 	return result
 
-
 # --- Helpers & Bounding Box ---
 
 
@@ -1029,7 +1018,6 @@ func max_radius_of(points: PackedVector2Array) -> float:
 		max_r = maxf(max_r, point.length())
 	return max_r
 
-
 # --- Corner Masking ---
 
 
@@ -1093,7 +1081,6 @@ func _open_corner_count(points: PackedVector2Array, step := 6) -> int:
 			mask[i] = 1.0
 	return count_corners_from_mask(mask)
 
-
 # --- Fast Cyclic Distance (Zero Heap Allocations) ---
 
 
@@ -1110,7 +1097,9 @@ func path_distance_fast(player_norm: PackedVector2Array, target: TargetData) -> 
 ## has no detected corners (circles/ellipses/near-circular strokes), so those
 ## keep their original exhaustive, fully-accurate search.
 func _corner_candidate_offsets(
-	corner_a: Array[float], corner_b: Array[float], count: int
+	corner_a: Array[float],
+	corner_b: Array[float],
+	count: int,
 ) -> Array[int]:
 	if count <= 0:
 		return []
@@ -1125,7 +1114,7 @@ func _corner_candidate_offsets(
 	if idx_a.is_empty() or idx_b.is_empty():
 		return []
 
-	var seen := {}
+	var seen := { }
 	var offsets: Array[int] = []
 	for ca in idx_a:
 		for cb in idx_b:
@@ -1138,7 +1127,9 @@ func _corner_candidate_offsets(
 
 
 func _rotation_search(
-	player_norm: PackedVector2Array, target: TargetData, corner_p: Array[float] = []
+	player_norm: PackedVector2Array,
+	target: TargetData,
+	corner_p: Array[float] = [],
 ) -> Array:
 	if corner_p.is_empty():
 		corner_p = corner_mask(player_norm)
@@ -1174,10 +1165,20 @@ func _rotation_search(
 			rotated[i] = player_norm[i].rotated(ang) * refit
 
 		var fwd := _min_cyclic_masked(
-			rotated, target.normalized_points, corner_p, target.corners, closed, fwd_offsets
+			rotated,
+			target.normalized_points,
+			corner_p,
+			target.corners,
+			closed,
+			fwd_offsets,
 		)
 		var bwd := _min_cyclic_masked(
-			rotated, target.rev_points, corner_p, target.rev_corners, closed, bwd_offsets
+			rotated,
+			target.rev_points,
+			corner_p,
+			target.rev_corners,
+			closed,
+			bwd_offsets,
 		)
 		var d := minf(fwd, bwd)
 		if d < best:
@@ -1194,7 +1195,7 @@ func _min_cyclic_masked(
 	corner_a: Array[float],
 	corner_b: Array[float],
 	is_closed := true,
-	candidate_offsets: Array[int] = []
+	candidate_offsets: Array[int] = [],
 ) -> float:
 	var count := mini(a.size(), b.size())
 	if count == 0:
@@ -1233,7 +1234,6 @@ func _min_cyclic_masked(
 
 	return best
 
-
 # --- Structural Profile & Radial Peaks ---
 
 
@@ -1241,7 +1241,7 @@ func structural_score_fast(
 	player: PackedVector2Array,
 	target: TargetData,
 	player_peaks: Array[Vector3],
-	corner_p: Array[float] = []
+	corner_p: Array[float] = [],
 ) -> float:
 	var target_peaks := target.radial_peaks
 
@@ -1429,7 +1429,8 @@ func unit_square_normalize(points: PackedVector2Array) -> PackedVector2Array:
 	result.resize(points.size())
 	for i in range(points.size()):
 		result[i] = Vector2(
-			(points[i].x - bounds.position.x) / width, (points[i].y - bounds.position.y) / height
+			(points[i].x - bounds.position.x) / width,
+			(points[i].y - bounds.position.y) / height,
 		)
 	var c := centroid(result)
 	for i in range(result.size()):
@@ -1456,7 +1457,7 @@ func _unit_rotation_search(
 	target: TargetData,
 	limit_deg := -1.0,
 	corner_p: Array[float] = [],
-	player_unit: PackedVector2Array = PackedVector2Array()
+	player_unit: PackedVector2Array = PackedVector2Array(),
 ) -> Array:
 	if corner_p.is_empty():
 		corner_p = corner_mask(player_norm)
@@ -1487,10 +1488,18 @@ func _unit_rotation_search(
 			for i in range(player_unit.size()):
 				rotated[i] = player_unit[i].rotated(loop_ang) * refit
 			var fwd := _min_cyclic_masked(
-				rotated, target.unit_points, corner_p, target.corners, false
+				rotated,
+				target.unit_points,
+				corner_p,
+				target.corners,
+				false,
 			)
 			var bwd := _min_cyclic_masked(
-				rotated, target.unit_rev_points, corner_p, target.rev_corners, false
+				rotated,
+				target.unit_rev_points,
+				corner_p,
+				target.rev_corners,
+				false,
 			)
 			var d := minf(fwd, bwd)
 			if d < coarse_best:
@@ -1511,7 +1520,11 @@ func _unit_rotation_search(
 
 		var fwd := _min_cyclic_masked(rotated, target.unit_points, corner_p, target.corners, false)
 		var bwd := _min_cyclic_masked(
-			rotated, target.unit_rev_points, corner_p, target.rev_corners, false
+			rotated,
+			target.unit_rev_points,
+			corner_p,
+			target.rev_corners,
+			false,
 		)
 		var d := minf(fwd, bwd)
 		if d < best:

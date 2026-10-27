@@ -2,12 +2,9 @@
 
 [ext_resource type="Script" uid="uid://ct0hqbunx5sk2" path="res://scripts/ui/main_menu.gd" id="1_wu84c"]
 [ext_resource type="FontFile" uid="uid://bprqivnp1xsie" path="res://assets/fonts/ttf/PixelCode-Medium.ttf" id="2_ekxnf"]
+[ext_resource type="PackedScene" uid="uid://cpdjo67hyeq74" path="res://scenes/ui_line.tscn" id="3_jk1qb"]
 [ext_resource type="FontFile" uid="uid://o0cdle58rn3j" path="res://assets/fonts/ithaca.medium.ttf" id="4_lgwnu"]
-[ext_resource type="Texture2D" uid="uid://dnnjjgvh1pcgl" path="res://assets/sprites/UI/shape/circle_outline.png" id="4_rtw2f"]
-[ext_resource type="Texture2D" uid="uid://tmnmfhy3dr8v" path="res://assets/sprites/UI/shape/line.png" id="6_oa1go"]
 [ext_resource type="PackedScene" uid="uid://b7rlmo61qxu8s" path="res://scenes/draw.tscn" id="6_rtw2f"]
-[ext_resource type="Texture2D" uid="uid://cabfu47vn8duh" path="res://assets/sprites/UI/shape/square.png" id="7_tbmy8"]
-[ext_resource type="Texture2D" uid="uid://d1l8efpko56a3" path="res://assets/sprites/UI/shape/exit.png" id="8_jk1qb"]
 [ext_resource type="PackedScene" uid="uid://c5jtf6aywtkgq" path="res://scenes/updater.tscn" id="10_5dd4i"]
 
 [sub_resource type="Gradient" id="Gradient_jk1qb"]
@@ -659,11 +656,12 @@ size_flags_vertical = 8
 offset_transform_enabled = true
 theme_override_constants/separation = 12
 
-[node name="TextureRect" type="TextureRect" parent="LB/MarginContainer/VBoxContainer/Circle to Play" unique_id=1090294468]
-modulate = Color(1, 0, 0, 1)
-custom_minimum_size = Vector2(28, 0.025)
+[node name="ControlLine" parent="LB/MarginContainer/VBoxContainer/Circle to Play" unique_id=578883494 instance=ExtResource("3_jk1qb")]
+custom_minimum_size = Vector2(28, 28)
+custom_maximum_size = Vector2(28, 28)
 layout_mode = 2
-texture = ExtResource("4_rtw2f")
+shape_size = Vector2(28, 28)
+line_thickness = 3
 
 [node name="Play" type="Label" parent="LB/MarginContainer/VBoxContainer/Circle to Play" unique_id=1478556492]
 layout_mode = 2
@@ -683,11 +681,13 @@ size_flags_vertical = 8
 offset_transform_enabled = true
 theme_override_constants/separation = 12
 
-[node name="TextureRect" type="TextureRect" parent="LB/MarginContainer/VBoxContainer/Line To Settings" unique_id=1786875336]
-modulate = Color(1, 0, 0, 1)
-custom_minimum_size = Vector2(28, 0.025)
+[node name="ControlLine" parent="LB/MarginContainer/VBoxContainer/Line To Settings" unique_id=298846028 instance=ExtResource("3_jk1qb")]
+custom_minimum_size = Vector2(28, 28)
+custom_maximum_size = Vector2(28, 28)
 layout_mode = 2
-texture = ExtResource("6_oa1go")
+shape = 4
+shape_size = Vector2(28, 28)
+line_thickness = 3
 
 [node name="Play" type="Label" parent="LB/MarginContainer/VBoxContainer/Line To Settings" unique_id=1560500947]
 layout_mode = 2
@@ -707,11 +707,13 @@ size_flags_vertical = 8
 offset_transform_enabled = true
 theme_override_constants/separation = 12
 
-[node name="TextureRect" type="TextureRect" parent="LB/MarginContainer/VBoxContainer/Square to Level Editor" unique_id=770564656]
-modulate = Color(1, 0, 0, 1)
-custom_minimum_size = Vector2(28, 0.025)
+[node name="ControlLine" parent="LB/MarginContainer/VBoxContainer/Square to Level Editor" unique_id=176546930 instance=ExtResource("3_jk1qb")]
+custom_minimum_size = Vector2(28, 28)
+custom_maximum_size = Vector2(28, 28)
 layout_mode = 2
-texture = ExtResource("7_tbmy8")
+shape = 1
+shape_size = Vector2(28, 28)
+line_thickness = 3
 
 [node name="Play" type="Label" parent="LB/MarginContainer/VBoxContainer/Square to Level Editor" unique_id=2004811886]
 layout_mode = 2
@@ -729,14 +731,15 @@ layout_mode = 2
 size_flags_horizontal = 0
 size_flags_vertical = 8
 offset_transform_enabled = true
-offset_transform_position = Vector2(0, 9)
 theme_override_constants/separation = 12
 
-[node name="TextureRect" type="TextureRect" parent="LB/MarginContainer/VBoxContainer/Square to Level Editor2" unique_id=1551613104]
-modulate = Color(1, 0, 0, 1)
-custom_minimum_size = Vector2(28, 0.025)
+[node name="ControlLine" parent="LB/MarginContainer/VBoxContainer/Square to Level Editor2" unique_id=968671905 instance=ExtResource("3_jk1qb")]
+custom_minimum_size = Vector2(28, 28)
+custom_maximum_size = Vector2(28, 28)
 layout_mode = 2
-texture = ExtResource("8_jk1qb")
+shape = 2
+shape_size = Vector2(28, 28)
+line_thickness = 3
 
 [node name="Play" type="Label" parent="LB/MarginContainer/VBoxContainer/Square to Level Editor2" unique_id=540336014]
 layout_mode = 2

@@ -83,7 +83,7 @@ func end() -> void:
 		WorkerThreadPool.add_task(
 			Callable(self, "_thread_guess").bind(player_pts, cfg, stroke, cb),
 			true,
-			"draw-guess-%d" % stroke
+			"draw-guess-%d" % stroke,
 		)
 	else:
 		if recognizer == null:
@@ -99,7 +99,7 @@ func end() -> void:
 		WorkerThreadPool.add_task(
 			Callable(self, "_thread_compare").bind(player_pts, target_pts, cfg, stroke, cb),
 			true,
-			"draw-compare-%d" % stroke
+			"draw-compare-%d" % stroke,
 		)
 
 
@@ -108,7 +108,7 @@ func _thread_compare(
 	target_pts: PackedVector2Array,
 	cfg: Dictionary,
 	stroke: int,
-	cb: Callable
+	cb: Callable,
 ) -> void:
 	var worker := GestureRecognizer.new()
 	_apply_config(worker, cfg)
@@ -120,7 +120,10 @@ func _thread_compare(
 
 
 func _thread_guess(
-	player_pts: PackedVector2Array, cfg: Dictionary, stroke: int, cb: Callable
+	player_pts: PackedVector2Array,
+	cfg: Dictionary,
+	stroke: int,
+	cb: Callable,
 ) -> void:
 	var worker := GestureRecognizer.new()
 	_apply_config(worker, cfg)
@@ -145,7 +148,6 @@ func _on_guess_done(_stroke: int, shape: String) -> void:
 	emit_signal("guessed_shape", shape)
 
 	emit_signal("draw_ended")
-
 
 # --- Helpers ---
 

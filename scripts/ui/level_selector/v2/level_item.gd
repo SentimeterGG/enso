@@ -37,9 +37,9 @@ func _animate_separation(target: int) -> void:
 	_sep_tween = create_tween()
 	(
 		_sep_tween
-		. tween_method(_apply_separation, float(from), float(target), TWEEN_DURATION)
-		. set_trans(Tween.TRANS_CUBIC)
-		. set_ease(Tween.EASE_OUT)
+		.tween_method(_apply_separation, float(from), float(target), TWEEN_DURATION)
+		.set_trans(Tween.TRANS_CUBIC)
+		.set_ease(Tween.EASE_OUT)
 	)
 
 

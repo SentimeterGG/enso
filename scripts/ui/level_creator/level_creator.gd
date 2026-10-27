@@ -156,9 +156,7 @@ func _on_export_popup_dir_selected(dir: String) -> void:
 		if f == null:
 			push_error(
 				(
-					"Failed to write chart: "
-					+ chart_path
-					+ " "
+					"Failed to write chart: " + chart_path + " "
 					+ error_string(FileAccess.get_open_error())
 				)
 			)
@@ -214,12 +212,12 @@ func _notify_export_result(diffs: Dictionary, written: Array[String], folder_nam
 	var total_shapes := 0
 	var total_solo := 0
 	for diff_name in written:
-		var d: Dictionary = diffs.get(diff_name, {})
+		var d: Dictionary = diffs.get(diff_name, { })
 		var beats: Array = d.get("beats", [])
 		var shapes: Array = d.get("shapes", [])
 		total_beats += beats.size()
 		total_shapes += shapes.size()
-		var used := {}
+		var used := { }
 		for shape in shapes:
 			for t in (shape as Dictionary).get("times_ms", []):
 				used[int(t)] = true
@@ -323,10 +321,15 @@ func _build_metadata_text(
 	song_value: String,
 	bg_value: String = "",
 	video_value: String = "",
-	overall_difficulty_override: int = -1
+	overall_difficulty_override: int = -1,
 ) -> String:
 	var colors: Array = data.get("color_scheme", [])
-	var colors_str := "[" + ", ".join(colors.map(func(c): return '"' + str(c) + '"')) + "]"
+	var colors_str := "[" + ", ".join(
+		colors.map(
+			func(c):
+				return '"' + str(c) + '"',
+		)
+	) + "]"
 	var overall := (
 		overall_difficulty_override
 		if overall_difficulty_override >= 0
@@ -360,7 +363,7 @@ func _build_metadata_text(
 ## so no timing data is lost. Mirrors mapping.gd's _shape_points() geometry.
 func _build_notes_text(beats: Array, shapes: Array) -> String:
 	var out := ""
-	var used: Dictionary = {}
+	var used: Dictionary = { }
 	var ordered: Array = shapes.duplicate()
 	ordered.sort_custom(
 		func(a: Dictionary, b: Dictionary) -> bool:
@@ -368,9 +371,9 @@ func _build_notes_text(beats: Array, shapes: Array) -> String:
 			var tb: Array = b.get("times_ms", [])
 			var fa := int(ta[0]) if not ta.is_empty() else 9223372036854775807
 			var fb := int(tb[0]) if not tb.is_empty() else 9223372036854775807
-			return fa < fb
+			return fa < fb,
 	)
-	var id_counts: Dictionary = {}
+	var id_counts: Dictionary = { }
 	var idx := 0
 	for shape in ordered:
 		idx += 1
@@ -409,12 +412,14 @@ func _build_notes_text(beats: Array, shapes: Array) -> String:
 ## Points are 0..1 normalized (same as mapping.gd:719-735). Custom shapes
 ## carry their own points in shape dict; presets fall back to lookup.
 func _shape_block(
-	sid: String, shape_name: String, times: Array, shape_dict: Dictionary = {}
+	sid: String,
+	shape_name: String,
+	times: Array,
+	shape_dict: Dictionary = { },
 ) -> String:
 	var pts: PackedVector2Array
 	if (
-		shape_dict.has("points")
-		and shape_dict["points"] is PackedVector2Array
+		shape_dict.has("points") and shape_dict["points"] is PackedVector2Array
 		and (shape_dict["points"] as PackedVector2Array).size() > 0
 	):
 		pts = shape_dict["points"] as PackedVector2Array
@@ -502,32 +507,32 @@ func _on_draw_guessed_shape(shape: String) -> void:
 
 func _on_draw_area_mouse_entered() -> void:
 	_draw.start()
-	pass  # Replace with function body.
+	pass # Replace with function body.
 
 
 func _on_draw_area_mouse_exited() -> void:
 	_draw.stop()
-	pass  # Replace with function body.
+	pass # Replace with function body.
 
 
 func _on_scroll_container_mouse_entered() -> void:
 	VolumePopup.can_popup = false
-	pass  # Replace with function body.
+	pass # Replace with function body.
 
 
 func _on_scroll_container_mouse_exited() -> void:
 	VolumePopup.can_popup = true
-	pass  # Replace with function body.
+	pass # Replace with function body.
 
 
 func _on_mapping_mouse_entered() -> void:
 	VolumePopup.can_popup = false
-	pass  # Replace with function body.
+	pass # Replace with function body.
 
 
 func _on_mapping_mouse_exited() -> void:
 	VolumePopup.can_popup = true
-	pass  # Replace with function body.
+	pass # Replace with function body.
 
 
 func _on_song_name_edit_text_submitted(_new_text: String) -> void:
@@ -577,7 +582,7 @@ func _on_import_popup_dir_selected(dir: String) -> void:
 		_notify("No .enso files found in that folder.", true)
 		return
 
-	chart_paths.sort()  # stable, predictable difficulty order in the dropdown
+	chart_paths.sort() # stable, predictable difficulty order in the dropdown
 
 	var metadata_applied := false
 	var imported_names: Array[String] = []
@@ -590,7 +595,7 @@ func _on_import_popup_dir_selected(dir: String) -> void:
 			failed_names.append(path.get_file())
 			continue
 
-		var diff_name := path.get_file().get_basename()  # "hard.enso" -> "hard"
+		var diff_name := path.get_file().get_basename() # "hard.enso" -> "hard"
 
 		if not metadata_applied:
 			# Shared fields (song/bg/mapper/etc) only need to be applied once —
@@ -633,4 +638,4 @@ func _notify_folder_import_result(imported: Array[String], failed: Array[String]
 	if not failed.is_empty():
 		msg += " (%d failed: %s)" % [failed.size(), ", ".join(failed)]
 	_notify(msg, not failed.is_empty())
-	pass  # Replace with function body.
+	pass # Replace with function body.

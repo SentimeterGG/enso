@@ -10,7 +10,7 @@ func check_update(current_ver: String):
 	http_request.request(
 		"https://api.github.com/repos/SentimeterGG/enso/releases",
 		["Accept: application/vnd.github+json", "User-Agent: enso-client"],
-		HTTPClient.METHOD_GET
+		HTTPClient.METHOD_GET,
 	)
 	pass
 
@@ -56,15 +56,18 @@ static func _parse_version(v: String) -> Dictionary:
 	for i in range(mini(parts.size(), 3)):
 		var p := parts[i].strip_edges()
 		core[i] = p.to_int() if p.is_valid_int() else 0
-	return {"core": core, "pre": pre}
+	return { "core": core, "pre": pre }
 
 
 func _on_http_request_request_completed(
-	_result: int, response_code: int, headers: PackedStringArray, body: PackedByteArray
+	_result: int,
+	response_code: int,
+	headers: PackedStringArray,
+	body: PackedByteArray,
 ) -> void:
 	if response_code == HTTPClient.RESPONSE_OK:
 		var string = body.get_string_from_utf8()
 		var dict = JSON.parse_string(string)
 		var latest_version = dict[0]["tag_name"]
 		compare(latest_version)
-	pass  # Replace with function body.
+	pass # Replace with function body.

@@ -47,7 +47,7 @@ var _pipe: FileAccess
 ## Process id of the netcat bridge on macOS and Linux, -1 when unused.
 var _bridge_pid: int = -1
 var _ready_received: bool = false
-var _wanted_activity: Dictionary = {}
+var _wanted_activity: Dictionary = { }
 var _activity_dirty: bool = false
 var _retry_left: float = 0.0
 var _nonce: int = 0
@@ -75,10 +75,10 @@ func _process(delta: float) -> void:
 	_poll_frames()
 	if _activity_dirty and _ready_received and _pipe:
 		_activity_dirty = false
-		var args: Dictionary = {"pid": OS.get_process_id()}
+		var args: Dictionary = { "pid": OS.get_process_id() }
 		# JSON null clears the presence; an empty object does not.
 		args["activity"] = null if _wanted_activity.is_empty() else _wanted_activity
-		_send(_OP_FRAME, {"cmd": "SET_ACTIVITY", "args": args, "nonce": str(_nonce)})
+		_send(_OP_FRAME, { "cmd": "SET_ACTIVITY", "args": args, "nonce": str(_nonce) })
 		_nonce += 1
 
 
@@ -100,7 +100,7 @@ func set_activity(activity: Dictionary) -> void:
 
 ## Remove the presence but keep the connection.
 func clear_activity() -> void:
-	set_activity({})
+	set_activity({ })
 
 
 func _supported() -> bool:
@@ -144,7 +144,7 @@ func _try_connect() -> void:
 func _attach(pipe: FileAccess) -> void:
 	_pipe = pipe
 	_ready_received = false
-	_send(_OP_HANDSHAKE, {"v": 1, "client_id": app_id})
+	_send(_OP_HANDSHAKE, { "v": 1, "client_id": app_id })
 
 
 ## macOS ships OpenBSD nc (has -U); on Linux the bridge must support unix
@@ -248,7 +248,7 @@ func _poll_frames() -> void:
 	while _pipe and _pipe.get_length() >= 8:
 		var op: int = _pipe.get_32()
 		var length: int = _pipe.get_32()
-		var body: Dictionary = {}
+		var body: Dictionary = { }
 		if length > 0:
 			var parsed: Variant = JSON.parse_string(_pipe.get_buffer(length).get_string_from_utf8())
 			if parsed is Dictionary:
@@ -260,14 +260,13 @@ func _handle_frame(op: int, body: Dictionary) -> void:
 	match op:
 		_OP_FRAME:
 			if (
-				not _ready_received
-				and str(body.get("cmd", "")) == "DISPATCH"
+				not _ready_received and str(body.get("cmd", "")) == "DISPATCH"
 				and str(body.get("evt", "")) == "READY"
 			):
 				_ready_received = true
-				_activity_dirty = true  # Reassert the wanted presence.
-				var user: Variant = (body.get("data", {}) as Dictionary).get("user", {})
-				presence_connected.emit(user if user is Dictionary else {})
+				_activity_dirty = true # Reassert the wanted presence.
+				var user: Variant = (body.get("data", { }) as Dictionary).get("user", { })
+				presence_connected.emit(user if user is Dictionary else { })
 		_OP_PING:
 			_send(_OP_PONG, body)
 		_OP_CLOSE:
@@ -278,7 +277,7 @@ func _send(op: int, body: Dictionary) -> void:
 	if _pipe == null:
 		return
 	var payload: PackedByteArray = JSON.stringify(body).to_utf8_buffer()
-	_pipe.store_32(op)  # FileAccess defaults to little endian, the wire order.
+	_pipe.store_32(op) # FileAccess defaults to little endian, the wire order.
 	_pipe.store_32(payload.size())
 	_pipe.store_buffer(payload)
 	_pipe.flush()

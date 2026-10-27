@@ -28,6 +28,7 @@ var _synced_stream: AudioStream = null
 ## auto-hovers index 0 on reload, whose change_song() tween would otherwise
 ## fire ~0.3s later and override the real selection's song.
 var _initial_select_done: bool = false
+
 @onready var draw_here_label: Label = %"Draw Here"
 @onready var beat_sound: AudioStreamPlayer = $"beat_sound"
 @onready var draw_manager: Line2D = $draw
@@ -42,6 +43,62 @@ func _ready() -> void:
 	GlobalBackground.set_base_alpha(0.4)
 	call_deferred("_warn_skipped_incomplete")
 	call_deferred("_select_current_bg_song")
+
+
+func _physics_process(_delta: float) -> void:
+	if _current_bpm <= 0.0 or draw_here_label == null:
+		return
+	if BgMusic == null or not BgMusic.playing:
+		return
+	var beat_duration := 1.0 / _current_bpm
+	var audio_time := BgMusic.get_playback_position() - _current_offset
+	if audio_time < 0.0:
+		return
+	var current_beat := int(audio_time / beat_duration)
+	if BgMusic.stream != _synced_stream:
+		# Song actually swapped (post-fade): re-arm from the live position.
+		_synced_stream = BgMusic.stream
+		_transitioning = true
+		_last_beat = current_beat
+		return
+	if not _transitioning and current_beat < _last_beat:
+		# Position jumped backward (seek/replay): re-arm the same way.
+		_transitioning = true
+		_last_beat = current_beat
+		return
+	if _transitioning:
+		if current_beat > _last_beat:
+			_last_beat = current_beat
+			_transitioning = false
+		else:
+			return
+	if current_beat != _last_beat and current_beat >= 0:
+		_last_beat = current_beat
+		_emit_beat()
+		beat_sound.play()
+		if level_list != null and level_list.has_method("pulse_selected"):
+			level_list.call("pulse_selected")
+
+
+func play_selected() -> void:
+	if level_list == null:
+		push_warning("level_selector: level list not found.")
+		return
+	BgMusic.change_song()
+	var chart := LevelLoader.load_selected(level_list)
+	if chart.is_empty():
+		push_warning("level_selector: selected chart failed to load, staying put.")
+		return
+	_pending_game = true
+	$AnimationPlayer.play("Out")
+
+
+func _on_sign_mouse_entered() -> void:
+	draw_manager.start()
+
+
+func _on_sign_mouse_exited() -> void:
+	draw_manager.stop()
 
 
 ## Toast when level_list hid incomplete (solo-note) charts.
@@ -99,8 +156,7 @@ func _select_current_bg_song() -> void:
 	# Covers the fresh-boot race where change_song()'s fade tween hasn't
 	# swapped BgMusic's stream yet, so the live-audio match above misses.
 	if (
-		target == -1
-		and Global.current_chart != null
+		target == -1 and Global.current_chart != null
 		and not Global.current_chart.chart_path.is_empty()
 	):
 		for i in levels.size():
@@ -133,19 +189,6 @@ func _select_current_bg_song() -> void:
 		level_list.call("select", target)
 
 
-func play_selected() -> void:
-	if level_list == null:
-		push_warning("level_selector: level list not found.")
-		return
-	BgMusic.change_song()
-	var chart := LevelLoader.load_selected(level_list)
-	if chart.is_empty():
-		push_warning("level_selector: selected chart failed to load, staying put.")
-		return
-	_pending_game = true
-	$AnimationPlayer.play("Out")
-
-
 func _on_animation_player_animation_finished(anim_name: StringName) -> void:
 	if anim_name == "Out":
 		if _pending_game:
@@ -163,49 +206,6 @@ func _on_draw_guessed_shape(shape: String) -> void:
 		play_selected()
 
 
-func _on_l_side_mouse_entered() -> void:
-	draw_manager.start()
-
-
-func _on_l_side_mouse_exited() -> void:
-	draw_manager.stop()
-
-
-func _physics_process(_delta: float) -> void:
-	if _current_bpm <= 0.0 or draw_here_label == null:
-		return
-	if BgMusic == null or not BgMusic.playing:
-		return
-	var beat_duration := 1.0 / _current_bpm
-	var audio_time := BgMusic.get_playback_position() - _current_offset
-	if audio_time < 0.0:
-		return
-	var current_beat := int(audio_time / beat_duration)
-	if BgMusic.stream != _synced_stream:
-		# Song actually swapped (post-fade): re-arm from the live position.
-		_synced_stream = BgMusic.stream
-		_transitioning = true
-		_last_beat = current_beat
-		return
-	if not _transitioning and current_beat < _last_beat:
-		# Position jumped backward (seek/replay): re-arm the same way.
-		_transitioning = true
-		_last_beat = current_beat
-		return
-	if _transitioning:
-		if current_beat > _last_beat:
-			_last_beat = current_beat
-			_transitioning = false
-		else:
-			return
-	if current_beat != _last_beat and current_beat >= 0:
-		_last_beat = current_beat
-		_emit_beat()
-		beat_sound.play()
-		if level_list != null and level_list.has_method("pulse_selected"):
-			level_list.call("pulse_selected")
-
-
 func _emit_beat() -> void:
 	if draw_here_label == null:
 		return
@@ -216,19 +216,17 @@ func _emit_beat() -> void:
 	tween.set_parallel(true)
 	(
 		tween
-		. tween_property(
-			draw_here_label,
-			"offset_transform_scale",
-			Vector2(target_scale, target_scale),
-			PULSE_FALLOFF * 0.2
-		)
-		. set_ease(Tween.EASE_OUT)
+		.tween_property(draw_here_label, "offset_transform_scale", Vector2(
+			target_scale,
+			target_scale,
+		), PULSE_FALLOFF * 0.2)
+		.set_ease(Tween.EASE_OUT)
 	)
 	(
 		tween
-		. tween_property(draw_here_label, "offset_transform_scale", Vector2.ONE, PULSE_FALLOFF)
-		. set_delay(PULSE_FALLOFF * 0.2)
-		. set_ease(Tween.EASE_OUT)
+		.tween_property(draw_here_label, "offset_transform_scale", Vector2.ONE, PULSE_FALLOFF)
+		.set_delay(PULSE_FALLOFF * 0.2)
+		.set_ease(Tween.EASE_OUT)
 	)
 	_pulse_tween = tween
 
@@ -241,9 +239,9 @@ func _on_level_item_hovered(chart_path: String) -> void:
 	var my_token := _hover_token
 	await get_tree().create_timer(0.3).timeout
 	if my_token != _hover_token:
-		return  # superseded by a newer hover before the wait finished
+		return # superseded by a newer hover before the wait finished
 	if not is_inside_tree():
-		return  # scene changed while we were waiting
+		return # scene changed while we were waiting
 
 	_preview_chart_path = chart_path
 	var chart := ChartParser.load(chart_path)

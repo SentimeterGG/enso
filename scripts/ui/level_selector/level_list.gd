@@ -7,6 +7,8 @@
 # RETURN: centered, highlighted selection of the current row
 extends Control
 
+signal item_hovered(chart_path: String)
+
 const LEVEL_ITEM_SCENE: PackedScene = preload("res://scenes/level_item.tscn")
 const BUILTIN_LEVELS_DIR := "res://levels"
 const USER_LEVELS_DIR := "user://levels"
@@ -30,8 +32,8 @@ var _press_scroll_y: float = 0.0
 var _drag_dist: float = 0.0
 var _active_tween: Tween = null
 var _highlight_tweens: Array[Tween] = []
+
 @onready var scroll: VBoxContainer = $Scroll
-signal item_hovered(chart_path: String)
 
 
 func _ready() -> void:
@@ -44,9 +46,55 @@ func _ready() -> void:
 	_play_intro()
 
 
+func _input(event: InputEvent) -> void:
+	if event is InputEventMouseButton and event.button_index == MOUSE_BUTTON_LEFT:
+		if event.pressed:
+			if get_global_rect().has_point(event.position):
+				_begin_drag(event.position.y)
+				print(get_viewport().gui_get_hovered_control())
+		else:
+			if _dragging:
+				_end_drag()
+	elif event is InputEventMouseMotion and _dragging:
+		_drag_to(event.position.y)
+
+
+func _unhandled_key_input(event: InputEvent) -> void:
+	if event.is_action_pressed("ui_up"):
+		wheel_scroll(-1)
+		accept_event()
+	elif event.is_action_pressed("ui_down"):
+		wheel_scroll(1)
+		accept_event()
+	elif event is InputEventKey and event.pressed:
+		# Arrows are already covered by ui_up/ui_down above; only WASD adds anything.
+		match event.physical_keycode:
+			KEY_W:
+				wheel_scroll(-1)
+				accept_event()
+			KEY_S:
+				wheel_scroll(1)
+				accept_event()
+
+
+func _gui_input(event: InputEvent) -> void:
+	if (
+		event is InputEventMouseButton and event.pressed
+		and event.button_index == MOUSE_BUTTON_WHEEL_UP
+	):
+		wheel_scroll(-1)
+		accept_event()
+	elif (
+		event is InputEventMouseButton and event.pressed
+		and event.button_index == MOUSE_BUTTON_WHEEL_DOWN
+	):
+		wheel_scroll(1)
+		accept_event()
+
+
 func get_selected_level() -> Dictionary:
 	if levels.is_empty():
-		return {}
+		return { }
 	return levels[clampi(selected_index, 0, levels.size() - 1)]
 
 
@@ -76,12 +124,14 @@ func reload_levels(keep_selection: bool = true) -> void:
 		var item := LEVEL_ITEM_SCENE.instantiate()
 		scroll.add_child(item)
 		if item.has_method("setup"):
-			item.call(
-				"setup",
-				entry["title"],
-				entry["subtitle"],
-				entry["chart_path"],
-				entry.get("background", "")
+			(
+				item.call(
+					"setup",
+					entry["title"],
+					entry["subtitle"],
+					entry["chart_path"],
+					entry.get("background", ""),
+				)
 			)
 		if item.has_signal("hovered"):
 			item.connect("hovered", _on_item_hovered)
@@ -97,6 +147,24 @@ func reload_levels(keep_selection: bool = true) -> void:
 		selected_index = clampi(selected_index, 0, levels.size() - 1)
 	_update_highlight(true)
 	_center_on(selected_index, true)
+
+
+func is_dragged() -> bool:
+	return _drag_dist > DRAG_THRESHOLD
+
+
+func select(index: int) -> void:
+	if index < 0 or index >= scroll.get_child_count():
+		return
+	if index == selected_index:
+		return
+	selected_index = index
+	_update_highlight()
+	_center_on(index)
+
+
+func wheel_scroll(direction: int) -> void:
+	select(clampi(selected_index + direction, 0, scroll.get_child_count() - 1))
 
 
 func _on_item_hovered(chart_path: String) -> void:
@@ -120,7 +188,7 @@ func _clear_items() -> void:
 ## Charts holding solo/unsetup notes ([[solo_N]] / header-less @) are
 ## incomplete and skipped (counted in skipped_incomplete).
 func _discover_levels() -> Array[Dictionary]:
-	var by_folder: Dictionary = {}
+	var by_folder: Dictionary = { }
 	skipped_incomplete = 0
 	skipped_incomplete_paths.clear()
 	for base_dir: String in [BUILTIN_LEVELS_DIR, USER_LEVELS_DIR]:
@@ -136,7 +204,7 @@ func _discover_levels() -> Array[Dictionary]:
 		out.append(by_folder[key])
 	out.sort_custom(
 		func(a: Dictionary, b: Dictionary) -> bool:
-			return str(a["title"]).to_lower() < str(b["title"]).to_lower()
+			return str(a["title"]).to_lower() < str(b["title"]).to_lower(),
 	)
 	return out
 
@@ -190,13 +258,15 @@ func _make_entry(chart_path: String) -> Dictionary:
 	var subtitle := "MAPPED BY " + str(meta.get("mapper", "")).strip_edges()
 	var background := str(meta.get("bg", "")).strip_edges()
 	if (
-		not background.is_empty()
-		and not background.begins_with("res://")
+		not background.is_empty() and not background.begins_with("res://")
 		and not background.begins_with("user://")
 	):
 		background = chart_path.get_base_dir().path_join(background).simplify_path()
 	return {
-		"title": title, "subtitle": subtitle, "chart_path": chart_path, "background": background
+		"title": title,
+		"subtitle": subtitle,
+		"chart_path": chart_path,
+		"background": background,
 	}
 
 
@@ -208,10 +278,6 @@ func _read_chart_metadata(chart_path: String) -> Dictionary:
 	return meta
 
 
-func is_dragged() -> bool:
-	return _drag_dist > DRAG_THRESHOLD
-
-
 func _play_intro() -> void:
 	if scroll.get_child_count() == 0:
 		return
@@ -221,20 +287,10 @@ func _play_intro() -> void:
 	_active_tween = create_tween()
 	(
 		_active_tween
-		. tween_property(scroll, "position:y", target, 1)
-		. set_trans(Tween.TRANS_CUBIC)
-		. set_ease(Tween.EASE_OUT)
+		.tween_property(scroll, "position:y", target, 1)
+		.set_trans(Tween.TRANS_CUBIC)
+		.set_ease(Tween.EASE_OUT)
 	)
-
-
-func select(index: int) -> void:
-	if index < 0 or index >= scroll.get_child_count():
-		return
-	if index == selected_index:
-		return
-	selected_index = index
-	_update_highlight()
-	_center_on(index)
 
 
 func _center_on(index: int, instant: bool = false) -> void:
@@ -248,61 +304,10 @@ func _center_on(index: int, instant: bool = false) -> void:
 	else:
 		(
 			_active_tween
-			. tween_property(scroll, "position:y", target, DURATION)
-			. set_trans(Tween.TRANS_CUBIC)
-			. set_ease(Tween.EASE_OUT)
+			.tween_property(scroll, "position:y", target, DURATION)
+			.set_trans(Tween.TRANS_CUBIC)
+			.set_ease(Tween.EASE_OUT)
 		)
-
-
-func wheel_scroll(direction: int) -> void:
-	select(clampi(selected_index + direction, 0, scroll.get_child_count() - 1))
-
-
-func _unhandled_key_input(event: InputEvent) -> void:
-	if event.is_action_pressed("ui_up"):
-		wheel_scroll(-1)
-		accept_event()
-	elif event.is_action_pressed("ui_down"):
-		wheel_scroll(1)
-		accept_event()
-	elif event is InputEventKey and event.pressed:
-		# Arrows are already covered by ui_up/ui_down above; only WASD adds anything.
-		match event.physical_keycode:
-			KEY_W:
-				wheel_scroll(-1)
-				accept_event()
-			KEY_S:
-				wheel_scroll(1)
-				accept_event()
-
-
-func _input(event: InputEvent) -> void:
-	if event is InputEventMouseButton and event.button_index == MOUSE_BUTTON_LEFT:
-		if event.pressed:
-			if get_global_rect().has_point(event.position):
-				_begin_drag(event.position.y)
-		else:
-			if _dragging:
-				_end_drag()
-	elif event is InputEventMouseMotion and _dragging:
-		_drag_to(event.position.y)
-
-
-func _gui_input(event: InputEvent) -> void:
-	if (
-		event is InputEventMouseButton
-		and event.pressed
-		and event.button_index == MOUSE_BUTTON_WHEEL_UP
-	):
-		wheel_scroll(-1)
-		accept_event()
-	elif (
-		event is InputEventMouseButton
-		and event.pressed
-		and event.button_index == MOUSE_BUTTON_WHEEL_DOWN
-	):
-		wheel_scroll(1)
-		accept_event()
 
 
 func _begin_drag(y: float) -> void:
@@ -341,14 +346,18 @@ func _item_center(index: int) -> float:
 	return item.position.y + item.size.y * 0.5
 
 
+func _center_y() -> float:
+	var viewport_center_y := get_viewport_rect().size.y * 0.5
+	return viewport_center_y - global_position.y
+
+
 func _target_y_for(index: int) -> float:
-	return _clamp_y(size.y * 0.5 - _item_center(index))
+	return _clamp_y(_center_y() - _item_center(index))
 
 
 func _min_y() -> float:
 	if scroll.get_child_count() == 0:
 		return 0.0
-	return size.y * 0.5 - _item_center(scroll.get_child_count() - 1)
 
 
 func _max_y() -> float:
@@ -434,9 +443,12 @@ func _update_highlight(instant: bool = false, duration: float = DURATION) -> voi
 			_highlight_tweens.append(tween)
 			(
 				tween
-				. tween_property(item, "custom_minimum_size:x", width, duration)
-				. set_trans(Tween.TRANS_CUBIC)
-				. set_ease(Tween.EASE_OUT)
+				.tween_property(item, "custom_minimum_size:x", width, duration)
+				.set_trans(Tween.TRANS_CUBIC)
+				.set_ease(Tween.EASE_OUT)
 			)
 		if item.has_method("set_selected"):
 			item.set_selected(i == selected_index)
+
+
+return _center_y() - _item_center(scroll.get_child_count() - 1)

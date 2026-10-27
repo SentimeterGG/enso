@@ -19,7 +19,7 @@ func change_song(p_stream: AudioStream = null, p_seek: float = 0.0) -> void:
 				stream = p_stream
 				play(p_seek)
 			else:
-				stop()
+				stop(),
 	)
 	tween.tween_property(self, "volume_db", FULL_DB, FADE_DURATION)
 

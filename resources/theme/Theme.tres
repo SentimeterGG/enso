@@ -8,6 +8,58 @@
 [ext_resource type="Texture2D" uid="uid://m3iobgvexxts" path="res://assets/sprites/UI/slider/grabber_area_highlight.png" id="4_ukpo5"]
 [ext_resource type="StyleBox" uid="uid://c2cmb6hfbb7qr" path="res://resources/theme/default_panel.tres" id="6_ukpo5"]
 
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_pbjln"]
+content_margin_left = 4.0
+content_margin_top = 4.0
+content_margin_right = 4.0
+content_margin_bottom = 4.0
+bg_color = Color(0.6591482, 0, 0.012920001, 0.397)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(1, 0, 0, 1)
+corner_detail = 1
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_c6ojw"]
+content_margin_left = 4.0
+content_margin_top = 4.0
+content_margin_right = 4.0
+content_margin_bottom = 4.0
+bg_color = Color(0.050980393, 0.050980393, 0.050980393, 0.7529412)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(1, 1, 1, 1)
+corner_detail = 1
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_4uuxi"]
+content_margin_left = 4.0
+content_margin_top = 4.0
+content_margin_right = 4.0
+content_margin_bottom = 4.0
+bg_color = Color(0.050980393, 0.050980393, 0.050980393, 0.7529412)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.43137255, 0.43137255, 0.43137255, 1)
+corner_detail = 1
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_8g10x"]
+content_margin_left = 4.0
+content_margin_top = 4.0
+content_margin_right = 4.0
+content_margin_bottom = 4.0
+bg_color = Color(0.050980393, 0.050980393, 0.050980393, 0.7529412)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(1, 1, 1, 1)
+corner_detail = 1
+
 [sub_resource type="StyleBoxTexture" id="StyleBoxTexture_ikunk"]
 texture = ExtResource("3_ikunk")
 texture_margin_left = 14.0
@@ -34,6 +86,26 @@ texture_margin_right = 16.0
 texture_margin_bottom = 4.0
 axis_stretch_horizontal = 1
 axis_stretch_vertical = 1
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_qgtfe"]
+content_margin_left = 8.0
+bg_color = Color(0.050708726, 0.050708726, 0.050708726, 0.753)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(1, 0, 0, 1)
+corner_detail = 1
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ukpo5"]
+content_margin_left = 8.0
+bg_color = Color(0.050708726, 0.050708726, 0.050708726, 0.753)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.43137255, 0.43137255, 0.43137255, 1)
+corner_detail = 1
 
 [sub_resource type="DPITexture" id="DPITexture_ukpo5"]
 _source = "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"12\" height=\"12\"><path fill=\"none\" stroke=\"#b2b2b2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" stroke-opacity=\".85\" stroke-width=\"2\" d=\"m2 4 4 4 4-4\"/></svg>
@@ -158,14 +230,20 @@ corner_detail = 5
 
 [resource]
 default_font = ExtResource("1_yd3fu")
-Button/font_sizes/font_size = 12
+Button/font_sizes/font_size = 10
+Button/styles/focus = SubResource("StyleBoxFlat_pbjln")
+Button/styles/hover = SubResource("StyleBoxFlat_c6ojw")
+Button/styles/normal = SubResource("StyleBoxFlat_4uuxi")
+Button/styles/pressed = SubResource("StyleBoxFlat_8g10x")
 HSlider/icons/grabber = ExtResource("1_iliax")
 HSlider/icons/grabber_highlight = ExtResource("2_bjrgy")
 HSlider/styles/grabber_area = SubResource("StyleBoxTexture_ikunk")
 HSlider/styles/grabber_area_highlight = SubResource("StyleBoxTexture_ukpo5")
 HSlider/styles/slider = SubResource("StyleBoxTexture_00hb6")
-Label/font_sizes/font_size = 12
-LineEdit/font_sizes/font_size = 12
+Label/font_sizes/font_size = 10
+LineEdit/font_sizes/font_size = 9
+LineEdit/styles/focus = SubResource("StyleBoxFlat_qgtfe")
+LineEdit/styles/normal = SubResource("StyleBoxFlat_ukpo5")
 OptionButton/colors/font_color = Color(0.875, 0.875, 0.875, 1)
 OptionButton/colors/font_disabled_color = Color(0.875, 0.875, 0.875, 0.5)
 OptionButton/colors/font_focus_color = Color(0.95, 0.95, 0.95, 1)
@@ -177,7 +255,7 @@ OptionButton/constants/arrow_margin = 4
 OptionButton/constants/h_separation = 4
 OptionButton/constants/modulate_arrow = 0
 OptionButton/constants/outline_size = 0
-OptionButton/font_sizes/font_size = 12
+OptionButton/font_sizes/font_size = 10
 OptionButton/icons/arrow = SubResource("DPITexture_ukpo5")
 OptionButton/styles/disabled = SubResource("StyleBoxFlat_p17ma")
 OptionButton/styles/disabled_mirrored = SubResource("StyleBoxFlat_arryu")

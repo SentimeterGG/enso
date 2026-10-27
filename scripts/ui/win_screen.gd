@@ -20,12 +20,12 @@ func _ready():
 
 func _on_button_pressed() -> void:
 	get_tree().reload_current_scene()
-	pass  # Replace with function body.
+	pass # Replace with function body.
 
 
 func _on_back_to_menu_pressed() -> void:
 	%LoadToLevel.load_scene()
-	pass  # Replace with function body.
+	pass # Replace with function body.
 
 
 func _show(counts: Dictionary, accuracy: float) -> void:
@@ -57,9 +57,9 @@ func _show(counts: Dictionary, accuracy: float) -> void:
 	scale_tween.set_parallel(true)
 	(
 		scale_tween
-		. tween_property(self, "scale", Vector2(1.0, 1.0), 0.4)
-		. set_trans(Tween.TRANS_BACK)
-		. set_ease(Tween.EASE_OUT)
+		.tween_property(self, "scale", Vector2(1.0, 1.0), 0.4)
+		.set_trans(Tween.TRANS_BACK)
+		.set_ease(Tween.EASE_OUT)
 	)
 	scale_tween.tween_property(self, "modulate:a", 1.0, 0.3).set_trans(Tween.TRANS_CUBIC).set_ease(
 		Tween.EASE_OUT

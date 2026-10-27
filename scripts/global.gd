@@ -75,7 +75,7 @@ func load_data(res_class: Resource):
 
 
 func choose_random_chart() -> ChartData:
-	var by_folder: Dictionary = {}
+	var by_folder: Dictionary = { }
 	for base_dir in ["res://levels", "user://levels"]:
 		for chart_path in _find_charts_in(base_dir):
 			var key := chart_path.get_file()

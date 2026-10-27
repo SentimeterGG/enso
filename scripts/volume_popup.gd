@@ -13,11 +13,9 @@ const HIDE_DELAY := 2.0
 
 @onready var music_slider: HSlider = $CenterContainer/VBoxContainer/VBoxContainer/HBoxContainer/Music
 @onready var music_label: Label = $CenterContainer/VBoxContainer/VBoxContainer/HBoxContainer/Label
-@onready
-var master_slider: HSlider = $CenterContainer/VBoxContainer/VBoxContainer2/HBoxContainer/Music
+@onready var master_slider: HSlider = $CenterContainer/VBoxContainer/VBoxContainer2/HBoxContainer/Music
 @onready var master_label: Label = $CenterContainer/VBoxContainer/VBoxContainer2/HBoxContainer/Label
-@onready
-var effects_slider: HSlider = $CenterContainer/VBoxContainer/VBoxContainer3/HBoxContainer/Music
+@onready var effects_slider: HSlider = $CenterContainer/VBoxContainer/VBoxContainer3/HBoxContainer/Music
 @onready var effects_label: Label = $CenterContainer/VBoxContainer/VBoxContainer3/HBoxContainer/Label
 
 var _is_visible := false
@@ -41,7 +39,7 @@ func _ready() -> void:
 func _set_ignore_recursive(node: Node) -> void:
 	for child in node.get_children():
 		if child is HSlider:
-			continue  # sliders must stay STOP to be draggable
+			continue # sliders must stay STOP to be draggable
 		if child is Control:
 			child.mouse_filter = Control.MOUSE_FILTER_IGNORE
 		_set_ignore_recursive(child)
@@ -106,9 +104,9 @@ func _show_popup() -> void:
 	_pop_tween.tween_property(self, "modulate:a", 1.0, POP_DURATION)
 	(
 		_pop_tween
-		. tween_property(self, "scale", Vector2.ONE * POP_SCALE_END, POP_DURATION)
-		. set_ease(Tween.EASE_OUT)
-		. set_trans(Tween.TRANS_BACK)
+		.tween_property(self, "scale", Vector2.ONE * POP_SCALE_END, POP_DURATION)
+		.set_ease(Tween.EASE_OUT)
+		.set_trans(Tween.TRANS_BACK)
 	)
 
 
@@ -124,9 +122,9 @@ func _hide_popup() -> void:
 	_pop_tween.tween_property(self, "modulate:a", 0.0, POP_DURATION)
 	(
 		_pop_tween
-		. tween_property(self, "scale", Vector2.ONE * POP_SCALE_START, POP_DURATION)
-		. set_ease(Tween.EASE_IN)
-		. set_trans(Tween.TRANS_BACK)
+		.tween_property(self, "scale", Vector2.ONE * POP_SCALE_START, POP_DURATION)
+		.set_ease(Tween.EASE_IN)
+		.set_trans(Tween.TRANS_BACK)
 	)
 	_pop_tween.chain().tween_callback(_on_hide_finished)
 
@@ -151,7 +149,7 @@ func _restart_hide_timer() -> void:
 		func() -> void:
 			# Ignore timers superseded by a newer scroll.
 			if token == _hide_token:
-				_hide_popup()
+				_hide_popup(),
 	)
 
 

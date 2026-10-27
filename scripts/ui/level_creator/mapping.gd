@@ -47,7 +47,7 @@ const SHAPE_NAMES := [
 	"VLine",
 	"Diag",
 	"DiagInv",
-	"ZigZag"
+	"ZigZag",
 ]
 const CUSTOM_SHAPE_NAME := "Custom"
 ## Receptor x in MAPPING-local coords (matches the Line2D at x=144).
@@ -101,16 +101,16 @@ var _custom_closed: bool = false
 var _custom_pending_times: Array[int] = []
 var _custom_drag_idx: int = -1
 ## beat time ms -> index into _shapes. A beat can only belong to one shape.
-var _beat_shape_map: Dictionary = {}
+var _beat_shape_map: Dictionary = { }
 var _scrubbing := false
 var _markers_root: Node2D = null
 var _shapes_root: Node2D = null
 ## beat time ms -> editor_beat_point instance.
-var _marker_nodes: Dictionary = {}
+var _marker_nodes: Dictionary = { }
 ## Tracks which beats already triggered hitsound/vibrate when passing LineGenerator.
 ## Key = beat_ms (int), value = true. Cleared when the beat moves back ahead of the line (seek/rewind).
-var _hitsound_fired: Dictionary = {}
-var difficulties: Dictionary = {}
+var _hitsound_fired: Dictionary = { }
+var difficulties: Dictionary = { }
 var _current_difficulty: String = ""
 @onready var _add_diff_name_edit: LineEdit = %DifficultyName
 @onready var _add_diff_spin: SpinBox = %DiffSpin
@@ -130,8 +130,14 @@ func _ready() -> void:
 	timeline.min_value = 0.0
 	timeline.step = 0.01
 	timeline.value_changed.connect(_on_timeline_changed)
-	timeline.drag_started.connect(func() -> void: _scrubbing = true)
-	timeline.drag_ended.connect(func(_v: bool) -> void: _scrubbing = false)
+	timeline.drag_started.connect(
+		func() -> void:
+			_scrubbing = true,
+	)
+	timeline.drag_ended.connect(
+		func(_v: bool) -> void:
+			_scrubbing = false,
+	)
 	# `start` is already connected in the .tscn; the rest are wired here.
 	_safe_connect(_btn_start, _on_go_to_start)
 	_safe_connect(_btn_end, _on_go_to_end)
@@ -214,7 +220,7 @@ func _unhandled_input(event: InputEvent) -> void:
 	if not waveform.get_global_rect().has_point(mb.position):
 		return
 	if mb.pressed and mb.button_index == MOUSE_BUTTON_WHEEL_UP:
-		_zoom_waveform(1)  # marker Buttons ignore wheel, so it falls through here
+		_zoom_waveform(1) # marker Buttons ignore wheel, so it falls through here
 		get_viewport().set_input_as_handled()
 	elif mb.pressed and mb.button_index == MOUSE_BUTTON_WHEEL_DOWN:
 		_zoom_waveform(-1)
@@ -235,7 +241,7 @@ func _unhandled_input(event: InputEvent) -> void:
 func _on_marker_clicked(beat_ms: int) -> void:
 	if _suppress_click:
 		_suppress_click = false
-		return  # release at the end of a drag, not a real click
+		return # release at the end of a drag, not a real click
 	if Input.is_key_pressed(KEY_SHIFT):
 		var sel := _selected.duplicate()
 		if sel.has(beat_ms):
@@ -244,7 +250,7 @@ func _on_marker_clicked(beat_ms: int) -> void:
 			sel.append(beat_ms)
 		_set_selected(sel)
 	elif _selected == [beat_ms]:
-		_set_selected([])  # clicking the selected beat unselects it
+		_set_selected([]) # clicking the selected beat unselects it
 	else:
 		_set_selected([beat_ms])
 
@@ -295,7 +301,7 @@ func _input(event: InputEvent) -> void:
 				_wave_start_time = 0.0
 				Input.set_default_cursor_shape(Input.CURSOR_ARROW)
 				if was_scrub:
-					get_viewport().set_input_as_handled()  # keep selection
+					get_viewport().set_input_as_handled() # keep selection
 					# Stop playback on drop as requested.
 					if was_playing and mapping_player.playing and not mapping_player.stream_paused:
 						mapping_player.stream_paused = true
@@ -307,15 +313,15 @@ func _input(event: InputEvent) -> void:
 
 func _on_marker_drag_started(beat_ms: int) -> void:
 	if not _selected.has(beat_ms):
-		return  # not selected: ignore the drag, release falls back to select
+		return # not selected: ignore the drag, release falls back to select
 	_drag_beat = beat_ms
 	_drag_moved = false
 
 
 func _end_beat_drag() -> void:
 	if _drag_moved:
-		_suppress_click = true  # don't toggle selection on the drag release
-		_refresh_shape_option()  # selection may have changed count mid-drag
+		_suppress_click = true # don't toggle selection on the drag release
+		_refresh_shape_option() # selection may have changed count mid-drag
 		Input.set_default_cursor_shape(Input.CURSOR_ARROW)
 	_drag_beat = -1
 	_drag_moved = false
@@ -493,7 +499,6 @@ func _strip_beat_from_shapes(ms: int) -> void:
 		_refresh_shapes()
 		_refresh_shape_highlight()
 
-
 # --- transport -------------------------------------------------------------
 
 
@@ -547,7 +552,6 @@ func _on_timeline_changed(v: float) -> void:
 	# While actively playing, dragging would fight _process; just scroll.
 	_update_scroll()
 
-
 # --- waveform zoom -----------------------------------------------------------
 
 
@@ -577,7 +581,6 @@ func _zoom_waveform(steps: int) -> void:
 	_rebuild_markers()
 	_refresh_shapes()
 	_update_scroll()
-
 
 # --- beats -----------------------------------------------------------------
 
@@ -713,7 +716,7 @@ func _create_shape_entry(
 	shape_name: String,
 	times: Array,
 	points: PackedVector2Array = PackedVector2Array(),
-	closed: bool = false
+	closed: bool = false,
 ) -> void:
 	if _shapes_root == null:
 		push_error("mapping: shapes container missing.")
@@ -743,7 +746,7 @@ func _create_shape_entry(
 	shape_node.gui_input.connect(_on_shape_gui_input.bind(shape_node))
 	_shapes_root.add_child(shape_node)
 	shape_node.init(pts)
-	_shapes.append({"shape": shape_name, "times_ms": clean, "points": pts, "closed": closed})
+	_shapes.append({ "shape": shape_name, "times_ms": clean, "points": pts, "closed": closed })
 	_shape_nodes.append(shape_node)
 	_rebuild_beat_shape_map()
 
@@ -874,7 +877,6 @@ func _shape_points(shape_name: String) -> PackedVector2Array:
 		[Vector2(0, 0), Vector2(1, 0), Vector2(1, 1), Vector2(0, 1), Vector2(0, 0)]
 	)
 
-
 # --- custom shape editor (precise point-click, 0-1, beat-constrained) -----
 
 
@@ -984,10 +986,16 @@ func _on_custom_grid_draw() -> void:
 	_custom_grid.draw_rect(Rect2(Vector2.ZERO, s), Color(0.5, 0.5, 0.5, 0.6), false, 1.0)
 	# Grid lines
 	_custom_grid.draw_line(
-		Vector2(s.x * 0.5, 0), Vector2(s.x * 0.5, s.y), Color(0.3, 0.3, 0.3, 1), 1.0
+		Vector2(s.x * 0.5, 0),
+		Vector2(s.x * 0.5, s.y),
+		Color(0.3, 0.3, 0.3, 1),
+		1.0,
 	)
 	_custom_grid.draw_line(
-		Vector2(0, s.y * 0.5), Vector2(s.x, s.y * 0.5), Color(0.3, 0.3, 0.3, 1), 1.0
+		Vector2(0, s.y * 0.5),
+		Vector2(s.x, s.y * 0.5),
+		Color(0.3, 0.3, 0.3, 1),
+		1.0,
 	)
 	var pts := _custom_points
 	for i in range(pts.size()):
@@ -1001,7 +1009,7 @@ func _on_custom_grid_draw() -> void:
 			HORIZONTAL_ALIGNMENT_LEFT,
 			-1,
 			10,
-			Color.WHITE
+			Color.WHITE,
 		)
 
 
@@ -1020,8 +1028,7 @@ func _on_custom_canvas_input(event: InputEvent) -> void:
 			if idx >= 0:
 				# Don't allow dragging the auto-generated last point directly when closed
 				if (
-					_custom_closed
-					and idx == _custom_points.size() - 1
+					_custom_closed and idx == _custom_points.size() - 1
 					and _custom_points.size() == total
 				):
 					idx = 0
@@ -1051,7 +1058,8 @@ func _on_custom_canvas_input(event: InputEvent) -> void:
 			var s := _custom_canvas.size
 			var local := (event as InputEventMouseMotion).position
 			_custom_points[_custom_drag_idx] = Vector2(
-				clampf(local.x / s.x, 0.0, 1.0), clampf(local.y / s.y, 0.0, 1.0)
+				clampf(local.x / s.x, 0.0, 1.0),
+				clampf(local.y / s.y, 0.0, 1.0),
 			)
 			if _custom_closed and _custom_points.size() == total:
 				if _custom_drag_idx == 0:
@@ -1086,8 +1094,7 @@ func _on_custom_closed_toggled(v: bool) -> void:
 	else:
 		# Unchecking closed: if last == first duplicate, remove auto point
 		if (
-			_custom_points.size() == total
-			and _custom_points.size() >= 2
+			_custom_points.size() == total and _custom_points.size() >= 2
 			and _custom_points[0].is_equal_approx(_custom_points[_custom_points.size() - 1])
 		):
 			_custom_points.remove_at(_custom_points.size() - 1)
@@ -1101,8 +1108,7 @@ func _on_custom_undo() -> void:
 	if _custom_closed:
 		var total := _custom_total_point_count()
 		if (
-			_custom_points.size() == total
-			and _custom_points.size() >= 2
+			_custom_points.size() == total and _custom_points.size() >= 2
 			and _custom_points[0].is_equal_approx(_custom_points[_custom_points.size() - 1])
 		):
 			_custom_points.remove_at(_custom_points.size() - 1)
@@ -1152,7 +1158,7 @@ func import_difficulty(diff_name: String, chart: ChartData) -> void:
 		clean_name = "untitled"
 	var is_new := not difficulties.has(clean_name)
 	var overall := int(chart.metadata.get("overall_difficulty", 0))
-	difficulties[clean_name] = {"beats": [], "shapes": [], "overall_difficulty": overall}
+	difficulties[clean_name] = { "beats": [], "shapes": [], "overall_difficulty": overall }
 	if is_new:
 		_difficulty_option.add_item(clean_name)
 
@@ -1164,7 +1170,7 @@ func import_difficulty(diff_name: String, chart: ChartData) -> void:
 		if not song.is_empty():
 			_load_song(song)
 
-	_import_beats_and_shapes(chart)  # populates beat_times_ms / _shapes from the chart
+	_import_beats_and_shapes(chart) # populates beat_times_ms / _shapes from the chart
 	_current_difficulty = clean_name
 	_save_current_difficulty_state()
 	_edit_diff_name_edit.text = clean_name
@@ -1186,7 +1192,7 @@ func _import_beats_and_shapes(chart: ChartData) -> void:
 	if chart.notes.is_empty():
 		return
 	# Group note times by shape id, preserving chart sort (by start time).
-	var times_by_id: Dictionary = {}
+	var times_by_id: Dictionary = { }
 	var order: Array = []
 	for note in chart.notes:
 		var n := note as Dictionary
@@ -1204,13 +1210,13 @@ func _import_beats_and_shapes(chart: ChartData) -> void:
 		func(a: String, b: String) -> bool:
 			var ta: Array = times_by_id[a]
 			var tb: Array = times_by_id[b]
-			return int((ta as Array)[0]) < int((tb as Array)[0])
+			return int((ta as Array)[0]) < int((tb as Array)[0]),
 	)
 	for sid in order:
 		var times: Array = (times_by_id[sid] as Array).duplicate()
 		times.sort()
 		if ChartParser.is_solo_id(sid) or sid.strip_edges().is_empty():
-			continue  # unsetup/solo notes stay as plain beats, not shapes
+			continue # unsetup/solo notes stay as plain beats, not shapes
 		var pts := chart.shape_points_by_id(sid)
 		# Normalize imported pts to 0..1 already stored that way.
 		var editor_shape := _infer_editor_shape(times.size(), pts)
@@ -1304,7 +1310,6 @@ func _load_song(path: String) -> void:
 	_sync_timeline_range()
 	seek(0.0)
 
-
 # --- internals ---------------------------------------------------------------
 
 
@@ -1336,7 +1341,7 @@ func _check_beats_passed_line_generator(_pos: float) -> void:
 	if _line_generator == null or beat_column == null or _markers_root == null:
 		return
 	# Unique access verified: level_creator.tscn has %LineGenerator (unique_name_in_owner)
-	var line_x := _line_generator.position.x  # MAPPING-local, 144.0
+	var line_x := _line_generator.position.x # MAPPING-local, 144.0
 	var col_x := beat_column.position.x
 	for t in beat_times_ms:
 		var marker = _marker_nodes.get(t)
@@ -1344,7 +1349,7 @@ func _check_beats_passed_line_generator(_pos: float) -> void:
 			continue
 		# marker.position is in _markers_root-local (which is at 0 inside beat_column)
 		var marker_x_in_mapping: float = col_x + marker.position.x
-		var passed := marker_x_in_mapping <= line_x + 0.1  # tiny epsilon for float/1px mismatch
+		var passed := marker_x_in_mapping <= line_x + 0.1 # tiny epsilon for float/1px mismatch
 		var was_fired: bool = _hitsound_fired.has(t)
 		if passed and not was_fired:
 			# hitsound is also unique (%HitSound) in level_creator.tscn
@@ -1372,7 +1377,7 @@ func _size_waveform_strip() -> void:
 func _rebuild_markers() -> void:
 	if _markers_root == null:
 		return
-	_end_beat_drag()  # nodes are freed below; a drag can't survive a rebuild
+	_end_beat_drag() # nodes are freed below; a drag can't survive a rebuild
 	for child in _markers_root.get_children():
 		child.queue_free()
 	_marker_nodes.clear()
@@ -1407,7 +1412,7 @@ func _on_add_difficuly_pressed() -> void:
 	_add_diff_spin.value = 0
 	_add_difficulty_popup.visible = true
 	_add_diff_name_edit.grab_focus()
-	pass  # Replace with function body.
+	pass # Replace with function body.
 
 
 func _save_current_difficulty_state() -> void:
@@ -1430,16 +1435,18 @@ func _on_add_difficulty_confirmation_pressed() -> void:
 	# Flush whatever's currently loaded before switching to the new (empty) one.
 	_save_current_difficulty_state()
 	difficulties[raw_name] = {
-		"beats": [], "shapes": [], "overall_difficulty": int(_add_diff_spin.value)
+		"beats": [],
+		"shapes": [],
+		"overall_difficulty": int(_add_diff_spin.value),
 	}
 	_difficulty_option.add_item(raw_name)
 	_difficulty_option.select(_difficulty_option.item_count - 1)
 	_current_difficulty = raw_name
-	clear_beats()  # fresh empty buffer for the new difficulty
+	clear_beats() # fresh empty buffer for the new difficulty
 	_edit_diff_name_edit.text = raw_name
 	_add_diff_name_edit.text = ""
 	_add_difficulty_popup.visible = false
-	pass  # Replace with function body.
+	pass # Replace with function body.
 
 
 func _on_save_changes_on_current_diff_pressed() -> void:
@@ -1448,7 +1455,7 @@ func _on_save_changes_on_current_diff_pressed() -> void:
 		return
 	_save_current_difficulty_state()
 	_notify_creator('Saved "%s".' % _current_difficulty)
-	pass  # Replace with function body.
+	pass # Replace with function body.
 
 
 func _on_edit_difficulty_name_button_pressed() -> void:
@@ -1473,12 +1480,12 @@ func _on_edit_difficulty_name_button_pressed() -> void:
 			break
 	_current_difficulty = new_name
 	_notify_creator('Renamed to "%s".' % new_name)
-	pass  # Replace with function body.
+	pass # Replace with function body.
 
 
 func _on_cancel_difficulty_creation_pressed() -> void:
 	_add_difficulty_popup.visible = false
-	pass  # Replace with function body.
+	pass # Replace with function body.
 
 
 func _load_difficulty_state(name_diff: String) -> void:
@@ -1497,7 +1504,7 @@ func _load_difficulty_state(name_diff: String) -> void:
 			str(sd.get("shape", "Square")),
 			sd.get("times_ms", []),
 			sd.get("points", PackedVector2Array()),
-			bool(sd.get("closed", false))
+			bool(sd.get("closed", false)),
 		)
 	_current_difficulty = name_diff
 	_edit_diff_name_edit.text = name_diff
@@ -1516,7 +1523,7 @@ func _on_difficulty_option_item_selected(index: int) -> void:
 		return
 	_save_current_difficulty_state()
 	_load_difficulty_state(new_name)
-	pass  # Replace with function body.
+	pass # Replace with function body.
 
 
 func _on_diff_spin_value_changed(value: float) -> void:
@@ -1527,4 +1534,4 @@ func _on_diff_spin_value_changed(value: float) -> void:
 		_add_diff_label.text = "MEDIUM"
 	else:
 		_add_diff_label.text = "HARD"
-	pass  # Replace with function body.
+	pass # Replace with function body.

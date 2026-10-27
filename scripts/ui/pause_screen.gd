@@ -72,13 +72,19 @@ func _on_continue_pressed() -> void:
 func _on_restart_pressed() -> void:
 	if _busy or _resuming or not _paused:
 		return
-	close_then(func() -> void: get_tree().reload_current_scene())
+	close_then(
+		func() -> void:
+			get_tree().reload_current_scene(),
+	)
 
 
 func _on_quit_pressed() -> void:
 	if _busy or _resuming or not _paused:
 		return
-	close_then(func() -> void: get_tree().change_scene_to_file(LEVEL_SELECTOR_PATH))
+	close_then(
+		func() -> void:
+			get_tree().change_scene_to_file(LEVEL_SELECTOR_PATH),
+	)
 
 
 ## Plays the close tween first, then runs the action (continue = empty).
@@ -181,7 +187,7 @@ func _on_animator_animation_finished(anim_name: StringName) -> void:
 			return
 		# 3. Countdown done -> actually continue (unpause).
 		_finish_resume()
-	pass  # Replace with function body.
+	pass # Replace with function body.
 
 
 ## Shared unpause after the countdown (menu already hidden).

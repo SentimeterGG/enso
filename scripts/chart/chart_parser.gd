@@ -14,10 +14,10 @@ static func load(path: String) -> ChartData:
 		push_error("Could not open chart: " + path)
 		return chart
 	var section := ""
-	var metadata := {}
+	var metadata := { }
 	var note_points: Array = []
 	var parsed_shapes: Array = []
-	var current_shape: Dictionary = {}
+	var current_shape: Dictionary = { }
 	for raw_line in f.get_as_text().split("\n"):
 		var line := _strip_comment(raw_line).strip_edges()
 		if line.is_empty():
@@ -44,7 +44,7 @@ static func load(path: String) -> ChartData:
 			"notes":
 				var tokens := line.split(" ", false)
 				match tokens[0]:
-					"@":  # note point: @ <time_ms> [<x> <y>]; solo/unsetup notes may omit coords (default 0.5 0.5)
+					"@": # note point: @ <time_ms> [<x> <y>]; solo/unsetup notes may omit coords (default 0.5 0.5)
 						if tokens.size() >= 2:
 							var px := 0.5
 							var py := 0.5
@@ -59,19 +59,25 @@ static func load(path: String) -> ChartData:
 							}
 							note_points.append(point)
 							if current_shape.is_empty():
-								current_shape = {"name": "", "closed": true, "points": []}
+								current_shape = { "name": "", "closed": true, "points": [] }
 							current_shape["points"].append(point)
-					"!":  # geometry point: <x> <y>, no timestamp
+					"!": # geometry point: <x> <y>, no timestamp
 						if tokens.size() >= 3 and not current_shape.is_empty():
 							current_shape["points"].append(
-								{"x": float(tokens[1]), "y": float(tokens[2])}
+								{ "x": float(tokens[1]), "y": float(tokens[2]) }
 							)
 	if not current_shape.is_empty():
 		_apply_shape_start(current_shape)
 		_close_shape(current_shape)
 		parsed_shapes.append(current_shape)
-	note_points.sort_custom(func(a, b): return a.time < b.time)
-	parsed_shapes.sort_custom(func(a, b): return a.start_time < b.start_time)
+	note_points.sort_custom(
+		func(a, b):
+			return a.time < b.time,
+	)
+	parsed_shapes.sort_custom(
+		func(a, b):
+			return a.start_time < b.start_time,
+	)
 	for shape in parsed_shapes:
 		var pts := PackedVector2Array()
 		for p in shape.points:
@@ -90,7 +96,7 @@ static func load(path: String) -> ChartData:
 ## Returns keys lowercased with surrounding quotes stripped from values.
 ## Mirrors load() comment handling via _strip_comment().
 static func parse_metadata(path: String) -> Dictionary:
-	var metadata := {}
+	var metadata := { }
 	var f := FileAccess.open(path, FileAccess.READ)
 	if f == null:
 		push_error("Could not open chart: " + path)
@@ -132,12 +138,12 @@ static func _shape_name(header: String) -> String:
 	# "[[" / "]]". Strip the two-char affixes (not three) and any padding.
 	return (
 		header
-		. strip_edges()
-		. trim_prefix("[(")
-		. trim_prefix("[[")
-		. trim_suffix(")]")
-		. trim_suffix("]]")
-		. strip_edges()
+		.strip_edges()
+		.trim_prefix("[(")
+		.trim_prefix("[[")
+		.trim_suffix(")]")
+		.trim_suffix("]]")
+		.strip_edges()
 	)
 
 

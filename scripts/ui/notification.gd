@@ -27,7 +27,8 @@ func show_message(text: String, is_error: bool = false, duration: float = SHOW_S
 	var my := _gen
 	_label.text = text
 	_label.add_theme_color_override(
-		"font_color", Color(1.0, 0.45, 0.45) if is_error else Color(1, 1, 1)
+		"font_color",
+		Color(1.0, 0.45, 0.45) if is_error else Color(1, 1, 1),
 	)
 	visible = true
 	if _tween != null and _tween.is_valid():
@@ -44,4 +45,4 @@ func show_message(text: String, is_error: bool = false, duration: float = SHOW_S
 
 func _on_button_pressed() -> void:
 	visible = false
-	pass  # Replace with function body.
+	pass # Replace with function body.

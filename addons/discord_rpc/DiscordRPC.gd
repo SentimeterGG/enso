@@ -18,7 +18,7 @@ func set_activity(details: String, state: String) -> void:
 		{
 			"details": details,
 			"state": state,
-			"timestamps": {"start": int(Time.get_unix_time_from_system())},
-			"assets": {"large_image": "enso-logo"}
+			"timestamps": { "start": int(Time.get_unix_time_from_system()) },
+			"assets": { "large_image": "enso-logo" },
 		}
 	)

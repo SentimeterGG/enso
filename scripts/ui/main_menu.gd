@@ -4,7 +4,12 @@
 # RETURN: route to the level selector when a circle is drawn
 extends CanvasLayer
 
-enum GoTo { NONE, PLAY, SETTINGS, EDITOR }
+enum GoTo {
+	NONE,
+	PLAY,
+	SETTINGS,
+	EDITOR,
+}
 const PULSE_STRENGTH := 0.05
 const PULSE_FALLOFF := 0.25
 @onready var draw_manager: Line2D = %draw
@@ -128,19 +133,17 @@ func _emit_beat() -> void:
 	tween.set_parallel(true)
 	(
 		tween
-		. tween_property(
-			draw_here_label,
-			"offset_transform_scale",
-			Vector2(target_scale, target_scale),
-			PULSE_FALLOFF * 0.2
-		)
-		. set_ease(Tween.EASE_OUT)
+		.tween_property(draw_here_label, "offset_transform_scale", Vector2(
+			target_scale,
+			target_scale,
+		), PULSE_FALLOFF * 0.2)
+		.set_ease(Tween.EASE_OUT)
 	)
 	(
 		tween
-		. tween_property(draw_here_label, "offset_transform_scale", Vector2.ONE, PULSE_FALLOFF)
-		. set_delay(PULSE_FALLOFF * 0.2)
-		. set_ease(Tween.EASE_OUT)
+		.tween_property(draw_here_label, "offset_transform_scale", Vector2.ONE, PULSE_FALLOFF)
+		.set_delay(PULSE_FALLOFF * 0.2)
+		.set_ease(Tween.EASE_OUT)
 	)
 	_pulse_tween = tween
 

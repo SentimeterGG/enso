@@ -39,7 +39,6 @@ func reload(skin_name: String) -> bool:
 func load_skin() -> bool:
 	# var requested := skin_name.strip_edges()
 	# if requested.is_empty():
-
 	var requested = fallback_skin
 	current_skin = requested
 

@@ -1,23 +1,49 @@
 [gd_scene format=3 uid="uid://bbrijn7extm0j"]
 
 [ext_resource type="Script" uid="uid://cpj4fntxrhqg7" path="res://scripts/ui/level_selector/level_selector.gd" id="1_2ec5i"]
-[ext_resource type="Texture2D" uid="uid://b3v8a03h3ikfs" path="res://assets/sprites/UI/corner.png" id="1_aeu7d"]
+[ext_resource type="Texture2D" uid="uid://ddfm8o2r6bvhg" path="res://levels/Nani Ga Waru by Kessoku Band mapped by DimasDFAR/NaniGaWaruBG.png" id="2_f20t4"]
 [ext_resource type="FontFile" uid="uid://bprqivnp1xsie" path="res://assets/fonts/ttf/PixelCode-Medium.ttf" id="2_gkmvm"]
 [ext_resource type="Theme" uid="uid://cpocn8agag6ib" path="res://resources/theme/Theme.tres" id="3_rqfkl"]
-[ext_resource type="Texture2D" uid="uid://sqv5pjrdcpvd" path="res://assets/sprites/UI/shape/play.png" id="3_vj03c"]
-[ext_resource type="Texture2D" uid="uid://dnnjjgvh1pcgl" path="res://assets/sprites/UI/shape/circle_outline.png" id="6_v1k4p"]
+[ext_resource type="PackedScene" uid="uid://cpdjo67hyeq74" path="res://scenes/ui_line.tscn" id="3_v1k4p"]
+[ext_resource type="Texture2D" uid="uid://ceht3wr4q2547" path="res://assets/sprites/UI/icons/icons.png" id="5_v1k4p"]
 [ext_resource type="PackedScene" uid="uid://cpdx84l3ertd6" path="res://scenes/level_item.tscn" id="7_2ec5i"]
 [ext_resource type="Script" uid="uid://b8lss2my82vt3" path="res://scripts/ui/level_selector/level_list.gd" id="9_ax7y8"]
 [ext_resource type="AudioStream" uid="uid://dybpytxnyej66" path="res://assets/sound/osu-hit-sound.mp3" id="10_ljvb0"]
 [ext_resource type="PackedScene" uid="uid://b7rlmo61qxu8s" path="res://scenes/draw.tscn" id="10_v1k4p"]
 [ext_resource type="PackedScene" uid="uid://ck7x5mmeskxsl" path="res://scenes/notification.tscn" id="11_notif"]
 
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_f20t4"]
+load_path = "res://.godot/imported/icons.png-873fce6f98d494b658cf46d0a479e9b0.ctex"
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_wioao"]
+atlas = SubResource("CompressedTexture2D_f20t4")
+region = Rect2(32, 0, 16, 16)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ehw80"]
+bg_color = Color(0.1428257, 0.1428257, 0.1428257, 0.64500004)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.4817894, 0.48178953, 0.4817894, 1)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ukpo5"]
+atlas = ExtResource("5_v1k4p")
+region = Rect2(0, 0, 16, 16)
+
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_ljvb0"]
+load_path = "res://.godot/imported/icons.png-873fce6f98d494b658cf46d0a479e9b0.ctex"
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_f20t4"]
+atlas = SubResource("CompressedTexture2D_ljvb0")
+region = Rect2(16, 0, 16, 16)
+
 [sub_resource type="Animation" id="Animation_5lm0q"]
 resource_name = "Opening"
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
-tracks/0/path = NodePath("Main Content/HBoxContainer/LSide/CenterContainer/Draw Here:modulate")
+tracks/0/path = NodePath("Main Content/HBoxContainer/LSide/MarginContainer/VBoxContainer/LevelDetails/PlaySection/SignHerePanel/CenterContainer/Draw Here:modulate")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
@@ -46,18 +72,6 @@ tracks/2/interp = 1
 tracks/2/loop_wrap = true
 tracks/2/keys = {
 "times": PackedFloat32Array(0.16666667, 0.8333333),
-"transitions": PackedFloat32Array(1, 1),
-"update": 0,
-"values": [Color(1, 1, 1, 0), Color(1, 1, 1, 1)]
-}
-tracks/3/type = "value"
-tracks/3/imported = false
-tracks/3/enabled = true
-tracks/3/path = NodePath("Main Content/HBoxContainer/LSide/VBoxContainer:modulate")
-tracks/3/interp = 1
-tracks/3/loop_wrap = true
-tracks/3/keys = {
-"times": PackedFloat32Array(0.41985655, 1),
 "transitions": PackedFloat32Array(1, 1),
 "update": 0,
 "values": [Color(1, 1, 1, 0), Color(1, 1, 1, 1)]
@@ -92,7 +106,7 @@ tracks/1/keys = {
 tracks/2/type = "value"
 tracks/2/imported = false
 tracks/2/enabled = true
-tracks/2/path = NodePath("Main Content/HBoxContainer/LSide/CenterContainer/Draw Here:modulate")
+tracks/2/path = NodePath("Main Content/HBoxContainer/LSide/MarginContainer/VBoxContainer/LevelDetails/PlaySection/SignHerePanel/CenterContainer/Draw Here:modulate")
 tracks/2/interp = 1
 tracks/2/loop_wrap = true
 tracks/2/keys = {
@@ -101,73 +115,13 @@ tracks/2/keys = {
 "update": 0,
 "values": [Color(1, 1, 1, 1), Color(1, 1, 1, 0)]
 }
-tracks/3/type = "value"
-tracks/3/imported = false
-tracks/3/enabled = true
-tracks/3/path = NodePath("Main Content/HBoxContainer/LSide/VBoxContainer:modulate")
-tracks/3/interp = 1
-tracks/3/loop_wrap = true
-tracks/3/keys = {
-"times": PackedFloat32Array(0.16666669, 0.7),
-"transitions": PackedFloat32Array(0.18, 1),
-"update": 0,
-"values": [Color(1, 1, 1, 1), Color(1, 1, 1, 0)]
-}
-tracks/4/type = "value"
-tracks/4/imported = false
-tracks/4/enabled = true
-tracks/4/path = NodePath("RB/RB:offset_transform_position")
-tracks/4/interp = 1
-tracks/4/loop_wrap = true
-tracks/4/keys = {
-"times": PackedFloat32Array(0.3, 1),
-"transitions": PackedFloat32Array(0.18, 1),
-"update": 0,
-"values": [Vector2(0, 0), Vector2(60, 60)]
-}
-tracks/5/type = "value"
-tracks/5/imported = false
-tracks/5/enabled = true
-tracks/5/path = NodePath("LB/LB:offset_transform_position")
-tracks/5/interp = 1
-tracks/5/loop_wrap = true
-tracks/5/keys = {
-"times": PackedFloat32Array(0.3, 1),
-"transitions": PackedFloat32Array(0.18, 1),
-"update": 0,
-"values": [Vector2(0, 0), Vector2(-60, 60)]
-}
-tracks/6/type = "value"
-tracks/6/imported = false
-tracks/6/enabled = true
-tracks/6/path = NodePath("LT/LT:offset_transform_position")
-tracks/6/interp = 1
-tracks/6/loop_wrap = true
-tracks/6/keys = {
-"times": PackedFloat32Array(0.3, 1),
-"transitions": PackedFloat32Array(0.18, 1),
-"update": 0,
-"values": [Vector2(0, 0), Vector2(-60, -60)]
-}
-tracks/7/type = "value"
-tracks/7/imported = false
-tracks/7/enabled = true
-tracks/7/path = NodePath("RT/RT:offset_transform_position")
-tracks/7/interp = 1
-tracks/7/loop_wrap = true
-tracks/7/keys = {
-"times": PackedFloat32Array(0.3, 1),
-"transitions": PackedFloat32Array(0.18, 1),
-"update": 0,
-"values": [Vector2(0, 0), Vector2(60, -60)]
-}
 
 [sub_resource type="Animation" id="Animation_ljvb0"]
 length = 0.001
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
-tracks/0/path = NodePath("Main Content/HBoxContainer/LSide/CenterContainer/Draw Here:modulate")
+tracks/0/path = NodePath("Main Content/HBoxContainer/LSide/MarginContainer/VBoxContainer/LevelDetails/PlaySection/SignHerePanel/CenterContainer/Draw Here:modulate")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
@@ -200,66 +154,6 @@ tracks/2/keys = {
 "update": 0,
 "values": [Color(1, 1, 1, 0)]
 }
-tracks/3/type = "value"
-tracks/3/imported = false
-tracks/3/enabled = true
-tracks/3/path = NodePath("Main Content/HBoxContainer/LSide/VBoxContainer:modulate")
-tracks/3/interp = 1
-tracks/3/loop_wrap = true
-tracks/3/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 0,
-"values": [Color(1, 1, 1, 0)]
-}
-tracks/4/type = "value"
-tracks/4/imported = false
-tracks/4/enabled = true
-tracks/4/path = NodePath("RB/RB:offset_transform_position")
-tracks/4/interp = 1
-tracks/4/loop_wrap = true
-tracks/4/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 0,
-"values": [Vector2(0, 0)]
-}
-tracks/5/type = "value"
-tracks/5/imported = false
-tracks/5/enabled = true
-tracks/5/path = NodePath("LB/LB:offset_transform_position")
-tracks/5/interp = 1
-tracks/5/loop_wrap = true
-tracks/5/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 0,
-"values": [Vector2(0, 0)]
-}
-tracks/6/type = "value"
-tracks/6/imported = false
-tracks/6/enabled = true
-tracks/6/path = NodePath("LT/LT:offset_transform_position")
-tracks/6/interp = 1
-tracks/6/loop_wrap = true
-tracks/6/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 0,
-"values": [Vector2(0, 0)]
-}
-tracks/7/type = "value"
-tracks/7/imported = false
-tracks/7/enabled = true
-tracks/7/path = NodePath("RT/RT:offset_transform_position")
-tracks/7/interp = 1
-tracks/7/loop_wrap = true
-tracks/7/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 0,
-"values": [Vector2(0, 0)]
-}
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_ljvb0"]
 _data = {
@@ -277,94 +171,6 @@ grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_2ec5i")
 
-[node name="RB" type="MarginContainer" parent="." unique_id=1066160453]
-layout_mode = 1
-anchors_preset = 3
-anchor_left = 1.0
-anchor_top = 1.0
-anchor_right = 1.0
-anchor_bottom = 1.0
-offset_left = -193.0
-offset_top = -111.0
-grow_horizontal = 0
-grow_vertical = 0
-theme_override_constants/margin_right = 24
-theme_override_constants/margin_bottom = 24
-
-[node name="RB" type="TextureRect" parent="RB" unique_id=1912869220]
-modulate = Color(1, 1, 1, 0.3254902)
-layout_mode = 2
-size_flags_horizontal = 8
-size_flags_vertical = 8
-offset_transform_enabled = true
-offset_transform_scale = Vector2(1.5, 1.5)
-offset_transform_pivot_ratio = Vector2(1, 1)
-texture = ExtResource("1_aeu7d")
-flip_h = true
-
-[node name="LB" type="MarginContainer" parent="." unique_id=1185332919]
-layout_mode = 1
-anchors_preset = 2
-anchor_top = 1.0
-anchor_bottom = 1.0
-offset_top = -129.0
-offset_right = 323.0
-grow_vertical = 0
-theme_override_constants/margin_left = 24
-theme_override_constants/margin_right = 0
-theme_override_constants/margin_bottom = 24
-
-[node name="LB" type="TextureRect" parent="LB" unique_id=2128400931]
-modulate = Color(1, 1, 1, 0.3254902)
-layout_mode = 2
-size_flags_horizontal = 0
-size_flags_vertical = 8
-offset_transform_enabled = true
-offset_transform_scale = Vector2(1.5, 1.5)
-offset_transform_pivot_ratio = Vector2(0, 1)
-texture = ExtResource("1_aeu7d")
-
-[node name="LT" type="MarginContainer" parent="." unique_id=894289202]
-layout_mode = 0
-offset_right = 193.0
-offset_bottom = 111.0
-theme_override_constants/margin_left = 24
-theme_override_constants/margin_top = 24
-
-[node name="LT" type="TextureRect" parent="LT" unique_id=1896728263]
-modulate = Color(1, 1, 1, 0.3254902)
-layout_mode = 2
-size_flags_horizontal = 0
-size_flags_vertical = 0
-offset_transform_enabled = true
-offset_transform_scale = Vector2(1.5, 1.5)
-offset_transform_pivot_ratio = Vector2(0, 0)
-texture = ExtResource("1_aeu7d")
-flip_v = true
-
-[node name="RT" type="MarginContainer" parent="." unique_id=980016658]
-layout_mode = 1
-anchors_preset = 1
-anchor_left = 1.0
-anchor_right = 1.0
-offset_left = -193.0
-offset_bottom = 111.0
-grow_horizontal = 0
-theme_override_constants/margin_top = 24
-theme_override_constants/margin_right = 24
-
-[node name="RT" type="TextureRect" parent="RT" unique_id=321574453]
-modulate = Color(1, 1, 1, 0.3254902)
-layout_mode = 2
-size_flags_horizontal = 8
-size_flags_vertical = 0
-offset_transform_enabled = true
-offset_transform_scale = Vector2(1.5, 1.5)
-offset_transform_pivot_ratio = Vector2(1, 0)
-texture = ExtResource("1_aeu7d")
-flip_h = true
-flip_v = true
-
 [node name="Main Content" type="MarginContainer" parent="." unique_id=1392130359]
 layout_mode = 1
 anchors_preset = 15
@@ -372,10 +178,10 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-theme_override_constants/margin_left = 44
-theme_override_constants/margin_top = 44
-theme_override_constants/margin_right = 44
-theme_override_constants/margin_bottom = 44
+theme_override_constants/margin_left = 16
+theme_override_constants/margin_top = 16
+theme_override_constants/margin_right = 16
+theme_override_constants/margin_bottom = 16
 
 [node name="HBoxContainer" type="HBoxContainer" parent="Main Content" unique_id=499521259]
 layout_mode = 2
@@ -384,87 +190,369 @@ layout_mode = 2
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="CenterContainer" type="CenterContainer" parent="Main Content/HBoxContainer/LSide" unique_id=643785702]
+[node name="MarginContainer" type="MarginContainer" parent="Main Content/HBoxContainer/LSide" unique_id=396443206]
 layout_mode = 1
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -135.0
-offset_top = -136.0
-offset_right = 135.0
-offset_bottom = 136.0
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 0
+theme_override_constants/margin_right = 12
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Main Content/HBoxContainer/LSide/MarginContainer" unique_id=156574507]
+layout_mode = 2
+theme_override_constants/separation = 12
+
+[node name="LevelDetails" type="VBoxContainer" parent="Main Content/HBoxContainer/LSide/MarginContainer/VBoxContainer" unique_id=1364292533]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_constants/separation = 8
+
+[node name="Profile" type="HBoxContainer" parent="Main Content/HBoxContainer/LSide/MarginContainer/VBoxContainer/LevelDetails" unique_id=353773695]
+layout_mode = 2
+theme_override_constants/separation = 12
+
+[node name="TextureRect" type="TextureRect" parent="Main Content/HBoxContainer/LSide/MarginContainer/VBoxContainer/LevelDetails/Profile" unique_id=163277080]
+custom_minimum_size = Vector2(110, 110)
+custom_maximum_size = Vector2(110, 110)
+layout_mode = 2
+texture = ExtResource("2_f20t4")
+expand_mode = 5
+stretch_mode = 6
+
+[node name="ProfileDetails" type="VBoxContainer" parent="Main Content/HBoxContainer/LSide/MarginContainer/VBoxContainer/LevelDetails/Profile" unique_id=1099446436]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 6
+
+[node name="TitleContainer" type="VBoxContainer" parent="Main Content/HBoxContainer/LSide/MarginContainer/VBoxContainer/LevelDetails/Profile/ProfileDetails" unique_id=194429338]
+layout_mode = 2
+theme_override_constants/separation = 4
+
+[node name="Title" type="Label" parent="Main Content/HBoxContainer/LSide/MarginContainer/VBoxContainer/LevelDetails/Profile/ProfileDetails/TitleContainer" unique_id=121634496]
+layout_mode = 2
+theme_override_font_sizes/font_size = 15
+text = "NANI GA WURI"
+
+[node name="ControlLine" parent="Main Content/HBoxContainer/LSide/MarginContainer/VBoxContainer/LevelDetails/Profile/ProfileDetails/TitleContainer" unique_id=578883494 instance=ExtResource("3_v1k4p")]
+custom_minimum_size = Vector2(0, 0)
+custom_maximum_size = Vector2(-1, -1)
+layout_mode = 2
+shape = 4
+line_thickness = 1
+follow_anchor = true
+
+[node name="L" parent="Main Content/HBoxContainer/LSide/MarginContainer/VBoxContainer/LevelDetails/Profile/ProfileDetails/TitleContainer/ControlLine" index="0" unique_id=1114771390]
+points = PackedVector2Array(0, 0, 165, 0)
+width = 1.0
+joint_mode = 0
+begin_cap_mode = 1
+end_cap_mode = 1
+
+[node name="SourceContainer" type="VBoxContainer" parent="Main Content/HBoxContainer/LSide/MarginContainer/VBoxContainer/LevelDetails/Profile/ProfileDetails" unique_id=282935269]
+layout_mode = 2
+
+[node name="SourceLabel" type="Label" parent="Main Content/HBoxContainer/LSide/MarginContainer/VBoxContainer/LevelDetails/Profile/ProfileDetails/SourceContainer" unique_id=181047084]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.5890956, 0.58909565, 0.5890954, 1)
+theme_override_font_sizes/font_size = 7
+text = "Source"
+
+[node name="SourceValue" type="Label" parent="Main Content/HBoxContainer/LSide/MarginContainer/VBoxContainer/LevelDetails/Profile/ProfileDetails/SourceContainer" unique_id=1474634727]
+layout_mode = 2
+theme_override_font_sizes/font_size = 10
+text = "Kessoku Band"
+
+[node name="ControlLine2" parent="Main Content/HBoxContainer/LSide/MarginContainer/VBoxContainer/LevelDetails/Profile/ProfileDetails" unique_id=1151083760 instance=ExtResource("3_v1k4p")]
+custom_minimum_size = Vector2(0, 0)
+custom_maximum_size = Vector2(-1, -1)
+layout_mode = 2
+shape = 4
+line_thickness = 1
+follow_anchor = true
+
+[node name="L" parent="Main Content/HBoxContainer/LSide/MarginContainer/VBoxContainer/LevelDetails/Profile/ProfileDetails/ControlLine2" index="0" unique_id=1114771390]
+points = PackedVector2Array(0, 0, 165, 0)
+width = 1.0
+default_color = Color(0.48235294, 0.48235294, 0.48235294, 1)
+joint_mode = 0
+begin_cap_mode = 1
+end_cap_mode = 1
+
+[node name="MapperContainer" type="VBoxContainer" parent="Main Content/HBoxContainer/LSide/MarginContainer/VBoxContainer/LevelDetails/Profile/ProfileDetails" unique_id=223041712]
+layout_mode = 2
+
+[node name="MapperLabel" type="Label" parent="Main Content/HBoxContainer/LSide/MarginContainer/VBoxContainer/LevelDetails/Profile/ProfileDetails/MapperContainer" unique_id=1802184829]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.5890956, 0.58909565, 0.5890954, 1)
+theme_override_font_sizes/font_size = 7
+text = "Mapper"
+
+[node name="MapperValue" type="Label" parent="Main Content/HBoxContainer/LSide/MarginContainer/VBoxContainer/LevelDetails/Profile/ProfileDetails/MapperContainer" unique_id=53969608]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 0, 0, 1)
+theme_override_font_sizes/font_size = 10
+text = "DIMASDFAR"
+
+[node name="ControlLine" parent="Main Content/HBoxContainer/LSide/MarginContainer/VBoxContainer/LevelDetails/Profile/ProfileDetails" unique_id=2100053032 instance=ExtResource("3_v1k4p")]
+custom_minimum_size = Vector2(0, 0)
+custom_maximum_size = Vector2(-1, -1)
+layout_mode = 2
+shape = 4
+line_thickness = 1
+follow_anchor = true
+
+[node name="L" parent="Main Content/HBoxContainer/LSide/MarginContainer/VBoxContainer/LevelDetails/Profile/ProfileDetails/ControlLine" index="0" unique_id=1114771390]
+points = PackedVector2Array(0, 0, 165, 0)
+width = 1.0
+default_color = Color(0.48235294, 0.48235294, 0.48235294, 1)
+joint_mode = 0
+begin_cap_mode = 1
+end_cap_mode = 1
+
+[node name="Level" type="HBoxContainer" parent="Main Content/HBoxContainer/LSide/MarginContainer/VBoxContainer/LevelDetails" unique_id=693840850]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_constants/separation = 8
+
+[node name="Difficulty" type="Panel" parent="Main Content/HBoxContainer/LSide/MarginContainer/VBoxContainer/LevelDetails/Level" unique_id=678344513]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="MarginContainer" type="MarginContainer" parent="Main Content/HBoxContainer/LSide/MarginContainer/VBoxContainer/LevelDetails/Level/Difficulty" unique_id=575122378]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 8
+theme_override_constants/margin_top = 4
+theme_override_constants/margin_right = 8
+theme_override_constants/margin_bottom = 8
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Main Content/HBoxContainer/LSide/MarginContainer/VBoxContainer/LevelDetails/Level/Difficulty/MarginContainer" unique_id=555463154]
+layout_mode = 2
+theme_override_constants/separation = -1
+
+[node name="Title" type="Label" parent="Main Content/HBoxContainer/LSide/MarginContainer/VBoxContainer/LevelDetails/Level/Difficulty/MarginContainer/VBoxContainer" unique_id=92999076]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.6052743, 0.6052743, 0.6052743, 1)
+theme_override_font_sizes/font_size = 7
+text = "Difficulty"
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Main Content/HBoxContainer/LSide/MarginContainer/VBoxContainer/LevelDetails/Level/Difficulty/MarginContainer/VBoxContainer" unique_id=276690430]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_constants/separation = 4
+
+[node name="Value" type="Label" parent="Main Content/HBoxContainer/LSide/MarginContainer/VBoxContainer/LevelDetails/Level/Difficulty/MarginContainer/VBoxContainer/VBoxContainer" unique_id=1334944922]
+layout_mode = 2
+text = "EXPERT"
+
+[node name="HBoxContainer" type="HBoxContainer" parent="Main Content/HBoxContainer/LSide/MarginContainer/VBoxContainer/LevelDetails/Level/Difficulty/MarginContainer/VBoxContainer/VBoxContainer" unique_id=808667040]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="ColorRect" type="ColorRect" parent="Main Content/HBoxContainer/LSide/MarginContainer/VBoxContainer/LevelDetails/Level/Difficulty/MarginContainer/VBoxContainer/VBoxContainer/HBoxContainer" unique_id=1945627042]
+custom_minimum_size = Vector2(11, 0)
+layout_mode = 2
+color = Color(1, 0, 0, 1)
+
+[node name="ColorRect2" type="ColorRect" parent="Main Content/HBoxContainer/LSide/MarginContainer/VBoxContainer/LevelDetails/Level/Difficulty/MarginContainer/VBoxContainer/VBoxContainer/HBoxContainer" unique_id=1780701385]
+custom_minimum_size = Vector2(11, 0)
+layout_mode = 2
+color = Color(1, 0, 0, 1)
+
+[node name="ColorRect3" type="ColorRect" parent="Main Content/HBoxContainer/LSide/MarginContainer/VBoxContainer/LevelDetails/Level/Difficulty/MarginContainer/VBoxContainer/VBoxContainer/HBoxContainer" unique_id=2068708438]
+custom_minimum_size = Vector2(11, 0)
+layout_mode = 2
+color = Color(1, 0, 0, 1)
+
+[node name="ColorRect4" type="ColorRect" parent="Main Content/HBoxContainer/LSide/MarginContainer/VBoxContainer/LevelDetails/Level/Difficulty/MarginContainer/VBoxContainer/VBoxContainer/HBoxContainer" unique_id=1323581646]
+custom_minimum_size = Vector2(11, 0)
+layout_mode = 2
+color = Color(1, 0, 0, 1)
+
+[node name="ColorRect5" type="ColorRect" parent="Main Content/HBoxContainer/LSide/MarginContainer/VBoxContainer/LevelDetails/Level/Difficulty/MarginContainer/VBoxContainer/VBoxContainer/HBoxContainer" unique_id=1978953452]
+custom_minimum_size = Vector2(11, 0)
+layout_mode = 2
+color = Color(0.23031491, 0.23031494, 0.23031494, 1)
+
+[node name="BPM" type="Panel" parent="Main Content/HBoxContainer/LSide/MarginContainer/VBoxContainer/LevelDetails/Level" unique_id=1096506930]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="MarginContainer" type="MarginContainer" parent="Main Content/HBoxContainer/LSide/MarginContainer/VBoxContainer/LevelDetails/Level/BPM" unique_id=1426534734]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 8
+theme_override_constants/margin_top = 6
+theme_override_constants/margin_right = 8
+theme_override_constants/margin_bottom = 6
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Main Content/HBoxContainer/LSide/MarginContainer/VBoxContainer/LevelDetails/Level/BPM/MarginContainer" unique_id=1743755856]
+layout_mode = 2
+theme_override_constants/separation = 0
+
+[node name="Title" type="Label" parent="Main Content/HBoxContainer/LSide/MarginContainer/VBoxContainer/LevelDetails/Level/BPM/MarginContainer/VBoxContainer" unique_id=1294900685]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.6052743, 0.6052743, 0.6052743, 1)
+theme_override_font_sizes/font_size = 7
+text = "BPM"
+
+[node name="Value" type="Label" parent="Main Content/HBoxContainer/LSide/MarginContainer/VBoxContainer/LevelDetails/Level/BPM/MarginContainer/VBoxContainer" unique_id=180949137]
+layout_mode = 2
+theme_override_font_sizes/font_size = 16
+text = "160"
+
+[node name="Length" type="Panel" parent="Main Content/HBoxContainer/LSide/MarginContainer/VBoxContainer/LevelDetails/Level" unique_id=707565070]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="MarginContainer" type="MarginContainer" parent="Main Content/HBoxContainer/LSide/MarginContainer/VBoxContainer/LevelDetails/Level/Length" unique_id=1786906873]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 8
+theme_override_constants/margin_top = 6
+theme_override_constants/margin_right = 8
+theme_override_constants/margin_bottom = 6
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Main Content/HBoxContainer/LSide/MarginContainer/VBoxContainer/LevelDetails/Level/Length/MarginContainer" unique_id=1386504347]
+layout_mode = 2
+theme_override_constants/separation = 0
+
+[node name="Title" type="Label" parent="Main Content/HBoxContainer/LSide/MarginContainer/VBoxContainer/LevelDetails/Level/Length/MarginContainer/VBoxContainer" unique_id=2124814817]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.6052743, 0.6052743, 0.6052743, 1)
+theme_override_font_sizes/font_size = 7
+text = "LENGTH"
+
+[node name="Value" type="Label" parent="Main Content/HBoxContainer/LSide/MarginContainer/VBoxContainer/LevelDetails/Level/Length/MarginContainer/VBoxContainer" unique_id=67291000]
+layout_mode = 2
+theme_override_font_sizes/font_size = 16
+text = "3:21"
+
+[node name="PlaySection" type="HBoxContainer" parent="Main Content/HBoxContainer/LSide/MarginContainer/VBoxContainer/LevelDetails" unique_id=414471631]
+custom_minimum_size = Vector2(0, 128)
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="ModifierButton" type="Button" parent="Main Content/HBoxContainer/LSide/MarginContainer/VBoxContainer/LevelDetails/PlaySection" unique_id=381279923]
+custom_minimum_size = Vector2(128, 0)
+custom_maximum_size = Vector2(128, -1)
+layout_mode = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="Main Content/HBoxContainer/LSide/MarginContainer/VBoxContainer/LevelDetails/PlaySection/ModifierButton" unique_id=1585978542]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 8
+theme_override_constants/margin_top = 8
+theme_override_constants/margin_right = 8
+theme_override_constants/margin_bottom = 8
+
+[node name="Icon" type="TextureRect" parent="Main Content/HBoxContainer/LSide/MarginContainer/VBoxContainer/LevelDetails/PlaySection/ModifierButton/MarginContainer" unique_id=751587899]
+custom_minimum_size = Vector2(24, 24)
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 0
+texture = SubResource("AtlasTexture_wioao")
+expand_mode = 3
+
+[node name="ModifierLabel" type="Label" parent="Main Content/HBoxContainer/LSide/MarginContainer/VBoxContainer/LevelDetails/PlaySection/ModifierButton/MarginContainer" unique_id=1333867137]
+layout_mode = 2
+size_flags_vertical = 8
+theme_override_font_sizes/font_size = 15
+text = "MODIFIER"
+
+[node name="SignHerePanel" type="Panel" parent="Main Content/HBoxContainer/LSide/MarginContainer/VBoxContainer/LevelDetails/PlaySection" unique_id=75924823]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_styles/panel = SubResource("StyleBoxFlat_ehw80")
+
+[node name="CenterContainer" type="CenterContainer" parent="Main Content/HBoxContainer/LSide/MarginContainer/VBoxContainer/LevelDetails/PlaySection/SignHerePanel" unique_id=643785702]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 size_flags_horizontal = 3
 
-[node name="Draw Here" type="Label" parent="Main Content/HBoxContainer/LSide/CenterContainer" unique_id=556849481]
+[node name="Draw Here" type="Label" parent="Main Content/HBoxContainer/LSide/MarginContainer/VBoxContainer/LevelDetails/PlaySection/SignHerePanel/CenterContainer" unique_id=556849481]
 unique_name_in_owner = true
 modulate = Color(1, 1, 1, 0)
 self_modulate = Color(1, 1, 1, 0.39215687)
 layout_mode = 2
 offset_transform_enabled = true
 theme_override_fonts/font = ExtResource("2_gkmvm")
+theme_override_font_sizes/font_size = 15
 text = "DRAW HERE"
 horizontal_alignment = 1
 
-[node name="VBoxContainer" type="VBoxContainer" parent="Main Content/HBoxContainer/LSide" unique_id=1551803504]
-modulate = Color(1, 1, 1, 0)
-self_modulate = Color(1, 1, 1, 0.39215687)
-layout_mode = 1
-anchors_preset = 2
-anchor_top = 1.0
-anchor_bottom = 1.0
-offset_top = -44.0
-offset_right = 88.0
-grow_vertical = 0
+[node name="Hint" type="HBoxContainer" parent="Main Content/HBoxContainer/LSide/MarginContainer/VBoxContainer" unique_id=297164656]
+layout_mode = 2
+theme_override_constants/separation = 18
+
+[node name="Play" type="HBoxContainer" parent="Main Content/HBoxContainer/LSide/MarginContainer/VBoxContainer/Hint" unique_id=195725454]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+theme_override_constants/separation = 12
+
+[node name="ControlLine" parent="Main Content/HBoxContainer/LSide/MarginContainer/VBoxContainer/Hint/Play" unique_id=1519533841 instance=ExtResource("3_v1k4p")]
+custom_minimum_size = Vector2(12, 15.42)
+custom_maximum_size = Vector2(12, 15.42)
+layout_mode = 2
 offset_transform_enabled = true
-offset_transform_pivot_ratio = Vector2(0, 1)
+offset_transform_position = Vector2(2.23, 0)
+shape = 3
+shape_size = Vector2(12, 15.42)
 
-[node name="HBoxContainer" type="HBoxContainer" parent="Main Content/HBoxContainer/LSide/VBoxContainer" unique_id=195725454]
-layout_mode = 2
-theme_override_constants/separation = 8
-
-[node name="TextureRect" type="TextureRect" parent="Main Content/HBoxContainer/LSide/VBoxContainer/HBoxContainer" unique_id=9615405]
-modulate = Color(1, 0.18431373, 0.039215688, 1)
-layout_mode = 2
-size_flags_horizontal = 0
-size_flags_vertical = 8
-texture = ExtResource("3_vj03c")
-
-[node name="Label" type="Label" parent="Main Content/HBoxContainer/LSide/VBoxContainer/HBoxContainer" unique_id=1613650764]
+[node name="Label" type="Label" parent="Main Content/HBoxContainer/LSide/MarginContainer/VBoxContainer/Hint/Play" unique_id=1613650764]
 layout_mode = 2
 size_flags_horizontal = 0
 theme = ExtResource("3_rqfkl")
 theme_override_colors/font_color = Color(0.6344296, 0.6344296, 0.6344295, 1)
-theme_override_font_sizes/font_size = 14
+theme_override_font_sizes/font_size = 12
 text = "PLAY"
 
-[node name="HBoxContainer3" type="HBoxContainer" parent="Main Content/HBoxContainer/LSide/VBoxContainer" unique_id=1057374094]
+[node name="GoBack" type="HBoxContainer" parent="Main Content/HBoxContainer/LSide/MarginContainer/VBoxContainer/Hint" unique_id=1057374094]
 layout_mode = 2
+size_flags_vertical = 4
 theme_override_constants/separation = 8
 
-[node name="TextureRect" type="TextureRect" parent="Main Content/HBoxContainer/LSide/VBoxContainer/HBoxContainer3" unique_id=533678534]
-modulate = Color(1, 0.18431373, 0.039215688, 1)
+[node name="ControlLine2" parent="Main Content/HBoxContainer/LSide/MarginContainer/VBoxContainer/Hint/GoBack" unique_id=1419786070 instance=ExtResource("3_v1k4p")]
+custom_minimum_size = Vector2(16, 16)
+custom_maximum_size = Vector2(16, 16)
 layout_mode = 2
-size_flags_horizontal = 0
-size_flags_vertical = 8
-texture = ExtResource("6_v1k4p")
+shape_size = Vector2(16, 16)
 
-[node name="Label" type="Label" parent="Main Content/HBoxContainer/LSide/VBoxContainer/HBoxContainer3" unique_id=1511001177]
+[node name="Label" type="Label" parent="Main Content/HBoxContainer/LSide/MarginContainer/VBoxContainer/Hint/GoBack" unique_id=1511001177]
 layout_mode = 2
 size_flags_horizontal = 0
 theme = ExtResource("3_rqfkl")
 theme_override_colors/font_color = Color(0.6344296, 0.6344296, 0.6344295, 1)
-theme_override_font_sizes/font_size = 14
+theme_override_font_sizes/font_size = 12
 text = "GO BACK"
 
 [node name="VLine" type="ColorRect" parent="Main Content/HBoxContainer" unique_id=2139384527]
 custom_minimum_size = Vector2(1, 0)
 layout_mode = 2
-size_flags_vertical = 8
-color = Color(0.23395386, 0.2339539, 0.23395383, 1)
+color = Color(0.43137255, 0.43137255, 0.43137255, 1)
 
 [node name="RSide" type="MarginContainer" parent="Main Content/HBoxContainer" unique_id=688860742]
 modulate = Color(1, 1, 1, 0)
@@ -472,14 +560,34 @@ layout_mode = 2
 size_flags_horizontal = 3
 theme_override_constants/margin_left = 12
 
-[node name="Level List" type="Control" parent="Main Content/HBoxContainer/RSide" unique_id=1172829929]
+[node name="VBoxContainer" type="VBoxContainer" parent="Main Content/HBoxContainer/RSide" unique_id=698558254]
+layout_mode = 2
+theme_override_constants/separation = 9
+
+[node name="SearchSection" type="HBoxContainer" parent="Main Content/HBoxContainer/RSide/VBoxContainer" unique_id=498238167]
+layout_mode = 2
+
+[node name="SearchBar" type="LineEdit" parent="Main Content/HBoxContainer/RSide/VBoxContainer/SearchSection" unique_id=1288421359]
+layout_mode = 2
+size_flags_horizontal = 3
+placeholder_text = "Search.."
+
+[node name="SearchButton" type="Button" parent="Main Content/HBoxContainer/RSide/VBoxContainer/SearchSection" unique_id=1858570168]
+layout_mode = 2
+icon = SubResource("AtlasTexture_ukpo5")
+
+[node name="Filter" type="Button" parent="Main Content/HBoxContainer/RSide/VBoxContainer/SearchSection" unique_id=542460608]
+layout_mode = 2
+icon = SubResource("AtlasTexture_f20t4")
+
+[node name="Level List" type="Control" parent="Main Content/HBoxContainer/RSide/VBoxContainer" unique_id=1172829929]
 clip_contents = true
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 script = ExtResource("9_ax7y8")
 
-[node name="Scroll" type="VBoxContainer" parent="Main Content/HBoxContainer/RSide/Level List" unique_id=1000000001]
+[node name="Scroll" type="VBoxContainer" parent="Main Content/HBoxContainer/RSide/VBoxContainer/Level List" unique_id=1000000001]
 layout_mode = 1
 anchors_preset = 6
 anchor_left = 1.0
@@ -493,31 +601,32 @@ grow_horizontal = 0
 grow_vertical = 2
 theme_override_constants/separation = 8
 
-[node name="level_item" parent="Main Content/HBoxContainer/RSide/Level List/Scroll" unique_id=1603493135 instance=ExtResource("7_2ec5i")]
+[node name="level_item" parent="Main Content/HBoxContainer/RSide/VBoxContainer/Level List/Scroll" unique_id=211692072 instance=ExtResource("7_2ec5i")]
 layout_mode = 2
 
-[node name="level_item2" parent="Main Content/HBoxContainer/RSide/Level List/Scroll" unique_id=1480395378 instance=ExtResource("7_2ec5i")]
+[node name="level_item2" parent="Main Content/HBoxContainer/RSide/VBoxContainer/Level List/Scroll" unique_id=1480395378 instance=ExtResource("7_2ec5i")]
 layout_mode = 2
 
-[node name="level_item3" parent="Main Content/HBoxContainer/RSide/Level List/Scroll" unique_id=2017547613 instance=ExtResource("7_2ec5i")]
+[node name="level_item3" parent="Main Content/HBoxContainer/RSide/VBoxContainer/Level List/Scroll" unique_id=2017547613 instance=ExtResource("7_2ec5i")]
 layout_mode = 2
 
-[node name="level_item4" parent="Main Content/HBoxContainer/RSide/Level List/Scroll" unique_id=55596207 instance=ExtResource("7_2ec5i")]
+[node name="level_item4" parent="Main Content/HBoxContainer/RSide/VBoxContainer/Level List/Scroll" unique_id=55596207 instance=ExtResource("7_2ec5i")]
 layout_mode = 2
 
-[node name="level_item5" parent="Main Content/HBoxContainer/RSide/Level List/Scroll" unique_id=1991969750 instance=ExtResource("7_2ec5i")]
+[node name="level_item5" parent="Main Content/HBoxContainer/RSide/VBoxContainer/Level List/Scroll" unique_id=1991969750 instance=ExtResource("7_2ec5i")]
 layout_mode = 2
 
-[node name="level_item6" parent="Main Content/HBoxContainer/RSide/Level List/Scroll" unique_id=1711693936 instance=ExtResource("7_2ec5i")]
+[node name="level_item6" parent="Main Content/HBoxContainer/RSide/VBoxContainer/Level List/Scroll" unique_id=1711693936 instance=ExtResource("7_2ec5i")]
 layout_mode = 2
 
-[node name="level_item7" parent="Main Content/HBoxContainer/RSide/Level List/Scroll" unique_id=1888243140 instance=ExtResource("7_2ec5i")]
+[node name="level_item7" parent="Main Content/HBoxContainer/RSide/VBoxContainer/Level List/Scroll" unique_id=1888243140 instance=ExtResource("7_2ec5i")]
 layout_mode = 2
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="." unique_id=1728898997]
 libraries/ = SubResource("AnimationLibrary_ljvb0")
 
 [node name="draw" parent="." unique_id=2118743800 instance=ExtResource("10_v1k4p")]
+width = 3.0
 weight = 0.5
 guess_mode = true
 
@@ -527,14 +636,19 @@ volume_db = 24.0
 bus = &"Effect"
 
 [node name="Notification" parent="." unique_id=443003223 instance=ExtResource("11_notif")]
+visible = false
 layout_mode = 1
 offset_left = -153.0
 offset_top = 48.0
 offset_right = 152.0
 offset_bottom = 88.0
 
-[connection signal="mouse_entered" from="Main Content/HBoxContainer/LSide" to="." method="_on_l_side_mouse_entered"]
-[connection signal="mouse_exited" from="Main Content/HBoxContainer/LSide" to="." method="_on_l_side_mouse_exited"]
-[connection signal="item_hovered" from="Main Content/HBoxContainer/RSide/Level List" to="." method="_on_level_item_hovered"]
+[connection signal="mouse_entered" from="Main Content/HBoxContainer/LSide/MarginContainer/VBoxContainer/LevelDetails/PlaySection/SignHerePanel" to="." method="_on_sign_mouse_entered"]
+[connection signal="mouse_exited" from="Main Content/HBoxContainer/LSide/MarginContainer/VBoxContainer/LevelDetails/PlaySection/SignHerePanel" to="." method="_on_sign_mouse_exited"]
+[connection signal="item_hovered" from="Main Content/HBoxContainer/RSide/VBoxContainer/Level List" to="." method="_on_level_item_hovered"]
 [connection signal="animation_finished" from="AnimationPlayer" to="." method="_on_animation_player_animation_finished"]
 [connection signal="guessed_shape" from="draw" to="." method="_on_draw_guessed_shape"]
+
+[editable path="Main Content/HBoxContainer/LSide/MarginContainer/VBoxContainer/LevelDetails/Profile/ProfileDetails/TitleContainer/ControlLine"]
+[editable path="Main Content/HBoxContainer/LSide/MarginContainer/VBoxContainer/LevelDetails/Profile/ProfileDetails/ControlLine2"]
+[editable path="Main Content/HBoxContainer/LSide/MarginContainer/VBoxContainer/LevelDetails/Profile/ProfileDetails/ControlLine"]

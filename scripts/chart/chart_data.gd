@@ -5,19 +5,19 @@
 class_name ChartData
 extends RefCounted
 
-var metadata: Dictionary = {}
+var metadata: Dictionary = { }
 var notes: Array = []
 var shapes: Array = []
 var shape_times: Array = []
-var shape_colors: Dictionary = {}
+var shape_colors: Dictionary = { }
 var chart_path := ""
 # Parallel to shapes/shape_times: shape_ids[i] is the id for shapes[i].
 var shape_ids: Array = []
 # id -> index into shapes/shape_times/shape_ids. Built once at load.
-var shape_index_by_id: Dictionary = {}
+var shape_index_by_id: Dictionary = { }
 # id -> {shape_idx, start_ms, end_ms, color, count}. Built once at load so
 # the scheduler never filters/scans notes at runtime.
-var shape_groups: Dictionary = {}
+var shape_groups: Dictionary = { }
 
 
 func is_empty() -> bool:
@@ -83,7 +83,7 @@ func build_runtime_index() -> void:
 		# First occurrence wins; ids must be unique per chart spec.
 		if not sid.is_empty() and not shape_index_by_id.has(sid):
 			shape_index_by_id[sid] = i
-	var counts := {}
+	var counts := { }
 	for note in notes:
 		var nid := str((note as Dictionary).get("id", ""))
 		counts[nid] = int(counts.get(nid, 0)) + 1
@@ -132,7 +132,7 @@ func shape_points_by_id(shape_id: String) -> PackedVector2Array:
 
 
 func shape_group(shape_id: String) -> Dictionary:
-	return shape_groups.get(shape_id, {}) as Dictionary
+	return shape_groups.get(shape_id, { }) as Dictionary
 
 
 func song_path() -> String:

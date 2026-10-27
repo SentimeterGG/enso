@@ -30,6 +30,18 @@ tracks/0/keys = {
 "update": 0,
 "values": [Color(1, 1, 1, 0)]
 }
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Panel:theme_override_styles/panel")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [ExtResource("2_lrfiu")]
+}
 
 [sub_resource type="Animation" id="Animation_lrfiu"]
 resource_name = "pulse"
@@ -55,8 +67,8 @@ _data = {
 
 [node name="level_item" type="Panel" unique_id=1603493135]
 clip_children = 2
-custom_minimum_size = Vector2(260, 34)
-custom_maximum_size = Vector2(260, -1)
+custom_minimum_size = Vector2(288, 34)
+custom_maximum_size = Vector2(288, -1)
 offset_right = 260.0
 offset_bottom = 34.0
 size_flags_horizontal = 8
@@ -137,7 +149,7 @@ theme_override_fonts/font = ExtResource("4_rd0an")
 theme_override_font_sizes/font_size = 6
 text = "ENSO TEAM"
 
-[node name="AnimationPlayer" type="AnimationPlayer" parent="." unique_id=261011556]
+[node name="level_item_animation" type="AnimationPlayer" parent="." unique_id=261011556]
 libraries/ = SubResource("AnimationLibrary_4ae8e")
 
 [connection signal="gui_input" from="." to="." method="_on_gui_input"]
