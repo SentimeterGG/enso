@@ -34,6 +34,7 @@ var _active_tween: Tween = null
 var _highlight_tweens: Array[Tween] = []
 
 @onready var scroll: VBoxContainer = $Scroll
+@export var center_offset: float = 0.0 # positive = selected row sits lower
 
 
 func _ready() -> void:
@@ -51,12 +52,31 @@ func _input(event: InputEvent) -> void:
 		if event.pressed:
 			if get_global_rect().has_point(event.position):
 				_begin_drag(event.position.y)
-				print(get_viewport().gui_get_hovered_control())
 		else:
 			if _dragging:
+				var was_drag := _drag_dist > DRAG_THRESHOLD
 				_end_drag()
+				if not was_drag:
+					var idx := _item_index_at(event.position)
+					if idx >= 0:
+						select(idx)
+				grab_focus()
 	elif event is InputEventMouseMotion and _dragging:
 		_drag_to(event.position.y)
+
+
+func _item_index_at(global_pos: Vector2) -> int:
+	var best := -1
+	var best_dist := INF
+	for i in scroll.get_child_count():
+		var r := (scroll.get_child(i) as Control).get_global_rect()
+		if global_pos.y >= r.position.y and global_pos.y <= r.end.y:
+			return i
+		var d := absf((r.position.y + r.size.y * 0.5) - global_pos.y)
+		if d < best_dist:
+			best_dist = d
+			best = i
+	return best
 
 
 func _unhandled_key_input(event: InputEvent) -> void:
@@ -154,9 +174,11 @@ func is_dragged() -> bool:
 
 
 func select(index: int) -> void:
+	print("select(", index, ") hit=", _item_index_at(get_global_mouse_position()))
 	if index < 0 or index >= scroll.get_child_count():
 		return
 	if index == selected_index:
+		_center_on(index) # undo any nudge or interrupted tween
 		return
 	selected_index = index
 	_update_highlight()
@@ -322,6 +344,8 @@ func _begin_drag(y: float) -> void:
 func _drag_to(y: float) -> void:
 	var delta: float = y - _press_y
 	_drag_dist = maxf(_drag_dist, absf(delta))
+	if _drag_dist <= DRAG_THRESHOLD:
+		return # still a click: don't move the list or touch selection
 	scroll.position.y = _clamp_y(_press_scroll_y + delta)
 	_refresh_selection_to_center()
 	_update_coverflow_live()
@@ -347,8 +371,7 @@ func _item_center(index: int) -> float:
 
 
 func _center_y() -> float:
-	var viewport_center_y := get_viewport_rect().size.y * 0.5
-	return viewport_center_y - global_position.y
+	return size.y * 0.5
 
 
 func _target_y_for(index: int) -> float:
@@ -358,12 +381,13 @@ func _target_y_for(index: int) -> float:
 func _min_y() -> float:
 	if scroll.get_child_count() == 0:
 		return 0.0
+	return _center_y() - _item_center(scroll.get_child_count() - 1)
 
 
 func _max_y() -> float:
 	if scroll.get_child_count() == 0:
 		return 0.0
-	return size.y * 0.5 - _item_center(0)
+	return _center_y() - _item_center(0)
 
 
 func _clamp_y(y: float) -> float:
@@ -373,7 +397,7 @@ func _clamp_y(y: float) -> float:
 func _nearest_index_to_center() -> int:
 	if scroll.get_child_count() == 0:
 		return 0
-	var center_local: float = size.y * 0.5 - scroll.position.y
+	var center_local: float = _center_y() - scroll.position.y
 	var best: int = selected_index
 	var best_dist: float = INF
 	for i in scroll.get_child_count():
@@ -418,7 +442,7 @@ func _update_coverflow_live() -> void:
 	if scroll.get_child_count() == 0:
 		return
 	_kill_highlight_tweens()
-	var center_local: float = size.y * 0.5 - scroll.position.y
+	var center_local: float = _center_y() - scroll.position.y
 	for i in scroll.get_child_count():
 		var item := scroll.get_child(i)
 		var dist_px: float = absf(_item_center(i) - center_local)
@@ -449,6 +473,3 @@ func _update_highlight(instant: bool = false, duration: float = DURATION) -> voi
 			)
 		if item.has_method("set_selected"):
 			item.set_selected(i == selected_index)
-
-
-return _center_y() - _item_center(scroll.get_child_count() - 1)

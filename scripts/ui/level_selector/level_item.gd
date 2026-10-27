@@ -72,18 +72,3 @@ func _apply_text() -> void:
 		subtitle_node.text = level_subtitle.to_upper() if not level_subtitle.is_empty() else ""
 	if background:
 		texture_node.texture = Global.load_safely(background)
-
-
-func _on_gui_input(event: InputEvent) -> void:
-	if (
-		event is InputEventMouseButton and not event.pressed
-		and event.button_index == MOUSE_BUTTON_LEFT
-	):
-		var list := get_parent().get_parent()
-		if list.has_method("is_dragged") and list.is_dragged():
-			return
-		if list.has_method("select"):
-			list.select(get_index())
-		var list_control := list as Control
-		if list_control:
-			list_control.grab_focus()
