@@ -94,7 +94,7 @@ script = ExtResource("2_j2e2l")
 
 [node name="HitSound" type="AudioStreamPlayer" parent="." unique_id=1538775191]
 stream = ExtResource("3_j2e2l")
-volume_db = 10.0
+volume_db = 12.0
 bus = &"Effect"
 
 [node name="CircleOutline" type="TextureRect" parent="." unique_id=811610281]

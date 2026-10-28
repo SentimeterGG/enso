@@ -8,6 +8,7 @@ var _flash_time_left: float = 0.0
 @onready var _column: Control = %beat_column
 @onready var _target_shape: Line2D = %target_shape
 @onready var _draw: Line2D = %draw
+var note_splash_scene = preload("res://scenes/splash_note.tscn")
 var last_beat_id = ""
 
 
@@ -36,6 +37,7 @@ func _on_draw_draw_direction_changes() -> void:
 
 ## Draw input happened: judge the nearest unjudged beat within the OD window.
 func try_hit() -> void:
+	var note_splash = note_splash_scene.instantiate()
 	if not BgMusic.playing:
 		return
 	var music_time: float = BgMusic.get_playback_position()
@@ -58,6 +60,7 @@ func try_hit() -> void:
 			var id = str(best.get("beat_id"))
 			last_beat_id = id
 			best.call("hit")
+			add_child(note_splash)
 			_target_shape.change(Global.current_chart.shape_points_by_id(id))
 			_judge.call("_on_beat_column_beat_hit", best_err, str(best.get("beat_id")))
 	_flash()

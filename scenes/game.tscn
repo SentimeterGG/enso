@@ -1492,6 +1492,10 @@ grow_vertical = 0
 offset_transform_enabled = true
 theme_override_font_sizes/font_size = 6
 script = ExtResource("24_e1j6l")
+perfect_heal = 0.15
+ok_heal = 0.1
+bad_heal = 0.05
+miss_damage = 0.2
 
 [node name="RB" type="MarginContainer" parent="UI" unique_id=773312028]
 layout_mode = 1
