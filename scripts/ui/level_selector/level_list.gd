@@ -174,7 +174,6 @@ func is_dragged() -> bool:
 
 
 func select(index: int) -> void:
-	print("select(", index, ") hit=", _item_index_at(get_global_mouse_position()))
 	if index < 0 or index >= scroll.get_child_count():
 		return
 	if index == selected_index:

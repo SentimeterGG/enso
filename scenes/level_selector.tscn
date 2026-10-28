@@ -3,6 +3,7 @@
 [ext_resource type="Script" uid="uid://cpj4fntxrhqg7" path="res://scripts/ui/level_selector/level_selector.gd" id="1_2ec5i"]
 [ext_resource type="Texture2D" uid="uid://ddfm8o2r6bvhg" path="res://levels/Nani Ga Waru by Kessoku Band mapped by DimasDFAR/NaniGaWaruBG.png" id="2_f20t4"]
 [ext_resource type="FontFile" uid="uid://bprqivnp1xsie" path="res://assets/fonts/ttf/PixelCode-Medium.ttf" id="2_gkmvm"]
+[ext_resource type="Script" uid="uid://hm4b75v32m6s" path="res://scripts/ui/level_details.gd" id="2_ljvb0"]
 [ext_resource type="Theme" uid="uid://cpocn8agag6ib" path="res://resources/theme/Theme.tres" id="3_rqfkl"]
 [ext_resource type="PackedScene" uid="uid://cpdjo67hyeq74" path="res://scenes/ui_line.tscn" id="3_v1k4p"]
 [ext_resource type="Texture2D" uid="uid://ceht3wr4q2547" path="res://assets/sprites/UI/icons/icons.png" id="5_v1k4p"]
@@ -204,9 +205,11 @@ layout_mode = 2
 theme_override_constants/separation = 12
 
 [node name="LevelDetails" type="VBoxContainer" parent="Main Content/HBoxContainer/LSide/MarginContainer/VBoxContainer" unique_id=1364292533]
+unique_name_in_owner = true
 layout_mode = 2
 size_flags_vertical = 3
 theme_override_constants/separation = 8
+script = ExtResource("2_ljvb0")
 
 [node name="Profile" type="HBoxContainer" parent="Main Content/HBoxContainer/LSide/MarginContainer/VBoxContainer/LevelDetails" unique_id=353773695]
 layout_mode = 2
@@ -216,6 +219,7 @@ theme_override_constants/separation = 12
 custom_minimum_size = Vector2(110, 110)
 custom_maximum_size = Vector2(110, 110)
 layout_mode = 2
+offset_transform_enabled = true
 texture = ExtResource("2_f20t4")
 expand_mode = 5
 stretch_mode = 6
@@ -230,9 +234,12 @@ layout_mode = 2
 theme_override_constants/separation = 4
 
 [node name="Title" type="Label" parent="Main Content/HBoxContainer/LSide/MarginContainer/VBoxContainer/LevelDetails/Profile/ProfileDetails/TitleContainer" unique_id=121634496]
+custom_maximum_size = Vector2(165, -1)
 layout_mode = 2
 theme_override_font_sizes/font_size = 15
-text = "NANI GA WURI"
+text = "NANI GA WURI fsddasfdsafaf"
+clip_text = true
+uppercase = true
 
 [node name="ControlLine" parent="Main Content/HBoxContainer/LSide/MarginContainer/VBoxContainer/LevelDetails/Profile/ProfileDetails/TitleContainer" unique_id=578883494 instance=ExtResource("3_v1k4p")]
 custom_minimum_size = Vector2(0, 0)
@@ -259,9 +266,11 @@ theme_override_font_sizes/font_size = 7
 text = "Source"
 
 [node name="SourceValue" type="Label" parent="Main Content/HBoxContainer/LSide/MarginContainer/VBoxContainer/LevelDetails/Profile/ProfileDetails/SourceContainer" unique_id=1474634727]
+custom_maximum_size = Vector2(165, -1)
 layout_mode = 2
 theme_override_font_sizes/font_size = 10
 text = "Kessoku Band"
+clip_text = true
 
 [node name="ControlLine2" parent="Main Content/HBoxContainer/LSide/MarginContainer/VBoxContainer/LevelDetails/Profile/ProfileDetails" unique_id=1151083760 instance=ExtResource("3_v1k4p")]
 custom_minimum_size = Vector2(0, 0)
@@ -289,10 +298,12 @@ theme_override_font_sizes/font_size = 7
 text = "Mapper"
 
 [node name="MapperValue" type="Label" parent="Main Content/HBoxContainer/LSide/MarginContainer/VBoxContainer/LevelDetails/Profile/ProfileDetails/MapperContainer" unique_id=53969608]
+custom_maximum_size = Vector2(165, -1)
 layout_mode = 2
 theme_override_colors/font_color = Color(1, 0, 0, 1)
 theme_override_font_sizes/font_size = 10
 text = "DIMASDFAR"
+clip_text = true
 
 [node name="ControlLine" parent="Main Content/HBoxContainer/LSide/MarginContainer/VBoxContainer/LevelDetails/Profile/ProfileDetails" unique_id=2100053032 instance=ExtResource("3_v1k4p")]
 custom_minimum_size = Vector2(0, 0)
@@ -350,31 +361,31 @@ theme_override_constants/separation = 4
 layout_mode = 2
 text = "EXPERT"
 
-[node name="HBoxContainer" type="HBoxContainer" parent="Main Content/HBoxContainer/LSide/MarginContainer/VBoxContainer/LevelDetails/Level/Difficulty/MarginContainer/VBoxContainer/VBoxContainer" unique_id=808667040]
+[node name="Pipe" type="HBoxContainer" parent="Main Content/HBoxContainer/LSide/MarginContainer/VBoxContainer/LevelDetails/Level/Difficulty/MarginContainer/VBoxContainer/VBoxContainer" unique_id=808667040]
 layout_mode = 2
 size_flags_vertical = 3
 
-[node name="ColorRect" type="ColorRect" parent="Main Content/HBoxContainer/LSide/MarginContainer/VBoxContainer/LevelDetails/Level/Difficulty/MarginContainer/VBoxContainer/VBoxContainer/HBoxContainer" unique_id=1945627042]
+[node name="1" type="ColorRect" parent="Main Content/HBoxContainer/LSide/MarginContainer/VBoxContainer/LevelDetails/Level/Difficulty/MarginContainer/VBoxContainer/VBoxContainer/Pipe" unique_id=1945627042]
 custom_minimum_size = Vector2(11, 0)
 layout_mode = 2
 color = Color(1, 0, 0, 1)
 
-[node name="ColorRect2" type="ColorRect" parent="Main Content/HBoxContainer/LSide/MarginContainer/VBoxContainer/LevelDetails/Level/Difficulty/MarginContainer/VBoxContainer/VBoxContainer/HBoxContainer" unique_id=1780701385]
+[node name="2" type="ColorRect" parent="Main Content/HBoxContainer/LSide/MarginContainer/VBoxContainer/LevelDetails/Level/Difficulty/MarginContainer/VBoxContainer/VBoxContainer/Pipe" unique_id=1780701385]
 custom_minimum_size = Vector2(11, 0)
 layout_mode = 2
 color = Color(1, 0, 0, 1)
 
-[node name="ColorRect3" type="ColorRect" parent="Main Content/HBoxContainer/LSide/MarginContainer/VBoxContainer/LevelDetails/Level/Difficulty/MarginContainer/VBoxContainer/VBoxContainer/HBoxContainer" unique_id=2068708438]
+[node name="3" type="ColorRect" parent="Main Content/HBoxContainer/LSide/MarginContainer/VBoxContainer/LevelDetails/Level/Difficulty/MarginContainer/VBoxContainer/VBoxContainer/Pipe" unique_id=2068708438]
 custom_minimum_size = Vector2(11, 0)
 layout_mode = 2
 color = Color(1, 0, 0, 1)
 
-[node name="ColorRect4" type="ColorRect" parent="Main Content/HBoxContainer/LSide/MarginContainer/VBoxContainer/LevelDetails/Level/Difficulty/MarginContainer/VBoxContainer/VBoxContainer/HBoxContainer" unique_id=1323581646]
+[node name="4" type="ColorRect" parent="Main Content/HBoxContainer/LSide/MarginContainer/VBoxContainer/LevelDetails/Level/Difficulty/MarginContainer/VBoxContainer/VBoxContainer/Pipe" unique_id=1323581646]
 custom_minimum_size = Vector2(11, 0)
 layout_mode = 2
 color = Color(1, 0, 0, 1)
 
-[node name="ColorRect5" type="ColorRect" parent="Main Content/HBoxContainer/LSide/MarginContainer/VBoxContainer/LevelDetails/Level/Difficulty/MarginContainer/VBoxContainer/VBoxContainer/HBoxContainer" unique_id=1978953452]
+[node name="5" type="ColorRect" parent="Main Content/HBoxContainer/LSide/MarginContainer/VBoxContainer/LevelDetails/Level/Difficulty/MarginContainer/VBoxContainer/VBoxContainer/Pipe" unique_id=1978953452]
 custom_minimum_size = Vector2(11, 0)
 layout_mode = 2
 color = Color(0.23031491, 0.23031494, 0.23031494, 1)

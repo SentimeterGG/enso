@@ -46,6 +46,10 @@ window/vsync/vsync_mode=0
 mouse_cursor/custom_image="uid://cb3spc8ot8nq4"
 mouse_cursor/custom_image_hotspot=Vector2(21, 21)
 
+[editor_plugins]
+
+enabled=PackedStringArray("res://addons/godotdev_nvim_node_copy/plugin.cfg")
+
 [gui]
 
 theme/custom="uid://cpocn8agag6ib"

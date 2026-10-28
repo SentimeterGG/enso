@@ -20,6 +20,7 @@ var _current_offset: float = 0.0
 var _last_beat: int = -1
 var _pulse_tween: Tween = null
 var _transitioning: bool = false
+@onready var level_details: VBoxContainer = %LevelDetails
 ## Stream the beat clock is synced to. BgMusic.change_song() swaps the
 ## stream ~0.3s after hover (fade tween), so hover-time beat state goes stale
 ## on first launch. Re-arming on the real swap keeps beats working.
@@ -111,9 +112,6 @@ func _warn_skipped_incomplete() -> void:
 	Notification.show_toast("Levels Hidden", msg, NotificationToast.Kind.INFO, 4.0)
 
 
-## Center/highlight the row matching what BgMusic is playing, so the
-## song keeps playing (see same-song guard in _on_level_item_hovered)
-## instead of restarting from index 0's preview.
 func _select_current_bg_song() -> void:
 	if level_list == null:
 		return
@@ -230,6 +228,8 @@ func _emit_beat() -> void:
 func _on_level_item_hovered(chart_path: String) -> void:
 	if chart_path.is_empty() or chart_path == _preview_chart_path:
 		return
+	if level_details != null:
+		level_details.call("refresh", chart_path)
 	var bg: AudioStreamPlayer = BgMusic
 	_hover_token += 1
 	var my_token := _hover_token
