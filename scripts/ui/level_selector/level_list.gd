@@ -140,17 +140,18 @@ func reload_levels(keep_selection: bool = true) -> void:
 	var previous_path := get_selected_chart_path() if keep_selection else ""
 	_clear_items()
 	levels = _discover_levels()
-	for entry in levels:
+	for i in range(levels.size()):
 		var item := LEVEL_ITEM_SCENE.instantiate()
 		scroll.add_child(item)
 		if item.has_method("setup"):
 			(
 				item.call(
 					"setup",
-					entry["title"],
-					entry["subtitle"],
-					entry["chart_path"],
-					entry.get("background", ""),
+					i,
+					levels[i]["title"],
+					levels[i]["subtitle"],
+					levels[i]["chart_paths"][0],
+					levels[i].get("background", ""),
 				)
 			)
 		if item.has_signal("hovered"):
@@ -179,6 +180,38 @@ func select(index: int) -> void:
 	if index == selected_index:
 		_center_on(index) # undo any nudge or interrupted tween
 		return
+	var selected_node = scroll.get_child(index)
+	if selected_node.get("variant") == false:
+		# delete others variant nodes
+		for child in scroll.get_children():
+			if child.get("variant") == true:
+				child.queue_free()
+		# refetch index position
+		var current_index = selected_node.get_index()
+		# generate a new one
+		var selected_chart_paths: Array[String] = levels[selected_node.get("data_id")].get(
+			"chart_paths"
+		)
+		for i in range(selected_chart_paths.size()):
+			var filename = selected_chart_paths[i].get_file()
+			var raw_name = filename.get_basename()
+			var finalized_name = raw_name.capitalize()
+			var item := LEVEL_ITEM_SCENE.instantiate()
+			scroll.add_child(item)
+			if item.has_method("setup"):
+				item.call(
+					"setup",
+					selected_node.get("data_id"),
+					finalized_name,
+					selected_node.get("level_subtitle"),
+					selected_chart_paths[i],
+					"",
+					true,
+				)
+			if item.has_signal("hovered"):
+				item.connect("hovered", _on_item_hovered)
+			scroll.move_child(item, current_index + i + 1)
+		index = current_index
 	selected_index = index
 	_update_highlight()
 	_center_on(index)
@@ -213,13 +246,31 @@ func _discover_levels() -> Array[Dictionary]:
 	skipped_incomplete = 0
 	skipped_incomplete_paths.clear()
 	for base_dir: String in [BUILTIN_LEVELS_DIR, USER_LEVELS_DIR]:
-		for chart_path in _find_charts_in(base_dir):
-			if ChartParser.has_unsetup_notes(chart_path):
+		var chart_paths = _find_charts_in(base_dir)
+		var group: Array[String] = []
+		for i in range(chart_paths.size()):
+			# 1. Skip incomplete notes first
+			if ChartParser.has_unsetup_notes(chart_paths[i]):
 				skipped_incomplete += 1
-				skipped_incomplete_paths.append(chart_path)
+				skipped_incomplete_paths.append(chart_paths[i])
 				continue
-			var key := _dedupe_key(chart_path, base_dir)
-			by_folder[key] = _make_entry(chart_path)
+
+			# 2. If group is empty, start a new one with the current path
+			if group.is_empty():
+				group.append(chart_paths[i])
+			# 3. If the current path matches the group's directory, add it to the group
+			elif chart_paths[i].get_base_dir() == group[0].get_base_dir():
+				group.append(chart_paths[i])
+			# 4. If it doesn't match, finalize the old group and start a new one
+			else:
+				var key := _dedupe_key(group[0], base_dir)
+				by_folder[key] = _make_entry(group)
+				group = [chart_paths[i]] # Reset group with the new path
+
+		# 5. Crucial: Save the very last group after the loop finishes
+		if not group.is_empty():
+			var key := _dedupe_key(group[0], base_dir)
+			by_folder[key] = _make_entry(group)
 	var out: Array[Dictionary] = []
 	for key in by_folder:
 		out.append(by_folder[key])
@@ -231,36 +282,25 @@ func _discover_levels() -> Array[Dictionary]:
 
 
 func _dedupe_key(chart_path: String, base_dir: String) -> String:
-	# Subfolder levels collapse on folder name (user:// wins); loose *.enso
-	# files directly in the levels dir collapse on file name instead so they
-	# never collide with the folder entries.
-	if chart_path.get_base_dir() == base_dir:
-		return "::file::" + chart_path.get_file()
 	return chart_path.get_base_dir().get_file()
 
 
 func _find_charts_in(base_dir: String) -> Array[String]:
 	var out: Array[String] = []
+	# Check if User Folder exists if not create new
 	if base_dir == USER_LEVELS_DIR:
 		_ensure_dir(base_dir)
+	# Check if it exists
 	if not DirAccess.dir_exists_absolute(base_dir):
 		return out
+	# Check enso files
 	for sub in DirAccess.get_directories_at(base_dir):
 		var folder := base_dir.path_join(sub)
-		var candidates: Array[String] = []
 		for f in DirAccess.get_files_at(folder):
 			if f.get_extension().to_lower() == "enso":
-				candidates.append(f)
-		if candidates.is_empty():
+				out.append(folder.path_join(f))
+		if out.is_empty():
 			continue
-		candidates.sort()
-		var picked := "chart.enso"
-		if not candidates.has(picked):
-			picked = candidates[0]
-		out.append(folder.path_join(picked))
-	for f in DirAccess.get_files_at(base_dir):
-		if f.get_extension().to_lower() == "enso":
-			out.append(base_dir.path_join(f))
 	out.sort()
 	return out
 
@@ -271,8 +311,8 @@ func _ensure_dir(path: String) -> void:
 	DirAccess.make_dir_recursive_absolute(path)
 
 
-func _make_entry(chart_path: String) -> Dictionary:
-	var meta := _read_chart_metadata(chart_path)
+func _make_entry(chart_paths: Array[String]) -> Dictionary:
+	var meta := _read_chart_metadata(chart_paths[0])
 	var title := (
 		str(meta.get("name", "")).strip_edges() + " by " + str(meta.get("source", "")).strip_edges()
 	)
@@ -282,11 +322,11 @@ func _make_entry(chart_path: String) -> Dictionary:
 		not background.is_empty() and not background.begins_with("res://")
 		and not background.begins_with("user://")
 	):
-		background = chart_path.get_base_dir().path_join(background).simplify_path()
+		background = chart_paths[0].get_base_dir().path_join(background).simplify_path()
 	return {
 		"title": title,
 		"subtitle": subtitle,
-		"chart_path": chart_path,
+		"chart_paths": chart_paths,
 		"background": background,
 	}
 

@@ -18,17 +18,29 @@ var level_title: String = ""
 var level_subtitle: String = ""
 var background: String = ""
 var _pulse_tween: Tween
+var variant: bool = false
+var data_id = -1
 
 
 func _ready() -> void:
 	_apply_text()
 
 
-func setup(p_title: String, p_subtitle: String, p_chart_path: String, p_background: String) -> void:
+func setup(
+	p_id: int,
+	p_title: String,
+	p_subtitle: String,
+	p_chart_path: String,
+	p_background: String,
+	p_variant: bool = false,
+) -> void:
+	data_id = p_id
 	level_title = p_title
 	level_subtitle = p_subtitle
 	chart_path = p_chart_path
-	background = p_background
+	variant = p_variant
+	if not variant:
+		background = p_background
 	_apply_text()
 
 

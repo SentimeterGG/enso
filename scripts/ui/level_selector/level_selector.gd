@@ -134,15 +134,15 @@ func _select_current_bg_song() -> void:
 		if bg != null and bg.stream != null and bg.playing:
 			var cur := (bg.stream as AudioStream).resource_path.simplify_path()
 			for i in levels.size():
-				var cpath := str((levels[i] as Dictionary).get("chart_path", ""))
+				var cpath: Array[String] = (levels[i] as Dictionary).get("chart_paths", [])
 				if cpath.is_empty():
 					continue
-				var meta := ChartParser.parse_metadata(cpath)
+				var meta := ChartParser.parse_metadata(cpath[0])
 				var song := str(meta.get("song", ""))
 				if song.is_empty():
 					continue
 				if not (song.begins_with("res://") or song.begins_with("user://")):
-					song = cpath.get_base_dir().path_join(song).simplify_path()
+					song = cpath[0].get_base_dir().path_join(song).simplify_path()
 				if song == cur:
 					target = i
 					break
@@ -154,10 +154,8 @@ func _select_current_bg_song() -> void:
 		and not Global.current_chart.chart_path.is_empty()
 	):
 		for i in levels.size():
-			if (
-				str((levels[i] as Dictionary).get("chart_path", ""))
-				== Global.current_chart.chart_path
-			):
+			var chart_path: Array[String] = (levels[i] as Dictionary).get("chart_paths", [])
+			if (chart_path[0] == Global.current_chart.chart_path):
 				target = i
 				break
 	if target == selected_index:
@@ -165,7 +163,7 @@ func _select_current_bg_song() -> void:
 		# Already centered on it, but the index-0 hover was swallowed
 		# above: force the hover now so bpm/beat/song sync.
 		_preview_chart_path = ""
-		_on_level_item_hovered(str((levels[target] as Dictionary).get("chart_path", "")))
+		_on_level_item_hovered(str((levels[target] as Dictionary).get("chart_paths", [])[0]))
 		return
 	if target < 0:
 		# No match for the current song: fall back to previewing whatever
@@ -174,7 +172,7 @@ func _select_current_bg_song() -> void:
 		_preview_chart_path = ""
 		if selected_index >= 0 and selected_index < levels.size():
 			_on_level_item_hovered(
-				str((levels[selected_index] as Dictionary).get("chart_path", ""))
+				str((levels[selected_index] as Dictionary).get("chart_paths", [])[0])
 			)
 		return
 	_initial_select_done = true
