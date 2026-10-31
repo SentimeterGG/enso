@@ -160,13 +160,13 @@ text = "ENSO TEAM"
 unique_name_in_owner = true
 layout_mode = 2
 theme = ExtResource("1_8rjrl")
-theme_override_constants/separation = 1
+theme_override_constants/separation = 0
 
 [node name="MarginContainer" type="MarginContainer" parent="MarginContainer/VariantDifficulty" unique_id=1432315810]
 layout_mode = 2
 size_flags_vertical = 3
-theme_override_constants/margin_top = 3
-theme_override_constants/margin_bottom = 0
+theme_override_constants/margin_top = 8
+theme_override_constants/margin_bottom = 2
 
 [node name="Pipe" type="HBoxContainer" parent="MarginContainer/VariantDifficulty/MarginContainer" unique_id=425802971]
 layout_mode = 2
@@ -176,47 +176,47 @@ alignment = 2
 [node name="1" type="ColorRect" parent="MarginContainer/VariantDifficulty/MarginContainer/Pipe" unique_id=1230633975]
 custom_minimum_size = Vector2(3.57, 0)
 layout_mode = 2
-color = Color(1, 0, 0, 1)
+color = Color(0.23137255, 0.23137255, 0.23137255, 1)
 
 [node name="2" type="ColorRect" parent="MarginContainer/VariantDifficulty/MarginContainer/Pipe" unique_id=1648692101]
 custom_minimum_size = Vector2(3.57, 0)
 layout_mode = 2
-color = Color(1, 0, 0, 1)
+color = Color(0.23137255, 0.23137255, 0.23137255, 1)
 
 [node name="3" type="ColorRect" parent="MarginContainer/VariantDifficulty/MarginContainer/Pipe" unique_id=1156469858]
 custom_minimum_size = Vector2(3.57, 0)
 layout_mode = 2
-color = Color(1, 0, 0, 1)
+color = Color(0.23137255, 0.23137255, 0.23137255, 1)
 
 [node name="4" type="ColorRect" parent="MarginContainer/VariantDifficulty/MarginContainer/Pipe" unique_id=97298833]
 custom_minimum_size = Vector2(3.57, 0)
 layout_mode = 2
-color = Color(1, 0, 0, 1)
+color = Color(0.23137255, 0.23137255, 0.23137255, 1)
 
 [node name="5" type="ColorRect" parent="MarginContainer/VariantDifficulty/MarginContainer/Pipe" unique_id=1378731078]
 custom_minimum_size = Vector2(3.57, 0)
 layout_mode = 2
-color = Color(0.23031491, 0.23031494, 0.23031494, 1)
+color = Color(0.23137255, 0.23137255, 0.23137255, 1)
 
 [node name="6" type="ColorRect" parent="MarginContainer/VariantDifficulty/MarginContainer/Pipe" unique_id=2089951149]
 custom_minimum_size = Vector2(3.57, 0)
 layout_mode = 2
-color = Color(1, 0, 0, 1)
+color = Color(0.23137255, 0.23137255, 0.23137255, 1)
 
 [node name="7" type="ColorRect" parent="MarginContainer/VariantDifficulty/MarginContainer/Pipe" unique_id=250414274]
 custom_minimum_size = Vector2(3.57, 0)
 layout_mode = 2
-color = Color(1, 0, 0, 1)
+color = Color(0.23137255, 0.23137255, 0.23137255, 1)
 
 [node name="8" type="ColorRect" parent="MarginContainer/VariantDifficulty/MarginContainer/Pipe" unique_id=1828261607]
 custom_minimum_size = Vector2(3.57, 0)
 layout_mode = 2
-color = Color(1, 0, 0, 1)
+color = Color(0.23137255, 0.23137255, 0.23137255, 1)
 
 [node name="9" type="ColorRect" parent="MarginContainer/VariantDifficulty/MarginContainer/Pipe" unique_id=2123773256]
 custom_minimum_size = Vector2(3.57, 0)
 layout_mode = 2
-color = Color(1, 0, 0, 1)
+color = Color(0.23137255, 0.23137255, 0.23137255, 1)
 
 [node name="10" type="ColorRect" parent="MarginContainer/VariantDifficulty/MarginContainer/Pipe" unique_id=1406813446]
 custom_minimum_size = Vector2(3.57, 0)

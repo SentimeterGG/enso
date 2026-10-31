@@ -20,4 +20,5 @@ recognizer = SubResource("Resource_yqjtg")
 unique_name_in_owner = true
 stream = ExtResource("3_d4hqq")
 volume_db = 10.0
+max_polyphony = 4
 bus = &"Effect"

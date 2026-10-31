@@ -89,20 +89,32 @@ func _od_color(od: int) -> Color:
 ## Tints the variant's background strip (and its idle border) with the chart's
 ## difficulty colour. The selected row keeps a white panel so its red focused
 ## border stays red.
-func _apply_od_tint() -> void:
-	var tint := Color.WHITE
-	if variant and overall_difficulty > 0:
-		tint = _od_color(overall_difficulty)
+func _apply_style() -> void:
 	var texture_node: TextureRect = get_node_or_null("TextureRect")
-	if texture_node:
-		texture_node.modulate = tint
 	var panel: Panel = get_node_or_null("Panel")
-	if panel:
-		panel.modulate = Color.WHITE if _is_selected else tint
-		panel.add_theme_stylebox_override(
-			"panel",
-			STYLE_VARIANT_NORMAL if variant else STYLE_NORMAL,
-		)
+	var tint := Color.WHITE
+	var pip_parent: HBoxContainer = get_node_or_null(
+		"MarginContainer/VariantDifficulty/MarginContainer/Pipe"
+	)
+	var difficulty_label: Label = get_node_or_null("MarginContainer/VariantDifficulty/Difficulty")
+
+	if not variant:
+		texture_node.modulate = Color.WHITE
+		panel.modulate = Color.WHITE
+		panel.add_theme_stylebox_override("panel", STYLE_NORMAL)
+		%VariantDifficulty.visible = false
+		return
+
+	%VariantDifficulty.visible = true
+	if overall_difficulty > 0:
+		tint = _od_color(overall_difficulty)
+	texture_node.modulate = tint
+	panel.modulate = Color.WHITE if _is_selected else tint
+	panel.add_theme_stylebox_override("panel", STYLE_VARIANT_NORMAL)
+	for i in range(0, overall_difficulty):
+		var pip: ColorRect = pip_parent.get_child(i)
+		pip.color = tint
+		difficulty_label.text = str(overall_difficulty) + ".0" + " ☆" # NOTE: Temporary until diffculty calculation is implimented
 
 
 func set_selected(selected: bool) -> void:
@@ -114,7 +126,7 @@ func set_selected(selected: bool) -> void:
 	if _is_selected == selected:
 		return
 	_is_selected = selected
-	_apply_od_tint()
+	_apply_style()
 
 	# Cancel any pending "pulse -> focused" swap from a previous call
 	if _pulse_tween and _pulse_tween.is_valid():
@@ -167,6 +179,6 @@ func _apply_text() -> void:
 	if subtitle_node:
 		subtitle_node.text = level_subtitle.to_upper() if not level_subtitle.is_empty() else ""
 	# Variant rows carry their chart's difficulty colour on the background strip.
-	_apply_od_tint()
+	_apply_style()
 	if background and texture_node:
 		texture_node.texture = Global.load_safely(background)
