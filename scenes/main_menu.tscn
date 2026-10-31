@@ -789,11 +789,6 @@ unique_name_in_owner = true
 root_node = NodePath("../Draw Here")
 libraries/ = SubResource("AnimationLibrary_wu84c")
 
-[node name="draw" parent="." unique_id=2118743800 instance=ExtResource("6_rtw2f")]
-unique_name_in_owner = true
-weight = 0.5
-guess_mode = true
-
 [node name="Version" type="Label" parent="." unique_id=1065876583]
 unique_name_in_owner = true
 offset_left = 10.0
@@ -815,5 +810,16 @@ grow_vertical = 2
 mouse_filter = 2
 color = Color(0, 0, 0, 1)
 
+[node name="DrawControlNode" type="Control" parent="." unique_id=991319883]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="draw" parent="DrawControlNode" unique_id=2118743800 instance=ExtResource("6_rtw2f")]
+unique_name_in_owner = true
+weight = 0.5
+guess_mode = true
+
 [connection signal="animation_finished" from="Transition" to="." method="_on_transition_animation_finished"]
-[connection signal="guessed_shape" from="draw" to="." method="_on_draw_guessed_shape"]
+[connection signal="guessed_shape" from="DrawControlNode/draw" to="." method="_on_draw_guessed_shape"]
