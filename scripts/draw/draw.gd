@@ -58,9 +58,11 @@ func begin(global_mouse_pos: Vector2) -> void:
 	add_child(current_line)
 	smooth_pos = global_mouse_pos
 	current_line.add_point(smooth_pos)
+	%EnsoHold.play()
 
 
 func end() -> void:
+	%EnsoHold.stop()
 	drawing = false
 	if current_line == null:
 		emit_signal("draw_ended")

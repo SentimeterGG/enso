@@ -2,7 +2,7 @@
 
 [ext_resource type="Texture2D" uid="uid://qomfanbbtnmo" path="res://assets/sprites/UI/shape/circle.png" id="1_j2e2l"]
 [ext_resource type="Script" uid="uid://tsfmwm144poe" path="res://scripts/note/beat/beat_point.gd" id="2_j2e2l"]
-[ext_resource type="AudioStream" uid="uid://dybpytxnyej66" path="res://assets/sound/osu-hit-sound.mp3" id="3_j2e2l"]
+[ext_resource type="AudioStream" uid="uid://cm7w16x0iilwg" path="res://assets/sound/ENSO-Hitsound.mp3" id="3_4106b"]
 [ext_resource type="Texture2D" uid="uid://dnnjjgvh1pcgl" path="res://assets/sprites/UI/shape/circle_outline.png" id="4_4106b"]
 
 [sub_resource type="Animation" id="Animation_n1vsi"]
@@ -93,7 +93,7 @@ texture = ExtResource("1_j2e2l")
 script = ExtResource("2_j2e2l")
 
 [node name="HitSound" type="AudioStreamPlayer" parent="." unique_id=1538775191]
-stream = ExtResource("3_j2e2l")
+stream = ExtResource("3_4106b")
 volume_db = 12.0
 bus = &"Effect"
 

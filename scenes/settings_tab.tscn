@@ -5,10 +5,10 @@
 [ext_resource type="FontFile" uid="uid://o0cdle58rn3j" path="res://assets/fonts/ithaca.medium.ttf" id="2_pfdp7"]
 [ext_resource type="PackedScene" uid="uid://b7rlmo61qxu8s" path="res://scenes/draw.tscn" id="5_ji3vv"]
 [ext_resource type="FontFile" uid="uid://bprqivnp1xsie" path="res://assets/fonts/ttf/PixelCode-Medium.ttf" id="5_ycln1"]
-[ext_resource type="AudioStream" uid="uid://dybpytxnyej66" path="res://assets/sound/osu-hit-sound.mp3" id="6_guu1f"]
 [ext_resource type="Texture2D" uid="uid://ceht3wr4q2547" path="res://assets/sprites/UI/icons/icons.png" id="6_h8tdx"]
 [ext_resource type="Script" uid="uid://cr3sqf6woq0td" path="res://scripts/settings/sub_tabs.gd" id="6_yklyt"]
 [ext_resource type="ButtonGroup" uid="uid://dpdl6e2o2d73y" path="res://resources/setting_button_tabs_group.tres" id="7_xltco"]
+[ext_resource type="AudioStream" uid="uid://cm7w16x0iilwg" path="res://assets/sound/ENSO-Hitsound.mp3" id="9_yklyt"]
 
 [sub_resource type="Animation" id="Animation_rtw2f"]
 length = 0.001
@@ -865,7 +865,7 @@ guess_mode = true
 
 [node name="OsuHitSound" type="AudioStreamPlayer" parent="." unique_id=929816833]
 unique_name_in_owner = true
-stream = ExtResource("6_guu1f")
+stream = ExtResource("9_yklyt")
 bus = &"Effect"
 
 [connection signal="button_down" from="setting/SettingsPanel/Appearance/VideoBackground/BGButton" to="." method="_on_bg_button_button_down"]
