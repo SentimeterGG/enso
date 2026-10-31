@@ -1,0 +1,861 @@
+[gd_scene format=3 uid="uid://b2povho8pgiw5"]
+
+[ext_resource type="Script" uid="uid://bpppcjnbguxtb" path="res://scripts/settings/settings_tab.gd" id="1_vyiek"]
+[ext_resource type="Theme" uid="uid://cpocn8agag6ib" path="res://resources/theme/Theme.tres" id="2_al1eu"]
+[ext_resource type="FontFile" uid="uid://o0cdle58rn3j" path="res://assets/fonts/ithaca.medium.ttf" id="2_pfdp7"]
+[ext_resource type="PackedScene" uid="uid://b7rlmo61qxu8s" path="res://scenes/draw.tscn" id="5_ji3vv"]
+[ext_resource type="FontFile" uid="uid://bprqivnp1xsie" path="res://assets/fonts/ttf/PixelCode-Medium.ttf" id="5_ycln1"]
+[ext_resource type="AudioStream" uid="uid://dybpytxnyej66" path="res://assets/sound/osu-hit-sound.mp3" id="6_guu1f"]
+[ext_resource type="Texture2D" uid="uid://ceht3wr4q2547" path="res://assets/sprites/UI/icons/icons.png" id="6_h8tdx"]
+[ext_resource type="Script" uid="uid://cr3sqf6woq0td" path="res://scripts/settings/sub_tabs.gd" id="6_yklyt"]
+[ext_resource type="ButtonGroup" uid="uid://dpdl6e2o2d73y" path="res://resources/setting_button_tabs_group.tres" id="7_xltco"]
+
+[sub_resource type="Animation" id="Animation_rtw2f"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:offset_transform_position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(0, 0)]
+}
+
+[sub_resource type="Animation" id="Animation_8ln24"]
+resource_name = "idle"
+length = 2.0
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:offset_transform_position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.5, 1, 1.5),
+"transitions": PackedFloat32Array(0.5649004, 2.3392866, 0.5649004, 2.3392866),
+"update": 0,
+"values": [Vector2(0, 0), Vector2(0, -3), Vector2(0, 0), Vector2(0, 3)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_vyiek"]
+_data = {
+&"RESET": SubResource("Animation_rtw2f"),
+&"idle": SubResource("Animation_8ln24")
+}
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ksiy8"]
+bg_color = Color(0, 0, 0, 1)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.24477646, 0.2447764, 0.24477625, 1)
+
+[sub_resource type="Animation" id="Animation_yklyt"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("TabLabel:visible_ratio")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [0.0]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("TabLabel:modulate")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 1, 1, 0)]
+}
+
+[sub_resource type="Animation" id="Animation_xltco"]
+resource_name = "Transition"
+length = 0.4
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("TabLabel:visible_ratio")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.4),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [0.0, 1.0]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("TabLabel:modulate")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.4),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 0), Color(1, 1, 1, 1)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_my2pq"]
+_data = {
+&"RESET": SubResource("Animation_yklyt"),
+&"Transition": SubResource("Animation_xltco")
+}
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ycln1"]
+atlas = ExtResource("6_h8tdx")
+region = Rect2(0, 0, 16.305496, 15.447433)
+
+[sub_resource type="Animation" id="Animation_al1eu"]
+resource_name = "Opening"
+length = 2.0
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("setting:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0.3, 0.8000001),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 0), Color(1, 1, 1, 1)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("setting/MarginContainer/SettingsLabel:modulate")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.5),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 0), Color(1, 1, 1, 1)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("setting/Tabs/AppearanceButton:offset_transform_position")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0.16666667, 0.6333333),
+"transitions": PackedFloat32Array(0.4, 1),
+"update": 0,
+"values": [Vector2(-45, 0), Vector2(0, 0)]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("setting/Tabs/ControlsButton:offset_transform_position")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0.26666665, 0.7333334),
+"transitions": PackedFloat32Array(0.4, 1),
+"update": 0,
+"values": [Vector2(-45, 0), Vector2(0, 0)]
+}
+tracks/4/type = "value"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath("setting/Tabs/DisplayButton:offset_transform_position")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/keys = {
+"times": PackedFloat32Array(0.36666667, 0.8333333),
+"transitions": PackedFloat32Array(0.4, 1),
+"update": 0,
+"values": [Vector2(-45, 0), Vector2(0, 0)]
+}
+tracks/5/type = "value"
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/path = NodePath("setting/Tabs/AudioButton:offset_transform_position")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/keys = {
+"times": PackedFloat32Array(0.4666667, 0.93333346),
+"transitions": PackedFloat32Array(0.4, 1),
+"update": 0,
+"values": [Vector2(-45, 0), Vector2(0, 0)]
+}
+tracks/6/type = "value"
+tracks/6/imported = false
+tracks/6/enabled = true
+tracks/6/path = NodePath("setting/Tabs/GameplayButton:offset_transform_position")
+tracks/6/interp = 1
+tracks/6/loop_wrap = true
+tracks/6/keys = {
+"times": PackedFloat32Array(0.5666666, 1.0333333),
+"transitions": PackedFloat32Array(0.4, 1),
+"update": 0,
+"values": [Vector2(-45, 0), Vector2(0, 0)]
+}
+tracks/7/type = "value"
+tracks/7/imported = false
+tracks/7/enabled = true
+tracks/7/path = NodePath("setting/SettingsPanel:offset_transform_position")
+tracks/7/interp = 1
+tracks/7/loop_wrap = true
+tracks/7/keys = {
+"times": PackedFloat32Array(0.33333334, 1.0333334),
+"transitions": PackedFloat32Array(0.4, 1),
+"update": 0,
+"values": [Vector2(0, 50), Vector2(0, 0)]
+}
+tracks/8/type = "value"
+tracks/8/imported = false
+tracks/8/enabled = true
+tracks/8/path = NodePath("setting/VLine:size")
+tracks/8/interp = 1
+tracks/8/loop_wrap = true
+tracks/8/keys = {
+"times": PackedFloat32Array(0.53333336, 1.3333334),
+"transitions": PackedFloat32Array(0.4, 1),
+"update": 0,
+"values": [Vector2(1, 0), Vector2(1, 282)]
+}
+
+[sub_resource type="Animation" id="Animation_3k7x2"]
+resource_name = "Out"
+length = 0.8
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("setting/MarginContainer/SettingsLabel:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.26666668),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 1), Color(1, 1, 1, 1), Color(1, 1, 1, 0)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("setting:modulate")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.16666667),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 1), Color(1, 1, 1, 0)]
+}
+
+[sub_resource type="Animation" id="Animation_pfdp7"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("setting:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 1, 1, 0)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("setting/MarginContainer/SettingsLabel:modulate")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 1, 1, 0)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("setting/Tabs/AppearanceButton:offset_transform_position")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(0, 0)]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("setting/Tabs/ControlsButton:offset_transform_position")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(-45, 0)]
+}
+tracks/4/type = "value"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath("setting/Tabs/DisplayButton:offset_transform_position")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(-45, 0)]
+}
+tracks/5/type = "value"
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/path = NodePath("setting/Tabs/AudioButton:offset_transform_position")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(-45, 0)]
+}
+tracks/6/type = "value"
+tracks/6/imported = false
+tracks/6/enabled = true
+tracks/6/path = NodePath("setting/Tabs/GameplayButton:offset_transform_position")
+tracks/6/interp = 1
+tracks/6/loop_wrap = true
+tracks/6/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(-45, 0)]
+}
+tracks/7/type = "value"
+tracks/7/imported = false
+tracks/7/enabled = true
+tracks/7/path = NodePath("setting/SettingsPanel:offset_transform_position")
+tracks/7/interp = 1
+tracks/7/loop_wrap = true
+tracks/7/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(0, 0)]
+}
+tracks/8/type = "value"
+tracks/8/imported = false
+tracks/8/enabled = true
+tracks/8/path = NodePath("setting/VLine:size")
+tracks/8/interp = 1
+tracks/8/loop_wrap = true
+tracks/8/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(1, 282)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_al1eu"]
+_data = {
+&"Opening": SubResource("Animation_al1eu"),
+&"Out": SubResource("Animation_3k7x2"),
+&"RESET": SubResource("Animation_pfdp7")
+}
+
+[node name="SettingsTab" type="Control" unique_id=667404095]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_vyiek")
+
+[node name="setting" type="Control" parent="." unique_id=1853363398]
+modulate = Color(1, 1, 1, 0)
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="setting" unique_id=602752363]
+layout_mode = 1
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -193.0
+offset_top = -114.0
+offset_right = -24.0
+offset_bottom = -27.0
+grow_horizontal = 0
+grow_vertical = 0
+theme_override_constants/margin_right = 16
+theme_override_constants/margin_bottom = 6
+
+[node name="SettingsLabel" type="Label" parent="setting/MarginContainer" unique_id=70974480]
+modulate = Color(1, 1, 1, 0)
+layout_mode = 2
+offset_transform_enabled = true
+theme_override_fonts/font = ExtResource("2_pfdp7")
+theme_override_font_sizes/font_size = 49
+text = "SETTINGS"
+horizontal_alignment = 1
+
+[node name="Bobbing" type="AnimationPlayer" parent="setting/MarginContainer/SettingsLabel" unique_id=264798107]
+libraries/ = SubResource("AnimationLibrary_vyiek")
+speed_scale = 0.6
+
+[node name="SettingsPanel" type="Panel" parent="setting" unique_id=358063915]
+layout_mode = 1
+anchors_preset = -1
+anchor_right = 0.568
+anchor_bottom = 1.0
+offset_left = 90.0
+offset_top = 40.0
+offset_right = -11.52002
+offset_bottom = -39.0
+grow_horizontal = 0
+offset_transform_enabled = true
+theme_override_styles/panel = SubResource("StyleBoxFlat_ksiy8")
+
+[node name="Appearance" type="VBoxContainer" parent="setting/SettingsPanel" unique_id=1290911925]
+unique_name_in_owner = true
+layout_mode = 0
+offset_left = 11.0
+offset_top = 10.0
+offset_right = 182.0
+offset_bottom = 81.0
+theme_override_constants/separation = 6
+
+[node name="VideoBackground" type="HBoxContainer" parent="setting/SettingsPanel/Appearance" unique_id=1438675798]
+layout_mode = 2
+
+[node name="VideoBG" type="Label" parent="setting/SettingsPanel/Appearance/VideoBackground" unique_id=1149573645]
+layout_mode = 2
+theme = ExtResource("2_al1eu")
+text = "VIDEO BG  :"
+
+[node name="BGButton" type="Button" parent="setting/SettingsPanel/Appearance/VideoBackground" unique_id=1915919062]
+layout_mode = 2
+theme = ExtResource("2_al1eu")
+text = "OFF"
+
+[node name="BackgroundDim" type="VBoxContainer" parent="setting/SettingsPanel/Appearance" unique_id=746415237]
+layout_mode = 2
+theme_override_constants/separation = 3
+
+[node name="DimText" type="Label" parent="setting/SettingsPanel/Appearance/BackgroundDim" unique_id=183866473]
+layout_mode = 2
+theme = ExtResource("2_al1eu")
+theme_override_font_sizes/font_size = 11
+text = "BACKGROUND DIM:"
+
+[node name="BG_Dim" type="HSlider" parent="setting/SettingsPanel/Appearance/BackgroundDim" unique_id=1391617634]
+layout_mode = 2
+theme = ExtResource("2_al1eu")
+step = 5.0
+
+[node name="DimPercent" type="Label" parent="setting/SettingsPanel/Appearance/BackgroundDim/BG_Dim" unique_id=771981830]
+layout_mode = 1
+anchors_preset = 4
+anchor_top = 0.5
+anchor_bottom = 0.5
+offset_left = 178.0
+offset_top = -8.0
+offset_right = 229.0
+offset_bottom = 8.0
+grow_vertical = 2
+theme = ExtResource("2_al1eu")
+theme_override_font_sizes/font_size = 11
+text = "100%"
+
+[node name="Controls" type="VBoxContainer" parent="setting/SettingsPanel" unique_id=760138473]
+unique_name_in_owner = true
+visible = false
+layout_mode = 0
+offset_left = 11.0
+offset_top = 10.0
+offset_right = 182.0
+offset_bottom = 81.0
+theme_override_constants/separation = 6
+
+[node name="Display" type="VBoxContainer" parent="setting/SettingsPanel" unique_id=121254448]
+unique_name_in_owner = true
+visible = false
+layout_mode = 0
+offset_left = 11.0
+offset_top = 10.0
+offset_right = 182.0
+offset_bottom = 81.0
+theme_override_constants/separation = 6
+
+[node name="FullscreenSetting" type="HBoxContainer" parent="setting/SettingsPanel/Display" unique_id=1440957308]
+layout_mode = 2
+
+[node name="Fullscreen" type="Label" parent="setting/SettingsPanel/Display/FullscreenSetting" unique_id=537074567]
+layout_mode = 2
+theme = ExtResource("2_al1eu")
+text = "FULLSCREEN:"
+
+[node name="FSButton" type="Button" parent="setting/SettingsPanel/Display/FullscreenSetting" unique_id=758614195]
+layout_mode = 2
+theme = ExtResource("2_al1eu")
+text = "OFF"
+
+[node name="Audio" type="VBoxContainer" parent="setting/SettingsPanel" unique_id=315360123]
+unique_name_in_owner = true
+visible = false
+layout_mode = 0
+offset_left = 11.0
+offset_top = 10.0
+offset_right = 182.0
+offset_bottom = 133.0
+theme_override_constants/separation = 6
+
+[node name="MasterVolume" type="VBoxContainer" parent="setting/SettingsPanel/Audio" unique_id=942576159]
+layout_mode = 2
+theme_override_constants/separation = 3
+
+[node name="VolumeText" type="Label" parent="setting/SettingsPanel/Audio/MasterVolume" unique_id=1947299930]
+layout_mode = 2
+theme = ExtResource("2_al1eu")
+theme_override_font_sizes/font_size = 11
+text = "MASTER:"
+
+[node name="Master" type="HSlider" parent="setting/SettingsPanel/Audio/MasterVolume" unique_id=606309898]
+layout_mode = 2
+theme = ExtResource("2_al1eu")
+step = 8.0
+
+[node name="VolumePercent" type="Label" parent="setting/SettingsPanel/Audio/MasterVolume/Master" unique_id=804541795]
+layout_mode = 1
+anchors_preset = 4
+anchor_top = 0.5
+anchor_bottom = 0.5
+offset_left = 178.0
+offset_top = -8.0
+offset_right = 229.0
+offset_bottom = 8.0
+grow_vertical = 2
+theme = ExtResource("2_al1eu")
+theme_override_font_sizes/font_size = 11
+text = "100%"
+
+[node name="MusicVolume" type="VBoxContainer" parent="setting/SettingsPanel/Audio" unique_id=1161443921]
+layout_mode = 2
+theme_override_constants/separation = 3
+
+[node name="VolumeText" type="Label" parent="setting/SettingsPanel/Audio/MusicVolume" unique_id=1150037118]
+layout_mode = 2
+theme = ExtResource("2_al1eu")
+theme_override_font_sizes/font_size = 11
+text = "MUSIC:"
+
+[node name="Music" type="HSlider" parent="setting/SettingsPanel/Audio/MusicVolume" unique_id=1234529921]
+layout_mode = 2
+theme = ExtResource("2_al1eu")
+step = 8.0
+
+[node name="VolumePercent" type="Label" parent="setting/SettingsPanel/Audio/MusicVolume/Music" unique_id=877743357]
+layout_mode = 1
+anchors_preset = 4
+anchor_top = 0.5
+anchor_bottom = 0.5
+offset_left = 178.0
+offset_top = -8.0
+offset_right = 229.0
+offset_bottom = 8.0
+grow_vertical = 2
+theme = ExtResource("2_al1eu")
+theme_override_font_sizes/font_size = 11
+text = "100%"
+
+[node name="EffectsVolume" type="VBoxContainer" parent="setting/SettingsPanel/Audio" unique_id=194191791]
+layout_mode = 2
+theme_override_constants/separation = 3
+
+[node name="VolumeText" type="Label" parent="setting/SettingsPanel/Audio/EffectsVolume" unique_id=914612418]
+layout_mode = 2
+theme = ExtResource("2_al1eu")
+theme_override_font_sizes/font_size = 11
+text = "EFFECTS:"
+
+[node name="Effects" type="HSlider" parent="setting/SettingsPanel/Audio/EffectsVolume" unique_id=1735336814]
+layout_mode = 2
+theme = ExtResource("2_al1eu")
+step = 8.0
+
+[node name="VolumePercent" type="Label" parent="setting/SettingsPanel/Audio/EffectsVolume/Effects" unique_id=968889857]
+layout_mode = 1
+anchors_preset = 4
+anchor_top = 0.5
+anchor_bottom = 0.5
+offset_left = 178.0
+offset_top = -8.0
+offset_right = 229.0
+offset_bottom = 8.0
+grow_vertical = 2
+theme = ExtResource("2_al1eu")
+theme_override_font_sizes/font_size = 11
+text = "100%"
+
+[node name="Gameplay" type="VBoxContainer" parent="setting/SettingsPanel" unique_id=1028575812]
+unique_name_in_owner = true
+visible = false
+layout_mode = 0
+offset_left = 11.0
+offset_top = 10.0
+offset_right = 182.0
+offset_bottom = 81.0
+theme_override_constants/separation = 6
+
+[node name="ScrollSpeed" type="VBoxContainer" parent="setting/SettingsPanel/Gameplay" unique_id=950646716]
+layout_mode = 2
+theme_override_constants/separation = 3
+
+[node name="ScrollText" type="Label" parent="setting/SettingsPanel/Gameplay/ScrollSpeed" unique_id=670583377]
+layout_mode = 2
+theme = ExtResource("2_al1eu")
+theme_override_font_sizes/font_size = 11
+text = "SCROLL SPEED:"
+
+[node name="Scroll_Speed" type="HSlider" parent="setting/SettingsPanel/Gameplay/ScrollSpeed" unique_id=2056532390]
+layout_mode = 2
+theme = ExtResource("2_al1eu")
+min_value = 200.0
+max_value = 1000.0
+step = 10.0
+value = 200.0
+
+[node name="ScrollPercent" type="Label" parent="setting/SettingsPanel/Gameplay/ScrollSpeed/Scroll_Speed" unique_id=659133748]
+layout_mode = 1
+anchors_preset = 4
+anchor_top = 0.5
+anchor_bottom = 0.5
+offset_left = 178.0
+offset_top = -8.0
+offset_right = 229.0
+offset_bottom = 8.0
+grow_vertical = 2
+theme = ExtResource("2_al1eu")
+theme_override_font_sizes/font_size = 11
+text = "100%"
+
+[node name="TabLabel" type="Label" parent="setting/SettingsPanel" unique_id=2048320496]
+unique_name_in_owner = true
+modulate = Color(1, 1, 1, 0)
+custom_maximum_size = Vector2(9, 250)
+layout_mode = 1
+anchors_preset = 6
+anchor_left = 1.0
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_left = -17.0
+offset_top = -124.5
+offset_right = -8.0
+offset_bottom = 125.5
+grow_horizontal = 0
+grow_vertical = 2
+theme_override_constants/line_spacing = -1
+theme_override_font_sizes/font_size = 14
+text = "APPEARANCE"
+vertical_alignment = 1
+autowrap_mode = 1
+visible_characters = 0
+visible_ratio = 0.0
+
+[node name="LabelAnim" type="AnimationPlayer" parent="setting/SettingsPanel/TabLabel" unique_id=1599973844]
+unique_name_in_owner = true
+root_node = NodePath("../..")
+libraries/ = SubResource("AnimationLibrary_my2pq")
+autoplay = &"Transition"
+
+[node name="Circle" type="Label" parent="setting" unique_id=1393450339]
+layout_mode = 1
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -266.0
+offset_top = -117.0
+offset_right = -186.0
+offset_bottom = -89.0
+grow_horizontal = 0
+grow_vertical = 0
+size_flags_horizontal = 8
+size_flags_vertical = 8
+theme_override_colors/font_color = Color(1, 0.18400002, 0.04000002, 1)
+theme_override_fonts/font = ExtResource("5_ycln1")
+theme_override_font_sizes/font_size = 20
+text = "CIRCLE"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="ToExit" type="Label" parent="setting" unique_id=903645198]
+layout_mode = 1
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -174.0
+offset_top = -117.0
+offset_right = -40.0
+offset_bottom = -89.0
+grow_horizontal = 0
+grow_vertical = 0
+size_flags_horizontal = 8
+size_flags_vertical = 8
+theme_override_fonts/font = ExtResource("5_ycln1")
+theme_override_font_sizes/font_size = 20
+text = "TO GO BACK"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="PanelDraw" type="Panel" parent="setting" unique_id=412968617]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.51600003
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 43.75998
+offset_top = 40.0
+offset_right = -43.0
+offset_bottom = -131.0
+grow_horizontal = 0
+theme_override_styles/panel = SubResource("StyleBoxFlat_ksiy8")
+
+[node name="Draw Here" type="Label" parent="setting/PanelDraw" unique_id=1929205077]
+self_modulate = Color(1, 1, 1, 0.39215687)
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -48.0
+offset_top = -11.0
+offset_right = 48.0
+offset_bottom = 11.0
+grow_horizontal = 2
+grow_vertical = 2
+offset_transform_enabled = true
+theme_override_fonts/font = ExtResource("5_ycln1")
+text = "DRAW HERE"
+horizontal_alignment = 1
+
+[node name="VLine" type="ColorRect" parent="setting" unique_id=1425617937]
+custom_minimum_size = Vector2(1, 0)
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.568
+anchor_right = 0.568
+anchor_bottom = 1.0
+offset_left = -0.52001953
+offset_top = 39.0
+offset_right = 0.47998047
+offset_bottom = -39.0
+grow_horizontal = 2
+grow_vertical = 2
+pivot_offset_ratio = Vector2(0.5, 0.5)
+color = Color(0.43137255, 0.43137255, 0.43137255, 1)
+
+[node name="Tabs" type="VBoxContainer" parent="setting" unique_id=2091251191]
+layout_mode = 1
+offset_left = 42.0
+offset_top = 40.0
+offset_right = 86.0
+offset_bottom = 80.0
+theme_override_constants/separation = 5
+script = ExtResource("6_yklyt")
+
+[node name="AppearanceButton" type="Button" parent="setting/Tabs" unique_id=1587145832]
+unique_name_in_owner = true
+layout_mode = 2
+offset_transform_enabled = true
+theme = ExtResource("2_al1eu")
+toggle_mode = true
+button_group = ExtResource("7_xltco")
+icon = SubResource("AtlasTexture_ycln1")
+
+[node name="ControlsButton" type="Button" parent="setting/Tabs" unique_id=1218334914]
+unique_name_in_owner = true
+layout_mode = 2
+offset_transform_enabled = true
+offset_transform_position = Vector2(-45, 0)
+toggle_mode = true
+button_group = ExtResource("7_xltco")
+icon = SubResource("AtlasTexture_ycln1")
+
+[node name="DisplayButton" type="Button" parent="setting/Tabs" unique_id=1022640407]
+unique_name_in_owner = true
+layout_mode = 2
+offset_transform_enabled = true
+offset_transform_position = Vector2(-45, 0)
+toggle_mode = true
+button_group = ExtResource("7_xltco")
+icon = SubResource("AtlasTexture_ycln1")
+
+[node name="AudioButton" type="Button" parent="setting/Tabs" unique_id=34250385]
+unique_name_in_owner = true
+layout_mode = 2
+offset_transform_enabled = true
+offset_transform_position = Vector2(-45, 0)
+toggle_mode = true
+button_group = ExtResource("7_xltco")
+icon = SubResource("AtlasTexture_ycln1")
+
+[node name="GameplayButton" type="Button" parent="setting/Tabs" unique_id=130482643]
+unique_name_in_owner = true
+layout_mode = 2
+offset_transform_enabled = true
+offset_transform_position = Vector2(-45, 0)
+toggle_mode = true
+button_group = ExtResource("7_xltco")
+icon = SubResource("AtlasTexture_ycln1")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="." unique_id=281717340]
+libraries/ = SubResource("AnimationLibrary_al1eu")
+autoplay = &"Opening"
+
+[node name="draw" parent="." unique_id=2118743800 instance=ExtResource("5_ji3vv")]
+weight = 0.5
+guess_mode = true
+
+[node name="OsuHitSound" type="AudioStreamPlayer" parent="." unique_id=929816833]
+unique_name_in_owner = true
+stream = ExtResource("6_guu1f")
+bus = &"Effect"
+
+[connection signal="button_down" from="setting/SettingsPanel/Appearance/VideoBackground/BGButton" to="." method="_on_bg_button_button_down"]
+[connection signal="value_changed" from="setting/SettingsPanel/Appearance/BackgroundDim/BG_Dim" to="." method="_on_bg_dim_value_changed"]
+[connection signal="button_down" from="setting/SettingsPanel/Display/FullscreenSetting/FSButton" to="." method="_on_fs_button_button_down"]
+[connection signal="value_changed" from="setting/SettingsPanel/Gameplay/ScrollSpeed/Scroll_Speed" to="." method="_on_scroll_speed_value_changed"]
+[connection signal="mouse_entered" from="setting/PanelDraw" to="." method="_on_panel_draw_mouse_entered"]
+[connection signal="mouse_exited" from="setting/PanelDraw" to="." method="_on_panel_draw_mouse_exited"]
+[connection signal="button_down" from="setting/Tabs/AppearanceButton" to="setting/Tabs" method="_on_appearance_button_button_down"]
+[connection signal="animation_finished" from="AnimationPlayer" to="." method="_on_animation_player_animation_finished"]
+[connection signal="guessed_shape" from="draw" to="." method="_on_draw_guessed_shape"]

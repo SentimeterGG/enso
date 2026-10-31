@@ -1,22 +1,22 @@
 extends Control
 
 @onready var animation_player: AnimationPlayer = $AnimationPlayer
-@onready var fs_button: Button = $setting/FSButton
-@onready var bg_button: Button = $setting/BGButton
+@onready var fs_button: Button = $setting/SettingsPanel/Display/FullscreenSetting/FSButton
+@onready var bg_button: Button = $setting/SettingsPanel/Appearance/VideoBackground/BGButton
 
 @onready var drawer: Line2D = $draw
 
-@onready var master_slider: HSlider = $setting/Master
-@onready var music_slider: HSlider = $setting/Music
-@onready var effects_slider: HSlider = $setting/Effects
-@onready var bg_dim_slider: HSlider = $setting/BG_Dim
-@onready var scroll_speed_slider: HSlider = $setting/Scroll_Speed
+@onready var master_slider: HSlider = $setting/SettingsPanel/Audio/MasterVolume/Master
+@onready var music_slider: HSlider = $setting/SettingsPanel/Audio/MusicVolume/Music
+@onready var effects_slider: HSlider = $setting/SettingsPanel/Audio/EffectsVolume/Effects
+@onready var bg_dim_slider: HSlider = $setting/SettingsPanel/Appearance/BackgroundDim/BG_Dim
+@onready var scroll_speed_slider: HSlider = $setting/SettingsPanel/Gameplay/ScrollSpeed/Scroll_Speed
 
-@onready var master_label: Label = $setting/Master/VolumePercent
-@onready var music_label: Label = $setting/Music/VolumePercent
-@onready var effects_label: Label = $setting/Effects/VolumePercent
-@onready var dim_percent_label: Label = $setting/BG_Dim/DimPercent
-@onready var scroll_percent_label: Label = $setting/Scroll_Speed/ScrollPercent
+@onready var master_label: Label = $setting/SettingsPanel/Audio/MasterVolume/Master/VolumePercent
+@onready var music_label: Label = $setting/SettingsPanel/Audio/MusicVolume/Music/VolumePercent
+@onready var effects_label: Label = $setting/SettingsPanel/Audio/EffectsVolume/Effects/VolumePercent
+@onready var dim_percent_label: Label = $setting/SettingsPanel/Appearance/BackgroundDim/BG_Dim/DimPercent
+@onready var scroll_percent_label: Label = $setting/SettingsPanel/Gameplay/ScrollSpeed/Scroll_Speed/ScrollPercent
 
 var can_play_hitsound: bool = false
 
