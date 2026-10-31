@@ -34,6 +34,11 @@ signal draw_ended
 signal draw_direction_changes
 signal guessed_shape(shape: String)
 
+func _ready() -> void:
+	end()
+
+func _physics_process(delta: float) -> void:
+	%DrawParticles.position = get_global_mouse_position()
 
 func start() -> void:
 	can_draw = true
@@ -59,10 +64,12 @@ func begin(global_mouse_pos: Vector2) -> void:
 	smooth_pos = global_mouse_pos
 	current_line.add_point(smooth_pos)
 	%EnsoHold.play()
+	%DrawParticles.emitting = true
 
 
 func end() -> void:
 	%EnsoHold.stop()
+	%DrawParticles.emitting = false
 	drawing = false
 	if current_line == null:
 		emit_signal("draw_ended")

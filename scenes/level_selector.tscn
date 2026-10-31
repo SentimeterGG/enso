@@ -627,8 +627,6 @@ layout_mode = 1
 layout_mode = 1
 
 [node name="level_item7" parent="Main Content/HBoxContainer/RSide/VBoxContainer/Level List/Scroll" unique_id=1888243140 instance=ExtResource("7_2ec5i")]
-custom_minimum_size = Vector2(288, 34)
-custom_maximum_size = Vector2(288, -1)
 layout_mode = 1
 offset_left = -288.0
 
