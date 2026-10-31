@@ -7,6 +7,7 @@
 <p align="center">
   <a href="https://github.com/SentimeterGG/enso/releases"><img src="https://img.shields.io/github/v/release/SentimeterGG/enso?label=Release&color=5865F2" alt="Latest release"></a>
   <a href="https://godotengine.org/download"><img src="https://img.shields.io/badge/Godot-4.7-%23478CBF?logo=godot-engine&logoColor=white" alt="Godot 4.7"></a>
+  <a href="LICENSE"><img src="https://img.shields.io/badge/License-ENSO%20Attribution-5865F2" alt="License: ENSO Attribution"></a>
 </p>
 
 ---
@@ -202,4 +203,12 @@ This repository uses a **commit → rebase → merge** workflow (see [`IMPORTANT
 
 ## License
 
-No license file is currently included in this repository. Unless stated otherwise, all rights are reserved by the project authors. If you plan to redistribute or reuse the project, please contact the maintainers first.
+ENSO is released under the [ENSO Attribution License](LICENSE), based on the MIT License.
+
+You are free to use, modify, and redistribute the game — including creating your own forks — as long as you:
+
+- **Credit the original project** and include a link to [github.com/SentimeterGG/enso](https://github.com/SentimeterGG/enso) in your README, documentation, About screen, or in-game credits.
+- Keep the copyright and license notice in copies of the Software.
+
+> [!NOTE]
+> Music, charts, fonts, and other third-party assets bundled with the game may have their own licensing terms. The license above covers the Software only.
