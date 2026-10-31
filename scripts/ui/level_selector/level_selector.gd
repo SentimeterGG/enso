@@ -40,7 +40,7 @@ func _ready() -> void:
 	DiscordRPC.set_activity("in Level Selector", "Choosing a beatmap...")
 	GlobalBackground.texture_filter = CanvasItem.TEXTURE_FILTER_LINEAR
 	$AnimationPlayer.play("Opening")
-	GlobalBackground.set_base_alpha(0.4)
+	GlobalBackground.set_base_alpha(0.7)
 	call_deferred("_warn_skipped_incomplete")
 	call_deferred("_select_current_bg_song")
 
@@ -123,7 +123,7 @@ func _select_current_bg_song() -> void:
 	levels = level_list.get("levels")
 	if levels.is_empty():
 		return
-	var selected_index := int(level_list.get("selected_index"))
+	var selected_level := int(level_list.call("get_selected_level_index"))
 	var target := -1
 	# 1) Live audio wins: match whatever BgMusic is actually playing.
 	# Hovering a row only previews its song (Global.current_chart is left
@@ -134,17 +134,18 @@ func _select_current_bg_song() -> void:
 		if bg != null and bg.stream != null and bg.playing:
 			var cur := (bg.stream as AudioStream).resource_path.simplify_path()
 			for i in levels.size():
-				var cpath := str((levels[i] as Dictionary).get("chart_path", ""))
-				if cpath.is_empty():
-					continue
-				var meta := ChartParser.parse_metadata(cpath)
-				var song := str(meta.get("song", ""))
-				if song.is_empty():
-					continue
-				if not (song.begins_with("res://") or song.begins_with("user://")):
-					song = cpath.get_base_dir().path_join(song).simplify_path()
-				if song == cur:
-					target = i
+				var chart_paths: Array = (levels[i] as Dictionary).get("chart_paths", [])
+				for chart_path in chart_paths:
+					var meta := ChartParser.parse_metadata(str(chart_path))
+					var song := str(meta.get("song", ""))
+					if song.is_empty():
+						continue
+					if not (song.begins_with("res://") or song.begins_with("user://")):
+						song = str(chart_path).get_base_dir().path_join(song).simplify_path()
+					if song == cur:
+						target = i
+						break
+				if target >= 0:
 					break
 	# 2) Fallback: exact chart match (main_menu stores its random pick here).
 	# Covers the fresh-boot race where change_song()'s fade tween hasn't
@@ -154,32 +155,29 @@ func _select_current_bg_song() -> void:
 		and not Global.current_chart.chart_path.is_empty()
 	):
 		for i in levels.size():
-			if (
-				str((levels[i] as Dictionary).get("chart_path", ""))
-				== Global.current_chart.chart_path
-			):
+			var chart_paths: Array = (levels[i] as Dictionary).get("chart_paths", [])
+			if chart_paths.has(Global.current_chart.chart_path):
 				target = i
 				break
-	if target == selected_index:
+	if target == selected_level:
 		_initial_select_done = true
-		# Already centered on it, but the index-0 hover was swallowed
-		# above: force the hover now so bpm/beat/song sync.
+		# Already centered on it, but the initial hover was swallowed above:
+		# force it now so bpm/beat/song sync.
 		_preview_chart_path = ""
-		_on_level_item_hovered(str((levels[target] as Dictionary).get("chart_path", "")))
+		_on_level_item_hovered(str(level_list.call("get_selected_chart_path")))
 		return
 	if target < 0:
-		# No match for the current song: fall back to previewing whatever
-		# is selected (its initial hover was swallowed above).
+		# No match for the current song: fall back to previewing whatever is
+		# selected (its initial hover was swallowed above).
 		_initial_select_done = true
 		_preview_chart_path = ""
-		if selected_index >= 0 and selected_index < levels.size():
-			_on_level_item_hovered(
-				str((levels[selected_index] as Dictionary).get("chart_path", ""))
-			)
+		_on_level_item_hovered(str(level_list.call("get_selected_chart_path")))
 		return
 	_initial_select_done = true
 	_preview_chart_path = ""
-	if level_list.has_method("select"):
+	if level_list.has_method("select_level"):
+		level_list.call("select_level", target)
+	elif level_list.has_method("select"):
 		level_list.call("select", target)
 
 
