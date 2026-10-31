@@ -795,7 +795,7 @@ offset_left = 10.0
 offset_top = 8.0
 offset_right = 50.0
 offset_bottom = 25.0
-text = "1.0.0"
+text = "v0.4.0"
 
 [node name="updater" parent="." unique_id=456196311 instance=ExtResource("10_5dd4i")]
 unique_name_in_owner = true

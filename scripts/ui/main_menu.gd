@@ -41,7 +41,7 @@ func _ready() -> void:
 	GlobalBackground.set_base_alpha(1.0)
 	GlobalBackground.change(BG_path)
 	GlobalBackground.texture_filter = CanvasItem.TEXTURE_FILTER_NEAREST
-	version_label.text = app_version
+	version_label.text = "v" + app_version
 	#	updater.check_update(app_version)
 	VolumePopup.can_popup = true
 	if Global.first_time_playing:
