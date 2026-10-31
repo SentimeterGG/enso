@@ -48,12 +48,8 @@ _data = {
 &"idle": SubResource("Animation_8ln24")
 }
 
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ksiy8"]
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_yklyt"]
 bg_color = Color(0, 0, 0, 1)
-border_width_left = 1
-border_width_top = 1
-border_width_right = 1
-border_width_bottom = 1
 border_color = Color(0.24477646, 0.2447764, 0.24477625, 1)
 
 [sub_resource type="Animation" id="Animation_yklyt"]
@@ -116,6 +112,14 @@ _data = {
 &"RESET": SubResource("Animation_yklyt"),
 &"Transition": SubResource("Animation_xltco")
 }
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ksiy8"]
+bg_color = Color(0, 0, 0, 1)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.24477646, 0.2447764, 0.24477625, 1)
 
 [sub_resource type="CompressedTexture2D" id="CompressedTexture2D_yklyt"]
 load_path = "res://.godot/imported/icons.png-873fce6f98d494b658cf46d0a479e9b0.ctex"
@@ -245,14 +249,14 @@ tracks/7/keys = {
 tracks/8/type = "value"
 tracks/8/imported = false
 tracks/8/enabled = true
-tracks/8/path = NodePath("setting/VLine:size")
+tracks/8/path = NodePath("setting/VLine:offset_transform_scale")
 tracks/8/interp = 1
 tracks/8/loop_wrap = true
 tracks/8/keys = {
-"times": PackedFloat32Array(0.53333336, 1.3333334),
+"times": PackedFloat32Array(0.6333333, 1.4666667),
 "transitions": PackedFloat32Array(0.4, 1),
 "update": 0,
-"values": [Vector2(1, 0), Vector2(1, 282)]
+"values": [Vector2(1, 0), Vector2(0.8, 0.8)]
 }
 
 [sub_resource type="Animation" id="Animation_3k7x2"]
@@ -384,14 +388,14 @@ tracks/7/keys = {
 tracks/8/type = "value"
 tracks/8/imported = false
 tracks/8/enabled = true
-tracks/8/path = NodePath("setting/VLine:size")
+tracks/8/path = NodePath("setting/VLine:offset_transform_scale")
 tracks/8/interp = 1
 tracks/8/loop_wrap = true
 tracks/8/keys = {
 "times": PackedFloat32Array(0),
 "transitions": PackedFloat32Array(1),
 "update": 0,
-"values": [Vector2(1, 282)]
+"values": [Vector2(1, 0)]
 }
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_al1eu"]
@@ -459,7 +463,7 @@ offset_right = -9.880005
 offset_bottom = -39.0
 grow_horizontal = 0
 offset_transform_enabled = true
-theme_override_styles/panel = SubResource("StyleBoxFlat_ksiy8")
+theme_override_styles/panel = SubResource("StyleBoxFlat_yklyt")
 
 [node name="Appearance" type="VBoxContainer" parent="setting/SettingsPanel" unique_id=1290911925]
 unique_name_in_owner = true
@@ -479,6 +483,7 @@ theme = ExtResource("2_al1eu")
 text = "VIDEO BG  :"
 
 [node name="BGButton" type="Button" parent="setting/SettingsPanel/Appearance/VideoBackground" unique_id=1915919062]
+custom_minimum_size = Vector2(40, 0)
 layout_mode = 2
 theme = ExtResource("2_al1eu")
 text = "OFF"
@@ -541,6 +546,7 @@ theme = ExtResource("2_al1eu")
 text = "FULLSCREEN:"
 
 [node name="FSButton" type="Button" parent="setting/SettingsPanel/Display/FullscreenSetting" unique_id=758614195]
+custom_minimum_size = Vector2(40, 0)
 layout_mode = 2
 theme = ExtResource("2_al1eu")
 text = "OFF"
@@ -788,25 +794,25 @@ horizontal_alignment = 1
 [node name="VLine" type="ColorRect" parent="setting" unique_id=1425617937]
 custom_minimum_size = Vector2(1, 0)
 layout_mode = 1
-anchors_preset = -1
-anchor_left = 0.568
-anchor_right = 0.568
+anchors_preset = 13
+anchor_left = 0.5
+anchor_right = 0.5
 anchor_bottom = 1.0
-offset_left = -0.52001953
-offset_top = 39.0
-offset_right = 0.47998047
-offset_bottom = -39.0
+offset_left = 40.5
+offset_right = 41.5
 grow_horizontal = 2
 grow_vertical = 2
 pivot_offset_ratio = Vector2(0.5, 0.5)
+offset_transform_enabled = true
+offset_transform_scale = Vector2(1, 0)
 color = Color(0.43137255, 0.43137255, 0.43137255, 1)
 
 [node name="Tabs" type="VBoxContainer" parent="setting" unique_id=2091251191]
 layout_mode = 1
-offset_left = 42.0
+offset_left = 62.0
 offset_top = 40.0
 offset_right = 86.0
-offset_bottom = 80.0
+offset_bottom = 180.0
 theme_override_constants/separation = 5
 script = ExtResource("6_yklyt")
 
