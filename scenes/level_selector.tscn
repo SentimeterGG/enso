@@ -6,8 +6,8 @@
 [ext_resource type="Script" uid="uid://hm4b75v32m6s" path="res://scripts/ui/level_details.gd" id="2_ljvb0"]
 [ext_resource type="Theme" uid="uid://cpocn8agag6ib" path="res://resources/theme/Theme.tres" id="3_rqfkl"]
 [ext_resource type="PackedScene" uid="uid://cpdjo67hyeq74" path="res://scenes/ui_line.tscn" id="3_v1k4p"]
+[ext_resource type="FontFile" uid="uid://cwhe7euewv5f6" path="res://assets/fonts/ttf/PixelCode.ttf" id="5_f20t4"]
 [ext_resource type="Texture2D" uid="uid://ceht3wr4q2547" path="res://assets/sprites/UI/icons/icons.png" id="5_v1k4p"]
-[ext_resource type="PackedScene" uid="uid://cpdx84l3ertd6" path="res://scenes/level_item.tscn" id="7_2ec5i"]
 [ext_resource type="Script" uid="uid://b8lss2my82vt3" path="res://scripts/ui/level_selector/level_list.gd" id="9_ax7y8"]
 [ext_resource type="AudioStream" uid="uid://dybpytxnyej66" path="res://assets/sound/osu-hit-sound.mp3" id="10_ljvb0"]
 [ext_resource type="PackedScene" uid="uid://b7rlmo61qxu8s" path="res://scenes/draw.tscn" id="10_v1k4p"]
@@ -262,6 +262,7 @@ layout_mode = 2
 [node name="SourceLabel" type="Label" parent="Main Content/HBoxContainer/LSide/MarginContainer/VBoxContainer/LevelDetails/Profile/ProfileDetails/SourceContainer" unique_id=181047084]
 layout_mode = 2
 theme_override_colors/font_color = Color(0.5890956, 0.58909565, 0.5890954, 1)
+theme_override_fonts/font = ExtResource("5_f20t4")
 theme_override_font_sizes/font_size = 7
 text = "Source"
 
@@ -294,6 +295,7 @@ layout_mode = 2
 [node name="MapperLabel" type="Label" parent="Main Content/HBoxContainer/LSide/MarginContainer/VBoxContainer/LevelDetails/Profile/ProfileDetails/MapperContainer" unique_id=1802184829]
 layout_mode = 2
 theme_override_colors/font_color = Color(0.5890956, 0.58909565, 0.5890954, 1)
+theme_override_fonts/font = ExtResource("5_f20t4")
 theme_override_font_sizes/font_size = 7
 text = "Mapper"
 
@@ -349,6 +351,7 @@ theme_override_constants/separation = -1
 [node name="Title" type="Label" parent="Main Content/HBoxContainer/LSide/MarginContainer/VBoxContainer/LevelDetails/Level/Difficulty/MarginContainer/VBoxContainer" unique_id=92999076]
 layout_mode = 2
 theme_override_colors/font_color = Color(0.6052743, 0.6052743, 0.6052743, 1)
+theme_override_fonts/font = ExtResource("5_f20t4")
 theme_override_font_sizes/font_size = 7
 text = "Difficulty"
 
@@ -413,6 +416,7 @@ theme_override_constants/separation = 0
 [node name="Title" type="Label" parent="Main Content/HBoxContainer/LSide/MarginContainer/VBoxContainer/LevelDetails/Level/BPM/MarginContainer/VBoxContainer" unique_id=1294900685]
 layout_mode = 2
 theme_override_colors/font_color = Color(0.6052743, 0.6052743, 0.6052743, 1)
+theme_override_fonts/font = ExtResource("5_f20t4")
 theme_override_font_sizes/font_size = 7
 text = "BPM"
 
@@ -444,6 +448,7 @@ theme_override_constants/separation = 0
 [node name="Title" type="Label" parent="Main Content/HBoxContainer/LSide/MarginContainer/VBoxContainer/LevelDetails/Level/Length/MarginContainer/VBoxContainer" unique_id=2124814817]
 layout_mode = 2
 theme_override_colors/font_color = Color(0.6052743, 0.6052743, 0.6052743, 1)
+theme_override_fonts/font = ExtResource("5_f20t4")
 theme_override_font_sizes/font_size = 7
 text = "LENGTH"
 
@@ -509,7 +514,7 @@ self_modulate = Color(1, 1, 1, 0.39215687)
 layout_mode = 2
 offset_transform_enabled = true
 theme_override_fonts/font = ExtResource("2_gkmvm")
-theme_override_font_sizes/font_size = 15
+theme_override_font_sizes/font_size = 12
 text = "DRAW HERE"
 horizontal_alignment = 1
 
@@ -604,33 +609,6 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-
-[node name="level_item" parent="Main Content/HBoxContainer/RSide/VBoxContainer/Level List/Scroll" unique_id=211692072 instance=ExtResource("7_2ec5i")]
-layout_mode = 1
-
-[node name="level_item2" parent="Main Content/HBoxContainer/RSide/VBoxContainer/Level List/Scroll" unique_id=1480395378 instance=ExtResource("7_2ec5i")]
-layout_mode = 1
-
-[node name="level_item3" parent="Main Content/HBoxContainer/RSide/VBoxContainer/Level List/Scroll" unique_id=2017547613 instance=ExtResource("7_2ec5i")]
-z_index = -1
-layout_mode = 1
-offset_transform_enabled = false
-offset_transform_position_ratio = Vector2(0, -1.245)
-
-[node name="level_item4" parent="Main Content/HBoxContainer/RSide/VBoxContainer/Level List/Scroll" unique_id=55596207 instance=ExtResource("7_2ec5i")]
-layout_mode = 1
-
-[node name="level_item5" parent="Main Content/HBoxContainer/RSide/VBoxContainer/Level List/Scroll" unique_id=1991969750 instance=ExtResource("7_2ec5i")]
-layout_mode = 1
-
-[node name="level_item6" parent="Main Content/HBoxContainer/RSide/VBoxContainer/Level List/Scroll" unique_id=1711693936 instance=ExtResource("7_2ec5i")]
-layout_mode = 1
-
-[node name="level_item7" parent="Main Content/HBoxContainer/RSide/VBoxContainer/Level List/Scroll" unique_id=1888243140 instance=ExtResource("7_2ec5i")]
-custom_minimum_size = Vector2(288, 34)
-custom_maximum_size = Vector2(288, -1)
-layout_mode = 1
-offset_left = -288.0
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="." unique_id=1728898997]
 libraries/ = SubResource("AnimationLibrary_ljvb0")

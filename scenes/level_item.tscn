@@ -5,6 +5,7 @@
 [ext_resource type="StyleBox" uid="uid://e8ten8qcpkj4" path="res://resources/theme/level_select_button.tres" id="2_lrfiu"]
 [ext_resource type="Script" uid="uid://67ulg0qvdlhv" path="res://scripts/ui/level_selector/level_item.gd" id="3_4ae8e"]
 [ext_resource type="FontFile" uid="uid://bprqivnp1xsie" path="res://assets/fonts/ttf/PixelCode-Medium.ttf" id="4_rd0an"]
+[ext_resource type="FontFile" uid="uid://cwhe7euewv5f6" path="res://assets/fonts/ttf/PixelCode.ttf" id="6_4ae8e"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_lrfiu"]
 bg_color = Color(0, 0, 0, 1)
@@ -152,7 +153,7 @@ text_overrun_behavior = 3
 modulate = Color(1, 1, 1, 0.5882353)
 layout_mode = 2
 size_flags_horizontal = 0
-theme_override_fonts/font = ExtResource("4_rd0an")
+theme_override_fonts/font = ExtResource("6_4ae8e")
 theme_override_font_sizes/font_size = 6
 text = "ENSO TEAM"
 
@@ -227,7 +228,7 @@ color = Color(0.23031491, 0.23031494, 0.23031494, 1)
 modulate = Color(1, 1, 1, 0.5882353)
 layout_mode = 2
 size_flags_horizontal = 8
-theme_override_fonts/font = ExtResource("4_rd0an")
+theme_override_fonts/font = ExtResource("6_4ae8e")
 theme_override_font_sizes/font_size = 6
 text = "2.0 ☆"
 horizontal_alignment = 2

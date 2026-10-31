@@ -1,15 +1,20 @@
 [gd_scene format=3 uid="uid://c87ucrtisg54v"]
 
-[ext_resource type="Texture2D" uid="uid://sqv5pjrdcpvd" path="res://assets/sprites/UI/shape/play.png" id="1_0xnud"]
 [ext_resource type="Theme" uid="uid://cpocn8agag6ib" path="res://resources/theme/Theme.tres" id="1_evwkm"]
 [ext_resource type="Script" uid="uid://ckfp2ghdvbb8t" path="res://scripts/ui/level_creator/level_creator.gd" id="1_qesna"]
 [ext_resource type="PackedScene" uid="uid://b7rlmo61qxu8s" path="res://scenes/draw.tscn" id="2_8nwwt"]
 [ext_resource type="Script" uid="uid://bsweodsn26075" path="res://scripts/ui/level_creator/metadata.gd" id="3_m4iti"]
 [ext_resource type="Texture2D" uid="uid://cgruk4xoapf0n" path="res://assets/sprites/UI/folder_icon.png" id="4_m4iti"]
+[ext_resource type="Texture2D" uid="uid://ceht3wr4q2547" path="res://assets/sprites/UI/icons/icons.png" id="6_2vkcm"]
 [ext_resource type="Script" uid="uid://dgs760t2d526n" path="res://scripts/ui/level_creator/mapping.gd" id="8_cixrd"]
 [ext_resource type="AudioStream" uid="uid://dybpytxnyej66" path="res://assets/sound/osu-hit-sound.mp3" id="10_2vkcm"]
+[ext_resource type="FontFile" uid="uid://cwhe7euewv5f6" path="res://assets/fonts/ttf/PixelCode.ttf" id="11_5ur5l"]
 [ext_resource type="Texture2D" uid="uid://dnnjjgvh1pcgl" path="res://assets/sprites/UI/shape/circle_outline.png" id="11_7fl6t"]
 [ext_resource type="Texture2D" uid="uid://bhaq3n5lalrao" path="res://assets/sprites/UI/beat_bg.png" id="11_8nwwt"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_4jr3h"]
+atlas = ExtResource("6_2vkcm")
+region = Rect2(16, 16, 16, 16)
 
 [sub_resource type="InputEventKey" id="InputEventKey_8nwwt"]
 device = -1
@@ -19,8 +24,28 @@ unicode = 32
 [sub_resource type="Shortcut" id="Shortcut_8nwwt"]
 events = [SubResource("InputEventKey_8nwwt")]
 
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_8nwwt"]
-bg_color = Color(0.12225223, 0.12225223, 0.12225223, 1)
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_7fl6t"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_l1vu5"]
+bg_color = Color(0, 0, 0, 1)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.43137255, 0.43137255, 0.43137255, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_7fl6t"]
+bg_color = Color(0.050980393, 0.050980393, 0.050980393, 0.7529412)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.2629324, 0.26293248, 0.26293242, 1)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_gkcom"]
+atlas = ExtResource("6_2vkcm")
+region = Rect2(32, 16, 16, 16)
+margin = Rect2(0, 0, -1.255, -0.9)
 
 [node name="level_creator" type="Control" unique_id=1506574995]
 layout_mode = 3
@@ -332,7 +357,7 @@ size_flags_vertical = 4
 
 [node name="PreviewGotoStart" type="Button" parent="LevelCreator/METADATA/ScrollContainer/MarginContainer/VBoxContainer/preview_start/VBoxContainer/control_button" unique_id=976421060]
 unique_name_in_owner = true
-custom_minimum_size = Vector2(30, 0)
+custom_minimum_size = Vector2(30, 30)
 layout_mode = 2
 focus_mode = 0
 theme = ExtResource("1_evwkm")
@@ -341,16 +366,16 @@ icon_alignment = 1
 
 [node name="PreviewPlay" type="Button" parent="LevelCreator/METADATA/ScrollContainer/MarginContainer/VBoxContainer/preview_start/VBoxContainer/control_button" unique_id=1804480215]
 unique_name_in_owner = true
-custom_minimum_size = Vector2(30, 0)
+custom_minimum_size = Vector2(30, 30)
 layout_mode = 2
 focus_mode = 0
 theme = ExtResource("1_evwkm")
-icon = ExtResource("1_0xnud")
+icon = SubResource("AtlasTexture_4jr3h")
 icon_alignment = 1
 
 [node name="PreviewGotoEnd" type="Button" parent="LevelCreator/METADATA/ScrollContainer/MarginContainer/VBoxContainer/preview_start/VBoxContainer/control_button" unique_id=1152356043]
 unique_name_in_owner = true
-custom_minimum_size = Vector2(30, 0)
+custom_minimum_size = Vector2(30, 30)
 layout_mode = 2
 focus_mode = 0
 theme = ExtResource("1_evwkm")
@@ -388,13 +413,14 @@ theme = ExtResource("1_evwkm")
 placeholder_text = "0:00.000"
 
 [node name="control_button" type="HBoxContainer" parent="LevelCreator/METADATA/ScrollContainer/MarginContainer/VBoxContainer/start_beat/VBoxContainer" unique_id=1712943746]
+custom_minimum_size = Vector2(0, 30)
 layout_mode = 2
 size_flags_horizontal = 4
 size_flags_vertical = 4
 
 [node name="BeatGotoStart" type="Button" parent="LevelCreator/METADATA/ScrollContainer/MarginContainer/VBoxContainer/start_beat/VBoxContainer/control_button" unique_id=590459419]
 unique_name_in_owner = true
-custom_minimum_size = Vector2(30, 0)
+custom_minimum_size = Vector2(30, 30)
 layout_mode = 2
 focus_mode = 0
 theme = ExtResource("1_evwkm")
@@ -407,12 +433,12 @@ custom_minimum_size = Vector2(30, 0)
 layout_mode = 2
 focus_mode = 0
 theme = ExtResource("1_evwkm")
-icon = ExtResource("1_0xnud")
+icon = SubResource("AtlasTexture_4jr3h")
 icon_alignment = 1
 
 [node name="BeatGotoEnd" type="Button" parent="LevelCreator/METADATA/ScrollContainer/MarginContainer/VBoxContainer/start_beat/VBoxContainer/control_button" unique_id=2051192508]
 unique_name_in_owner = true
-custom_minimum_size = Vector2(30, 0)
+custom_minimum_size = Vector2(30, 30)
 layout_mode = 2
 focus_mode = 0
 theme = ExtResource("1_evwkm")
@@ -536,7 +562,7 @@ size_flags_horizontal = 0
 focus_mode = 0
 theme = ExtResource("1_evwkm")
 shortcut = SubResource("Shortcut_8nwwt")
-icon = ExtResource("1_0xnud")
+icon = SubResource("AtlasTexture_4jr3h")
 icon_alignment = 1
 
 [node name="go_to_end" type="Button" parent="LevelCreator/MAPPING/HBoxContainer" unique_id=926839668]
@@ -844,8 +870,17 @@ focus_mode = 0
 theme = ExtResource("1_evwkm")
 text = "IMPORT"
 
-[node name="CustomShapeEditor" type="Panel" parent="." unique_id=876543211]
+[node name="CustomShapeEditor" type="ColorRect" parent="." unique_id=1022237689]
 unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 0.60300004)
+
+[node name="MainEditor" type="Panel" parent="CustomShapeEditor" unique_id=876543211]
 z_index = 100
 layout_mode = 1
 anchors_preset = 8
@@ -853,106 +888,27 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -141.5
-offset_top = -160.0
-offset_right = 141.5
-offset_bottom = 160.0
+offset_left = -173.5
+offset_top = -115.0
+offset_right = 109.5
+offset_bottom = 123.0
 grow_horizontal = 2
 grow_vertical = 2
-theme_override_styles/panel = SubResource("StyleBoxFlat_8nwwt")
+theme_override_styles/panel = SubResource("StyleBoxEmpty_7fl6t")
 
-[node name="MarginContainer" type="MarginContainer" parent="CustomShapeEditor" unique_id=1149603685]
+[node name="HBoxContainer" type="HBoxContainer" parent="CustomShapeEditor/MainEditor" unique_id=676601406]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-theme_override_constants/margin_left = 16
-theme_override_constants/margin_top = 16
-theme_override_constants/margin_right = 16
-theme_override_constants/margin_bottom = 16
 
-[node name="VBox" type="VBoxContainer" parent="CustomShapeEditor/MarginContainer" unique_id=876543212]
+[node name="VBoxContainer" type="VBoxContainer" parent="CustomShapeEditor/MainEditor/HBoxContainer" unique_id=602598195]
 layout_mode = 2
-size_flags_vertical = 4
-theme_override_constants/separation = 6
+theme_override_constants/separation = 7
 
-[node name="Title" type="Label" parent="CustomShapeEditor/MarginContainer/VBox" unique_id=876543213]
-layout_mode = 2
-size_flags_horizontal = 4
-theme = ExtResource("1_evwkm")
-theme_override_font_sizes/font_size = 12
-text = "Custom Shape
-click to place points (0..1)"
-horizontal_alignment = 1
-
-[node name="CustomInfo" type="Label" parent="CustomShapeEditor/MarginContainer/VBox" unique_id=876543214]
-unique_name_in_owner = true
-layout_mode = 2
-theme = ExtResource("1_evwkm")
-theme_override_colors/font_color = Color(0.4351923, 0.43519226, 0.43519226, 1)
-theme_override_font_sizes/font_size = 10
-text = "sfgj knr hvwr thgjiorgnv thwiogfsavgsafbgrsn"
-horizontal_alignment = 1
-autowrap_mode = 3
-
-[node name="CustomCanvas" type="Control" parent="CustomShapeEditor/MarginContainer/VBox" unique_id=876543215]
-unique_name_in_owner = true
-custom_minimum_size = Vector2(120, 120)
-custom_maximum_size = Vector2(240, -1)
-layout_mode = 2
-size_flags_horizontal = 6
-size_flags_vertical = 3
-
-[node name="BG" type="ColorRect" parent="CustomShapeEditor/MarginContainer/VBox/CustomCanvas" unique_id=876543216]
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-mouse_filter = 2
-color = Color(0.06, 0.06, 0.06, 1)
-
-[node name="CustomGrid" type="Control" parent="CustomShapeEditor/MarginContainer/VBox/CustomCanvas" unique_id=876543217]
-unique_name_in_owner = true
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-mouse_filter = 2
-
-[node name="CustomLine" type="Line2D" parent="CustomShapeEditor/MarginContainer/VBox/CustomCanvas" unique_id=876543218]
-unique_name_in_owner = true
-width = 2.0
-default_color = Color(0.9, 0.9, 0.9, 1)
-
-[node name="Options" type="HBoxContainer" parent="CustomShapeEditor/MarginContainer/VBox" unique_id=876543219]
-layout_mode = 2
-size_flags_horizontal = 4
-alignment = 1
-
-[node name="Label" type="Label" parent="CustomShapeEditor/MarginContainer/VBox/Options" unique_id=876543220]
-layout_mode = 2
-theme = ExtResource("1_evwkm")
-theme_override_font_sizes/font_size = 10
-text = "Closed"
-
-[node name="CustomClosedCheck" type="CheckBox" parent="CustomShapeEditor/MarginContainer/VBox/Options" unique_id=876543221]
-unique_name_in_owner = true
-layout_mode = 2
-focus_mode = 0
-theme = ExtResource("1_evwkm")
-
-[node name="Buttons" type="HBoxContainer" parent="CustomShapeEditor/MarginContainer/VBox" unique_id=876543222]
-layout_mode = 2
-size_flags_horizontal = 4
-alignment = 1
-
-[node name="CustomUndo" type="Button" parent="CustomShapeEditor/MarginContainer/VBox/Buttons" unique_id=876543223]
+[node name="CustomUndo" type="Button" parent="CustomShapeEditor/MainEditor/HBoxContainer/VBoxContainer" unique_id=876543223]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
@@ -960,7 +916,7 @@ focus_mode = 0
 theme = ExtResource("1_evwkm")
 text = "Undo"
 
-[node name="CustomClear" type="Button" parent="CustomShapeEditor/MarginContainer/VBox/Buttons" unique_id=876543224]
+[node name="CustomClear" type="Button" parent="CustomShapeEditor/MainEditor/HBoxContainer/VBoxContainer" unique_id=876543224]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
@@ -968,12 +924,7 @@ focus_mode = 0
 theme = ExtResource("1_evwkm")
 text = "Clear"
 
-[node name="Buttons2" type="HBoxContainer" parent="CustomShapeEditor/MarginContainer/VBox" unique_id=1413718456]
-layout_mode = 2
-size_flags_horizontal = 4
-alignment = 1
-
-[node name="CustomCancel" type="Button" parent="CustomShapeEditor/MarginContainer/VBox/Buttons2" unique_id=2114640792]
+[node name="CustomCancel" type="Button" parent="CustomShapeEditor/MainEditor/HBoxContainer/VBoxContainer" unique_id=2114640792]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
@@ -981,13 +932,109 @@ focus_mode = 0
 theme = ExtResource("1_evwkm")
 text = "Cancel"
 
-[node name="CustomConfirm" type="Button" parent="CustomShapeEditor/MarginContainer/VBox/Buttons2" unique_id=32298876]
+[node name="CustomConfirm" type="Button" parent="CustomShapeEditor/MainEditor/HBoxContainer/VBoxContainer" unique_id=32298876]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
 focus_mode = 0
 theme = ExtResource("1_evwkm")
 text = "Confirm"
+
+[node name="Options" type="HBoxContainer" parent="CustomShapeEditor/MainEditor/HBoxContainer/VBoxContainer" unique_id=876543219]
+layout_mode = 2
+size_flags_horizontal = 4
+alignment = 1
+
+[node name="Label" type="Label" parent="CustomShapeEditor/MainEditor/HBoxContainer/VBoxContainer/Options" unique_id=876543220]
+layout_mode = 2
+theme = ExtResource("1_evwkm")
+theme_override_font_sizes/font_size = 10
+text = "Closed"
+
+[node name="CustomClosedCheck" type="CheckBox" parent="CustomShapeEditor/MainEditor/HBoxContainer/VBoxContainer/Options" unique_id=876543221]
+unique_name_in_owner = true
+layout_mode = 2
+focus_mode = 0
+theme = ExtResource("1_evwkm")
+
+[node name="ShapeEditor" type="Panel" parent="CustomShapeEditor/MainEditor/HBoxContainer" unique_id=144217994]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_styles/panel = SubResource("StyleBoxFlat_l1vu5")
+
+[node name="MarginContainer" type="MarginContainer" parent="CustomShapeEditor/MainEditor/HBoxContainer/ShapeEditor" unique_id=1149603685]
+propagate_maximum_size = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 14
+theme_override_constants/margin_top = 8
+theme_override_constants/margin_right = 14
+theme_override_constants/margin_bottom = 8
+
+[node name="VBox" type="VBoxContainer" parent="CustomShapeEditor/MainEditor/HBoxContainer/ShapeEditor/MarginContainer" unique_id=876543212]
+layout_mode = 2
+theme_override_constants/separation = 6
+
+[node name="Title" type="Label" parent="CustomShapeEditor/MainEditor/HBoxContainer/ShapeEditor/MarginContainer/VBox" unique_id=876543213]
+layout_mode = 2
+size_flags_horizontal = 4
+theme = ExtResource("1_evwkm")
+theme_override_font_sizes/font_size = 12
+text = "Custom Shape"
+horizontal_alignment = 1
+
+[node name="CustomCanvas" type="Panel" parent="CustomShapeEditor/MainEditor/HBoxContainer/ShapeEditor/MarginContainer/VBox" unique_id=913875017]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(168, 0)
+custom_maximum_size = Vector2(168, -1)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 3
+theme_override_styles/panel = SubResource("StyleBoxFlat_7fl6t")
+
+[node name="TextureRect" type="TextureRect" parent="CustomShapeEditor/MainEditor/HBoxContainer/ShapeEditor/MarginContainer/VBox/CustomCanvas" unique_id=996015682]
+modulate = Color(1, 1, 1, 0.13900001)
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = SubResource("AtlasTexture_gkcom")
+stretch_mode = 1
+
+[node name="CustomGrid" type="Control" parent="CustomShapeEditor/MainEditor/HBoxContainer/ShapeEditor/MarginContainer/VBox/CustomCanvas" unique_id=876543217]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = 6.0
+offset_bottom = 6.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="CustomLine" type="Line2D" parent="CustomShapeEditor/MainEditor/HBoxContainer/ShapeEditor/MarginContainer/VBox/CustomCanvas" unique_id=876543218]
+unique_name_in_owner = true
+position = Vector2(0, 6)
+width = 2.0
+default_color = Color(0.9, 0.9, 0.9, 1)
+
+[node name="CustomInfo" type="Label" parent="CustomShapeEditor/MainEditor/HBoxContainer/ShapeEditor/MarginContainer/VBox" unique_id=876543214]
+unique_name_in_owner = true
+layout_mode = 2
+theme = ExtResource("1_evwkm")
+theme_override_colors/font_color = Color(0.4351923, 0.43519226, 0.43519226, 1)
+theme_override_fonts/font = ExtResource("11_5ur5l")
+theme_override_font_sizes/font_size = 8
+text = "sfgj knr hvwr thgjiorgnv thwiogfsavgsafbgrsn"
+horizontal_alignment = 1
+autowrap_mode = 2
 
 [connection signal="chart_imported" from="." to="LevelCreator/METADATA" method="when_import"]
 [connection signal="chart_imported" from="." to="LevelCreator/MAPPING" method="_on_level_creator_chart_imported"]
@@ -1033,8 +1080,8 @@ text = "Confirm"
 [connection signal="pressed" from="TopBar/TABS/MappingButton" to="." method="_on_mapping_pressed"]
 [connection signal="pressed" from="ExportButton" to="." method="_on_export_button_pressed"]
 [connection signal="pressed" from="ImportFile" to="." method="_on_import_file_pressed"]
-[connection signal="toggled" from="CustomShapeEditor/MarginContainer/VBox/Options/CustomClosedCheck" to="LevelCreator/MAPPING" method="_on_custom_closed_toggled"]
-[connection signal="pressed" from="CustomShapeEditor/MarginContainer/VBox/Buttons/CustomUndo" to="LevelCreator/MAPPING" method="_on_custom_undo"]
-[connection signal="pressed" from="CustomShapeEditor/MarginContainer/VBox/Buttons/CustomClear" to="LevelCreator/MAPPING" method="_on_custom_clear"]
-[connection signal="pressed" from="CustomShapeEditor/MarginContainer/VBox/Buttons2/CustomCancel" to="LevelCreator/MAPPING" method="_on_custom_cancel"]
-[connection signal="pressed" from="CustomShapeEditor/MarginContainer/VBox/Buttons2/CustomConfirm" to="LevelCreator/MAPPING" method="_on_custom_confirm"]
+[connection signal="pressed" from="CustomShapeEditor/MainEditor/HBoxContainer/VBoxContainer/CustomUndo" to="LevelCreator/MAPPING" method="_on_custom_undo"]
+[connection signal="pressed" from="CustomShapeEditor/MainEditor/HBoxContainer/VBoxContainer/CustomClear" to="LevelCreator/MAPPING" method="_on_custom_clear"]
+[connection signal="pressed" from="CustomShapeEditor/MainEditor/HBoxContainer/VBoxContainer/CustomCancel" to="LevelCreator/MAPPING" method="_on_custom_cancel"]
+[connection signal="pressed" from="CustomShapeEditor/MainEditor/HBoxContainer/VBoxContainer/CustomConfirm" to="LevelCreator/MAPPING" method="_on_custom_confirm"]
+[connection signal="toggled" from="CustomShapeEditor/MainEditor/HBoxContainer/VBoxContainer/Options/CustomClosedCheck" to="LevelCreator/MAPPING" method="_on_custom_closed_toggled"]

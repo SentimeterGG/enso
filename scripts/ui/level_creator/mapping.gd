@@ -24,7 +24,7 @@ const EDITOR_SHAPE_POINT := preload("res://scenes/editor_shape_point.tscn")
 @onready var _add_difficulty_popup: Control = %AddDifficultyPopup
 
 # Declarative editor from level_creator.tscn (root overlay, avoids MAPPING clip)
-@onready var _custom_panel: Panel = %CustomShapeEditor
+@onready var _custom_panel: ColorRect = %CustomShapeEditor
 @onready var _custom_canvas: Control = %CustomCanvas
 @onready var _custom_line: Line2D = %CustomLine
 @onready var _custom_grid: Control = %CustomGrid
