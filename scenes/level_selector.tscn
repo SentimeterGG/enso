@@ -597,40 +597,40 @@ size_flags_horizontal = 3
 size_flags_vertical = 3
 script = ExtResource("9_ax7y8")
 
-[node name="Scroll" type="VBoxContainer" parent="Main Content/HBoxContainer/RSide/VBoxContainer/Level List" unique_id=1000000001]
+[node name="Scroll" type="Control" parent="Main Content/HBoxContainer/RSide/VBoxContainer/Level List" unique_id=981291404]
 layout_mode = 1
-anchors_preset = 6
-anchor_left = 1.0
-anchor_top = 0.5
+anchors_preset = 15
 anchor_right = 1.0
-anchor_bottom = 0.5
-offset_left = -260.0
-offset_top = -143.0
-offset_bottom = 143.0
-grow_horizontal = 0
+anchor_bottom = 1.0
+grow_horizontal = 2
 grow_vertical = 2
-theme_override_constants/separation = 8
 
 [node name="level_item" parent="Main Content/HBoxContainer/RSide/VBoxContainer/Level List/Scroll" unique_id=211692072 instance=ExtResource("7_2ec5i")]
-layout_mode = 2
+layout_mode = 1
 
 [node name="level_item2" parent="Main Content/HBoxContainer/RSide/VBoxContainer/Level List/Scroll" unique_id=1480395378 instance=ExtResource("7_2ec5i")]
-layout_mode = 2
+layout_mode = 1
 
 [node name="level_item3" parent="Main Content/HBoxContainer/RSide/VBoxContainer/Level List/Scroll" unique_id=2017547613 instance=ExtResource("7_2ec5i")]
-layout_mode = 2
+z_index = -1
+layout_mode = 1
+offset_transform_enabled = false
+offset_transform_position_ratio = Vector2(0, -1.245)
 
 [node name="level_item4" parent="Main Content/HBoxContainer/RSide/VBoxContainer/Level List/Scroll" unique_id=55596207 instance=ExtResource("7_2ec5i")]
-layout_mode = 2
+layout_mode = 1
 
 [node name="level_item5" parent="Main Content/HBoxContainer/RSide/VBoxContainer/Level List/Scroll" unique_id=1991969750 instance=ExtResource("7_2ec5i")]
-layout_mode = 2
+layout_mode = 1
 
 [node name="level_item6" parent="Main Content/HBoxContainer/RSide/VBoxContainer/Level List/Scroll" unique_id=1711693936 instance=ExtResource("7_2ec5i")]
-layout_mode = 2
+layout_mode = 1
 
 [node name="level_item7" parent="Main Content/HBoxContainer/RSide/VBoxContainer/Level List/Scroll" unique_id=1888243140 instance=ExtResource("7_2ec5i")]
-layout_mode = 2
+custom_minimum_size = Vector2(288, 34)
+custom_maximum_size = Vector2(288, -1)
+layout_mode = 1
+offset_left = -288.0
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="." unique_id=1728898997]
 libraries/ = SubResource("AnimationLibrary_ljvb0")

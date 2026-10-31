@@ -1,10 +1,10 @@
 [gd_scene format=3 uid="uid://cpdx84l3ertd6"]
 
 [ext_resource type="Theme" uid="uid://cpocn8agag6ib" path="res://resources/theme/Theme.tres" id="1_8rjrl"]
+[ext_resource type="Texture2D" uid="uid://bbmbxcifuj6tu" path="res://assets/sprites/UI/levels_item_default_bg_1.png" id="2_4ae8e"]
 [ext_resource type="StyleBox" uid="uid://e8ten8qcpkj4" path="res://resources/theme/level_select_button.tres" id="2_lrfiu"]
 [ext_resource type="Script" uid="uid://67ulg0qvdlhv" path="res://scripts/ui/level_selector/level_item.gd" id="3_4ae8e"]
 [ext_resource type="FontFile" uid="uid://bprqivnp1xsie" path="res://assets/fonts/ttf/PixelCode-Medium.ttf" id="4_rd0an"]
-[ext_resource type="Texture2D" uid="uid://k1s7gsn2hm4f" path="res://levels/Wasurete Yaranai by kessoku band mapped by ENSO Team/wasurete-yaranai.jpg" id="5_lrfiu"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_lrfiu"]
 bg_color = Color(0, 0, 0, 1)
@@ -67,17 +67,23 @@ _data = {
 
 [node name="level_item" type="Panel" unique_id=1603493135]
 clip_children = 2
-custom_minimum_size = Vector2(288, 34)
-custom_maximum_size = Vector2(288, -1)
-offset_right = 260.0
-offset_bottom = 34.0
+z_index = 1
+custom_minimum_size = Vector2(260, 34)
+custom_maximum_size = Vector2(260, -1)
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -260.0
+offset_bottom = 40.0
+grow_horizontal = 0
 size_flags_horizontal = 8
+size_flags_vertical = 0
 offset_transform_enabled = true
 theme_override_styles/panel = SubResource("StyleBoxFlat_lrfiu")
 script = ExtResource("3_4ae8e")
 
 [node name="TextureRect" type="TextureRect" parent="." unique_id=767435133]
-self_modulate = Color(1, 1, 1, 0.27058825)
+self_modulate = Color(1, 1, 1, 0.596)
 layout_mode = 1
 anchors_preset = 14
 anchor_top = 0.5
@@ -87,7 +93,7 @@ offset_top = -73.411766
 offset_bottom = 73.411766
 grow_horizontal = 2
 grow_vertical = 2
-texture = ExtResource("5_lrfiu")
+texture = ExtResource("2_4ae8e")
 expand_mode = 5
 
 [node name="TextureRect" type="TextureRect" parent="TextureRect" unique_id=1835768193]
