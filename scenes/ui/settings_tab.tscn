@@ -11,11 +11,8 @@
 [ext_resource type="PackedScene" uid="uid://cpdjo67hyeq74" path="res://scenes/ui/ui_line.tscn" id="8_xltco"]
 [ext_resource type="AudioStream" uid="uid://c3onj2qko1sg7" path="res://assets/audio/sfx/ENSO-Hitsound.opus" id="9_yklyt"]
 
-[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_yklyt"]
-load_path = "res://.godot/imported/icons.png-873fce6f98d494b658cf46d0a479e9b0.ctex"
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_tk7ty"]
-atlas = SubResource("CompressedTexture2D_yklyt")
+[sub_resource type="AtlasTexture" id="AtlasTexture_waxoa"]
+atlas = ExtResource("6_h8tdx")
 region = Rect2(96, 0, 16, 16)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_yklyt"]
@@ -26,11 +23,8 @@ region = Rect2(112, 0, 16, 16)
 atlas = ExtResource("6_h8tdx")
 region = Rect2(128, 0, 16, 16)
 
-[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_p1kma"]
-load_path = "res://.godot/imported/icons.png-873fce6f98d494b658cf46d0a479e9b0.ctex"
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_ycln1"]
-atlas = SubResource("CompressedTexture2D_p1kma")
+[sub_resource type="AtlasTexture" id="AtlasTexture_vg8wt"]
+atlas = ExtResource("6_h8tdx")
 region = Rect2(144, 0, 16, 16)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_my2pq"]
@@ -453,7 +447,7 @@ layout_mode = 2
 theme = ExtResource("2_al1eu")
 toggle_mode = true
 button_group = ExtResource("7_xltco")
-icon = SubResource("AtlasTexture_tk7ty")
+icon = SubResource("AtlasTexture_waxoa")
 icon_alignment = 1
 expand_icon = true
 
@@ -486,7 +480,7 @@ layout_mode = 2
 offset_transform_position = Vector2(-45, 0)
 toggle_mode = true
 button_group = ExtResource("7_xltco")
-icon = SubResource("AtlasTexture_ycln1")
+icon = SubResource("AtlasTexture_vg8wt")
 icon_alignment = 1
 expand_icon = true
 

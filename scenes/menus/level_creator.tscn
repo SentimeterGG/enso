@@ -30,6 +30,14 @@ border_width_top = 3
 border_width_bottom = 3
 border_color = Color(0.43137255, 0.43137255, 0.43137255, 1)
 
+[sub_resource type="AtlasTexture" id="AtlasTexture_u832l"]
+atlas = ExtResource("6_2vkcm")
+region = Rect2(64, 16, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_a5tis"]
+atlas = ExtResource("6_2vkcm")
+region = Rect2(80, 16, 16, 16)
+
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_7fl6t"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_l1vu5"]
@@ -616,21 +624,6 @@ focus_mode = 0
 theme = ExtResource("1_evwkm")
 text = ">>"
 
-[node name="Label" type="Label" parent="LevelCreator/MAPPING" unique_id=968918794]
-layout_mode = 1
-anchors_preset = 2
-anchor_top = 1.0
-anchor_bottom = 1.0
-offset_left = 37.0
-offset_top = -77.0
-offset_right = 138.0
-offset_bottom = -30.0
-grow_vertical = 0
-theme = ExtResource("1_evwkm")
-text = "M TO ADD
-N TO REMOVE"
-vertical_alignment = 2
-
 [node name="Border" type="Panel" parent="LevelCreator/MAPPING" unique_id=994604870]
 custom_minimum_size = Vector2(0, 390)
 layout_mode = 1
@@ -781,6 +774,30 @@ focus_mode = 0
 theme = ExtResource("1_evwkm")
 text = "Add Shape"
 
+[node name="UndoRedo" type="HBoxContainer" parent="LevelCreator/MAPPING/Controls" unique_id=1369720725]
+layout_mode = 2
+theme_override_constants/separation = 60
+
+[node name="AspectRatioContainer" type="AspectRatioContainer" parent="LevelCreator/MAPPING/Controls/UndoRedo" unique_id=66319824]
+layout_mode = 2
+stretch_mode = 1
+
+[node name="Undo" type="Button" parent="LevelCreator/MAPPING/Controls/UndoRedo/AspectRatioContainer" unique_id=964960529]
+layout_mode = 2
+icon = SubResource("AtlasTexture_u832l")
+icon_alignment = 1
+expand_icon = true
+
+[node name="AspectRatioContainer2" type="AspectRatioContainer" parent="LevelCreator/MAPPING/Controls/UndoRedo" unique_id=1095446795]
+layout_mode = 2
+stretch_mode = 1
+
+[node name="Redo" type="Button" parent="LevelCreator/MAPPING/Controls/UndoRedo/AspectRatioContainer2" unique_id=1986189812]
+layout_mode = 2
+icon = SubResource("AtlasTexture_a5tis")
+icon_alignment = 1
+expand_icon = true
+
 [node name="AddDifficultyPopup" type="Control" parent="LevelCreator/MAPPING" unique_id=127616591]
 unique_name_in_owner = true
 visible = false
@@ -888,6 +905,55 @@ text = "Edit"
 [node name="SaveChangesOnCurrentDiff" type="Button" parent="LevelCreator/MAPPING/EditDifficulty" unique_id=1933988719]
 layout_mode = 2
 text = "Save"
+
+[node name="BeatButtons" type="VBoxContainer" parent="LevelCreator/MAPPING" unique_id=439215938]
+layout_mode = 1
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_left = 29.0
+offset_top = -154.0
+offset_right = 74.0
+offset_bottom = -22.0
+grow_vertical = 0
+
+[node name="AddBeat" type="HBoxContainer" parent="LevelCreator/MAPPING/BeatButtons" unique_id=1948437199]
+layout_mode = 2
+theme_override_constants/separation = 67
+
+[node name="AspectRatioContainer" type="AspectRatioContainer" parent="LevelCreator/MAPPING/BeatButtons/AddBeat" unique_id=1507881773]
+layout_mode = 2
+stretch_mode = 1
+alignment_horizontal = 0
+alignment_vertical = 0
+
+[node name="AddBeatButton" type="Button" parent="LevelCreator/MAPPING/BeatButtons/AddBeat/AspectRatioContainer" unique_id=1284435452]
+custom_minimum_size = Vector2(0, 80)
+layout_mode = 2
+text = "M"
+
+[node name="Label" type="Label" parent="LevelCreator/MAPPING/BeatButtons/AddBeat" unique_id=1606391121]
+layout_mode = 2
+text = "TO ADD"
+
+[node name="RemoveBeat" type="HBoxContainer" parent="LevelCreator/MAPPING/BeatButtons" unique_id=525614744]
+layout_mode = 2
+theme_override_constants/separation = 67
+
+[node name="AspectRatioContainer" type="AspectRatioContainer" parent="LevelCreator/MAPPING/BeatButtons/RemoveBeat" unique_id=1532076969]
+layout_mode = 2
+stretch_mode = 1
+alignment_horizontal = 0
+alignment_vertical = 0
+
+[node name="RemoveBeatButton" type="Button" parent="LevelCreator/MAPPING/BeatButtons/RemoveBeat/AspectRatioContainer" unique_id=358440271]
+custom_minimum_size = Vector2(0, 80)
+layout_mode = 2
+text = "N"
+
+[node name="Label" type="Label" parent="LevelCreator/MAPPING/BeatButtons/RemoveBeat" unique_id=892399033]
+layout_mode = 2
+text = "TO REMOVE"
 
 [node name="TABS" type="HBoxContainer" parent="." unique_id=287608255]
 layout_mode = 1
@@ -1159,11 +1225,15 @@ autowrap_mode = 2
 [connection signal="pressed" from="LevelCreator/MAPPING/HBoxContainer/start" to="LevelCreator/MAPPING" method="_on_start_pressed"]
 [connection signal="item_selected" from="LevelCreator/MAPPING/Controls/DifficultyOption" to="LevelCreator/MAPPING" method="_on_difficulty_option_item_selected"]
 [connection signal="pressed" from="LevelCreator/MAPPING/Controls/Add Difficulty" to="LevelCreator/MAPPING" method="_on_add_difficuly_pressed"]
+[connection signal="pressed" from="LevelCreator/MAPPING/Controls/UndoRedo/AspectRatioContainer/Undo" to="LevelCreator/MAPPING" method="_on_undo_pressed"]
+[connection signal="pressed" from="LevelCreator/MAPPING/Controls/UndoRedo/AspectRatioContainer2/Redo" to="LevelCreator/MAPPING" method="_on_redo_pressed"]
 [connection signal="value_changed" from="LevelCreator/MAPPING/AddDifficultyPopup/VBoxContainer/OverallDifficulty/HBoxContainer/DiffSpin" to="LevelCreator/MAPPING" method="_on_diff_spin_value_changed"]
 [connection signal="pressed" from="LevelCreator/MAPPING/AddDifficultyPopup/VBoxContainer/HBoxContainer/AddDifficultyConfirmation" to="LevelCreator/MAPPING" method="_on_add_difficulty_confirmation_pressed"]
 [connection signal="pressed" from="LevelCreator/MAPPING/AddDifficultyPopup/VBoxContainer/HBoxContainer/CancelDifficultyCreation" to="LevelCreator/MAPPING" method="_on_cancel_difficulty_creation_pressed"]
 [connection signal="pressed" from="LevelCreator/MAPPING/EditDifficulty/EditDifficultyNameButton" to="LevelCreator/MAPPING" method="_on_edit_difficulty_name_button_pressed"]
 [connection signal="pressed" from="LevelCreator/MAPPING/EditDifficulty/SaveChangesOnCurrentDiff" to="LevelCreator/MAPPING" method="_on_save_changes_on_current_diff_pressed"]
+[connection signal="pressed" from="LevelCreator/MAPPING/BeatButtons/AddBeat/AspectRatioContainer/AddBeatButton" to="LevelCreator/MAPPING" method="_on_add_beat_button_pressed"]
+[connection signal="pressed" from="LevelCreator/MAPPING/BeatButtons/RemoveBeat/AspectRatioContainer/RemoveBeatButton" to="LevelCreator/MAPPING" method="_on_remove_beat_button_pressed"]
 [connection signal="pressed" from="TABS/MetadataButton" to="." method="_on_metadata_pressed"]
 [connection signal="pressed" from="TABS/MappingButton" to="." method="_on_mapping_pressed"]
 [connection signal="pressed" from="ExportButton" to="." method="_on_export_button_pressed"]

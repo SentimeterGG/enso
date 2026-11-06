@@ -5,25 +5,16 @@
 [ext_resource type="StyleBox" uid="uid://dqbqam4mckjki" path="res://resources/themes/Notification/warn.tres" id="1_yejxv"]
 [ext_resource type="Texture2D" uid="uid://bwbk0ok8jj44m" path="res://assets/textures/ui/icons/icons.png" id="2_mfwk2"]
 
-[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_yejxv"]
-load_path = "res://.godot/imported/icons.png-873fce6f98d494b658cf46d0a479e9b0.ctex"
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_8ldpm"]
-atlas = SubResource("CompressedTexture2D_yejxv")
+[sub_resource type="AtlasTexture" id="AtlasTexture_pyblu"]
+atlas = ExtResource("2_mfwk2")
 region = Rect2(80, 0, 16, 16)
 
-[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_tafmc"]
-load_path = "res://.godot/imported/icons.png-873fce6f98d494b658cf46d0a479e9b0.ctex"
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_syajt"]
-atlas = SubResource("CompressedTexture2D_tafmc")
+[sub_resource type="AtlasTexture" id="AtlasTexture_mltiy"]
+atlas = ExtResource("2_mfwk2")
 region = Rect2(64, 0, 16, 16)
 
-[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_1fyay"]
-load_path = "res://.godot/imported/icons.png-873fce6f98d494b658cf46d0a479e9b0.ctex"
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_2iyk2"]
-atlas = SubResource("CompressedTexture2D_1fyay")
+[sub_resource type="AtlasTexture" id="AtlasTexture_avux6"]
+atlas = ExtResource("2_mfwk2")
 region = Rect2(48, 0, 16, 16)
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_8ldpm"]
@@ -50,9 +41,9 @@ offset_bottom = 129.0
 grow_horizontal = 0
 theme_override_styles/panel = ExtResource("1_yejxv")
 script = ExtResource("1")
-icon_info = SubResource("AtlasTexture_8ldpm")
-icon_success = SubResource("AtlasTexture_syajt")
-icon_warn = SubResource("AtlasTexture_2iyk2")
+icon_info = SubResource("AtlasTexture_pyblu")
+icon_success = SubResource("AtlasTexture_mltiy")
+icon_warn = SubResource("AtlasTexture_avux6")
 
 [node name="Panel" type="Panel" parent="." unique_id=1299414943]
 layout_mode = 2

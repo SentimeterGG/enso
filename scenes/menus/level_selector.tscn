@@ -14,11 +14,8 @@
 [ext_resource type="PackedScene" uid="uid://cpdx84l3ertd6" path="res://scenes/menus/level_item.tscn" id="12_b0npr"]
 [ext_resource type="Script" uid="uid://v32woxfgdh2j" path="res://scripts/ui/menu/import_popup.gd" id="12_cfmpd"]
 
-[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_f20t4"]
-load_path = "res://.godot/imported/icons.png-873fce6f98d494b658cf46d0a479e9b0.ctex"
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_wioao"]
-atlas = SubResource("CompressedTexture2D_f20t4")
+[sub_resource type="AtlasTexture" id="AtlasTexture_jk1ov"]
+atlas = ExtResource("5_v1k4p")
 region = Rect2(32, 0, 16, 16)
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ehw80"]
@@ -498,7 +495,7 @@ custom_minimum_size = Vector2(72, 72)
 layout_mode = 2
 size_flags_horizontal = 0
 size_flags_vertical = 0
-texture = SubResource("AtlasTexture_wioao")
+texture = SubResource("AtlasTexture_jk1ov")
 expand_mode = 3
 
 [node name="ModifierLabel" type="Label" parent="Main Content/HBoxContainer/LSide/MarginContainer/VBoxContainer/LevelDetails/PlaySection/ModifierButton/MarginContainer" unique_id=1333867137]

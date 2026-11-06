@@ -197,3 +197,4 @@ func _exit_tree() -> void:
 func _on_import_popup_dir_selected(dir: String) -> void:
 	if _importer.import_folder(dir):
 		_update_discord_activity()
+

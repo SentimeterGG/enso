@@ -331,8 +331,7 @@ func _handle_beat_drag(motion: InputEventMouseMotion) -> void:
 	if target == _drag_beat:
 		return
 	if (
-		not _drag_history_recorded
-		and beat_times_ms.has(_drag_beat)
+		not _drag_history_recorded and beat_times_ms.has(_drag_beat)
 		and not beat_times_ms.has(target)
 	):
 		_record_history()
@@ -1770,3 +1769,19 @@ func _on_diff_spin_value_changed(value: float) -> void:
 	else:
 		_add_diff_label.text = "HARD"
 	pass # Replace with function body.
+
+
+func _on_add_beat_button_pressed() -> void:
+	_run_with_difficulty(add_beat_at_current)
+
+
+func _on_remove_beat_button_pressed() -> void:
+	_run_with_difficulty(remove_beat_at_current)
+
+
+func _on_undo_pressed() -> void:
+	_undo_edit()
+
+
+func _on_redo_pressed() -> void:
+	_redo_edit()
