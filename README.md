@@ -53,12 +53,12 @@ Shapes approach a target ring, and you draw each stroke of the shape to the beat
 
 ### Latest Release
 
-The latest stable version is **v0.4.0**.
+The latest stable version is **v0.5.0**.
 
 You can view all releases and changelogs on the [releases page](https://github.com/SentimeterGG/enso/releases).
 
-| Platform | Download |
-|---|---|
+| Platform    | Download                                                                     |
+| ----------- | ---------------------------------------------------------------------------- |
 | **Windows** | [Download for Windows](https://github.com/SentimeterGG/enso/releases/latest) |
 | **Android** | [Download for Android](https://github.com/SentimeterGG/enso/releases/latest) |
 
@@ -91,11 +91,11 @@ You can view all releases and changelogs on the [releases page](https://github.c
 
 ENSO stores settings, saves, and custom levels separately from the game installation, in Godot's `user://` folder:
 
-| Platform | Path |
-|---|---|
-| **Windows** | `%appdata%\ENSO` |
-| **Linux** (editor) | `~/.local/share/ENSO` |
-| **Android** | Managed by the OS in the app's private storage |
+| Platform           | Path                                           |
+| ------------------ | ---------------------------------------------- |
+| **Windows**        | `%appdata%\ENSO`                               |
+| **Linux** (editor) | `~/.local/share/ENSO`                          |
+| **Android**        | Managed by the OS in the app's private storage |
 
 Custom levels placed in the `levels` folder inside the user folder will show up in the level selector.
 
@@ -111,10 +111,10 @@ A selection of levels is bundled with each release. To add more, place chart fol
 
 ### Prerequisites
 
-| Tool | Version | Notes |
-|---|---|---|
+| Tool                                             | Version | Notes                                                            |
+| ------------------------------------------------ | ------- | ---------------------------------------------------------------- |
 | [Godot Engine](https://godotengine.org/download) | **4.7** | Standard build is sufficient — the project uses GDScript, not C# |
-| [Git](https://git-scm.com/downloads) | Latest | Required to clone the repository |
+| [Git](https://git-scm.com/downloads)             | Latest  | Required to clone the repository                                 |
 
 ### Project Structure
 
