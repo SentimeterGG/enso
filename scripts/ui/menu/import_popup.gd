@@ -12,6 +12,7 @@ const PREVIEW_VARIANT_SIZE := Vector2(700, 96)
 const LEVEL_LIST_PATH := "Main Content/HBoxContainer/RSide/VBoxContainer/Level List"
 const IMPORT_BUTTON_PATH := "Main Content/HBoxContainer/RSide/VBoxContainer/SearchSection/ImportButton"
 
+var android_picker: Object
 var _archive := EnszArchive.new()
 var _source_path := ""
 var _preview_levels: Array[String] = []
@@ -39,6 +40,9 @@ func _ready() -> void:
 	_clear_dir(PREVIEW_ROOT)
 	_clear_dir(CACHE_ROOT)
 	_set_busy(false)
+	if Engine.has_singleton("GodotFilePicker"):
+		android_picker = Engine.get_singleton("GodotFilePicker")
+		android_picker.file_picked.connect(_on_file_android_picked)
 
 
 func _unhandled_input(event: InputEvent) -> void:
@@ -70,11 +74,26 @@ func close_popup() -> void:
 func _open_file_dialog() -> void:
 	if _busy:
 		return
+
 	var current := _file_line.text.strip_edges()
 	if not current.is_empty():
 		_file_dialog.current_dir = current.get_base_dir()
 		_file_dialog.current_file = current.get_file()
-	_file_dialog.popup_centered_ratio(0.8)
+
+	if android_picker:
+		android_picker.openFilePicker("*/*")
+	else:
+		_file_dialog.popup_centered_ratio(0.8)
+
+
+func _on_file_android_picked(temp_path: String, mime_type: String) -> void:
+	if not temp_path.get_file().to_lower().ends_with(".ensz"):
+		push_error("Invalid file. Expected .ensz")
+		DirAccess.remove_absolute(temp_path)
+		return
+
+	_file_line.text = temp_path
+	_preview_archive(temp_path)
 
 
 func _on_file_selected(path: String) -> void:

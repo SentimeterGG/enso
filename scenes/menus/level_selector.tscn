@@ -652,7 +652,6 @@ stream = ExtResource("11_pkjbs")
 bus = &"Effect"
 
 [node name="ImportPopup" type="Control" parent="." unique_id=34632022]
-visible = false
 z_index = 5
 layout_mode = 1
 anchors_preset = 15
