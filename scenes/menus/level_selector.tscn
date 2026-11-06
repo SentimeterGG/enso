@@ -1,0 +1,865 @@
+[gd_scene format=3 uid="uid://bbrijn7extm0j"]
+
+[ext_resource type="Script" uid="uid://cpj4fntxrhqg7" path="res://scripts/ui/level_selector/level_selector.gd" id="1_2ec5i"]
+[ext_resource type="Texture2D" uid="uid://cj3h38kay5hgt" path="res://assets/textures/ui/placeholder-level-banner.png" id="2_f20t4"]
+[ext_resource type="FontFile" uid="uid://dyxffgnx1hp18" path="res://assets/fonts/ttf/PixelCode-Medium.ttf" id="2_gkmvm"]
+[ext_resource type="Script" uid="uid://cbn5b2q7deb3v" path="res://scripts/ui/level_selector/level_details.gd" id="2_ljvb0"]
+[ext_resource type="Theme" uid="uid://cpocn8agag6ib" path="res://resources/themes/Theme.tres" id="3_rqfkl"]
+[ext_resource type="PackedScene" uid="uid://cpdjo67hyeq74" path="res://scenes/ui/ui_line.tscn" id="3_v1k4p"]
+[ext_resource type="FontFile" uid="uid://c01hb7kklocyn" path="res://resources/fonts/pixel_regular.res" id="5_ljvb0"]
+[ext_resource type="Texture2D" uid="uid://bwbk0ok8jj44m" path="res://assets/textures/ui/icons/icons.png" id="5_v1k4p"]
+[ext_resource type="Script" uid="uid://b8lss2my82vt3" path="res://scripts/ui/level_selector/level_list.gd" id="9_ax7y8"]
+[ext_resource type="PackedScene" uid="uid://b7rlmo61qxu8s" path="res://scenes/editor/draw.tscn" id="10_v1k4p"]
+[ext_resource type="AudioStream" uid="uid://bvfpv2bcadkdb" path="res://assets/audio/sfx/hitnormal.opus" id="11_pkjbs"]
+[ext_resource type="PackedScene" uid="uid://cpdx84l3ertd6" path="res://scenes/menus/level_item.tscn" id="12_b0npr"]
+[ext_resource type="Script" uid="uid://v32woxfgdh2j" path="res://scripts/ui/menu/import_popup.gd" id="12_cfmpd"]
+
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_f20t4"]
+load_path = "res://.godot/imported/icons.png-873fce6f98d494b658cf46d0a479e9b0.ctex"
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_wioao"]
+atlas = SubResource("CompressedTexture2D_f20t4")
+region = Rect2(32, 0, 16, 16)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ehw80"]
+bg_color = Color(0.1428257, 0.1428257, 0.1428257, 0.64500004)
+border_width_left = 3
+border_width_top = 3
+border_width_right = 3
+border_width_bottom = 3
+border_color = Color(0.4817894, 0.48178953, 0.4817894, 1)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ukpo5"]
+atlas = ExtResource("5_v1k4p")
+region = Rect2(0, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_pkjbs"]
+atlas = ExtResource("5_v1k4p")
+region = Rect2(16, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_b0npr"]
+atlas = ExtResource("5_v1k4p")
+region = Rect2(32, 16, 16, 16)
+filter_clip = true
+
+[sub_resource type="Animation" id="Animation_5lm0q"]
+resource_name = "Opening"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Main Content/HBoxContainer/LSide/MarginContainer/VBoxContainer/LevelDetails/PlaySection/SignHerePanel/CenterContainer/Draw Here:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.7),
+"transitions": PackedFloat32Array(0.18, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 0), Color(1, 1, 1, 1)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Main Content/HBoxContainer/VLine:custom_minimum_size")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.43333334, 0.73333335),
+"transitions": PackedFloat32Array(7.917043, 0.18, 1),
+"update": 0,
+"values": [Vector2(1, 0), Vector2(1, 191.1), Vector2(1, 272)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("Main Content/HBoxContainer/RSide:modulate")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0.16666667, 0.8333333),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 0), Color(1, 1, 1, 1)]
+}
+
+[sub_resource type="Animation" id="Animation_v1k4p"]
+resource_name = "Out"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Main Content/HBoxContainer/RSide:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0.33333334, 0.93333334),
+"transitions": PackedFloat32Array(0.18, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 1), Color(1, 1, 1, 0)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Main Content/HBoxContainer/VLine:custom_minimum_size")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.46666667, 0.8),
+"transitions": PackedFloat32Array(3, 0.18, 7.917043),
+"update": 0,
+"values": [Vector2(1, 272), Vector2(1, 191.1), Vector2(1, 0)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("Main Content/HBoxContainer/LSide/MarginContainer/VBoxContainer/LevelDetails/PlaySection/SignHerePanel/CenterContainer/Draw Here:modulate")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0, 0.8333333),
+"transitions": PackedFloat32Array(0.18, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 1), Color(1, 1, 1, 0)]
+}
+
+[sub_resource type="Animation" id="Animation_ljvb0"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Main Content/HBoxContainer/LSide/MarginContainer/VBoxContainer/LevelDetails/PlaySection/SignHerePanel/CenterContainer/Draw Here:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 1, 1, 0)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Main Content/HBoxContainer/VLine:custom_minimum_size")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(1, 0)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("Main Content/HBoxContainer/RSide:modulate")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 1, 1, 0)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_ljvb0"]
+_data = {
+&"Opening": SubResource("Animation_5lm0q"),
+&"Out": SubResource("Animation_v1k4p"),
+&"RESET": SubResource("Animation_ljvb0")
+}
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_cfmpd"]
+atlas = ExtResource("5_v1k4p")
+region = Rect2(48, 16, 16, 16)
+filter_clip = true
+
+[node name="level_selector" type="Control" unique_id=1310545364]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_2ec5i")
+
+[node name="Main Content" type="MarginContainer" parent="." unique_id=1392130359]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 48
+theme_override_constants/margin_top = 48
+theme_override_constants/margin_right = 48
+theme_override_constants/margin_bottom = 48
+
+[node name="HBoxContainer" type="HBoxContainer" parent="Main Content" unique_id=499521259]
+layout_mode = 2
+
+[node name="LSide" type="Control" parent="Main Content/HBoxContainer" unique_id=128437740]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="MarginContainer" type="MarginContainer" parent="Main Content/HBoxContainer/LSide" unique_id=396443206]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_right = 36
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Main Content/HBoxContainer/LSide/MarginContainer" unique_id=156574507]
+layout_mode = 2
+theme_override_constants/separation = 36
+
+[node name="LevelDetails" type="VBoxContainer" parent="Main Content/HBoxContainer/LSide/MarginContainer/VBoxContainer" unique_id=1364292533]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_constants/separation = 24
+script = ExtResource("2_ljvb0")
+
+[node name="Profile" type="HBoxContainer" parent="Main Content/HBoxContainer/LSide/MarginContainer/VBoxContainer/LevelDetails" unique_id=353773695]
+layout_mode = 2
+theme_override_constants/separation = 36
+
+[node name="TextureRect" type="TextureRect" parent="Main Content/HBoxContainer/LSide/MarginContainer/VBoxContainer/LevelDetails/Profile" unique_id=163277080]
+custom_minimum_size = Vector2(330, 330)
+custom_maximum_size = Vector2(330, 330)
+layout_mode = 2
+offset_transform_enabled = true
+texture = ExtResource("2_f20t4")
+expand_mode = 5
+stretch_mode = 6
+
+[node name="ProfileDetails" type="VBoxContainer" parent="Main Content/HBoxContainer/LSide/MarginContainer/VBoxContainer/LevelDetails/Profile" unique_id=1099446436]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 6
+
+[node name="TitleContainer" type="VBoxContainer" parent="Main Content/HBoxContainer/LSide/MarginContainer/VBoxContainer/LevelDetails/Profile/ProfileDetails" unique_id=194429338]
+layout_mode = 2
+theme_override_constants/separation = 12
+
+[node name="Title" type="Label" parent="Main Content/HBoxContainer/LSide/MarginContainer/VBoxContainer/LevelDetails/Profile/ProfileDetails/TitleContainer" unique_id=121634496]
+custom_maximum_size = Vector2(495, -1)
+layout_mode = 2
+theme_override_font_sizes/font_size = 45
+text = "-"
+clip_text = true
+uppercase = true
+
+[node name="ControlLine" parent="Main Content/HBoxContainer/LSide/MarginContainer/VBoxContainer/LevelDetails/Profile/ProfileDetails/TitleContainer" unique_id=578883494 instance=ExtResource("3_v1k4p")]
+custom_minimum_size = Vector2(0, 0)
+custom_maximum_size = Vector2(-1, -1)
+layout_mode = 2
+shape = 4
+line_thickness = 3
+follow_anchor = true
+
+[node name="L" parent="Main Content/HBoxContainer/LSide/MarginContainer/VBoxContainer/LevelDetails/Profile/ProfileDetails/TitleContainer/ControlLine" index="0" unique_id=1114771390]
+points = PackedVector2Array(0, 0, 497, 0)
+width = 3.0
+joint_mode = 0
+begin_cap_mode = 1
+end_cap_mode = 1
+
+[node name="SourceContainer" type="VBoxContainer" parent="Main Content/HBoxContainer/LSide/MarginContainer/VBoxContainer/LevelDetails/Profile/ProfileDetails" unique_id=282935269]
+layout_mode = 2
+theme_override_constants/separation = 12
+
+[node name="SourceLabel" type="Label" parent="Main Content/HBoxContainer/LSide/MarginContainer/VBoxContainer/LevelDetails/Profile/ProfileDetails/SourceContainer" unique_id=181047084]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.5890956, 0.58909565, 0.5890954, 1)
+theme_override_fonts/font = ExtResource("5_ljvb0")
+theme_override_font_sizes/font_size = 21
+text = "Source"
+
+[node name="SourceValue" type="Label" parent="Main Content/HBoxContainer/LSide/MarginContainer/VBoxContainer/LevelDetails/Profile/ProfileDetails/SourceContainer" unique_id=1474634727]
+custom_maximum_size = Vector2(495, -1)
+layout_mode = 2
+theme_override_font_sizes/font_size = 30
+text = "-"
+clip_text = true
+
+[node name="ControlLine2" parent="Main Content/HBoxContainer/LSide/MarginContainer/VBoxContainer/LevelDetails/Profile/ProfileDetails" unique_id=1151083760 instance=ExtResource("3_v1k4p")]
+custom_minimum_size = Vector2(0, 0)
+custom_maximum_size = Vector2(-1, -1)
+layout_mode = 2
+shape = 4
+line_thickness = 3
+follow_anchor = true
+
+[node name="L" parent="Main Content/HBoxContainer/LSide/MarginContainer/VBoxContainer/LevelDetails/Profile/ProfileDetails/ControlLine2" index="0" unique_id=1114771390]
+points = PackedVector2Array(0, 0, 497, 0)
+width = 3.0
+default_color = Color(0.48235294, 0.48235294, 0.48235294, 1)
+joint_mode = 0
+begin_cap_mode = 1
+end_cap_mode = 1
+
+[node name="MapperContainer" type="VBoxContainer" parent="Main Content/HBoxContainer/LSide/MarginContainer/VBoxContainer/LevelDetails/Profile/ProfileDetails" unique_id=223041712]
+layout_mode = 2
+theme_override_constants/separation = 12
+
+[node name="MapperLabel" type="Label" parent="Main Content/HBoxContainer/LSide/MarginContainer/VBoxContainer/LevelDetails/Profile/ProfileDetails/MapperContainer" unique_id=1802184829]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.5890956, 0.58909565, 0.5890954, 1)
+theme_override_fonts/font = ExtResource("5_ljvb0")
+theme_override_font_sizes/font_size = 21
+text = "Mapper"
+
+[node name="MapperValue" type="Label" parent="Main Content/HBoxContainer/LSide/MarginContainer/VBoxContainer/LevelDetails/Profile/ProfileDetails/MapperContainer" unique_id=53969608]
+custom_maximum_size = Vector2(495, -1)
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 0, 0, 1)
+theme_override_font_sizes/font_size = 30
+text = "-"
+clip_text = true
+
+[node name="ControlLine" parent="Main Content/HBoxContainer/LSide/MarginContainer/VBoxContainer/LevelDetails/Profile/ProfileDetails" unique_id=2100053032 instance=ExtResource("3_v1k4p")]
+custom_minimum_size = Vector2(0, 0)
+custom_maximum_size = Vector2(-1, -1)
+layout_mode = 2
+shape = 4
+line_thickness = 3
+follow_anchor = true
+
+[node name="L" parent="Main Content/HBoxContainer/LSide/MarginContainer/VBoxContainer/LevelDetails/Profile/ProfileDetails/ControlLine" index="0" unique_id=1114771390]
+points = PackedVector2Array(0, 0, 497, 0)
+width = 3.0
+default_color = Color(0.48235294, 0.48235294, 0.48235294, 1)
+joint_mode = 0
+begin_cap_mode = 1
+end_cap_mode = 1
+
+[node name="Level" type="HBoxContainer" parent="Main Content/HBoxContainer/LSide/MarginContainer/VBoxContainer/LevelDetails" unique_id=693840850]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_constants/separation = 8
+
+[node name="Difficulty" type="Panel" parent="Main Content/HBoxContainer/LSide/MarginContainer/VBoxContainer/LevelDetails/Level" unique_id=678344513]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="MarginContainer" type="MarginContainer" parent="Main Content/HBoxContainer/LSide/MarginContainer/VBoxContainer/LevelDetails/Level/Difficulty" unique_id=575122378]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 24
+theme_override_constants/margin_top = 12
+theme_override_constants/margin_right = 24
+theme_override_constants/margin_bottom = 24
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Main Content/HBoxContainer/LSide/MarginContainer/VBoxContainer/LevelDetails/Level/Difficulty/MarginContainer" unique_id=555463154]
+layout_mode = 2
+
+[node name="Title" type="Label" parent="Main Content/HBoxContainer/LSide/MarginContainer/VBoxContainer/LevelDetails/Level/Difficulty/MarginContainer/VBoxContainer" unique_id=92999076]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.6052743, 0.6052743, 0.6052743, 1)
+theme_override_fonts/font = ExtResource("5_ljvb0")
+theme_override_font_sizes/font_size = 21
+text = "Difficulty"
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Main Content/HBoxContainer/LSide/MarginContainer/VBoxContainer/LevelDetails/Level/Difficulty/MarginContainer/VBoxContainer" unique_id=276690430]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_constants/separation = 12
+
+[node name="Value" type="Label" parent="Main Content/HBoxContainer/LSide/MarginContainer/VBoxContainer/LevelDetails/Level/Difficulty/MarginContainer/VBoxContainer/VBoxContainer" unique_id=1334944922]
+layout_mode = 2
+text = "-"
+
+[node name="Pipe" type="HBoxContainer" parent="Main Content/HBoxContainer/LSide/MarginContainer/VBoxContainer/LevelDetails/Level/Difficulty/MarginContainer/VBoxContainer/VBoxContainer" unique_id=808667040]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="1" type="ColorRect" parent="Main Content/HBoxContainer/LSide/MarginContainer/VBoxContainer/LevelDetails/Level/Difficulty/MarginContainer/VBoxContainer/VBoxContainer/Pipe" unique_id=1945627042]
+custom_minimum_size = Vector2(11, 0)
+layout_mode = 2
+size_flags_horizontal = 3
+color = Color(0.23137255, 0.23137255, 0.23137255, 1)
+
+[node name="2" type="ColorRect" parent="Main Content/HBoxContainer/LSide/MarginContainer/VBoxContainer/LevelDetails/Level/Difficulty/MarginContainer/VBoxContainer/VBoxContainer/Pipe" unique_id=1780701385]
+custom_minimum_size = Vector2(11, 0)
+layout_mode = 2
+size_flags_horizontal = 3
+color = Color(0.23137255, 0.23137255, 0.23137255, 1)
+
+[node name="3" type="ColorRect" parent="Main Content/HBoxContainer/LSide/MarginContainer/VBoxContainer/LevelDetails/Level/Difficulty/MarginContainer/VBoxContainer/VBoxContainer/Pipe" unique_id=2068708438]
+custom_minimum_size = Vector2(11, 0)
+layout_mode = 2
+size_flags_horizontal = 3
+color = Color(0.23137255, 0.23137255, 0.23137255, 1)
+
+[node name="4" type="ColorRect" parent="Main Content/HBoxContainer/LSide/MarginContainer/VBoxContainer/LevelDetails/Level/Difficulty/MarginContainer/VBoxContainer/VBoxContainer/Pipe" unique_id=1323581646]
+custom_minimum_size = Vector2(11, 0)
+layout_mode = 2
+size_flags_horizontal = 3
+color = Color(0.23137255, 0.23137255, 0.23137255, 1)
+
+[node name="5" type="ColorRect" parent="Main Content/HBoxContainer/LSide/MarginContainer/VBoxContainer/LevelDetails/Level/Difficulty/MarginContainer/VBoxContainer/VBoxContainer/Pipe" unique_id=1978953452]
+custom_minimum_size = Vector2(11, 0)
+layout_mode = 2
+size_flags_horizontal = 3
+color = Color(0.23031491, 0.23031494, 0.23031494, 1)
+
+[node name="BPM" type="Panel" parent="Main Content/HBoxContainer/LSide/MarginContainer/VBoxContainer/LevelDetails/Level" unique_id=1096506930]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="MarginContainer" type="MarginContainer" parent="Main Content/HBoxContainer/LSide/MarginContainer/VBoxContainer/LevelDetails/Level/BPM" unique_id=1426534734]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 24
+theme_override_constants/margin_top = 18
+theme_override_constants/margin_right = 24
+theme_override_constants/margin_bottom = 18
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Main Content/HBoxContainer/LSide/MarginContainer/VBoxContainer/LevelDetails/Level/BPM/MarginContainer" unique_id=1743755856]
+layout_mode = 2
+theme_override_constants/separation = 0
+
+[node name="Title" type="Label" parent="Main Content/HBoxContainer/LSide/MarginContainer/VBoxContainer/LevelDetails/Level/BPM/MarginContainer/VBoxContainer" unique_id=1294900685]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.6052743, 0.6052743, 0.6052743, 1)
+theme_override_fonts/font = ExtResource("5_ljvb0")
+theme_override_font_sizes/font_size = 21
+text = "BPM"
+
+[node name="Value" type="Label" parent="Main Content/HBoxContainer/LSide/MarginContainer/VBoxContainer/LevelDetails/Level/BPM/MarginContainer/VBoxContainer" unique_id=180949137]
+layout_mode = 2
+theme_override_font_sizes/font_size = 48
+text = "0"
+
+[node name="Length" type="Panel" parent="Main Content/HBoxContainer/LSide/MarginContainer/VBoxContainer/LevelDetails/Level" unique_id=707565070]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="MarginContainer" type="MarginContainer" parent="Main Content/HBoxContainer/LSide/MarginContainer/VBoxContainer/LevelDetails/Level/Length" unique_id=1786906873]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 24
+theme_override_constants/margin_top = 18
+theme_override_constants/margin_right = 24
+theme_override_constants/margin_bottom = 18
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Main Content/HBoxContainer/LSide/MarginContainer/VBoxContainer/LevelDetails/Level/Length/MarginContainer" unique_id=1386504347]
+layout_mode = 2
+theme_override_constants/separation = 0
+
+[node name="Title" type="Label" parent="Main Content/HBoxContainer/LSide/MarginContainer/VBoxContainer/LevelDetails/Level/Length/MarginContainer/VBoxContainer" unique_id=2124814817]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.6052743, 0.6052743, 0.6052743, 1)
+theme_override_fonts/font = ExtResource("5_ljvb0")
+theme_override_font_sizes/font_size = 21
+text = "LENGTH"
+
+[node name="Value" type="Label" parent="Main Content/HBoxContainer/LSide/MarginContainer/VBoxContainer/LevelDetails/Level/Length/MarginContainer/VBoxContainer" unique_id=67291000]
+layout_mode = 2
+theme_override_font_sizes/font_size = 48
+text = "0:00"
+
+[node name="PlaySection" type="HBoxContainer" parent="Main Content/HBoxContainer/LSide/MarginContainer/VBoxContainer/LevelDetails" unique_id=414471631]
+custom_minimum_size = Vector2(0, 384)
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="ModifierButton" type="Button" parent="Main Content/HBoxContainer/LSide/MarginContainer/VBoxContainer/LevelDetails/PlaySection" unique_id=381279923]
+custom_minimum_size = Vector2(384, 0)
+custom_maximum_size = Vector2(384, -1)
+layout_mode = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="Main Content/HBoxContainer/LSide/MarginContainer/VBoxContainer/LevelDetails/PlaySection/ModifierButton" unique_id=1585978542]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 24
+theme_override_constants/margin_top = 18
+theme_override_constants/margin_right = 24
+theme_override_constants/margin_bottom = 18
+
+[node name="Icon" type="TextureRect" parent="Main Content/HBoxContainer/LSide/MarginContainer/VBoxContainer/LevelDetails/PlaySection/ModifierButton/MarginContainer" unique_id=751587899]
+custom_minimum_size = Vector2(72, 72)
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 0
+texture = SubResource("AtlasTexture_wioao")
+expand_mode = 3
+
+[node name="ModifierLabel" type="Label" parent="Main Content/HBoxContainer/LSide/MarginContainer/VBoxContainer/LevelDetails/PlaySection/ModifierButton/MarginContainer" unique_id=1333867137]
+layout_mode = 2
+size_flags_vertical = 8
+theme_override_font_sizes/font_size = 45
+text = "MODIFIER"
+
+[node name="SignHerePanel" type="Panel" parent="Main Content/HBoxContainer/LSide/MarginContainer/VBoxContainer/LevelDetails/PlaySection" unique_id=75924823]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_styles/panel = SubResource("StyleBoxFlat_ehw80")
+
+[node name="CenterContainer" type="CenterContainer" parent="Main Content/HBoxContainer/LSide/MarginContainer/VBoxContainer/LevelDetails/PlaySection/SignHerePanel" unique_id=643785702]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 3
+
+[node name="Draw Here" type="Label" parent="Main Content/HBoxContainer/LSide/MarginContainer/VBoxContainer/LevelDetails/PlaySection/SignHerePanel/CenterContainer" unique_id=556849481]
+unique_name_in_owner = true
+modulate = Color(1, 1, 1, 0)
+self_modulate = Color(1, 1, 1, 0.39215687)
+layout_mode = 2
+offset_transform_enabled = true
+theme_override_fonts/font = ExtResource("2_gkmvm")
+theme_override_font_sizes/font_size = 36
+text = "DRAW HERE"
+horizontal_alignment = 1
+
+[node name="Hint" type="HBoxContainer" parent="Main Content/HBoxContainer/LSide/MarginContainer/VBoxContainer" unique_id=297164656]
+layout_mode = 2
+theme_override_constants/separation = 54
+
+[node name="Play" type="HBoxContainer" parent="Main Content/HBoxContainer/LSide/MarginContainer/VBoxContainer/Hint" unique_id=195725454]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+theme_override_constants/separation = 36
+
+[node name="ControlLine" parent="Main Content/HBoxContainer/LSide/MarginContainer/VBoxContainer/Hint/Play" unique_id=1519533841 instance=ExtResource("3_v1k4p")]
+custom_minimum_size = Vector2(40, 48)
+custom_maximum_size = Vector2(40, 48)
+layout_mode = 2
+offset_transform_enabled = true
+offset_transform_position = Vector2(2.23, 0)
+shape = 3
+shape_size = Vector2(40, 48)
+
+[node name="Label" type="Label" parent="Main Content/HBoxContainer/LSide/MarginContainer/VBoxContainer/Hint/Play" unique_id=1613650764]
+layout_mode = 2
+size_flags_horizontal = 0
+theme = ExtResource("3_rqfkl")
+theme_override_colors/font_color = Color(0.6344296, 0.6344296, 0.6344295, 1)
+theme_override_font_sizes/font_size = 36
+text = "PLAY"
+
+[node name="GoBack" type="HBoxContainer" parent="Main Content/HBoxContainer/LSide/MarginContainer/VBoxContainer/Hint" unique_id=1057374094]
+layout_mode = 2
+size_flags_vertical = 4
+theme_override_constants/separation = 36
+
+[node name="ControlLine2" parent="Main Content/HBoxContainer/LSide/MarginContainer/VBoxContainer/Hint/GoBack" unique_id=1419786070 instance=ExtResource("3_v1k4p")]
+custom_minimum_size = Vector2(48, 48)
+custom_maximum_size = Vector2(48, 48)
+layout_mode = 2
+shape_size = Vector2(48, 48)
+
+[node name="Label" type="Label" parent="Main Content/HBoxContainer/LSide/MarginContainer/VBoxContainer/Hint/GoBack" unique_id=1511001177]
+layout_mode = 2
+size_flags_horizontal = 0
+theme = ExtResource("3_rqfkl")
+theme_override_colors/font_color = Color(0.6344296, 0.6344296, 0.6344295, 1)
+theme_override_font_sizes/font_size = 36
+text = "GO BACK"
+
+[node name="VLine" type="ColorRect" parent="Main Content/HBoxContainer" unique_id=2139384527]
+custom_minimum_size = Vector2(1, 0)
+layout_mode = 2
+color = Color(0.43137255, 0.43137255, 0.43137255, 1)
+
+[node name="RSide" type="MarginContainer" parent="Main Content/HBoxContainer" unique_id=688860742]
+modulate = Color(1, 1, 1, 0)
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/margin_left = 36
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Main Content/HBoxContainer/RSide" unique_id=698558254]
+layout_mode = 2
+theme_override_constants/separation = 9
+
+[node name="SearchSection" type="HBoxContainer" parent="Main Content/HBoxContainer/RSide/VBoxContainer" unique_id=498238167]
+layout_mode = 2
+
+[node name="SearchBar" type="LineEdit" parent="Main Content/HBoxContainer/RSide/VBoxContainer/SearchSection" unique_id=1288421359]
+layout_mode = 2
+size_flags_horizontal = 3
+placeholder_text = "Search.."
+
+[node name="SearchButton" type="Button" parent="Main Content/HBoxContainer/RSide/VBoxContainer/SearchSection" unique_id=1858570168]
+custom_minimum_size = Vector2(68, 0)
+custom_maximum_size = Vector2(68, -1)
+layout_mode = 2
+icon = SubResource("AtlasTexture_ukpo5")
+icon_alignment = 1
+expand_icon = true
+
+[node name="Filter" type="Button" parent="Main Content/HBoxContainer/RSide/VBoxContainer/SearchSection" unique_id=1581273882]
+custom_minimum_size = Vector2(68, 0)
+custom_maximum_size = Vector2(68, -1)
+layout_mode = 2
+icon = SubResource("AtlasTexture_pkjbs")
+icon_alignment = 1
+expand_icon = true
+
+[node name="ImportButton" type="Button" parent="Main Content/HBoxContainer/RSide/VBoxContainer/SearchSection" unique_id=1194943146]
+editor_description = "This Button shows the import popup
+"
+custom_minimum_size = Vector2(68, 0)
+custom_maximum_size = Vector2(68, -1)
+layout_mode = 2
+icon = SubResource("AtlasTexture_b0npr")
+icon_alignment = 1
+expand_icon = true
+
+[node name="Level List" type="Control" parent="Main Content/HBoxContainer/RSide/VBoxContainer" unique_id=1172829929]
+clip_contents = true
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+script = ExtResource("9_ax7y8")
+
+[node name="Scroll" type="Control" parent="Main Content/HBoxContainer/RSide/VBoxContainer/Level List" unique_id=981291404]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="." unique_id=1728898997]
+libraries/ = SubResource("AnimationLibrary_ljvb0")
+
+[node name="draw" parent="." unique_id=2118743800 instance=ExtResource("10_v1k4p")]
+points = PackedVector2Array(3093, -859)
+weight = 0.5
+guess_mode = true
+
+[node name="beat_sound" type="AudioStreamPlayer" parent="." unique_id=1070158643]
+stream = ExtResource("11_pkjbs")
+bus = &"Effect"
+
+[node name="ImportPopup" type="Control" parent="." unique_id=34632022]
+visible = false
+z_index = 5
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("12_cfmpd")
+
+[node name="AspectRatioContainer" type="AspectRatioContainer" parent="ImportPopup" unique_id=1866661376]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+ratio = 1.8
+
+[node name="MarginContainer" type="MarginContainer" parent="ImportPopup/AspectRatioContainer" unique_id=532641261]
+layout_mode = 2
+theme_override_constants/margin_left = 120
+theme_override_constants/margin_top = 120
+theme_override_constants/margin_right = 120
+theme_override_constants/margin_bottom = 120
+
+[node name="Panel" type="Panel" parent="ImportPopup/AspectRatioContainer/MarginContainer" unique_id=151761290]
+layout_mode = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="ImportPopup/AspectRatioContainer/MarginContainer/Panel" unique_id=1404633126]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 48
+theme_override_constants/margin_top = 48
+theme_override_constants/margin_right = 48
+theme_override_constants/margin_bottom = 48
+
+[node name="HBoxContainer" type="HBoxContainer" parent="ImportPopup/AspectRatioContainer/MarginContainer/Panel/MarginContainer" unique_id=1822801217]
+layout_mode = 2
+theme_override_constants/separation = 24
+
+[node name="Preview" type="Control" parent="ImportPopup/AspectRatioContainer/MarginContainer/Panel/MarginContainer/HBoxContainer" unique_id=1238469351]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="PreviewLab" type="Label" parent="ImportPopup/AspectRatioContainer/MarginContainer/Panel/MarginContainer/HBoxContainer/Preview" unique_id=415579941]
+editor_description = "When $/ImportPopup/AspectRatioContainer/MarginContainer/Panel/MarginContainer/HBoxContainer/Preview/ScrollContainer/VBoxContainer doesn't have anything this label will show"
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -266.5
+offset_top = -22.0
+offset_right = 266.5
+offset_bottom = 22.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_colors/font_color = Color(0.65834004, 0.6583399, 0.6583399, 1)
+text = "Preview Of Imported Files"
+
+[node name="ScrollContainer" type="ScrollContainer" parent="ImportPopup/AspectRatioContainer/MarginContainer/Panel/MarginContainer/HBoxContainer/Preview" unique_id=1666524439]
+editor_description = "Preview Of Level before being imported"
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="ImportPopup/AspectRatioContainer/MarginContainer/Panel/MarginContainer/HBoxContainer/Preview/ScrollContainer" unique_id=2053707907]
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 3
+
+[node name="level_item" parent="ImportPopup/AspectRatioContainer/MarginContainer/Panel/MarginContainer/HBoxContainer/Preview/ScrollContainer/VBoxContainer" unique_id=1513305639 instance=ExtResource("12_b0npr")]
+custom_minimum_size = Vector2(744, 120)
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 1
+
+[node name="level_item2" parent="ImportPopup/AspectRatioContainer/MarginContainer/Panel/MarginContainer/HBoxContainer/Preview/ScrollContainer/VBoxContainer" unique_id=1637878974 instance=ExtResource("12_b0npr")]
+custom_minimum_size = Vector2(744, 120)
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 1
+
+[node name="level_item3" parent="ImportPopup/AspectRatioContainer/MarginContainer/Panel/MarginContainer/HBoxContainer/Preview/ScrollContainer/VBoxContainer" unique_id=1603493135 instance=ExtResource("12_b0npr")]
+custom_minimum_size = Vector2(744, 120)
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 1
+
+[node name="level_item4" parent="ImportPopup/AspectRatioContainer/MarginContainer/Panel/MarginContainer/HBoxContainer/Preview/ScrollContainer/VBoxContainer" unique_id=1612507067 instance=ExtResource("12_b0npr")]
+custom_minimum_size = Vector2(744, 120)
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 1
+
+[node name="level_item5" parent="ImportPopup/AspectRatioContainer/MarginContainer/Panel/MarginContainer/HBoxContainer/Preview/ScrollContainer/VBoxContainer" unique_id=1886586346 instance=ExtResource("12_b0npr")]
+custom_minimum_size = Vector2(744, 120)
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 1
+
+[node name="level_item6" parent="ImportPopup/AspectRatioContainer/MarginContainer/Panel/MarginContainer/HBoxContainer/Preview/ScrollContainer/VBoxContainer" unique_id=858205835 instance=ExtResource("12_b0npr")]
+custom_minimum_size = Vector2(744, 120)
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 1
+
+[node name="level_item7" parent="ImportPopup/AspectRatioContainer/MarginContainer/Panel/MarginContainer/HBoxContainer/Preview/ScrollContainer/VBoxContainer" unique_id=1200741443 instance=ExtResource("12_b0npr")]
+custom_minimum_size = Vector2(744, 120)
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 1
+
+[node name="ColorRect" type="ColorRect" parent="ImportPopup/AspectRatioContainer/MarginContainer/Panel/MarginContainer/HBoxContainer" unique_id=409127176]
+custom_minimum_size = Vector2(3, 0)
+layout_mode = 2
+color = Color(0.43137255, 0.43137255, 0.43137255, 1)
+
+[node name="ImportInput" type="VBoxContainer" parent="ImportPopup/AspectRatioContainer/MarginContainer/Panel/MarginContainer/HBoxContainer" unique_id=1782523648]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="ImportFileContainer" type="HBoxContainer" parent="ImportPopup/AspectRatioContainer/MarginContainer/Panel/MarginContainer/HBoxContainer/ImportInput" unique_id=712500425]
+layout_mode = 2
+
+[node name="ImportFileLine" type="LineEdit" parent="ImportPopup/AspectRatioContainer/MarginContainer/Panel/MarginContainer/HBoxContainer/ImportInput/ImportFileContainer" unique_id=565195416]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Button" type="Button" parent="ImportPopup/AspectRatioContainer/MarginContainer/Panel/MarginContainer/HBoxContainer/ImportInput/ImportFileContainer" unique_id=1269160214]
+custom_minimum_size = Vector2(68, 0)
+layout_mode = 2
+icon = SubResource("AtlasTexture_cfmpd")
+icon_alignment = 1
+expand_icon = true
+
+[node name="ImportFile" type="Button" parent="ImportPopup/AspectRatioContainer/MarginContainer/Panel/MarginContainer/HBoxContainer/ImportInput" unique_id=776863813]
+custom_minimum_size = Vector2(0, 72)
+layout_mode = 2
+text = "IMPORT FROM A FILE"
+
+[node name="ImportLinkLine" type="LineEdit" parent="ImportPopup/AspectRatioContainer/MarginContainer/Panel/MarginContainer/HBoxContainer/ImportInput" unique_id=1786191340]
+editor_description = "place link here click the import link button refresh the preview"
+layout_mode = 2
+placeholder_text = "Place Your Link Here"
+
+[node name="ImportLink" type="Button" parent="ImportPopup/AspectRatioContainer/MarginContainer/Panel/MarginContainer/HBoxContainer/ImportInput" unique_id=448231394]
+custom_minimum_size = Vector2(0, 72)
+layout_mode = 2
+text = "IMPORT FROM A LINK"
+
+[node name="Control" type="Control" parent="ImportPopup/AspectRatioContainer/MarginContainer/Panel/MarginContainer/HBoxContainer/ImportInput" unique_id=1265277208]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="ImportLevels" type="Button" parent="ImportPopup/AspectRatioContainer/MarginContainer/Panel/MarginContainer/HBoxContainer/ImportInput" unique_id=94252767]
+editor_description = "Import the levels actually saving the imported files into user://"
+custom_minimum_size = Vector2(0, 72)
+layout_mode = 2
+text = "IMPORT LEVELS"
+
+[node name="GoBack" type="Button" parent="ImportPopup/AspectRatioContainer/MarginContainer/Panel/MarginContainer/HBoxContainer/ImportInput" unique_id=1903315344]
+editor_description = "Close The popup
+"
+custom_minimum_size = Vector2(0, 72)
+layout_mode = 2
+text = "GO BACK"
+
+[node name="HTTPRequest" type="HTTPRequest" parent="ImportPopup" unique_id=1721836740]
+timeout = 60.0
+
+[node name="FileDialog" type="FileDialog" parent="ImportPopup" unique_id=21835787]
+oversampling_override = 1.0
+title = "Open a File"
+size = Vector2i(1203, 360)
+force_native = true
+file_mode = 0
+access = 2
+filters = PackedStringArray("*.ensz ; ENSO Level Packs")
+use_native_dialog = true
+
+[connection signal="mouse_entered" from="Main Content/HBoxContainer/LSide/MarginContainer/VBoxContainer/LevelDetails/PlaySection/SignHerePanel" to="." method="_on_sign_mouse_entered"]
+[connection signal="mouse_exited" from="Main Content/HBoxContainer/LSide/MarginContainer/VBoxContainer/LevelDetails/PlaySection/SignHerePanel" to="." method="_on_sign_mouse_exited"]
+[connection signal="pressed" from="Main Content/HBoxContainer/RSide/VBoxContainer/SearchSection/ImportButton" to="ImportPopup" method="open_popup"]
+[connection signal="item_hovered" from="Main Content/HBoxContainer/RSide/VBoxContainer/Level List" to="." method="_on_level_item_hovered"]
+[connection signal="animation_finished" from="AnimationPlayer" to="." method="_on_animation_player_animation_finished"]
+[connection signal="guessed_shape" from="draw" to="." method="_on_draw_guessed_shape"]
+[connection signal="text_submitted" from="ImportPopup/AspectRatioContainer/MarginContainer/Panel/MarginContainer/HBoxContainer/ImportInput/ImportFileContainer/ImportFileLine" to="ImportPopup" method="_on_file_line_submitted"]
+[connection signal="pressed" from="ImportPopup/AspectRatioContainer/MarginContainer/Panel/MarginContainer/HBoxContainer/ImportInput/ImportFileContainer/Button" to="ImportPopup" method="_open_file_dialog"]
+[connection signal="pressed" from="ImportPopup/AspectRatioContainer/MarginContainer/Panel/MarginContainer/HBoxContainer/ImportInput/ImportFile" to="ImportPopup" method="_on_import_file_pressed"]
+[connection signal="text_submitted" from="ImportPopup/AspectRatioContainer/MarginContainer/Panel/MarginContainer/HBoxContainer/ImportInput/ImportLinkLine" to="ImportPopup" method="_on_link_line_submitted"]
+[connection signal="pressed" from="ImportPopup/AspectRatioContainer/MarginContainer/Panel/MarginContainer/HBoxContainer/ImportInput/ImportLink" to="ImportPopup" method="_on_import_link_pressed"]
+[connection signal="pressed" from="ImportPopup/AspectRatioContainer/MarginContainer/Panel/MarginContainer/HBoxContainer/ImportInput/ImportLevels" to="ImportPopup" method="_on_import_levels_pressed"]
+[connection signal="pressed" from="ImportPopup/AspectRatioContainer/MarginContainer/Panel/MarginContainer/HBoxContainer/ImportInput/GoBack" to="ImportPopup" method="close_popup"]
+[connection signal="file_selected" from="ImportPopup/FileDialog" to="ImportPopup" method="_on_file_selected"]
+
+[editable path="Main Content/HBoxContainer/LSide/MarginContainer/VBoxContainer/LevelDetails/Profile/ProfileDetails/TitleContainer/ControlLine"]
+[editable path="Main Content/HBoxContainer/LSide/MarginContainer/VBoxContainer/LevelDetails/Profile/ProfileDetails/ControlLine2"]
+[editable path="Main Content/HBoxContainer/LSide/MarginContainer/VBoxContainer/LevelDetails/Profile/ProfileDetails/ControlLine"]

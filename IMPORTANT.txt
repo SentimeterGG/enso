@@ -1,0 +1,55 @@
+CLEAN GIT WORKFLOW: COMMIT -> REBASE -> MERGE (NO AHEAD/BEHIND DRIFT)
+======================================================================
+
+1. KEEP LOCAL MAIN UP TO DATE
+   git checkout main
+   git pull origin main
+   Do this before you start work, and again right before merging.
+   This is the step that avoids the "already up to date" false
+   positive when your local main is actually stale.
+
+2. COMMIT YOUR WORK ON THE COLLAB BRANCH
+   git checkout your-collab-branch
+   git add <files>
+   git commit -m "your message"
+   Keep commits focused/atomic if you can.
+
+3. REBASE YOUR BRANCH ONTO LATEST MAIN
+   git fetch origin
+   git rebase origin/main
+   This replays your commits on top of the current main instead of
+   creating a merge commit, so there's no divergence. Resolve any
+   conflicts it flags, then:
+   git rebase --continue
+
+4. PUSH THE REBASED BRANCH
+   git push origin your-collab-branch
+   If the branch was already pushed before rebasing, use:
+   git push --force-with-lease
+   (Avoid force-pushing branches other people are also working from.)
+
+5. OPEN OR UPDATE THE PR
+   gh pr create
+   (If the PR already exists, the force-push updates it automatically.)
+
+6. MERGE WITH SQUASH OR REBASE, NOT A MERGE COMMIT
+   - "Squash and merge" -> if your branch has messy/WIP commits
+   - "Rebase and merge"  -> if your commits are already clean/atomic
+   - Avoid "Create a merge commit" if you want to avoid merge bubbles
+   Via CLI:
+   gh pr merge <number> --squash
+   or
+   gh pr merge <number> --rebase
+
+7. SYNC LOCAL MAIN AND CLEAN UP THE BRANCH
+   git checkout main
+   git pull origin main
+   git branch -d your-collab-branch
+   gh pr merge <number> --delete-branch
+   (or: git push origin --delete your-collab-branch)
+
+------------------------------------------------------------------
+KEY HABIT: fetch/pull before checking status, and rebase your
+branch onto main before opening or merging the PR, rather than
+merging main into your branch. Rebase avoids creating divergence
+in the first place instead of resolving it after the fact.

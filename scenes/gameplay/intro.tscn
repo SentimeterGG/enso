@@ -1,0 +1,191 @@
+[gd_scene format=3 uid="uid://c5f051rryjurh"]
+
+[ext_resource type="AudioStream" uid="uid://b0uu7m015ouak" path="res://assets/audio/ui/WelcomeToENSO.opus" id="1_4bx60"]
+[ext_resource type="Script" uid="uid://dv7xb0tfkadtx" path="res://scripts/core/intro.gd" id="1_i2l1n"]
+[ext_resource type="FontFile" uid="uid://ksap2ki2af7l" path="res://assets/fonts/ttf/PixelCode.ttf" id="2_4bx60"]
+[ext_resource type="FontFile" uid="uid://ea5e8y2jofu8" path="res://resources/fonts/secondary/ithaca_default.res" id="5_es01l"]
+[ext_resource type="PackedScene" uid="uid://dj8lgkjrkbvka" path="res://scenes/systems/loading_system_scene.tscn" id="5_wfs7u"]
+
+[sub_resource type="Animation" id="Animation_i2l1n"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("RB/Welcome:visible_ratio")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [1.0]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("RB/Title:visible_ratio")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [0.0]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("RB/Title:modulate")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 1, 1, 1)]
+}
+
+[sub_resource type="Animation" id="Animation_wfs7u"]
+resource_name = "intro"
+length = 4.4333334
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("RB/Welcome:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.9, 2.2333333, 2.9),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 0), Color(1, 1, 1, 1), Color(1, 1, 1, 1), Color(1, 1, 1, 0)]
+}
+tracks/1/type = "audio"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("AudioStreamPlayer")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"clips": [{
+"end_offset": 0.0,
+"start_offset": 0.0,
+"stream": ExtResource("1_4bx60")
+}],
+"times": PackedFloat32Array(0)
+}
+tracks/1/use_blend = true
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("RB/Welcome:visible_ratio")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0, 0.7, 4.4333334),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [0.0, 1.0, 1.0]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("RB/Title:visible_ratio")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0.70000005, 1.0333333),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [0.0, 1.0]
+}
+tracks/4/type = "value"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath("RB/Title:modulate")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/keys = {
+"times": PackedFloat32Array(0.70000005, 1.6000001),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 0), Color(1, 1, 1, 1)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_es01l"]
+_data = {
+&"RESET": SubResource("Animation_i2l1n"),
+&"intro": SubResource("Animation_wfs7u")
+}
+
+[node name="Intro" type="Control" unique_id=902465389]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_i2l1n")
+
+[node name="ColorRect" type="ColorRect" parent="." unique_id=1684649030]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 1)
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="." unique_id=283221689]
+libraries/ = SubResource("AnimationLibrary_es01l")
+autoplay = &"intro"
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="." unique_id=975977697]
+volume_db = 20.065
+
+[node name="RB" type="MarginContainer" parent="." unique_id=146546973]
+layout_mode = 1
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -527.0
+offset_top = -303.0
+grow_horizontal = 0
+grow_vertical = 0
+theme_override_constants/margin_right = 48
+theme_override_constants/margin_bottom = 48
+
+[node name="Welcome" type="Label" parent="RB" unique_id=1520566760]
+modulate = Color(1, 1, 1, 0)
+layout_mode = 2
+offset_transform_enabled = true
+offset_transform_position_ratio = Vector2(0, -1.75)
+theme_override_fonts/font = ExtResource("2_4bx60")
+theme_override_font_sizes/font_size = 51
+text = "WELCOME TO"
+horizontal_alignment = 2
+
+[node name="Title" type="Label" parent="RB" unique_id=841755571]
+unique_name_in_owner = true
+layout_mode = 2
+offset_transform_enabled = true
+offset_transform_position_ratio = Vector2(0, 0.125)
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 0.23529412)
+theme_override_constants/shadow_offset_x = 4
+theme_override_constants/shadow_offset_y = 4
+theme_override_constants/shadow_outline_size = 0
+theme_override_fonts/font = ExtResource("5_es01l")
+theme_override_font_sizes/font_size = 327
+text = "ENSO"
+horizontal_alignment = 2
+visible_characters = 0
+visible_characters_behavior = 1
+visible_ratio = 0.0
+
+[node name="LoadingSystemScene" parent="." unique_id=1064446430 instance=ExtResource("5_wfs7u")]
+unique_name_in_owner = true
+layout_mode = 1
+sceneName = "uid://ql5w4t6kd2jq"

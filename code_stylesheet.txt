@@ -1,0 +1,16 @@
+variable and function order
+1.Signals
+2.Enums
+3.Constants
+4.Static variables
+5.Exported variables (@export)
+4.Public variables
+5.Private variables (_variable)
+6.Onready variables (@onready)
+7.Lifecycle methods (_ready, _process, etc.)
+8.Public methods
+9.Private methods
+10.Static methods
+
+SEC | SE | PP | OL | PP | S
+"Some Elephants Can Swim, Every Penguin Prefers Orange Lemons, Probably Swimming."

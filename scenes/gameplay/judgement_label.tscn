@@ -1,0 +1,23 @@
+[gd_scene format=3 uid="uid://n2mdtxc3nm7q"]
+
+[ext_resource type="Theme" uid="uid://cpocn8agag6ib" path="res://resources/themes/Theme.tres" id="1_r3gdf"]
+[ext_resource type="Script" uid="uid://qlgofa4tdvbk" path="res://scripts/gameplay/judgement/judgement_label.gd" id="2_cn57b"]
+
+[node name="judgement" type="Label" unique_id=40436041]
+offset_right = 40.0
+offset_bottom = 23.0
+theme = ExtResource("1_r3gdf")
+text = "MISS"
+script = ExtResource("2_cn57b")
+
+[node name="Accuracy" type="Label" parent="." unique_id=406512396]
+visible = false
+modulate = Color(1, 0.3, 0.35, 1)
+layout_mode = 1
+offset_right = 40.0
+offset_bottom = 22.0
+offset_transform_position_ratio = Vector2(1, -1)
+offset_transform_visual_only = false
+theme_override_font_sizes/font_size = 36
+text = "50%"
+vertical_alignment = 2

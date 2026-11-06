@@ -1,0 +1,138 @@
+[gd_scene format=3 uid="uid://b3a4x7kuktiyl"]
+
+[ext_resource type="Script" uid="uid://byxlugy0ekp6x" path="res://scripts/ui/volume/volume_popup_parent.gd" id="1_b55le"]
+[ext_resource type="Theme" uid="uid://cpocn8agag6ib" path="res://resources/themes/Theme.tres" id="1_ikcgv"]
+[ext_resource type="Script" uid="uid://ddudl54judp0i" path="res://scripts/ui/volume/volume_popup.gd" id="2_xrokr"]
+[ext_resource type="AudioStream" uid="uid://c3onj2qko1sg7" path="res://assets/audio/sfx/ENSO-Hitsound.opus" id="4_b55le"]
+
+[node name="volume_popup" type="CanvasLayer" unique_id=1643796485]
+layer = 2
+script = ExtResource("1_b55le")
+
+[node name="volume_popup" type="Control" parent="." unique_id=1567621822]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+script = ExtResource("2_xrokr")
+
+[node name="CenterContainer" type="CenterContainer" parent="volume_popup" unique_id=2137844673]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="volume_popup/CenterContainer" unique_id=1554622032]
+custom_minimum_size = Vector2(750, 0)
+layout_mode = 2
+mouse_filter = 2
+
+[node name="VBoxContainer2" type="VBoxContainer" parent="volume_popup/CenterContainer/VBoxContainer" unique_id=1829119477]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="volume_popup/CenterContainer/VBoxContainer/VBoxContainer2" unique_id=1893642973]
+layout_mode = 2
+theme = ExtResource("1_ikcgv")
+text = "MASTER"
+
+[node name="HBoxContainer" type="HBoxContainer" parent="volume_popup/CenterContainer/VBoxContainer/VBoxContainer2" unique_id=2035536758]
+layout_mode = 2
+theme_override_constants/separation = 39
+
+[node name="Music" type="HSlider" parent="volume_popup/CenterContainer/VBoxContainer/VBoxContainer2/HBoxContainer" unique_id=1266641151]
+custom_minimum_size = Vector2(0, 0.88)
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 1
+offset_transform_enabled = true
+theme = ExtResource("1_ikcgv")
+step = 8.0
+value = 100.0
+
+[node name="Label" type="Label" parent="volume_popup/CenterContainer/VBoxContainer/VBoxContainer2/HBoxContainer" unique_id=1717978263]
+custom_minimum_size = Vector2(43, 0)
+layout_mode = 2
+theme = ExtResource("1_ikcgv")
+text = "100%"
+horizontal_alignment = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="volume_popup/CenterContainer/VBoxContainer" unique_id=16875418]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="volume_popup/CenterContainer/VBoxContainer/VBoxContainer" unique_id=1320675608]
+layout_mode = 2
+theme = ExtResource("1_ikcgv")
+text = "MUSIC"
+
+[node name="HBoxContainer" type="HBoxContainer" parent="volume_popup/CenterContainer/VBoxContainer/VBoxContainer" unique_id=32899487]
+layout_mode = 2
+theme_override_constants/separation = 39
+
+[node name="Music" type="HSlider" parent="volume_popup/CenterContainer/VBoxContainer/VBoxContainer/HBoxContainer" unique_id=1646365300]
+custom_minimum_size = Vector2(0, 0.88)
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 1
+offset_transform_enabled = true
+theme = ExtResource("1_ikcgv")
+step = 8.0
+value = 100.0
+
+[node name="Label" type="Label" parent="volume_popup/CenterContainer/VBoxContainer/VBoxContainer/HBoxContainer" unique_id=694286987]
+custom_minimum_size = Vector2(43, 0)
+layout_mode = 2
+theme = ExtResource("1_ikcgv")
+text = "100%"
+horizontal_alignment = 2
+
+[node name="VBoxContainer3" type="VBoxContainer" parent="volume_popup/CenterContainer/VBoxContainer" unique_id=1625199342]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="volume_popup/CenterContainer/VBoxContainer/VBoxContainer3" unique_id=1992969532]
+layout_mode = 2
+theme = ExtResource("1_ikcgv")
+text = "EFFECTS"
+
+[node name="HBoxContainer" type="HBoxContainer" parent="volume_popup/CenterContainer/VBoxContainer/VBoxContainer3" unique_id=980164041]
+layout_mode = 2
+theme_override_constants/separation = 39
+
+[node name="Music" type="HSlider" parent="volume_popup/CenterContainer/VBoxContainer/VBoxContainer3/HBoxContainer" unique_id=831573882]
+custom_minimum_size = Vector2(0, 0.88)
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 1
+offset_transform_enabled = true
+theme = ExtResource("1_ikcgv")
+step = 8.0
+value = 100.0
+
+[node name="Label" type="Label" parent="volume_popup/CenterContainer/VBoxContainer/VBoxContainer3/HBoxContainer" unique_id=1231743218]
+custom_minimum_size = Vector2(43, 0)
+layout_mode = 2
+theme = ExtResource("1_ikcgv")
+text = "100%"
+horizontal_alignment = 2
+
+[node name="ColorRect" type="ColorRect" parent="volume_popup" unique_id=1754008013]
+z_index = -1
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+mouse_behavior_recursive = 1
+color = Color(0, 0, 0, 0.7176471)
+
+[node name="OsuHitSound" type="AudioStreamPlayer" parent="." unique_id=813957005]
+unique_name_in_owner = true
+stream = ExtResource("4_b55le")
+bus = &"Effect"

@@ -1,0 +1,240 @@
+[gd_scene format=3 uid="uid://cpdx84l3ertd6"]
+
+[ext_resource type="Theme" uid="uid://cpocn8agag6ib" path="res://resources/themes/Theme.tres" id="1_8rjrl"]
+[ext_resource type="Texture2D" uid="uid://buanoxxw8iwbb" path="res://assets/textures/ui/levels_item_default_bg_1.png" id="2_4ae8e"]
+[ext_resource type="StyleBox" uid="uid://e8ten8qcpkj4" path="res://resources/themes/level_select_button.tres" id="2_lrfiu"]
+[ext_resource type="Script" uid="uid://67ulg0qvdlhv" path="res://scripts/ui/level_selector/level_item.gd" id="3_4ae8e"]
+[ext_resource type="FontFile" uid="uid://c01hb7kklocyn" path="res://resources/fonts/pixel_regular.res" id="6_4ae8e"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_lrfiu"]
+bg_color = Color(0, 0, 0, 1)
+
+[sub_resource type="Gradient" id="Gradient_lrfiu"]
+offsets = PackedFloat32Array(0, 0.43636364)
+colors = PackedColorArray(0, 0, 0, 0.69900006, 0, 0, 0, 0)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_ehw80"]
+gradient = SubResource("Gradient_lrfiu")
+
+[sub_resource type="Animation" id="Animation_4ae8e"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Pulse:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 1, 1, 0)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Panel:theme_override_styles/panel")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [ExtResource("2_lrfiu")]
+}
+
+[sub_resource type="Animation" id="Animation_lrfiu"]
+resource_name = "pulse"
+length = 0.3
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Pulse:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0.06666667, 0.16666667, 0.26666668),
+"transitions": PackedFloat32Array(0.18, 0.18, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 0), Color(1, 1, 1, 0.043137256), Color(1, 1, 1, 0)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_4ae8e"]
+_data = {
+&"RESET": SubResource("Animation_4ae8e"),
+&"pulse": SubResource("Animation_lrfiu")
+}
+
+[node name="level_item" type="Panel" unique_id=1603493135]
+clip_children = 2
+z_index = 1
+custom_minimum_size = Vector2(780, 120)
+custom_maximum_size = Vector2(780, -1)
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -780.0
+offset_bottom = 120.0
+grow_horizontal = 0
+size_flags_horizontal = 8
+size_flags_vertical = 0
+offset_transform_enabled = true
+theme_override_styles/panel = SubResource("StyleBoxFlat_lrfiu")
+script = ExtResource("3_4ae8e")
+
+[node name="TextureRect" type="TextureRect" parent="." unique_id=767435133]
+self_modulate = Color(1, 1, 1, 0.596)
+layout_mode = 1
+anchors_preset = 14
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_top = -73.411766
+offset_bottom = 73.411766
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("2_4ae8e")
+expand_mode = 5
+
+[node name="TextureRect" type="TextureRect" parent="TextureRect" unique_id=1835768193]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = SubResource("GradientTexture2D_ehw80")
+
+[node name="Panel" type="Panel" parent="." unique_id=1573352957]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = ExtResource("2_lrfiu")
+
+[node name="Pulse" type="ColorRect" parent="." unique_id=1533089374]
+modulate = Color(1, 1, 1, 0)
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="." unique_id=873871170]
+layout_mode = 1
+anchors_preset = 14
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_top = -12.0
+offset_bottom = 12.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 36
+theme_override_constants/margin_right = 36
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer" unique_id=811857383]
+layout_mode = 2
+theme = ExtResource("1_8rjrl")
+theme_override_constants/separation = 4
+
+[node name="TitleChart" type="Label" parent="MarginContainer/VBoxContainer" unique_id=538552810]
+unique_name_in_owner = true
+custom_maximum_size = Vector2(450, -1)
+layout_mode = 2
+theme_override_font_sizes/font_size = 30
+text = "TUTORIALv ggggggggggggggggggggggffffffffffffffgggggggggggggggggggggggggggggggggg"
+text_overrun_behavior = 3
+
+[node name="Label2" type="Label" parent="MarginContainer/VBoxContainer" unique_id=746600025]
+modulate = Color(1, 1, 1, 0.5882353)
+layout_mode = 2
+size_flags_horizontal = 0
+theme_override_fonts/font = ExtResource("6_4ae8e")
+theme_override_font_sizes/font_size = 18
+text = "ENSO TEAM"
+
+[node name="VariantDifficulty" type="VBoxContainer" parent="MarginContainer" unique_id=345598302]
+unique_name_in_owner = true
+layout_mode = 2
+theme = ExtResource("1_8rjrl")
+theme_override_constants/separation = 0
+
+[node name="MarginContainer" type="MarginContainer" parent="MarginContainer/VariantDifficulty" unique_id=1432315810]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_constants/margin_top = 16
+theme_override_constants/margin_bottom = 10
+
+[node name="Pipe" type="HBoxContainer" parent="MarginContainer/VariantDifficulty/MarginContainer" unique_id=425802971]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_constants/separation = 8
+alignment = 2
+
+[node name="1" type="ColorRect" parent="MarginContainer/VariantDifficulty/MarginContainer/Pipe" unique_id=1230633975]
+custom_minimum_size = Vector2(16, 0)
+layout_mode = 2
+color = Color(0.23137255, 0.23137255, 0.23137255, 1)
+
+[node name="2" type="ColorRect" parent="MarginContainer/VariantDifficulty/MarginContainer/Pipe" unique_id=1648692101]
+custom_minimum_size = Vector2(16, 0)
+layout_mode = 2
+color = Color(0.23137255, 0.23137255, 0.23137255, 1)
+
+[node name="3" type="ColorRect" parent="MarginContainer/VariantDifficulty/MarginContainer/Pipe" unique_id=1156469858]
+custom_minimum_size = Vector2(16, 0)
+layout_mode = 2
+color = Color(0.23137255, 0.23137255, 0.23137255, 1)
+
+[node name="4" type="ColorRect" parent="MarginContainer/VariantDifficulty/MarginContainer/Pipe" unique_id=97298833]
+custom_minimum_size = Vector2(16, 0)
+layout_mode = 2
+color = Color(0.23137255, 0.23137255, 0.23137255, 1)
+
+[node name="5" type="ColorRect" parent="MarginContainer/VariantDifficulty/MarginContainer/Pipe" unique_id=1378731078]
+custom_minimum_size = Vector2(16, 0)
+layout_mode = 2
+color = Color(0.23137255, 0.23137255, 0.23137255, 1)
+
+[node name="6" type="ColorRect" parent="MarginContainer/VariantDifficulty/MarginContainer/Pipe" unique_id=2089951149]
+custom_minimum_size = Vector2(16, 0)
+layout_mode = 2
+color = Color(0.23137255, 0.23137255, 0.23137255, 1)
+
+[node name="7" type="ColorRect" parent="MarginContainer/VariantDifficulty/MarginContainer/Pipe" unique_id=250414274]
+custom_minimum_size = Vector2(16, 0)
+layout_mode = 2
+color = Color(0.23137255, 0.23137255, 0.23137255, 1)
+
+[node name="8" type="ColorRect" parent="MarginContainer/VariantDifficulty/MarginContainer/Pipe" unique_id=1828261607]
+custom_minimum_size = Vector2(16, 0)
+layout_mode = 2
+color = Color(0.23137255, 0.23137255, 0.23137255, 1)
+
+[node name="9" type="ColorRect" parent="MarginContainer/VariantDifficulty/MarginContainer/Pipe" unique_id=2123773256]
+custom_minimum_size = Vector2(16, 0)
+layout_mode = 2
+color = Color(0.23137255, 0.23137255, 0.23137255, 1)
+
+[node name="10" type="ColorRect" parent="MarginContainer/VariantDifficulty/MarginContainer/Pipe" unique_id=1406813446]
+custom_minimum_size = Vector2(16, 0)
+layout_mode = 2
+color = Color(0.23031491, 0.23031494, 0.23031494, 1)
+
+[node name="Difficulty" type="Label" parent="MarginContainer/VariantDifficulty" unique_id=704989083]
+modulate = Color(1, 1, 1, 0.5882353)
+layout_mode = 2
+size_flags_horizontal = 8
+theme_override_fonts/font = ExtResource("6_4ae8e")
+theme_override_font_sizes/font_size = 18
+text = "2.0 ☆"
+horizontal_alignment = 2
+
+[node name="level_item_animation" type="AnimationPlayer" parent="." unique_id=261011556]
+libraries/ = SubResource("AnimationLibrary_4ae8e")
+
+[connection signal="gui_input" from="." to="." method="_on_gui_input"]

@@ -1,0 +1,745 @@
+[gd_scene format=3 uid="uid://ql5w4t6kd2jq"]
+
+[ext_resource type="Script" uid="uid://ct0hqbunx5sk2" path="res://scripts/ui/main_menu.gd" id="1_wu84c"]
+[ext_resource type="FontFile" uid="uid://dyxffgnx1hp18" path="res://assets/fonts/ttf/PixelCode-Medium.ttf" id="2_ekxnf"]
+[ext_resource type="FontFile" uid="uid://ea5e8y2jofu8" path="res://resources/fonts/secondary/ithaca_default.res" id="2_rtw2f"]
+[ext_resource type="PackedScene" uid="uid://cpdjo67hyeq74" path="res://scenes/ui/ui_line.tscn" id="3_jk1qb"]
+[ext_resource type="PackedScene" uid="uid://b7rlmo61qxu8s" path="res://scenes/editor/draw.tscn" id="6_rtw2f"]
+[ext_resource type="PackedScene" uid="uid://c5jtf6aywtkgq" path="res://scenes/systems/updater.tscn" id="10_5dd4i"]
+
+[sub_resource type="Gradient" id="Gradient_jk1qb"]
+offsets = PackedFloat32Array(0, 0.6886792)
+colors = PackedColorArray(0, 0, 0, 1, 0, 0, 0, 0)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_jk1qb"]
+gradient = SubResource("Gradient_jk1qb")
+
+[sub_resource type="Animation" id="Animation_5dd4i"]
+resource_name = "Exit Game"
+length = 2.4333334
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("../Margin/VBoxContainer/Circle to Play:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0.033333335, 0.6666667),
+"transitions": PackedFloat32Array(0.18, 0.18),
+"update": 0,
+"values": [Color(1, 1, 1, 1), Color(1, 1, 1, 0)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("../Margin/VBoxContainer/Line To Settings:modulate")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0.26666662, 0.9),
+"transitions": PackedFloat32Array(0.18, 0.18),
+"update": 0,
+"values": [Color(1, 1, 1, 1), Color(1, 1, 1, 0)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("../Margin/VBoxContainer/Square to Level Editor:modulate")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0.4666667, 1.1),
+"transitions": PackedFloat32Array(0.18, 0.18),
+"update": 0,
+"values": [Color(1, 1, 1, 1), Color(1, 1, 1, 0)]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath(".:self_modulate")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0.5, 1.1333333),
+"transitions": PackedFloat32Array(0.18, 0.18),
+"update": 0,
+"values": [Color(1, 1, 1, 1), Color(1, 1, 1, 0)]
+}
+tracks/4/type = "value"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath("../Margin/VBoxContainer/Square to Level Editor2:modulate")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/keys = {
+"times": PackedFloat32Array(0.76666665, 1.4),
+"transitions": PackedFloat32Array(0.18, 0.18),
+"update": 0,
+"values": [Color(1, 1, 1, 1), Color(1, 1, 1, 0)]
+}
+tracks/5/type = "value"
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/path = NodePath("../FadeIN:modulate")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/keys = {
+"times": PackedFloat32Array(0.53333336, 1.9333333),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 0), Color(1, 1, 1, 1)]
+}
+
+[sub_resource type="Animation" id="Animation_bqqt6"]
+resource_name = "Opening"
+length = 3.0000000000000004
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:self_modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0.73333335, 1.6),
+"transitions": PackedFloat32Array(0.3027227, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 0), Color(1, 1, 1, 1)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("../Margin/VBoxContainer/Circle to Play:offset_transform_position")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(1.3, 2.2666667),
+"transitions": PackedFloat32Array(0.18, 1),
+"update": 0,
+"values": [Vector2(0, 9), Vector2(0, 0)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("../Margin/VBoxContainer/Circle to Play:modulate")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(1.3, 2.2666667),
+"transitions": PackedFloat32Array(0.18, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 0), Color(1, 1, 1, 1)]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("../Margin/VBoxContainer/Line To Settings:offset_transform_position")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0.8666667, 1.8333334),
+"transitions": PackedFloat32Array(0.18, 1),
+"update": 0,
+"values": [Vector2(0, 9), Vector2(0, 0)]
+}
+tracks/4/type = "value"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath("../Margin/VBoxContainer/Line To Settings:modulate")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/keys = {
+"times": PackedFloat32Array(0.8666667, 1.8333334),
+"transitions": PackedFloat32Array(0.18, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 0), Color(1, 1, 1, 1)]
+}
+tracks/5/type = "value"
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/path = NodePath("../Margin/VBoxContainer/Square to Level Editor:offset_transform_position")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/keys = {
+"times": PackedFloat32Array(0.5, 1.4666667),
+"transitions": PackedFloat32Array(0.18, 1),
+"update": 0,
+"values": [Vector2(0, 9), Vector2(0, 0)]
+}
+tracks/6/type = "value"
+tracks/6/imported = false
+tracks/6/enabled = true
+tracks/6/path = NodePath("../Margin/VBoxContainer/Square to Level Editor:modulate")
+tracks/6/interp = 1
+tracks/6/loop_wrap = true
+tracks/6/keys = {
+"times": PackedFloat32Array(0.5, 1.4666667),
+"transitions": PackedFloat32Array(0.18, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 0), Color(1, 1, 1, 1)]
+}
+tracks/7/type = "value"
+tracks/7/imported = false
+tracks/7/enabled = true
+tracks/7/path = NodePath("../Margin/VBoxContainer/Square to Level Editor2:offset_transform_position")
+tracks/7/interp = 1
+tracks/7/loop_wrap = true
+tracks/7/keys = {
+"times": PackedFloat32Array(0.26666665, 1.2333333),
+"transitions": PackedFloat32Array(0.18, 1),
+"update": 0,
+"values": [Vector2(0, 9), Vector2(0, 0)]
+}
+tracks/8/type = "value"
+tracks/8/imported = false
+tracks/8/enabled = true
+tracks/8/path = NodePath("../Margin/VBoxContainer/Square to Level Editor2:modulate")
+tracks/8/interp = 1
+tracks/8/loop_wrap = true
+tracks/8/keys = {
+"times": PackedFloat32Array(0.26666665, 1.2333333),
+"transitions": PackedFloat32Array(0.18, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 0), Color(1, 1, 1, 1)]
+}
+tracks/9/type = "value"
+tracks/9/imported = false
+tracks/9/enabled = true
+tracks/9/path = NodePath("../FadeIN:modulate")
+tracks/9/interp = 1
+tracks/9/loop_wrap = true
+tracks/9/keys = {
+"times": PackedFloat32Array(0.03333336, 0.93333334),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 1), Color(1, 1, 1, 0)]
+}
+
+[sub_resource type="Animation" id="Animation_oa1go"]
+resource_name = "Out"
+length = 1.6
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("../Margin/VBoxContainer/Circle to Play:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0.033333335, 0.6666667),
+"transitions": PackedFloat32Array(0.18, 0.18),
+"update": 0,
+"values": [Color(1, 1, 1, 1), Color(1, 1, 1, 0)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("../Margin/VBoxContainer/Line To Settings:modulate")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0.26666662, 0.9),
+"transitions": PackedFloat32Array(0.18, 0.18),
+"update": 0,
+"values": [Color(1, 1, 1, 1), Color(1, 1, 1, 0)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("../Margin/VBoxContainer/Square to Level Editor:modulate")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0.4666667, 1.1),
+"transitions": PackedFloat32Array(0.18, 0.18),
+"update": 0,
+"values": [Color(1, 1, 1, 1), Color(1, 1, 1, 0)]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath(".:self_modulate")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0.5, 1.1333333),
+"transitions": PackedFloat32Array(0.18, 0.18),
+"update": 0,
+"values": [Color(1, 1, 1, 1), Color(1, 1, 1, 0)]
+}
+tracks/4/type = "value"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath("../Margin/VBoxContainer/Square to Level Editor2:modulate")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/keys = {
+"times": PackedFloat32Array(0.76666665, 1.4),
+"transitions": PackedFloat32Array(0.18, 0.18),
+"update": 0,
+"values": [Color(1, 1, 1, 1), Color(1, 1, 1, 0)]
+}
+tracks/5/type = "value"
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/path = NodePath("../FadeIN:modulate")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/keys = {
+"times": PackedFloat32Array(0.8666667, 1.5666667),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 0), Color(1, 1, 1, 0)]
+}
+
+[sub_resource type="Animation" id="Animation_wu84c"]
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:self_modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 1, 1, 0)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("../Margin/VBoxContainer/Circle to Play:offset_transform_position")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(0, 0)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("../Margin/VBoxContainer/Circle to Play:modulate")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 1, 1, 0)]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("../Margin/VBoxContainer/Line To Settings:modulate")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 1, 1, 0)]
+}
+tracks/4/type = "value"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath("../Margin/VBoxContainer/Square to Level Editor:modulate")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 1, 1, 0)]
+}
+tracks/5/type = "value"
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/path = NodePath("../Margin/VBoxContainer/Line To Settings:offset_transform_position")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(0, 0)]
+}
+tracks/6/type = "value"
+tracks/6/imported = false
+tracks/6/enabled = true
+tracks/6/path = NodePath("../Margin/VBoxContainer/Square to Level Editor:offset_transform_position")
+tracks/6/interp = 1
+tracks/6/loop_wrap = true
+tracks/6/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(0, 0)]
+}
+tracks/7/type = "value"
+tracks/7/imported = false
+tracks/7/enabled = true
+tracks/7/path = NodePath("../Margin/VBoxContainer/Square to Level Editor2:modulate")
+tracks/7/interp = 1
+tracks/7/loop_wrap = true
+tracks/7/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 1, 1, 0)]
+}
+tracks/8/type = "value"
+tracks/8/imported = false
+tracks/8/enabled = true
+tracks/8/path = NodePath("../FadeIN:modulate")
+tracks/8/interp = 1
+tracks/8/loop_wrap = true
+tracks/8/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 1, 1, 1)]
+}
+
+[sub_resource type="Animation" id="Animation_jk1qb"]
+resource_name = "first_time_opening"
+length = 3.0000000000000004
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:self_modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0.73333335, 1.6),
+"transitions": PackedFloat32Array(0.3027227, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 0), Color(1, 1, 1, 1)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("../Margin/VBoxContainer/Circle to Play:offset_transform_position")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(1.3, 2.2666667),
+"transitions": PackedFloat32Array(0.18, 1),
+"update": 0,
+"values": [Vector2(0, 9), Vector2(0, 0)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("../Margin/VBoxContainer/Circle to Play:modulate")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(1.3, 2.2666667),
+"transitions": PackedFloat32Array(0.18, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 0), Color(1, 1, 1, 1)]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("../Margin/VBoxContainer/Line To Settings:offset_transform_position")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0.8666667, 1.8333334),
+"transitions": PackedFloat32Array(0.18, 1),
+"update": 0,
+"values": [Vector2(0, 9), Vector2(0, 0)]
+}
+tracks/4/type = "value"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath("../Margin/VBoxContainer/Line To Settings:modulate")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/keys = {
+"times": PackedFloat32Array(0.8666667, 1.8333334),
+"transitions": PackedFloat32Array(0.18, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 0), Color(1, 1, 1, 1)]
+}
+tracks/5/type = "value"
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/path = NodePath("../Margin/VBoxContainer/Square to Level Editor:offset_transform_position")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/keys = {
+"times": PackedFloat32Array(0.5, 1.4666667),
+"transitions": PackedFloat32Array(0.18, 1),
+"update": 0,
+"values": [Vector2(0, 9), Vector2(0, 0)]
+}
+tracks/6/type = "value"
+tracks/6/imported = false
+tracks/6/enabled = true
+tracks/6/path = NodePath("../Margin/VBoxContainer/Square to Level Editor:modulate")
+tracks/6/interp = 1
+tracks/6/loop_wrap = true
+tracks/6/keys = {
+"times": PackedFloat32Array(0.5, 1.4666667),
+"transitions": PackedFloat32Array(0.18, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 0), Color(1, 1, 1, 1)]
+}
+tracks/7/type = "value"
+tracks/7/imported = false
+tracks/7/enabled = true
+tracks/7/path = NodePath("../Margin/VBoxContainer/Square to Level Editor2:offset_transform_position")
+tracks/7/interp = 1
+tracks/7/loop_wrap = true
+tracks/7/keys = {
+"times": PackedFloat32Array(0.26666665, 1.2333333),
+"transitions": PackedFloat32Array(0.18, 1),
+"update": 0,
+"values": [Vector2(0, 9), Vector2(0, 0)]
+}
+tracks/8/type = "value"
+tracks/8/imported = false
+tracks/8/enabled = true
+tracks/8/path = NodePath("../Margin/VBoxContainer/Square to Level Editor2:modulate")
+tracks/8/interp = 1
+tracks/8/loop_wrap = true
+tracks/8/keys = {
+"times": PackedFloat32Array(0.26666665, 1.2333333),
+"transitions": PackedFloat32Array(0.18, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 0), Color(1, 1, 1, 1)]
+}
+tracks/9/type = "value"
+tracks/9/imported = false
+tracks/9/enabled = true
+tracks/9/path = NodePath("../FadeIN:modulate")
+tracks/9/interp = 1
+tracks/9/loop_wrap = true
+tracks/9/keys = {
+"times": PackedFloat32Array(0.03333334, 0.93333334),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 1), Color(1, 1, 1, 0)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_wu84c"]
+_data = {
+&"Exit Game": SubResource("Animation_5dd4i"),
+&"Opening": SubResource("Animation_bqqt6"),
+&"Out": SubResource("Animation_oa1go"),
+&"RESET": SubResource("Animation_wu84c"),
+&"first_time_opening": SubResource("Animation_jk1qb")
+}
+
+[node name="MainMenu" type="CanvasLayer" unique_id=1220236649]
+script = ExtResource("1_wu84c")
+
+[node name="Gradeint" type="TextureRect" parent="." unique_id=852865061]
+self_modulate = Color(1, 1, 1, 0.66200006)
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = SubResource("GradientTexture2D_jk1qb")
+
+[node name="Margin" type="MarginContainer" parent="." unique_id=1924146745]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+theme_override_constants/margin_left = 48
+theme_override_constants/margin_top = 48
+theme_override_constants/margin_right = 48
+theme_override_constants/margin_bottom = 48
+
+[node name="Title" type="Label" parent="Margin" unique_id=1895345410]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 8
+size_flags_vertical = 8
+offset_transform_enabled = true
+offset_transform_position_ratio = Vector2(0, 0.125)
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 0.23529412)
+theme_override_constants/shadow_offset_x = 4
+theme_override_constants/shadow_offset_y = 4
+theme_override_constants/shadow_outline_size = 0
+theme_override_fonts/font = ExtResource("2_rtw2f")
+theme_override_font_sizes/font_size = 320
+text = "ENSO"
+horizontal_alignment = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Margin" unique_id=1512830362]
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 8
+theme_override_constants/separation = 24
+
+[node name="Circle to Play" type="HBoxContainer" parent="Margin/VBoxContainer" unique_id=2077575685]
+modulate = Color(1, 1, 1, 0)
+self_modulate = Color(1, 1, 1, 0)
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 8
+offset_transform_enabled = true
+theme_override_constants/separation = 36
+
+[node name="ControlLine" parent="Margin/VBoxContainer/Circle to Play" unique_id=578883494 instance=ExtResource("3_jk1qb")]
+custom_minimum_size = Vector2(64, 64)
+custom_maximum_size = Vector2(64, 64)
+layout_mode = 2
+shape_size = Vector2(64, 64)
+
+[node name="Play" type="Label" parent="Margin/VBoxContainer/Circle to Play" unique_id=1478556492]
+layout_mode = 2
+size_flags_horizontal = 8
+size_flags_vertical = 8
+theme_override_fonts/font = ExtResource("2_ekxnf")
+theme_override_font_sizes/font_size = 48
+text = "PLAY"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Line To Settings" type="HBoxContainer" parent="Margin/VBoxContainer" unique_id=772882030]
+modulate = Color(1, 1, 1, 0)
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 8
+offset_transform_enabled = true
+theme_override_constants/separation = 36
+
+[node name="ControlLine" parent="Margin/VBoxContainer/Line To Settings" unique_id=298846028 instance=ExtResource("3_jk1qb")]
+custom_minimum_size = Vector2(64, 64)
+custom_maximum_size = Vector2(64, 64)
+layout_mode = 2
+shape = 4
+shape_size = Vector2(64, 64)
+
+[node name="Play" type="Label" parent="Margin/VBoxContainer/Line To Settings" unique_id=1560500947]
+layout_mode = 2
+size_flags_horizontal = 8
+size_flags_vertical = 8
+theme_override_fonts/font = ExtResource("2_ekxnf")
+theme_override_font_sizes/font_size = 48
+text = "SETTINGS"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Square to Level Editor" type="HBoxContainer" parent="Margin/VBoxContainer" unique_id=1900421109]
+modulate = Color(1, 1, 1, 0)
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 8
+offset_transform_enabled = true
+theme_override_constants/separation = 36
+
+[node name="ControlLine" parent="Margin/VBoxContainer/Square to Level Editor" unique_id=176546930 instance=ExtResource("3_jk1qb")]
+custom_minimum_size = Vector2(64, 64)
+custom_maximum_size = Vector2(64, 64)
+layout_mode = 2
+shape = 1
+shape_size = Vector2(64, 64)
+
+[node name="Play" type="Label" parent="Margin/VBoxContainer/Square to Level Editor" unique_id=2004811886]
+layout_mode = 2
+size_flags_horizontal = 8
+size_flags_vertical = 8
+theme_override_fonts/font = ExtResource("2_ekxnf")
+theme_override_font_sizes/font_size = 48
+text = "LEVEL EDITOR"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Square to Level Editor2" type="HBoxContainer" parent="Margin/VBoxContainer" unique_id=201507613]
+modulate = Color(1, 1, 1, 0)
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 8
+offset_transform_enabled = true
+theme_override_constants/separation = 36
+
+[node name="ControlLine" parent="Margin/VBoxContainer/Square to Level Editor2" unique_id=968671905 instance=ExtResource("3_jk1qb")]
+custom_minimum_size = Vector2(64, 64)
+custom_maximum_size = Vector2(64, 64)
+layout_mode = 2
+shape = 2
+shape_size = Vector2(64, 64)
+
+[node name="Play" type="Label" parent="Margin/VBoxContainer/Square to Level Editor2" unique_id=540336014]
+layout_mode = 2
+size_flags_horizontal = 8
+size_flags_vertical = 8
+theme_override_fonts/font = ExtResource("2_ekxnf")
+theme_override_font_sizes/font_size = 48
+text = "EXIT"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Version" type="Label" parent="Margin" unique_id=1065876583]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 0
+text = "v0.4.0"
+
+[node name="Draw Here" type="Label" parent="." unique_id=1349514367]
+unique_name_in_owner = true
+modulate = Color(1, 1, 1, 0.39215687)
+self_modulate = Color(1, 1, 1, 0)
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -63.0
+offset_top = -14.5
+offset_right = 63.0
+offset_bottom = 14.5
+grow_horizontal = 2
+grow_vertical = 2
+offset_transform_enabled = true
+mouse_filter = 0
+theme_override_fonts/font = ExtResource("2_ekxnf")
+theme_override_font_sizes/font_size = 48
+text = "DRAW HERE"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Transition" type="AnimationPlayer" parent="." unique_id=950463086]
+unique_name_in_owner = true
+root_node = NodePath("../Draw Here")
+libraries/ = SubResource("AnimationLibrary_wu84c")
+
+[node name="updater" parent="." unique_id=456196311 instance=ExtResource("10_5dd4i")]
+unique_name_in_owner = true
+mouse_filter = 2
+script = null
+
+[node name="FadeIN" type="ColorRect" parent="." unique_id=171573630]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+color = Color(0, 0, 0, 1)
+
+[node name="DrawControlNode" type="Control" parent="." unique_id=991319883]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="draw" parent="DrawControlNode" unique_id=2118743800 instance=ExtResource("6_rtw2f")]
+unique_name_in_owner = true
+weight = 0.5
+guess_mode = true
+
+[connection signal="animation_finished" from="Transition" to="." method="_on_transition_animation_finished"]
+[connection signal="guessed_shape" from="DrawControlNode/draw" to="." method="_on_draw_guessed_shape"]

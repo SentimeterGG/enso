@@ -1,0 +1,18 @@
+[gd_scene format=3 uid="uid://pjltgiropk7o"]
+
+[ext_resource type="Script" uid="uid://ckapnl3dlktb6" path="res://scripts/gameplay/notes/shape/editor_shape_point.gd" id="1_ioyp3"]
+
+[node name="shape_point" type="ColorRect" unique_id=1711279368]
+self_modulate = Color(1, 1, 1, 0.16078432)
+offset_right = 126.0
+offset_bottom = 126.0
+offset_transform_enabled = true
+offset_transform_position = Vector2(-63, -63)
+offset_transform_visual_only = false
+script = ExtResource("1_ioyp3")
+
+[node name="Line2D" type="Line2D" parent="." unique_id=724274820]
+position = Vector2(33, 36)
+scale = Vector2(0.48333332, 0.48333332)
+points = PackedVector2Array(0, 0, 120, 0, 120, 120)
+width = 30.0
