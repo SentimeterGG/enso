@@ -106,29 +106,46 @@ func load_safely(path: String) -> Resource:
 	if path.is_empty():
 		push_warning("load_safely: missing resource: " + path)
 		return null
+
 	if path.begins_with("res://"):
 		if ResourceLoader.exists(path):
 			return load(path)
+
 		push_warning("load_safely: missing resource: " + path)
 		return null
+
 	if not FileAccess.file_exists(path):
 		push_warning("load_safely: file not found: " + path)
 		return null
+
 	match path.get_extension().to_lower():
+		# Images
 		"png", "jpg", "jpeg", "webp":
 			var img := Image.load_from_file(path)
 			if img == null or img.is_empty():
 				push_warning("load_safely: couldn't decode image: " + path)
 				return null
 			return ImageTexture.create_from_image(img)
+
+		# Videos
 		"ogv":
 			var video_resource := VideoStreamTheora.new()
 			video_resource.file = path
 			return video_resource
+
+		# Audio
 		"opus":
 			return AudioStreamOpus.load_from_file(path)
-		"mp3": # NOTE this is temporary until converter is implemented
+
+		"mp3":
 			return AudioStreamMP3.load_from_file(path)
+
+		"ogg":
+			return AudioStreamOggVorbis.load_from_file(path)
+
+		"wav":
+			return AudioStreamWAV.load_from_file(path)
+
 	push_error("load_safely: unsupported file type: " + path)
 	return null
 

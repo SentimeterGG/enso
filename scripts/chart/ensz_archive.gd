@@ -11,7 +11,9 @@ const ALLOWED_EXTENSIONS: Array[String] = [
 	"jpg",
 	"jpeg",
 	"webp",
-	"mp3", # NOTE Temporary until we implement auto convert any music file to opus
+	"mp3",
+	"wav",
+	"ogg",
 	"import",
 	"uid",
 ]
@@ -427,10 +429,7 @@ func _count_levels(path: String) -> int:
 func _single_level_error(level_count: int) -> String:
 	if level_count <= 0:
 		return "No level folder found in the .ensz archive."
-	return (
-		"The .ensz archive must contain exactly one level folder, found %d."
-		% level_count
-	)
+	return ("The .ensz archive must contain exactly one level folder, found %d." % level_count)
 
 
 func _list_files_recursive(root: String) -> Array[String]:
