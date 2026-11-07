@@ -5,11 +5,16 @@
 [ext_resource type="PackedScene" uid="uid://b7rlmo61qxu8s" path="res://scenes/editor/draw.tscn" id="5_ji3vv"]
 [ext_resource type="FontFile" uid="uid://dyxffgnx1hp18" path="res://assets/fonts/ttf/PixelCode-Medium.ttf" id="5_ycln1"]
 [ext_resource type="Texture2D" uid="uid://bwbk0ok8jj44m" path="res://assets/textures/ui/icons/icons.png" id="6_h8tdx"]
+[ext_resource type="Script" uid="uid://ddfssq8cmkd85" path="res://scripts/ui/settings/appearance_setting.gd" id="6_vg8wt"]
 [ext_resource type="Script" uid="uid://cr3sqf6woq0td" path="res://scripts/ui/settings/sub_tabs.gd" id="6_yklyt"]
+[ext_resource type="Script" uid="uid://bdohm84k8f6oa" path="res://scripts/ui/settings/audio_setting.gd" id="7_1oipf"]
+[ext_resource type="Script" uid="uid://bomlnsswq6hen" path="res://scripts/ui/settings/display_setting.gd" id="7_8i2wp"]
 [ext_resource type="FontFile" uid="uid://ea5e8y2jofu8" path="res://resources/fonts/secondary/ithaca_default.res" id="7_my2pq"]
 [ext_resource type="ButtonGroup" uid="uid://dpdl6e2o2d73y" path="res://resources/setting_button_tabs_group.tres" id="7_xltco"]
 [ext_resource type="PackedScene" uid="uid://cpdjo67hyeq74" path="res://scenes/ui/ui_line.tscn" id="8_xltco"]
+[ext_resource type="Script" uid="uid://hwxwvfk5opda" path="res://scripts/ui/settings/gameplay_setting.gd" id="9_amtow"]
 [ext_resource type="AudioStream" uid="uid://c3onj2qko1sg7" path="res://assets/audio/sfx/ENSO-Hitsound.opus" id="9_yklyt"]
+[ext_resource type="Script" uid="uid://de7h3c3qbyaai" path="res://scripts/ui/settings/tweaker_functions.gd" id="12_tmwki"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_waxoa"]
 atlas = ExtResource("6_h8tdx")
@@ -552,10 +557,12 @@ theme_override_constants/margin_top = 118
 theme_override_constants/margin_right = 24
 theme_override_constants/margin_bottom = 24
 
-[node name="Appearance" type="VBoxContainer" parent="setting/MarginContainer/HBoxContainer/SettingsPanel/MarginContainer" unique_id=1290911925]
+[node name="Appearance" type="VBoxContainer" parent="setting/MarginContainer/HBoxContainer/SettingsPanel/MarginContainer" unique_id=1290911925 node_paths=PackedStringArray("tweaker_script")]
 unique_name_in_owner = true
 layout_mode = 2
 theme_override_constants/separation = 18
+script = ExtResource("6_vg8wt")
+tweaker_script = NodePath("../../../../../../TweakerFunctions")
 
 [node name="VideoBackground" type="HBoxContainer" parent="setting/MarginContainer/HBoxContainer/SettingsPanel/MarginContainer/Appearance" unique_id=1438675798]
 layout_mode = 2
@@ -615,6 +622,7 @@ unique_name_in_owner = true
 visible = false
 layout_mode = 2
 theme_override_constants/separation = 18
+script = ExtResource("7_8i2wp")
 
 [node name="FullscreenSetting" type="HBoxContainer" parent="setting/MarginContainer/HBoxContainer/SettingsPanel/MarginContainer/Display" unique_id=1440957308]
 layout_mode = 2
@@ -630,11 +638,13 @@ layout_mode = 2
 theme = ExtResource("2_al1eu")
 text = "OFF"
 
-[node name="Audio" type="VBoxContainer" parent="setting/MarginContainer/HBoxContainer/SettingsPanel/MarginContainer" unique_id=315360123]
+[node name="Audio" type="VBoxContainer" parent="setting/MarginContainer/HBoxContainer/SettingsPanel/MarginContainer" unique_id=315360123 node_paths=PackedStringArray("tweaker_script")]
 unique_name_in_owner = true
 visible = false
 layout_mode = 2
 theme_override_constants/separation = 18
+script = ExtResource("7_1oipf")
+tweaker_script = NodePath("../../../../../../TweakerFunctions")
 
 [node name="MasterVolume" type="VBoxContainer" parent="setting/MarginContainer/HBoxContainer/SettingsPanel/MarginContainer/Audio" unique_id=942576159]
 layout_mode = 2
@@ -740,6 +750,7 @@ unique_name_in_owner = true
 visible = false
 layout_mode = 2
 theme_override_constants/separation = 18
+script = ExtResource("9_amtow")
 
 [node name="ScrollSpeed" type="VBoxContainer" parent="setting/MarginContainer/HBoxContainer/SettingsPanel/MarginContainer/Gameplay" unique_id=950646716]
 layout_mode = 2
@@ -864,11 +875,17 @@ unique_name_in_owner = true
 stream = ExtResource("9_yklyt")
 bus = &"Effect"
 
+[node name="TweakerFunctions" type="Node" parent="." unique_id=550963314]
+script = ExtResource("12_tmwki")
+
 [connection signal="button_down" from="setting/MarginContainer/HBoxContainer/Tabs/AppearanceButton" to="setting/MarginContainer/HBoxContainer/Tabs" method="_on_appearance_button_button_down"]
-[connection signal="button_down" from="setting/MarginContainer/HBoxContainer/SettingsPanel/MarginContainer/Appearance/VideoBackground/BGButton" to="." method="_on_bg_button_button_down"]
-[connection signal="value_changed" from="setting/MarginContainer/HBoxContainer/SettingsPanel/MarginContainer/Appearance/BackgroundDim/BG_Dim" to="." method="_on_bg_dim_value_changed"]
-[connection signal="button_down" from="setting/MarginContainer/HBoxContainer/SettingsPanel/MarginContainer/Display/FullscreenSetting/FSButton" to="." method="_on_fs_button_button_down"]
-[connection signal="value_changed" from="setting/MarginContainer/HBoxContainer/SettingsPanel/MarginContainer/Gameplay/ScrollSpeed/Scroll_Speed" to="." method="_on_scroll_speed_value_changed"]
+[connection signal="button_down" from="setting/MarginContainer/HBoxContainer/SettingsPanel/MarginContainer/Appearance/VideoBackground/BGButton" to="setting/MarginContainer/HBoxContainer/SettingsPanel/MarginContainer/Appearance" method="_on_bg_button_button_down"]
+[connection signal="value_changed" from="setting/MarginContainer/HBoxContainer/SettingsPanel/MarginContainer/Appearance/BackgroundDim/BG_Dim" to="setting/MarginContainer/HBoxContainer/SettingsPanel/MarginContainer/Appearance" method="_on_bg_dim_value_changed"]
+[connection signal="button_down" from="setting/MarginContainer/HBoxContainer/SettingsPanel/MarginContainer/Display/FullscreenSetting/FSButton" to="setting/MarginContainer/HBoxContainer/SettingsPanel/MarginContainer/Display" method="_on_fs_button_button_down"]
+[connection signal="value_changed" from="setting/MarginContainer/HBoxContainer/SettingsPanel/MarginContainer/Audio/MasterVolume/Master" to="setting/MarginContainer/HBoxContainer/SettingsPanel/MarginContainer/Audio" method="_on_master_changed"]
+[connection signal="value_changed" from="setting/MarginContainer/HBoxContainer/SettingsPanel/MarginContainer/Audio/MusicVolume/Music" to="setting/MarginContainer/HBoxContainer/SettingsPanel/MarginContainer/Audio" method="_on_music_changed"]
+[connection signal="value_changed" from="setting/MarginContainer/HBoxContainer/SettingsPanel/MarginContainer/Audio/EffectsVolume/Effects" to="setting/MarginContainer/HBoxContainer/SettingsPanel/MarginContainer/Audio" method="_on_effects_changed"]
+[connection signal="value_changed" from="setting/MarginContainer/HBoxContainer/SettingsPanel/MarginContainer/Gameplay/ScrollSpeed/Scroll_Speed" to="setting/MarginContainer/HBoxContainer/SettingsPanel/MarginContainer/Gameplay" method="_on_scroll_speed_value_changed"]
 [connection signal="mouse_entered" from="setting/MarginContainer/HBoxContainer/PanelDraw" to="." method="_on_panel_draw_mouse_entered"]
 [connection signal="mouse_exited" from="setting/MarginContainer/HBoxContainer/PanelDraw" to="." method="_on_panel_draw_mouse_exited"]
 [connection signal="animation_finished" from="AnimationPlayer" to="." method="_on_animation_player_animation_finished"]
