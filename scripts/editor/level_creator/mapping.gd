@@ -44,6 +44,10 @@ var _shapes_root: Node2D = null
 var _beat_bg_tiles: Array[TextureRect] = []
 var _undo_stack: Array[Dictionary] = []
 var _redo_stack: Array[Dictionary] = []
+var _beat_dragging := false
+var _beat_drag_start_pos := Vector2.ZERO
+var _beat_drag_start_time := 0.0
+var _beat_drag_was_playing := false
 var _custom_undo_stack: Array[Dictionary] = []
 var _custom_redo_stack: Array[Dictionary] = []
 var _custom_drag_recorded := false
@@ -1788,4 +1792,49 @@ func _on_redo_pressed() -> void:
 
 
 func _on_beat_column_gui_input(event: InputEvent) -> void:
-	pass # Replace with function body.
+	var mb := event as InputEventMouseButton
+	if mb != null and mb.button_index == MOUSE_BUTTON_LEFT:
+		if mb.pressed:
+			_beat_drag_start(mb.position)
+		else:
+			_beat_drag_end()
+	var motion := event as InputEventMouseMotion
+	if motion != null:
+		_beat_drag_move(motion.position)
+
+
+func _beat_drag_start(pos: Vector2) -> void:
+	if _beat_dragging:
+		return
+	_beat_dragging = true
+	_beat_drag_start_pos = pos
+	_beat_drag_start_time = current_time()
+	_beat_drag_was_playing = mapping_player.playing and not mapping_player.stream_paused
+	Input.set_default_cursor_shape(Input.CURSOR_HSIZE)
+	get_viewport().set_input_as_handled()
+
+
+func _beat_drag_move(pos: Vector2) -> void:
+	if not _beat_dragging:
+		return
+	var delta_px := pos.x - _beat_drag_start_pos.x
+	var pps := _px_per_sec()
+	var new_time := _beat_drag_start_time - delta_px / pps if pps > 0.0 else _beat_drag_start_time
+	seek(new_time)
+
+
+func _beat_drag_end() -> void:
+	if not _beat_dragging:
+		return
+	_beat_dragging = false
+	Input.set_default_cursor_shape(Input.CURSOR_ARROW)
+	if _beat_drag_was_playing and mapping_player.playing and not mapping_player.stream_paused:
+		mapping_player.stream_paused = true
+
+
+func _on_border_gui_input(event: InputEvent) -> void:
+	if event is InputEventMouseButton:
+		if event.button_index == MOUSE_BUTTON_LEFT and event.pressed:
+			_set_selected([])
+			_select_shape(-1)
+			get_viewport().set_input_as_handled()

@@ -580,7 +580,6 @@ grow_horizontal = 2
 grow_vertical = 2
 offset_transform_position = Vector2(0, -33.335)
 offset_transform_visual_only = false
-mouse_filter = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_u832l")
 
 [node name="VBoxContainer" type="VBoxContainer" parent="LevelCreator/MAPPING/Border" unique_id=1051974192]
@@ -738,6 +737,7 @@ theme_override_constants/separation = 36
 
 [node name="DifficultyOption" type="OptionButton" parent="LevelCreator/MAPPING/Controls" unique_id=1804085255]
 unique_name_in_owner = true
+custom_maximum_size = Vector2(300, -1)
 layout_mode = 2
 focus_mode = 0
 
@@ -1222,6 +1222,7 @@ autowrap_mode = 2
 [connection signal="mouse_exited" from="LevelCreator/METADATA/HBoxContainer/Draw Area" to="." method="_on_draw_area_mouse_exited"]
 [connection signal="mouse_entered" from="LevelCreator/MAPPING" to="." method="_on_mapping_mouse_entered"]
 [connection signal="mouse_exited" from="LevelCreator/MAPPING" to="." method="_on_mapping_mouse_exited"]
+[connection signal="gui_input" from="LevelCreator/MAPPING/Border" to="LevelCreator/MAPPING" method="_on_border_gui_input"]
 [connection signal="gui_input" from="LevelCreator/MAPPING/Border/VBoxContainer/beat_column" to="LevelCreator/MAPPING" method="_on_beat_column_gui_input"]
 [connection signal="pressed" from="LevelCreator/MAPPING/HBoxContainer/start" to="LevelCreator/MAPPING" method="_on_start_pressed"]
 [connection signal="item_selected" from="LevelCreator/MAPPING/Controls/DifficultyOption" to="LevelCreator/MAPPING" method="_on_difficulty_option_item_selected"]
