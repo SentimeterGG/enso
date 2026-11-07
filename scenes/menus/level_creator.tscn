@@ -16,6 +16,12 @@
 atlas = ExtResource("6_2vkcm")
 region = Rect2(16, 16, 16, 16)
 
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_u832l"]
+bg_color = Color(0.05, 0.05, 0.05, 0)
+border_width_top = 3
+border_width_bottom = 3
+border_color = Color(0.43137255, 0.43137255, 0.43137255, 1)
+
 [sub_resource type="InputEventKey" id="InputEventKey_8nwwt"]
 device = -1
 keycode = 32
@@ -23,12 +29,6 @@ unicode = 32
 
 [sub_resource type="Shortcut" id="Shortcut_8nwwt"]
 events = [SubResource("InputEventKey_8nwwt")]
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_u832l"]
-bg_color = Color(0.05, 0.05, 0.05, 0)
-border_width_top = 3
-border_width_bottom = 3
-border_color = Color(0.43137255, 0.43137255, 0.43137255, 1)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_u832l"]
 atlas = ExtResource("6_2vkcm")
@@ -146,6 +146,7 @@ grow_vertical = 2
 
 [node name="METADATA" type="Control" parent="LevelCreator" unique_id=299311291]
 unique_name_in_owner = true
+visible = false
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -555,7 +556,6 @@ theme_override_font_sizes/font_size = 36
 text = "GO BACK"
 
 [node name="MAPPING" type="Control" parent="LevelCreator" unique_id=401597931]
-visible = false
 clip_contents = true
 layout_mode = 1
 anchors_preset = 15
@@ -567,8 +567,81 @@ size_flags_horizontal = 3
 mouse_filter = 2
 script = ExtResource("8_cixrd")
 
+[node name="Border" type="Panel" parent="LevelCreator/MAPPING" unique_id=994604870]
+custom_minimum_size = Vector2(0, 390)
+layout_mode = 1
+anchors_preset = 14
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_top = -315.0
+offset_bottom = 75.0
+grow_horizontal = 2
+grow_vertical = 2
+offset_transform_position = Vector2(0, -33.335)
+offset_transform_visual_only = false
+mouse_filter = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_u832l")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="LevelCreator/MAPPING/Border" unique_id=1051974192]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+theme_override_constants/separation = 0
+
+[node name="beat_column" type="Control" parent="LevelCreator/MAPPING/Border/VBoxContainer" unique_id=1278620839]
+custom_minimum_size = Vector2(0, 195)
+layout_mode = 2
+
+[node name="BeatYPosition" type="Control" parent="LevelCreator/MAPPING/Border/VBoxContainer/beat_column" unique_id=1183188334]
+layout_mode = 1
+anchors_preset = 14
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="BeatBG" type="TextureRect" parent="LevelCreator/MAPPING/Border/VBoxContainer/beat_column" unique_id=2061861188]
+unique_name_in_owner = true
+visible = false
+modulate = Color(1, 1, 1, 0.36862746)
+layout_mode = 1
+anchors_preset = 9
+anchor_bottom = 1.0
+offset_right = 3656.25
+grow_vertical = 2
+texture = ExtResource("9_u832l")
+expand_mode = 3
+stretch_mode = 1
+
+[node name="Line" type="ColorRect" parent="LevelCreator/MAPPING/Border/VBoxContainer" unique_id=46451653]
+custom_minimum_size = Vector2(0, 3)
+layout_mode = 2
+color = Color(0.61960787, 0.61960787, 0.61960787, 1)
+
+[node name="shape_column" type="Control" parent="LevelCreator/MAPPING/Border/VBoxContainer" unique_id=2010941462]
+custom_minimum_size = Vector2(0, 195)
+layout_mode = 2
+mouse_filter = 2
+
+[node name="ShapeYPosition" type="Control" parent="LevelCreator/MAPPING/Border/VBoxContainer/shape_column" unique_id=596826130]
+layout_mode = 1
+anchors_preset = 14
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
 [node name="MappingPreviewCurrentPos" type="HSlider" parent="LevelCreator/MAPPING" unique_id=629242798]
 unique_name_in_owner = true
+z_index = 1
 layout_mode = 1
 anchors_preset = 7
 anchor_left = 0.5
@@ -623,79 +696,6 @@ size_flags_horizontal = 0
 focus_mode = 0
 theme = ExtResource("1_evwkm")
 text = ">>"
-
-[node name="Border" type="Panel" parent="LevelCreator/MAPPING" unique_id=994604870]
-custom_minimum_size = Vector2(0, 390)
-layout_mode = 1
-anchors_preset = 14
-anchor_top = 0.5
-anchor_right = 1.0
-anchor_bottom = 0.5
-offset_top = -315.0
-offset_bottom = 75.0
-grow_horizontal = 2
-grow_vertical = 2
-offset_transform_position = Vector2(0, -33.335)
-offset_transform_visual_only = false
-mouse_filter = 2
-theme_override_styles/panel = SubResource("StyleBoxFlat_u832l")
-
-[node name="VBoxContainer" type="VBoxContainer" parent="LevelCreator/MAPPING/Border" unique_id=1051974192]
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-mouse_filter = 2
-theme_override_constants/separation = 0
-
-[node name="beat_column" type="Control" parent="LevelCreator/MAPPING/Border/VBoxContainer" unique_id=1278620839]
-custom_minimum_size = Vector2(0, 195)
-layout_mode = 2
-mouse_filter = 2
-
-[node name="BeatYPosition" type="Control" parent="LevelCreator/MAPPING/Border/VBoxContainer/beat_column" unique_id=1183188334]
-layout_mode = 1
-anchors_preset = 14
-anchor_top = 0.5
-anchor_right = 1.0
-anchor_bottom = 0.5
-grow_horizontal = 2
-grow_vertical = 2
-
-[node name="BeatBG" type="TextureRect" parent="LevelCreator/MAPPING/Border/VBoxContainer/beat_column" unique_id=2061861188]
-unique_name_in_owner = true
-visible = false
-modulate = Color(1, 1, 1, 0.36862746)
-layout_mode = 1
-anchors_preset = 9
-anchor_bottom = 1.0
-offset_right = 3656.25
-grow_vertical = 2
-texture = ExtResource("9_u832l")
-expand_mode = 3
-stretch_mode = 1
-
-[node name="Line" type="ColorRect" parent="LevelCreator/MAPPING/Border/VBoxContainer" unique_id=46451653]
-custom_minimum_size = Vector2(0, 3)
-layout_mode = 2
-color = Color(0.61960787, 0.61960787, 0.61960787, 1)
-
-[node name="shape_column" type="Control" parent="LevelCreator/MAPPING/Border/VBoxContainer" unique_id=2010941462]
-custom_minimum_size = Vector2(0, 195)
-layout_mode = 2
-mouse_filter = 2
-
-[node name="ShapeYPosition" type="Control" parent="LevelCreator/MAPPING/Border/VBoxContainer/shape_column" unique_id=596826130]
-layout_mode = 1
-anchors_preset = 14
-anchor_top = 0.5
-anchor_right = 1.0
-anchor_bottom = 0.5
-grow_horizontal = 2
-grow_vertical = 2
-mouse_filter = 2
 
 [node name="LineGenerator" type="ColorRect" parent="LevelCreator/MAPPING" unique_id=1950115273]
 unique_name_in_owner = true
@@ -1222,6 +1222,7 @@ autowrap_mode = 2
 [connection signal="mouse_exited" from="LevelCreator/METADATA/HBoxContainer/Draw Area" to="." method="_on_draw_area_mouse_exited"]
 [connection signal="mouse_entered" from="LevelCreator/MAPPING" to="." method="_on_mapping_mouse_entered"]
 [connection signal="mouse_exited" from="LevelCreator/MAPPING" to="." method="_on_mapping_mouse_exited"]
+[connection signal="gui_input" from="LevelCreator/MAPPING/Border/VBoxContainer/beat_column" to="LevelCreator/MAPPING" method="_on_beat_column_gui_input"]
 [connection signal="pressed" from="LevelCreator/MAPPING/HBoxContainer/start" to="LevelCreator/MAPPING" method="_on_start_pressed"]
 [connection signal="item_selected" from="LevelCreator/MAPPING/Controls/DifficultyOption" to="LevelCreator/MAPPING" method="_on_difficulty_option_item_selected"]
 [connection signal="pressed" from="LevelCreator/MAPPING/Controls/Add Difficulty" to="LevelCreator/MAPPING" method="_on_add_difficuly_pressed"]

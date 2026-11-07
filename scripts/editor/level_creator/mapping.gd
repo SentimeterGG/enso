@@ -1785,3 +1785,7 @@ func _on_undo_pressed() -> void:
 
 func _on_redo_pressed() -> void:
 	_redo_edit()
+
+
+func _on_beat_column_gui_input(event: InputEvent) -> void:
+	pass # Replace with function body.
