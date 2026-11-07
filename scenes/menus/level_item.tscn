@@ -68,8 +68,8 @@ _data = {
 [node name="level_item" type="Panel" unique_id=1603493135]
 clip_children = 2
 z_index = 1
-custom_minimum_size = Vector2(780, 120)
-custom_maximum_size = Vector2(780, -1)
+custom_minimum_size = Vector2(690, 120)
+custom_maximum_size = Vector2(1500, -1)
 anchors_preset = 1
 anchor_left = 1.0
 anchor_right = 1.0

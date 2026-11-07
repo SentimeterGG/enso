@@ -20,7 +20,7 @@ var _leaving: bool = false
 @onready var draw_here_label: Label = %"Draw Here"
 @onready var beat_sound: AudioStreamPlayer = $"beat_sound"
 @onready var draw_manager: Line2D = $draw
-@onready var level_list: Control = $"Main Content/HBoxContainer/RSide/VBoxContainer/Level List"
+@onready var level_list: Control = $"Main Content/HBoxContainer/RSide/MaxLevelWidth/Level List"
 @onready var level_details: Control = %LevelDetails
 @onready var animation_player: AnimationPlayer = $AnimationPlayer
 
@@ -266,3 +266,7 @@ func _emit_beat() -> void:
 		.set_ease(Tween.EASE_OUT)
 	)
 	_pulse_tween = tween
+
+
+func _on_resized() -> void:
+	pass # Replace with function body.

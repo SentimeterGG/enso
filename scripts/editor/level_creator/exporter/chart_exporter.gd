@@ -1,7 +1,10 @@
 class_name ChartExporter
 extends RefCounted
 
-## Writes .enso chart folders from the current editor state.
+## Writes the current editor state into a .ensz level archive.
+
+const ARCHIVE_EXTENSION := "ensz"
+const STAGING_ROOT := "user://level_creator_export"
 
 signal export_requested(dest_dir: String)
 signal toast_requested(
@@ -13,6 +16,7 @@ signal toast_requested(
 
 var _metadata_group: Control
 var _mapping_group: Control
+var _archive := EnszArchive.new()
 
 
 func _init(metadata_group: Control, mapping_group: Control) -> void:
@@ -29,19 +33,32 @@ func _toast(
 	toast_requested.emit(title, message, kind, duration)
 
 
-func export_to(dir: String) -> void:
-	var context := _build_export_context(dir)
+func export_to(path: String) -> void:
+	var archive_path := _normalize_archive_path(path)
+	if archive_path.is_empty():
+		_fail_export("Invalid export file.", true)
+		return
+	var context := _build_export_context(archive_path)
 	if context.is_empty():
 		return
 	var written := _write_difficulty_files(context)
+	if written.is_empty():
+		_cleanup_staging(str(context["out_dir"]))
+		_notify_export_result(context["diffs"], written, context["folder_name"])
+		return
+	var packed := _archive.pack_level(str(context["out_dir"]), archive_path)
+	_cleanup_staging(str(context["out_dir"]))
+	if bool(packed.get("error", true)):
+		_fail_export(str(packed.get("reason", "Failed to create the .ensz archive.")), true)
+		return
 	_notify_export_result(context["diffs"], written, context["folder_name"])
 
 
-func _build_export_context(dir: String) -> Dictionary:
-	if dir.is_empty():
-		_fail_export("Invalid export folder.", true)
+func _build_export_context(archive_path: String) -> Dictionary:
+	if archive_path.is_empty():
+		_fail_export("Invalid export file.", true)
 		return { }
-	export_requested.emit(dir)
+	export_requested.emit(archive_path)
 	if _metadata_group == null or not _metadata_group.has_method("when_export"):
 		_fail_export("METADATA missing when_export().", true)
 		return { }
@@ -63,7 +80,8 @@ func _build_export_context(dir: String) -> Dictionary:
 	var folder_name := _sanitize_folder_name(
 		"%s by %s mapped by %s" % [song_info["name"], song_info["author"], song_info["mapper"]]
 	)
-	var out_dir := dir.path_join(folder_name)
+	var out_dir := STAGING_ROOT.path_join(folder_name)
+	_remove_dir_recursive(out_dir)
 	if not _ensure_export_folder(out_dir):
 		return { }
 	var assets := _copy_export_assets(data, out_dir)
@@ -72,10 +90,41 @@ func _build_export_context(dir: String) -> Dictionary:
 		"data": data,
 		"folder_name": folder_name,
 		"out_dir": out_dir,
+		"archive_path": archive_path,
 		"song_file": assets["song_file"],
 		"bg_value": assets["bg_value"],
 		"video_value": assets["video_value"],
 	}
+
+
+func _normalize_archive_path(path: String) -> String:
+	var out := path.strip_edges()
+	if out.is_empty():
+		return ""
+	if not out.to_lower().ends_with("." + ARCHIVE_EXTENSION):
+		out += "." + ARCHIVE_EXTENSION
+	return out
+
+
+func _cleanup_staging(path: String) -> void:
+	if not path.is_empty():
+		_remove_dir_recursive(path)
+
+
+func _remove_dir_recursive(path: String) -> void:
+	var dir := DirAccess.open(path)
+	if dir == null:
+		return
+	dir.list_dir_begin()
+	var entry := dir.get_next()
+	while not entry.is_empty():
+		if dir.current_is_dir():
+			_remove_dir_recursive(path.path_join(entry))
+		else:
+			dir.remove(entry)
+		entry = dir.get_next()
+	dir.list_dir_end()
+	DirAccess.remove_absolute(path)
 
 
 func _normalized_song_info(data: Dictionary) -> Dictionary:

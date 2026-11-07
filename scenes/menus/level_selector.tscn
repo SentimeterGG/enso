@@ -239,27 +239,16 @@ layout_mode = 2
 theme_override_constants/separation = 12
 
 [node name="Title" type="Label" parent="Main Content/HBoxContainer/LSide/MarginContainer/VBoxContainer/LevelDetails/Profile/ProfileDetails/TitleContainer" unique_id=121634496]
-custom_maximum_size = Vector2(495, -1)
 layout_mode = 2
 theme_override_font_sizes/font_size = 45
 text = "-"
 clip_text = true
 uppercase = true
 
-[node name="ControlLine" parent="Main Content/HBoxContainer/LSide/MarginContainer/VBoxContainer/LevelDetails/Profile/ProfileDetails/TitleContainer" unique_id=578883494 instance=ExtResource("3_v1k4p")]
-custom_minimum_size = Vector2(0, 0)
-custom_maximum_size = Vector2(-1, -1)
+[node name="Line" type="ColorRect" parent="Main Content/HBoxContainer/LSide/MarginContainer/VBoxContainer/LevelDetails/Profile/ProfileDetails/TitleContainer" unique_id=1784649004]
+custom_minimum_size = Vector2(0, 3)
 layout_mode = 2
-shape = 4
-line_thickness = 3
-follow_anchor = true
-
-[node name="L" parent="Main Content/HBoxContainer/LSide/MarginContainer/VBoxContainer/LevelDetails/Profile/ProfileDetails/TitleContainer/ControlLine" index="0" unique_id=1114771390]
-points = PackedVector2Array(0, 0, 497, 0)
-width = 3.0
-joint_mode = 0
-begin_cap_mode = 1
-end_cap_mode = 1
+color = Color(1, 0, 0, 1)
 
 [node name="SourceContainer" type="VBoxContainer" parent="Main Content/HBoxContainer/LSide/MarginContainer/VBoxContainer/LevelDetails/Profile/ProfileDetails" unique_id=282935269]
 layout_mode = 2
@@ -279,21 +268,10 @@ theme_override_font_sizes/font_size = 30
 text = "-"
 clip_text = true
 
-[node name="ControlLine2" parent="Main Content/HBoxContainer/LSide/MarginContainer/VBoxContainer/LevelDetails/Profile/ProfileDetails" unique_id=1151083760 instance=ExtResource("3_v1k4p")]
-custom_minimum_size = Vector2(0, 0)
-custom_maximum_size = Vector2(-1, -1)
+[node name="Line" type="ColorRect" parent="Main Content/HBoxContainer/LSide/MarginContainer/VBoxContainer/LevelDetails/Profile/ProfileDetails" unique_id=1804064208]
+custom_minimum_size = Vector2(0, 3)
 layout_mode = 2
-shape = 4
-line_thickness = 3
-follow_anchor = true
-
-[node name="L" parent="Main Content/HBoxContainer/LSide/MarginContainer/VBoxContainer/LevelDetails/Profile/ProfileDetails/ControlLine2" index="0" unique_id=1114771390]
-points = PackedVector2Array(0, 0, 497, 0)
-width = 3.0
-default_color = Color(0.48235294, 0.48235294, 0.48235294, 1)
-joint_mode = 0
-begin_cap_mode = 1
-end_cap_mode = 1
+color = Color(0.48235294, 0.48235294, 0.48235294, 1)
 
 [node name="MapperContainer" type="VBoxContainer" parent="Main Content/HBoxContainer/LSide/MarginContainer/VBoxContainer/LevelDetails/Profile/ProfileDetails" unique_id=223041712]
 layout_mode = 2
@@ -314,21 +292,10 @@ theme_override_font_sizes/font_size = 30
 text = "-"
 clip_text = true
 
-[node name="ControlLine" parent="Main Content/HBoxContainer/LSide/MarginContainer/VBoxContainer/LevelDetails/Profile/ProfileDetails" unique_id=2100053032 instance=ExtResource("3_v1k4p")]
-custom_minimum_size = Vector2(0, 0)
-custom_maximum_size = Vector2(-1, -1)
+[node name="Line2" type="ColorRect" parent="Main Content/HBoxContainer/LSide/MarginContainer/VBoxContainer/LevelDetails/Profile/ProfileDetails" unique_id=1445626314]
+custom_minimum_size = Vector2(0, 3)
 layout_mode = 2
-shape = 4
-line_thickness = 3
-follow_anchor = true
-
-[node name="L" parent="Main Content/HBoxContainer/LSide/MarginContainer/VBoxContainer/LevelDetails/Profile/ProfileDetails/ControlLine" index="0" unique_id=1114771390]
-points = PackedVector2Array(0, 0, 497, 0)
-width = 3.0
-default_color = Color(0.48235294, 0.48235294, 0.48235294, 1)
-joint_mode = 0
-begin_cap_mode = 1
-end_cap_mode = 1
+color = Color(0.48235294, 0.48235294, 0.48235294, 1)
 
 [node name="Level" type="HBoxContainer" parent="Main Content/HBoxContainer/LSide/MarginContainer/VBoxContainer/LevelDetails" unique_id=693840850]
 layout_mode = 2
@@ -586,19 +553,19 @@ layout_mode = 2
 size_flags_horizontal = 3
 theme_override_constants/margin_left = 36
 
-[node name="VBoxContainer" type="VBoxContainer" parent="Main Content/HBoxContainer/RSide" unique_id=698558254]
+[node name="MaxLevelWidth" type="VBoxContainer" parent="Main Content/HBoxContainer/RSide" unique_id=698558254]
 layout_mode = 2
 theme_override_constants/separation = 9
 
-[node name="SearchSection" type="HBoxContainer" parent="Main Content/HBoxContainer/RSide/VBoxContainer" unique_id=498238167]
+[node name="SearchSection" type="HBoxContainer" parent="Main Content/HBoxContainer/RSide/MaxLevelWidth" unique_id=498238167]
 layout_mode = 2
 
-[node name="SearchBar" type="LineEdit" parent="Main Content/HBoxContainer/RSide/VBoxContainer/SearchSection" unique_id=1288421359]
+[node name="SearchBar" type="LineEdit" parent="Main Content/HBoxContainer/RSide/MaxLevelWidth/SearchSection" unique_id=1288421359]
 layout_mode = 2
 size_flags_horizontal = 3
 placeholder_text = "Search.."
 
-[node name="SearchButton" type="Button" parent="Main Content/HBoxContainer/RSide/VBoxContainer/SearchSection" unique_id=1858570168]
+[node name="SearchButton" type="Button" parent="Main Content/HBoxContainer/RSide/MaxLevelWidth/SearchSection" unique_id=1858570168]
 custom_minimum_size = Vector2(68, 0)
 custom_maximum_size = Vector2(68, -1)
 layout_mode = 2
@@ -606,7 +573,7 @@ icon = SubResource("AtlasTexture_ukpo5")
 icon_alignment = 1
 expand_icon = true
 
-[node name="Filter" type="Button" parent="Main Content/HBoxContainer/RSide/VBoxContainer/SearchSection" unique_id=1581273882]
+[node name="Filter" type="Button" parent="Main Content/HBoxContainer/RSide/MaxLevelWidth/SearchSection" unique_id=1581273882]
 custom_minimum_size = Vector2(68, 0)
 custom_maximum_size = Vector2(68, -1)
 layout_mode = 2
@@ -614,7 +581,7 @@ icon = SubResource("AtlasTexture_pkjbs")
 icon_alignment = 1
 expand_icon = true
 
-[node name="ImportButton" type="Button" parent="Main Content/HBoxContainer/RSide/VBoxContainer/SearchSection" unique_id=1194943146]
+[node name="ImportButton" type="Button" parent="Main Content/HBoxContainer/RSide/MaxLevelWidth/SearchSection" unique_id=1194943146]
 editor_description = "This Button shows the import popup
 "
 custom_minimum_size = Vector2(68, 0)
@@ -624,14 +591,14 @@ icon = SubResource("AtlasTexture_b0npr")
 icon_alignment = 1
 expand_icon = true
 
-[node name="Level List" type="Control" parent="Main Content/HBoxContainer/RSide/VBoxContainer" unique_id=1172829929]
+[node name="Level List" type="Control" parent="Main Content/HBoxContainer/RSide/MaxLevelWidth" unique_id=1172829929]
 clip_contents = true
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 script = ExtResource("9_ax7y8")
 
-[node name="Scroll" type="Control" parent="Main Content/HBoxContainer/RSide/VBoxContainer/Level List" unique_id=981291404]
+[node name="Scroll" type="Control" parent="Main Content/HBoxContainer/RSide/MaxLevelWidth/Level List" unique_id=981291404]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -652,6 +619,7 @@ stream = ExtResource("11_pkjbs")
 bus = &"Effect"
 
 [node name="ImportPopup" type="Control" parent="." unique_id=34632022]
+visible = false
 z_index = 5
 layout_mode = 1
 anchors_preset = 15
@@ -843,8 +811,9 @@ use_native_dialog = true
 
 [connection signal="mouse_entered" from="Main Content/HBoxContainer/LSide/MarginContainer/VBoxContainer/LevelDetails/PlaySection/SignHerePanel" to="." method="_on_sign_mouse_entered"]
 [connection signal="mouse_exited" from="Main Content/HBoxContainer/LSide/MarginContainer/VBoxContainer/LevelDetails/PlaySection/SignHerePanel" to="." method="_on_sign_mouse_exited"]
-[connection signal="pressed" from="Main Content/HBoxContainer/RSide/VBoxContainer/SearchSection/ImportButton" to="ImportPopup" method="open_popup"]
-[connection signal="item_hovered" from="Main Content/HBoxContainer/RSide/VBoxContainer/Level List" to="." method="_on_level_item_hovered"]
+[connection signal="pressed" from="Main Content/HBoxContainer/RSide/MaxLevelWidth/SearchSection/ImportButton" to="ImportPopup" method="open_popup"]
+[connection signal="item_hovered" from="Main Content/HBoxContainer/RSide/MaxLevelWidth/Level List" to="." method="_on_level_item_hovered"]
+[connection signal="resized" from="Main Content/HBoxContainer/RSide/MaxLevelWidth/Level List" to="Main Content/HBoxContainer/RSide/MaxLevelWidth/Level List" method="_on_resized"]
 [connection signal="animation_finished" from="AnimationPlayer" to="." method="_on_animation_player_animation_finished"]
 [connection signal="guessed_shape" from="draw" to="." method="_on_draw_guessed_shape"]
 [connection signal="text_submitted" from="ImportPopup/AspectRatioContainer/MarginContainer/Panel/MarginContainer/HBoxContainer/ImportInput/ImportFileContainer/ImportFileLine" to="ImportPopup" method="_on_file_line_submitted"]
@@ -855,7 +824,3 @@ use_native_dialog = true
 [connection signal="pressed" from="ImportPopup/AspectRatioContainer/MarginContainer/Panel/MarginContainer/HBoxContainer/ImportInput/ImportLevels" to="ImportPopup" method="_on_import_levels_pressed"]
 [connection signal="pressed" from="ImportPopup/AspectRatioContainer/MarginContainer/Panel/MarginContainer/HBoxContainer/ImportInput/GoBack" to="ImportPopup" method="close_popup"]
 [connection signal="file_selected" from="ImportPopup/FileDialog" to="ImportPopup" method="_on_file_selected"]
-
-[editable path="Main Content/HBoxContainer/LSide/MarginContainer/VBoxContainer/LevelDetails/Profile/ProfileDetails/TitleContainer/ControlLine"]
-[editable path="Main Content/HBoxContainer/LSide/MarginContainer/VBoxContainer/LevelDetails/Profile/ProfileDetails/ControlLine2"]
-[editable path="Main Content/HBoxContainer/LSide/MarginContainer/VBoxContainer/LevelDetails/Profile/ProfileDetails/ControlLine"]

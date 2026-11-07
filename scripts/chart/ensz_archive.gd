@@ -32,6 +32,59 @@ func load(path: String, dest_root: String = LEVELS_ROOT) -> Dictionary:
 	return { "error": false, "reason": "", "levels": levels }
 
 
+func load_single(path: String, dest_root: String = LEVELS_ROOT) -> Dictionary:
+	# Editor imports only accept archives that hold exactly one level folder.
+	var archive_path := path.strip_edges()
+	if not _check_path_exists(archive_path):
+		return _error_result("File not found.")
+	var reader := ZIPReader.new()
+	var valid := _check_file_valid(archive_path, reader)
+	if not bool(valid.get("valid", false)):
+		return _error_result(str(valid.get("reason", "Invalid .ensz archive.")))
+	var level_count := _count_levels(archive_path)
+	if level_count != 1:
+		return _error_result(_single_level_error(level_count))
+	var levels := _extract_archive_levels(archive_path, reader, dest_root)
+	if levels.is_empty():
+		return _error_result("Failed to extract the level folder.")
+	return { "error": false, "reason": "", "levels": levels }
+
+
+func pack_level(level_dir: String, archive_path: String) -> Dictionary:
+	# Packs one prepared level folder into an .ensz archive.
+	var source := level_dir.strip_edges()
+	if source.is_empty() or not DirAccess.dir_exists_absolute(source):
+		return _error_result("Level folder not found: " + source)
+	var target := archive_path.strip_edges()
+	if target.is_empty():
+		return _error_result("Invalid .ensz file path.")
+	if target.get_extension().to_lower() != ARCHIVE_EXTENSION:
+		target += "." + ARCHIVE_EXTENSION
+	var parent := target.get_base_dir()
+	if not parent.is_empty() and DirAccess.make_dir_recursive_absolute(parent) != OK:
+		if not DirAccess.dir_exists_absolute(parent):
+			return _error_result("Failed to create the export folder.")
+	if FileAccess.file_exists(target):
+		DirAccess.remove_absolute(target)
+
+	var files := _list_files_recursive(source)
+	if files.is_empty():
+		return _error_result("No files to pack.")
+	var level_name := _sanitize_folder_name(source.get_file())
+	var packer := ZIPPacker.new()
+	if packer.open(target) != OK:
+		return _error_result("Could not create the .ensz archive.")
+	for relative in files:
+		var entry := level_name.path_join(relative)
+		if packer.start_file(entry) != OK:
+			packer.close()
+			return _error_result("Failed to add %s to the archive." % relative)
+		packer.write_file(FileAccess.get_file_as_bytes(source.path_join(relative)))
+		packer.close_file()
+	packer.close()
+	return { "error": false, "reason": "", "path": target }
+
+
 func find_existing_levels(path: String, dest_root: String = LEVELS_ROOT) -> Array[String]:
 	var reader := ZIPReader.new()
 	if reader.open(path) != OK:
@@ -360,6 +413,49 @@ func _sanitize_folder_name(raw: String) -> String:
 	if out.is_empty():
 		out = "level"
 	return out
+
+
+func _count_levels(path: String) -> int:
+	var reader := ZIPReader.new()
+	if reader.open(path) != OK:
+		return 0
+	var names := _valid_level_names(_group_files_by_level(reader.get_files()))
+	reader.close()
+	return names.size()
+
+
+func _single_level_error(level_count: int) -> String:
+	if level_count <= 0:
+		return "No level folder found in the .ensz archive."
+	return (
+		"The .ensz archive must contain exactly one level folder, found %d."
+		% level_count
+	)
+
+
+func _list_files_recursive(root: String) -> Array[String]:
+	var out: Array[String] = []
+	_collect_files(root, "", out)
+	out.sort()
+	return out
+
+
+func _collect_files(root: String, relative: String, out: Array[String]) -> void:
+	var dir_path := root if relative.is_empty() else root.path_join(relative)
+	var dir := DirAccess.open(dir_path)
+	if dir == null:
+		return
+	dir.list_dir_begin()
+	var entry := dir.get_next()
+	while not entry.is_empty():
+		if entry != "." and entry != "..":
+			var child := entry if relative.is_empty() else relative.path_join(entry)
+			if dir.current_is_dir():
+				_collect_files(root, child, out)
+			else:
+				out.append(child)
+		entry = dir.get_next()
+	dir.list_dir_end()
 
 
 func _invalid(reason: String) -> Dictionary:

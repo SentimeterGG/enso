@@ -6,9 +6,9 @@ const LEVEL_ITEM_SCENE: PackedScene = preload("res://scenes/menus/level_item.tsc
 const BUILTIN_LEVELS_DIR := "res://levels"
 const USER_LEVELS_DIR := "user://levels"
 
-const MAX_WIDTH := 750.0
-const SELECTED_MAX_WIDTH := 864.0
-const MIN_WIDTH := 690.0
+var MAX_WIDTH := 750.0
+var SELECTED_MAX_WIDTH := 864.0
+var MIN_WIDTH := 690.0
 const DURATION := 0.25
 const COVER_FADE_PX := 660.0
 const DRAG_THRESHOLD := 24.0
@@ -42,6 +42,7 @@ func _ready() -> void:
 	call_deferred("grab_focus")
 	await get_tree().process_frame
 	await get_tree().process_frame
+	_update_level_size_width()
 	_play_intro()
 
 
@@ -730,6 +731,18 @@ func _selected_parent_row() -> int:
 		if parent != null and parent.get("variant") != true:
 			return i
 	return -1
+
+
+func _update_level_size_width():
+	SELECTED_MAX_WIDTH = size.x
+	MAX_WIDTH = size.x * 0.8681
+	MIN_WIDTH = size.x * 0.7986
+
+
+func _on_resized() -> void:
+	_update_level_size_width()
+	if scroll.get_child_count() > 0:
+		_update_highlight(true)
 
 
 func _update_coverflow_live() -> void:

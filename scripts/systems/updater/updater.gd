@@ -69,7 +69,7 @@ static func _parse_version(v: String) -> Dictionary:
 func _on_http_request_request_completed(
 	_result: int,
 	response_code: int,
-	headers: PackedStringArray,
+	_headers: PackedStringArray,
 	body: PackedByteArray,
 ) -> void:
 	if response_code == HTTPClient.RESPONSE_OK:

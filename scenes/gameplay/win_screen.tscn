@@ -5,7 +5,6 @@
 [ext_resource type="FontFile" uid="uid://ksap2ki2af7l" path="res://assets/fonts/ttf/PixelCode.ttf" id="2_0lrm4"]
 [ext_resource type="Texture2D" uid="uid://cj3h38kay5hgt" path="res://assets/textures/ui/placeholder-level-banner.png" id="2_bqn3h"]
 [ext_resource type="Script" uid="uid://bhjwx4upcg03f" path="res://scripts/systems/loading/loading_system.gd" id="3_2l6cc"]
-[ext_resource type="PackedScene" uid="uid://cpdjo67hyeq74" path="res://scenes/ui/ui_line.tscn" id="3_qnnn4"]
 [ext_resource type="AudioStream" uid="uid://bkhtj3njqav2m" path="res://assets/audio/ui/score_reveal.opus" id="4_e41g7"]
 [ext_resource type="FontFile" uid="uid://c01hb7kklocyn" path="res://resources/fonts/pixel_regular.res" id="4_qnnn4"]
 
@@ -69,24 +68,14 @@ theme_override_constants/separation = 4
 unique_name_in_owner = true
 layout_mode = 2
 theme_override_font_sizes/font_size = 45
-text = "NANI GA WURI fsddasfdsafaf"
+text = "-"
 clip_text = true
 uppercase = true
 
-[node name="ControlLine" parent="MarginContainer/HBoxContainer/MarginContainer/Details/Profile/ProfileDetails/TitleContainer" unique_id=578883494 instance=ExtResource("3_qnnn4")]
-custom_minimum_size = Vector2(0, 0)
-custom_maximum_size = Vector2(-1, -1)
+[node name="Line" type="ColorRect" parent="MarginContainer/HBoxContainer/MarginContainer/Details/Profile/ProfileDetails/TitleContainer" unique_id=834232140]
+custom_minimum_size = Vector2(0, 3)
 layout_mode = 2
-shape = 4
-line_thickness = 3
-follow_anchor = true
-
-[node name="L" parent="MarginContainer/HBoxContainer/MarginContainer/Details/Profile/ProfileDetails/TitleContainer/ControlLine" index="0" unique_id=1114771390]
-points = PackedVector2Array(0, 0, 614, 0)
-width = 3.0
-joint_mode = 0
-begin_cap_mode = 1
-end_cap_mode = 1
+color = Color(1, 0, 0, 1)
 
 [node name="SourceContainer" type="VBoxContainer" parent="MarginContainer/HBoxContainer/MarginContainer/Details/Profile/ProfileDetails" unique_id=1269756068]
 layout_mode = 2
@@ -101,25 +90,13 @@ text = "Source"
 [node name="SourceValue" type="Label" parent="MarginContainer/HBoxContainer/MarginContainer/Details/Profile/ProfileDetails/SourceContainer" unique_id=2067015235]
 layout_mode = 2
 theme_override_font_sizes/font_size = 30
-text = "Kessoku Band"
+text = "-"
 clip_text = true
 
-[node name="ControlLine2" parent="MarginContainer/HBoxContainer/MarginContainer/Details/Profile/ProfileDetails" unique_id=1533388217 instance=ExtResource("3_qnnn4")]
-custom_minimum_size = Vector2(0, 0)
-custom_maximum_size = Vector2(-1, -1)
+[node name="Line2" type="ColorRect" parent="MarginContainer/HBoxContainer/MarginContainer/Details/Profile/ProfileDetails" unique_id=955899055]
+custom_minimum_size = Vector2(0, 3)
 layout_mode = 2
-shape = 4
-line_thickness = 3
-follow_anchor = true
-
-[node name="L" parent="MarginContainer/HBoxContainer/MarginContainer/Details/Profile/ProfileDetails/ControlLine2" index="0" unique_id=1114771390]
-position = Vector2(-3, 3)
-points = PackedVector2Array(0, 0, 614, 0)
-width = 3.0
-default_color = Color(0.48235294, 0.48235294, 0.48235294, 1)
-joint_mode = 0
-begin_cap_mode = 1
-end_cap_mode = 1
+color = Color(0.48235294, 0.48235294, 0.48235294, 1)
 
 [node name="MapperContainer" type="VBoxContainer" parent="MarginContainer/HBoxContainer/MarginContainer/Details/Profile/ProfileDetails" unique_id=846415543]
 layout_mode = 2
@@ -135,24 +112,13 @@ text = "Mapper"
 layout_mode = 2
 theme_override_colors/font_color = Color(1, 0, 0, 1)
 theme_override_font_sizes/font_size = 30
-text = "DIMASDFAR"
+text = "-"
 clip_text = true
 
-[node name="ControlLine" parent="MarginContainer/HBoxContainer/MarginContainer/Details/Profile/ProfileDetails" unique_id=1574577883 instance=ExtResource("3_qnnn4")]
-custom_minimum_size = Vector2(0, 0)
-custom_maximum_size = Vector2(-1, -1)
+[node name="Line3" type="ColorRect" parent="MarginContainer/HBoxContainer/MarginContainer/Details/Profile/ProfileDetails" unique_id=558501029]
+custom_minimum_size = Vector2(0, 3)
 layout_mode = 2
-shape = 4
-line_thickness = 3
-follow_anchor = true
-
-[node name="L" parent="MarginContainer/HBoxContainer/MarginContainer/Details/Profile/ProfileDetails/ControlLine" index="0" unique_id=1114771390]
-points = PackedVector2Array(0, 0, 614, 0)
-width = 3.0
-default_color = Color(0.48235294, 0.48235294, 0.48235294, 1)
-joint_mode = 0
-begin_cap_mode = 1
-end_cap_mode = 1
+color = Color(0.48235294, 0.48235294, 0.48235294, 1)
 
 [node name="MarginContainer" type="MarginContainer" parent="MarginContainer/HBoxContainer/MarginContainer/Details" unique_id=777236526]
 layout_mode = 2
@@ -561,7 +527,3 @@ pitch_scale = 1.2
 
 [connection signal="pressed" from="MarginContainer/HBoxContainer/VBoxContainer/Button/Button" to="." method="_on_button_pressed"]
 [connection signal="pressed" from="MarginContainer/HBoxContainer/VBoxContainer/Button/BackToMenu" to="." method="_on_back_to_menu_pressed"]
-
-[editable path="MarginContainer/HBoxContainer/MarginContainer/Details/Profile/ProfileDetails/TitleContainer/ControlLine"]
-[editable path="MarginContainer/HBoxContainer/MarginContainer/Details/Profile/ProfileDetails/ControlLine2"]
-[editable path="MarginContainer/HBoxContainer/MarginContainer/Details/Profile/ProfileDetails/ControlLine"]

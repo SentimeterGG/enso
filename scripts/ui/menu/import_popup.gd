@@ -9,8 +9,8 @@ const DOWNLOAD_PATH := CACHE_ROOT + "/download.ensz"
 const ARCHIVE_FILTER := "*.ensz ; ENSO Level Archive"
 const PREVIEW_ROW_SIZE := Vector2(744, 120)
 const PREVIEW_VARIANT_SIZE := Vector2(700, 96)
-const LEVEL_LIST_PATH := "Main Content/HBoxContainer/RSide/VBoxContainer/Level List"
-const IMPORT_BUTTON_PATH := "Main Content/HBoxContainer/RSide/VBoxContainer/SearchSection/ImportButton"
+const LEVEL_LIST_PATH := "Main Content/HBoxContainer/RSide/MaxLevelWidth/Level List"
+const IMPORT_BUTTON_PATH := "Main Content/HBoxContainer/RSide/MaxLevelWidth/SearchSection/ImportButton"
 
 var android_picker: Object
 var _archive := EnszArchive.new()
@@ -86,7 +86,7 @@ func _open_file_dialog() -> void:
 		_file_dialog.popup_centered_ratio(0.8)
 
 
-func _on_file_android_picked(temp_path: String, mime_type: String) -> void:
+func _on_file_android_picked(temp_path: String, _mime_type: String) -> void:
 	if not temp_path.get_file().to_lower().ends_with(".ensz"):
 		push_error("Invalid file. Expected .ensz")
 		DirAccess.remove_absolute(temp_path)
@@ -256,13 +256,13 @@ func _add_preview_item(
 
 
 func _title_from_metadata(metadata: Dictionary, fallback: String) -> String:
-	var name := str(metadata.get("name", "")).strip_edges()
+	var display_name := str(metadata.get("name", "")).strip_edges()
 	var source := str(metadata.get("source", "")).strip_edges()
 	if not source.is_empty():
-		name = "%s by %s" % [name, source] if not name.is_empty() else source
-	if name.is_empty():
-		name = fallback.get_file()
-	return name
+		display_name = "%s by %s" % [display_name, source] if not display_name.is_empty() else source
+	if display_name.is_empty():
+		display_name = fallback.get_file()
+	return display_name
 
 
 func _subtitle_from_metadata(metadata: Dictionary) -> String:

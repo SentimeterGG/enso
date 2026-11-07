@@ -122,8 +122,8 @@ func _on_export_button_pressed() -> void:
 	_save_dialog.popup_centered(Vector2i(600, 400))
 
 
-func _on_export_popup_dir_selected(dir: String) -> void:
-	_exporter.export_to(dir)
+func _on_export_popup_file_selected(path: String) -> void:
+	_exporter.export_to(path)
 
 
 func _on_draw_guessed_shape(shape: String) -> void:
@@ -194,7 +194,7 @@ func _exit_tree() -> void:
 	BgMusic.FADE_DURATION = 0.3
 
 
-func _on_import_popup_dir_selected(dir: String) -> void:
-	if _importer.import_folder(dir):
+func _on_import_popup_file_selected(path: String) -> void:
+	if _importer.import_archive(path):
 		_update_discord_activity()
 

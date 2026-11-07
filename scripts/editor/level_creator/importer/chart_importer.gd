@@ -1,7 +1,10 @@
 class_name ChartImporter
 extends RefCounted
 
-## Loads .enso chart folders and pushes them into the MAPPING editor.
+## Loads a single-level .ensz archive and pushes its charts into the MAPPING editor.
+
+const ARCHIVE_EXTENSION := "ensz"
+const IMPORT_ROOT := "user://level_creator_import"
 
 signal chart_imported(chart: ChartData)
 signal toast_requested(
@@ -12,6 +15,7 @@ signal toast_requested(
 )
 
 var _mapping_group: Control
+var _archive := EnszArchive.new()
 
 
 func _init(mapping_group: Control) -> void:
@@ -27,15 +31,33 @@ func _toast(
 	toast_requested.emit(title, message, kind, duration)
 
 
-func import_folder(dir: String) -> bool:
-	if not _validate_import_dir(dir):
+func import_archive(path: String) -> bool:
+	if not _validate_archive_path(path):
 		return false
-	var chart_paths := _find_enso_files(dir)
+
+	var loaded := _archive.load_single(path, IMPORT_ROOT)
+	if bool(loaded.get("error", true)):
+		var reason := str(loaded.get("reason", "Could not read the archive."))
+		push_error(reason)
+		_toast("Import Failed", reason, NotificationToast.Kind.WARN)
+		return false
+
+	var levels: Array = loaded.get("levels", [])
+	if levels.size() != 1:
+		push_error("Expected exactly one level folder in: " + path)
+		_toast(
+			"Import Failed",
+			"The .ensz archive must contain exactly one level folder.",
+			NotificationToast.Kind.WARN,
+		)
+		return false
+
+	var chart_paths := _find_enso_files(str(levels[0]))
 	if chart_paths.is_empty():
-		push_error("No .enso files found in: " + dir)
+		push_error("No .enso files found in: " + str(levels[0]))
 		_toast(
 			"Difficulty Missing",
-			"No .enso files found in that folder.",
+			"No .enso files found inside the archive.",
 			NotificationToast.Kind.WARN,
 		)
 		return false
@@ -45,13 +67,18 @@ func import_folder(dir: String) -> bool:
 	return true
 
 
-func _validate_import_dir(dir: String) -> bool:
-	if not dir.is_empty() and DirAccess.dir_exists_absolute(dir):
+func _validate_archive_path(path: String) -> bool:
+	var archive_path := path.strip_edges()
+	if (
+		not archive_path.is_empty()
+		and FileAccess.file_exists(archive_path)
+		and archive_path.get_extension().to_lower() == ARCHIVE_EXTENSION
+	):
 		return true
-	push_error("Invalid chart folder: " + dir)
+	push_error("Invalid .ensz file: " + path)
 	_toast(
 		"Import Failed",
-		"Invalid chart folder.",
+		"Choose a valid .ensz archive.",
 		NotificationToast.Kind.WARN,
 	)
 	return false
