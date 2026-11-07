@@ -14,7 +14,7 @@ func _ready() -> void:
 		fs_button.text = "OFF"
 
 func _on_fs_button_button_down() -> void:
-	%OsuHitSound.play()
+	%HitSound.play()
 	if Global.settingsData.fullscreen == true:
 		Global.settingsData.fullscreen = false
 		fs_button.text = "OFF"

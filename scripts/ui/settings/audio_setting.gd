@@ -25,18 +25,18 @@ func _ready() -> void:
 func _on_master_changed(value: float) -> void:
 	_set_bus_volume("Master", value)
 	tweaker_script._update_label(master_slider, master_percent)
-	%OsuHitSound.play()
+	%HitSound.play()
 
 func _on_music_changed(value: float) -> void:
 	_set_bus_volume("Music", value)
 	tweaker_script._update_label(music_slider, music_percent)
-	%OsuHitSound.play()
+	%HitSound.play()
 
 
 func _on_effects_changed(value: float) -> void:
 	_set_bus_volume("Effect", value)
 	tweaker_script._update_label(effects_slider, effects_percent)
-	%OsuHitSound.play()
+	%HitSound.play()
 
 func _sync_sliders_to_audio() -> void:
 	music_slider.set_value_no_signal(_get_bus_slider_value("Music"))

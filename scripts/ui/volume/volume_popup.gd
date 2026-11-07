@@ -159,7 +159,7 @@ func _adjust_master_volume(delta: float) -> void:
 	AudioServer.set_bus_volume_db(bus_index, new_db)
 	master_slider.set_value_no_signal(_db_to_slider(new_db))
 	_update_label(master_slider, master_label)
-	%OsuHitSound.play()
+	%HitSound.play()
 
 
 func _connect_sliders() -> void:
@@ -181,21 +181,21 @@ func _on_music_changed(value: float) -> void:
 	_set_bus_volume("Music", value)
 	_update_label(music_slider, music_label)
 	_restart_hide_timer()
-	%OsuHitSound.play()
+	%HitSound.play()
 
 
 func _on_master_changed(value: float) -> void:
 	_set_bus_volume("Master", value)
 	_update_label(master_slider, master_label)
 	_restart_hide_timer()
-	%OsuHitSound.play()
+	%HitSound.play()
 
 
 func _on_effects_changed(value: float) -> void:
 	_set_bus_volume("Effect", value)
 	_update_label(effects_slider, effects_label)
 	_restart_hide_timer()
-	%OsuHitSound.play()
+	%HitSound.play()
 
 
 func _set_bus_volume(bus_name: String, value: float) -> void:

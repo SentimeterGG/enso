@@ -870,7 +870,7 @@ autoplay = &"Opening"
 weight = 0.5
 guess_mode = true
 
-[node name="OsuHitSound" type="AudioStreamPlayer" parent="." unique_id=929816833]
+[node name="HitSound" type="AudioStreamPlayer" parent="." unique_id=929816833]
 unique_name_in_owner = true
 stream = ExtResource("9_yklyt")
 bus = &"Effect"

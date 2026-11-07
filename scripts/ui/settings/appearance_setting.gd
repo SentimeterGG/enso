@@ -29,11 +29,11 @@ func _on_bg_button_button_down() -> void:
 		Global.settingsData.video_bg = true
 		bg_button.text = "ON"
 	Global.save(Global.settingsData, Global.settingsData.save_file_name)
-	%OsuHitSound.play()
+	%HitSound.play()
 
 func _on_bg_dim_value_changed(value: float) -> void:
 	Global.settingsData.bg_visibilty = 100.0 - value
 	Global.save(Global.settingsData, Global.settingsData.save_file_name)
 	tweaker_script._update_label(bg_dim, dim_percent)
 	if can_play_hitsound:
-		%OsuHitSound.play()
+		%HitSound.play()

@@ -132,7 +132,7 @@ mouse_filter = 2
 mouse_behavior_recursive = 1
 color = Color(0, 0, 0, 0.7176471)
 
-[node name="OsuHitSound" type="AudioStreamPlayer" parent="." unique_id=813957005]
+[node name="HitSound" type="AudioStreamPlayer" parent="." unique_id=813957005]
 unique_name_in_owner = true
 stream = ExtResource("4_b55le")
 bus = &"Effect"
