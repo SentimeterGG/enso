@@ -105,8 +105,25 @@ func _handle_outro_sequence() -> void:
 	var is_game_over_visible: bool = game_over and game_over.visible
 
 	if not is_game_over_visible:
+		var total_notes: int = (
+			Global.current_chart.note_count() if Global.current_chart != null else 0
+		)
+		var score = accuracy_manager.calculate_score(
+			accuracy_manager.avg_accuracy,
+			accuracy_manager.max_combo,
+			total_notes,
+		)
+		var pp: int = accuracy_manager.calculate_pp(
+			accuracy_manager.avg_accuracy,
+			score,
+			accuracy_manager.max_combo,
+		)
 		win_screen.show_win_screen(
-			accuracy_manager.get_counts(), accuracy_manager.avg_accuracy, accuracy_manager.max_combo
+			accuracy_manager.get_counts(),
+			accuracy_manager.avg_accuracy,
+			score,
+			pp,
+			accuracy_manager.max_combo,
 		)
 
 

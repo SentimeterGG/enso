@@ -152,7 +152,7 @@ text = "D"
 horizontal_alignment = 1
 
 [node name="C" type="Label" parent="MarginContainer/HBoxContainer/MarginContainer/Details/MarginContainer/VBoxContainer/VBoxContainer/Grade" unique_id=694951836]
-custom_maximum_size = Vector2(54.885, -1)
+custom_maximum_size = Vector2(154.535, -1)
 layout_mode = 2
 size_flags_horizontal = 3
 theme_override_colors/font_color = Color(0.50980395, 0.43529412, 1, 1)
@@ -160,7 +160,7 @@ text = "C"
 horizontal_alignment = 1
 
 [node name="B" type="Label" parent="MarginContainer/HBoxContainer/MarginContainer/Details/MarginContainer/VBoxContainer/VBoxContainer/Grade" unique_id=969766375]
-custom_maximum_size = Vector2(54.885, -1)
+custom_maximum_size = Vector2(159.205, -1)
 layout_mode = 2
 size_flags_horizontal = 3
 theme_override_colors/font_color = Color(0, 0.6784314, 0.92156863, 1)
@@ -168,7 +168,7 @@ text = "B"
 horizontal_alignment = 1
 
 [node name="A" type="Label" parent="MarginContainer/HBoxContainer/MarginContainer/Details/MarginContainer/VBoxContainer/VBoxContainer/Grade" unique_id=280846481]
-custom_maximum_size = Vector2(26.51, -1)
+custom_maximum_size = Vector2(78.54, -1)
 layout_mode = 2
 size_flags_horizontal = 3
 theme_override_colors/font_color = Color(0.2, 0.84313726, 0.58431375, 1)
@@ -176,7 +176,7 @@ text = "A"
 horizontal_alignment = 1
 
 [node name="S" type="Label" parent="MarginContainer/HBoxContainer/MarginContainer/Details/MarginContainer/VBoxContainer/VBoxContainer/Grade" unique_id=1169237704]
-custom_maximum_size = Vector2(28.475, -1)
+custom_maximum_size = Vector2(80.155, -1)
 layout_mode = 2
 size_flags_horizontal = 3
 theme_override_colors/font_color = Color(0.9843137, 1, 0.5254902, 1)
@@ -195,28 +195,28 @@ color = Color(1, 0.31193683, 0.2512638, 1)
 
 [node name="C" type="ColorRect" parent="MarginContainer/HBoxContainer/MarginContainer/Details/MarginContainer/VBoxContainer/VBoxContainer/GradeIndicator" unique_id=1429438521]
 custom_minimum_size = Vector2(0, 6)
-custom_maximum_size = Vector2(53.22, -1)
+custom_maximum_size = Vector2(154.535, -1)
 layout_mode = 2
 size_flags_horizontal = 3
 color = Color(0.50920427, 0.435026, 1, 1)
 
 [node name="B" type="ColorRect" parent="MarginContainer/HBoxContainer/MarginContainer/Details/MarginContainer/VBoxContainer/VBoxContainer/GradeIndicator" unique_id=1748090461]
 custom_minimum_size = Vector2(0, 6)
-custom_maximum_size = Vector2(54.885, -1)
+custom_maximum_size = Vector2(159.205, -1)
 layout_mode = 2
 size_flags_horizontal = 3
 color = Color(1.0973811e-05, 0.67939115, 0.9218991, 1)
 
 [node name="A" type="ColorRect" parent="MarginContainer/HBoxContainer/MarginContainer/Details/MarginContainer/VBoxContainer/VBoxContainer/GradeIndicator" unique_id=1997300118]
 custom_minimum_size = Vector2(0, 6)
-custom_maximum_size = Vector2(26.51, -1)
+custom_maximum_size = Vector2(78.54, -1)
 layout_mode = 2
 size_flags_horizontal = 3
 color = Color(0.19964209, 0.84291345, 0.5831194, 1)
 
 [node name="S" type="ColorRect" parent="MarginContainer/HBoxContainer/MarginContainer/Details/MarginContainer/VBoxContainer/VBoxContainer/GradeIndicator" unique_id=29081444]
 custom_minimum_size = Vector2(0, 6)
-custom_maximum_size = Vector2(28.475, -1)
+custom_maximum_size = Vector2(80.155, -1)
 layout_mode = 2
 size_flags_horizontal = 3
 color = Color(0.9843137, 1, 0.5254902, 1)
