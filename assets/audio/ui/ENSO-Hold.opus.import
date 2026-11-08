@@ -12,7 +12,7 @@ dest_files=["res://.godot/imported/ENSO-Hold.opus-dc176c5a6b72447d991563b94050b6
 
 [params]
 
-loop=false
+loop=true
 loop_offset=0.0
 bpm=0.0
 beat_count=0
