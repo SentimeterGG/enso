@@ -19,6 +19,7 @@ func _ready() -> void:
 	button.self_modulate = Color(1, 1, 1, 0)
 	button.flat = true
 	button.focus_mode = Control.FOCUS_NONE
+	button.gui_input.connect(_on_button_gui_input)
 	button.pressed.connect(_on_button_pressed)
 	button.button_down.connect(
 		func() -> void:
@@ -38,3 +39,12 @@ func set_selected(selected: bool) -> void:
 
 func _on_button_pressed() -> void:
 	clicked.emit(beat_ms)
+
+
+func _on_button_gui_input(event: InputEvent) -> void:
+	var mb := event as InputEventMouseButton
+	if mb == null or not mb.pressed:
+		return
+	if mb.button_index == MOUSE_BUTTON_WHEEL_UP or mb.button_index == MOUSE_BUTTON_WHEEL_DOWN:
+		button.mouse_filter = Control.MOUSE_FILTER_IGNORE
+

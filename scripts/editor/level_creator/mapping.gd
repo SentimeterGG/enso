@@ -8,15 +8,14 @@ const DELETE_WINDOW_SEC := 0.15
 const MIN_PX_PER_SEC := 5.0
 const MAX_PX_PER_SEC := 600.0
 const ZOOM_FACTOR := 1.15
+const TIMELINE_SCROLL_STEP := 1.0
 const HISTORY_LIMIT := 100
-const _WAVE_DRAG_THRESHOLD_PX := 4.0
 const SHAPE_BASE_MODULATE := Color(1, 1, 1, 0.16078432)
 const SHAPE_SELECTED_MODULATE := Color(1.0, 0.85, 0.2, 0.5)
 const SHAPE_CENTER_OFFSET_Y := 0.0
 const SHAPE_NOTES_SIZE := Vector2(126.0, 126.0)
 
 var beat_times_ms: Array[int] = []
-var waveform: TextureRect = null
 var difficulties: Dictionary = { }
 
 var _view_pps := 100.0
@@ -25,11 +24,6 @@ var _drag_beat := -1
 var _drag_moved := false
 var _drag_history_recorded := false
 var _suppress_click := false
-var _wave_scrubbing := false
-var _wave_moved := false
-var _wave_press_pos := Vector2.ZERO
-var _wave_start_time := 0.0
-var _wave_was_playing := false
 var _selected_shape := -1
 var _shapes: Array[Dictionary] = []
 var _shape_nodes: Array = []
@@ -114,11 +108,6 @@ func _ready() -> void:
 	for c in [_btn_start, _btn_play, _btn_end, _btn_add_shape, timeline, _shape_option]:
 		if c != null and c is Control:
 			(c as Control).focus_mode = Control.FOCUS_NONE
-	if waveform != null:
-		waveform.mouse_filter = Control.MOUSE_FILTER_PASS
-		if not waveform.gui_input.is_connected(_on_waveform_gui_input):
-			waveform.gui_input.connect(_on_waveform_gui_input)
-	_size_waveform_strip()
 	_sync_timeline_range()
 	_update_scroll()
 	_refresh_shape_option()
@@ -173,7 +162,10 @@ func _unhandled_key_input(event: InputEvent) -> void:
 func _handle_ctrl_shortcut(event: InputEventKey) -> bool:
 	match event.physical_keycode:
 		KEY_Z:
-			_undo_edit()
+			if event.shift_pressed:
+				_redo_edit()
+			else:
+				_undo_edit()
 			return true
 		KEY_R:
 			_redo_edit()
@@ -268,29 +260,6 @@ func _run_with_difficulty(action: Callable) -> void:
 	get_viewport().set_input_as_handled()
 
 
-func _unhandled_input(event: InputEvent) -> void:
-	if waveform == null or not (event is InputEventMouseButton):
-		return
-	var mb := event as InputEventMouseButton
-	if not waveform.get_global_rect().has_point(mb.position):
-		return
-	if mb.pressed and mb.button_index == MOUSE_BUTTON_WHEEL_UP:
-		_zoom_waveform(1) # marker Buttons ignore wheel, so it falls through here
-		get_viewport().set_input_as_handled()
-	elif mb.pressed and mb.button_index == MOUSE_BUTTON_WHEEL_DOWN:
-		_zoom_waveform(-1)
-		get_viewport().set_input_as_handled()
-	elif mb.pressed and mb.button_index == MOUSE_BUTTON_LEFT:
-		if _drag_beat < 0 and not _wave_scrubbing:
-			_wave_scrubbing = true
-			_wave_moved = false
-			_wave_press_pos = mb.position
-			_wave_start_time = current_time()
-			_wave_was_playing = mapping_player.playing and not mapping_player.stream_paused
-	elif not mb.pressed and mb.button_index == MOUSE_BUTTON_LEFT:
-		_set_selected([])
-
-
 func _on_marker_clicked(beat_ms: int) -> void:
 	if _suppress_click:
 		_suppress_click = false
@@ -310,24 +279,10 @@ func _on_marker_clicked(beat_ms: int) -> void:
 
 func _input(event: InputEvent) -> void:
 	if event is InputEventMouseMotion:
-		if _wave_scrubbing:
-			_handle_wave_scrub(event as InputEventMouseMotion)
-		elif _drag_beat >= 0:
+		if _drag_beat >= 0:
 			_handle_beat_drag(event as InputEventMouseMotion)
 	elif event is InputEventMouseButton:
 		_handle_mouse_button(event as InputEventMouseButton)
-
-
-func _handle_wave_scrub(motion: InputEventMouseMotion) -> void:
-	if (not _wave_moved and _wave_press_pos.distance_to(motion.position) < _WAVE_DRAG_THRESHOLD_PX):
-		return
-	if not _wave_moved:
-		_wave_moved = true
-		Input.set_default_cursor_shape(Input.CURSOR_HSIZE)
-	var delta_px := motion.position.x - _wave_press_pos.x
-	var pps := _px_per_sec()
-	var new_time := _wave_start_time - delta_px / pps if pps > 0.0 else _wave_start_time
-	seek(new_time)
 
 
 func _handle_beat_drag(motion: InputEventMouseMotion) -> void:
@@ -351,24 +306,7 @@ func _handle_beat_drag(motion: InputEventMouseMotion) -> void:
 func _handle_mouse_button(mb: InputEventMouseButton) -> void:
 	if mb.button_index != MOUSE_BUTTON_LEFT or mb.pressed:
 		return
-	if _wave_scrubbing:
-		_end_wave_scrub()
 	_end_beat_drag()
-
-
-func _end_wave_scrub() -> void:
-	var was_scrub := _wave_moved
-	var was_playing := _wave_was_playing
-	_wave_scrubbing = false
-	_wave_moved = false
-	_wave_was_playing = false
-	_wave_start_time = 0.0
-	Input.set_default_cursor_shape(Input.CURSOR_ARROW)
-	if not was_scrub:
-		return
-	get_viewport().set_input_as_handled() # keep selection
-	if was_playing and mapping_player.playing and not mapping_player.stream_paused:
-		mapping_player.stream_paused = true
 
 
 func _on_marker_drag_started(beat_ms: int) -> void:
@@ -568,6 +506,7 @@ func _strip_beat_from_shapes(ms: int) -> void:
 
 
 func _on_start_pressed() -> void:
+	timeline.step = 0.01
 	if mapping_player.stream == null:
 		return
 	if mapping_player.playing:
@@ -612,17 +551,6 @@ func _on_timeline_changed(v: float) -> void:
 	_update_scroll()
 
 
-func _on_waveform_gui_input(event: InputEvent) -> void:
-	if event is InputEventMouseButton and event.pressed:
-		match (event as InputEventMouseButton).button_index:
-			MOUSE_BUTTON_WHEEL_UP:
-				_zoom_waveform(1)
-				waveform.accept_event()
-			MOUSE_BUTTON_WHEEL_DOWN:
-				_zoom_waveform(-1)
-				waveform.accept_event()
-
-
 func _zoom_waveform(steps: int) -> void:
 	if steps == 0:
 		return
@@ -630,7 +558,6 @@ func _zoom_waveform(steps: int) -> void:
 	if is_equal_approx(target, _view_pps):
 		return
 	_view_pps = target
-	_size_waveform_strip()
 	_rebuild_markers()
 	_refresh_shapes()
 	_update_scroll()
@@ -1394,7 +1321,6 @@ func _load_song(path: String) -> void:
 	mapping_player.stop()
 	mapping_player.stream_paused = false
 	mapping_player.stream = stream
-	_size_waveform_strip()
 	_sync_timeline_range()
 	seek(0.0)
 
@@ -1555,18 +1481,6 @@ func _check_beats_passed_line_generator(_pos: float) -> void:
 			_hitsound_fired[t] = true
 		elif not passed and was_fired:
 			_hitsound_fired.erase(t)
-
-
-func _size_waveform_strip() -> void:
-	if waveform == null:
-		return
-	var length := 0.0
-	if mapping_player.stream != null:
-		length = maxf(0.0, mapping_player.stream.get_length())
-	var w := maxf(1.0, length * _view_pps)
-	waveform.position.x = 0.0
-	waveform.size.x = w
-	waveform.custom_minimum_size.x = w
 
 
 func _rebuild_markers() -> void:
@@ -1793,11 +1707,29 @@ func _on_redo_pressed() -> void:
 
 func _on_beat_column_gui_input(event: InputEvent) -> void:
 	var mb := event as InputEventMouseButton
-	if mb != null and mb.button_index == MOUSE_BUTTON_LEFT:
-		if mb.pressed:
-			_beat_drag_start(mb.position)
-		else:
-			_beat_drag_end()
+	if mb != null:
+		if mb.button_index == MOUSE_BUTTON_LEFT:
+			if mb.pressed:
+				_beat_drag_start(mb.position)
+			else:
+				_beat_drag_end()
+			return
+		if not mb.pressed:
+			return
+		if mb.button_index == MOUSE_BUTTON_WHEEL_UP:
+			if mb.ctrl_pressed:
+				_zoom_waveform(1)
+			else:
+				seek(timeline.value + TIMELINE_SCROLL_STEP)
+			get_viewport().set_input_as_handled()
+		elif mb.button_index == MOUSE_BUTTON_WHEEL_DOWN:
+			if mb.ctrl_pressed:
+				_zoom_waveform(-1)
+			else:
+				seek(timeline.value - TIMELINE_SCROLL_STEP)
+			get_viewport().set_input_as_handled()
+		return
+
 	var motion := event as InputEventMouseMotion
 	if motion != null:
 		_beat_drag_move(motion.position)
@@ -1838,3 +1770,11 @@ func _on_border_gui_input(event: InputEvent) -> void:
 			_set_selected([])
 			_select_shape(-1)
 			get_viewport().set_input_as_handled()
+
+
+func _on_timeline_gui_input(event: InputEvent) -> void:
+	var mb := event as InputEventMouseButton
+	if mb == null or not mb.pressed:
+		return
+	if mb.button_index == MOUSE_BUTTON_WHEEL_UP or mb.button_index == MOUSE_BUTTON_WHEEL_DOWN:
+		timeline.step = 1.0
