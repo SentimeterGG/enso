@@ -53,7 +53,7 @@ Shapes approach a target ring, and you draw each stroke of the shape to the beat
 
 ### Latest Release
 
-The latest stable version is **v0.5.0**.
+The latest stable version is **v0.5.1**.
 
 You can view all releases and changelogs on the [releases page](https://github.com/SentimeterGG/enso/releases).
 
