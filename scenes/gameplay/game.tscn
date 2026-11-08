@@ -1682,11 +1682,15 @@ z_index = 22
 layout_mode = 1
 
 [node name="HitCounter" type="VBoxContainer" parent="UI" unique_id=2128595027]
-layout_mode = 0
+layout_mode = 1
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
 offset_left = 96.0
-offset_top = 784.0
+offset_top = -297.0
 offset_right = 336.0
-offset_bottom = 1012.0
+offset_bottom = -69.0
+grow_vertical = 0
 
 [node name="PerfectCount" type="Label" parent="UI/HitCounter" unique_id=687221423]
 unique_name_in_owner = true
