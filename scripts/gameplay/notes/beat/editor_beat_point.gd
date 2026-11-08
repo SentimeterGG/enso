@@ -4,7 +4,10 @@ signal clicked(beat_ms: int)
 signal drag_started(beat_ms: int)
 signal drag_ended(beat_ms: int)
 
+const SCROLL_FILTER_IDLE_MS := 150
+
 var beat_ms: int = 0
+var _restore_filter_at_ms := 0
 
 @onready var select: Sprite2D = $Selected
 @onready var circle_outline: Sprite2D = $CircleOutline
@@ -13,13 +16,10 @@ var beat_ms: int = 0
 
 func _ready() -> void:
 	circle_outline.texture = SkinManager.beat_point_outline
-	# Hidden Controls are skipped by GUI picking. Keep the hitbox visible but
-	# fully transparent so clicks reach this marker's Button.
 	button.visible = true
 	button.self_modulate = Color(1, 1, 1, 0)
 	button.flat = true
 	button.focus_mode = Control.FOCUS_NONE
-	button.gui_input.connect(_on_button_gui_input)
 	button.pressed.connect(_on_button_pressed)
 	button.button_down.connect(
 		func() -> void:
@@ -41,10 +41,17 @@ func _on_button_pressed() -> void:
 	clicked.emit(beat_ms)
 
 
+func _process(_delta: float) -> void:
+	if ( button.mouse_filter == Control.MOUSE_FILTER_IGNORE
+		and Time.get_ticks_msec() >= _restore_filter_at_ms
+	):
+		button.mouse_filter = Control.MOUSE_FILTER_STOP
+
+
 func _on_button_gui_input(event: InputEvent) -> void:
 	var mb := event as InputEventMouseButton
 	if mb == null or not mb.pressed:
 		return
 	if mb.button_index == MOUSE_BUTTON_WHEEL_UP or mb.button_index == MOUSE_BUTTON_WHEEL_DOWN:
 		button.mouse_filter = Control.MOUSE_FILTER_IGNORE
-
+		_restore_filter_at_ms = Time.get_ticks_msec() + SCROLL_FILTER_IDLE_MS

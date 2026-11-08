@@ -16,3 +16,5 @@ position = Vector2(33, 36)
 scale = Vector2(0.48333332, 0.48333332)
 points = PackedVector2Array(0, 0, 120, 0, 120, 120)
 width = 30.0
+
+[connection signal="gui_input" from="." to="." method="_on_gui_input"]

@@ -10,6 +10,8 @@ const MAX_PX_PER_SEC := 600.0
 const ZOOM_FACTOR := 1.15
 const TIMELINE_SCROLL_STEP := 1.0
 const HISTORY_LIMIT := 100
+const SHORTCUT_REPEAT_DELAY_MS := 500
+const SHORTCUT_REPEAT_INTERVAL_MS := 50
 const SHAPE_BASE_MODULATE := Color(1, 1, 1, 0.16078432)
 const SHAPE_SELECTED_MODULATE := Color(1.0, 0.85, 0.2, 0.5)
 const SHAPE_CENTER_OFFSET_Y := 0.0
@@ -42,6 +44,9 @@ var _beat_dragging := false
 var _beat_drag_start_pos := Vector2.ZERO
 var _beat_drag_start_time := 0.0
 var _beat_drag_was_playing := false
+var _hold_action := 0 # 0 = none, 1 = undo, 2 = redo
+var _hold_key: Key = KEY_NONE
+var _hold_next_ms := 0
 var _custom_undo_stack: Array[Dictionary] = []
 var _custom_redo_stack: Array[Dictionary] = []
 var _custom_drag_recorded := false
@@ -115,6 +120,7 @@ func _ready() -> void:
 
 
 func _process(_delta: float) -> void:
+	_tick_hold_shortcut()
 	if mapping_player.stream == null:
 		return
 	if mapping_player.playing:
@@ -128,14 +134,23 @@ func _process(_delta: float) -> void:
 
 func _unhandled_key_input(event: InputEvent) -> void:
 	if not visible:
+		_stop_hold_shortcut()
 		return
-	if not (event is InputEventKey and event.pressed and not event.echo):
+	if not (event is InputEventKey):
 		return
 	var key_event := event as InputEventKey
+	if not key_event.pressed:
+		if key_event.physical_keycode == KEY_Z or key_event.physical_keycode == KEY_R:
+			_stop_hold_shortcut()
+		return
+	if key_event.echo:
+		return
 	if key_event.ctrl_pressed:
+		_start_hold_shortcut(key_event)
 		if _handle_ctrl_shortcut(key_event):
 			get_viewport().set_input_as_handled()
 		return
+	_stop_hold_shortcut()
 	match key_event.physical_keycode:
 		KEY_M:
 			_run_with_difficulty(add_beat_at_current)
@@ -157,6 +172,43 @@ func _unhandled_key_input(event: InputEvent) -> void:
 				_set_selected([])
 				_select_shape(-1)
 			get_viewport().set_input_as_handled()
+
+
+func _start_hold_shortcut(event: InputEventKey) -> void:
+	var action := 0
+	match event.physical_keycode:
+		KEY_Z:
+			action = 2 if event.shift_pressed else 1
+		KEY_R:
+			action = 2
+	if action == 0:
+		_stop_hold_shortcut()
+		return
+	_hold_action = action
+	_hold_key = event.physical_keycode
+	_hold_next_ms = Time.get_ticks_msec() + SHORTCUT_REPEAT_DELAY_MS
+
+
+func _tick_hold_shortcut() -> void:
+	if _hold_action == 0:
+		return
+	if not Input.is_key_pressed(KEY_CTRL) or not Input.is_physical_key_pressed(_hold_key):
+		_stop_hold_shortcut()
+		return
+	var now := Time.get_ticks_msec()
+	if now < _hold_next_ms:
+		return
+	_hold_next_ms = now + SHORTCUT_REPEAT_INTERVAL_MS
+	if _hold_action == 1:
+		_undo_edit()
+	else:
+		_redo_edit()
+
+
+func _stop_hold_shortcut() -> void:
+	_hold_action = 0
+	_hold_key = KEY_NONE
+	_hold_next_ms = 0
 
 
 func _handle_ctrl_shortcut(event: InputEventKey) -> bool:
@@ -1356,6 +1408,7 @@ func _shape_y() -> float:
 
 func _on_visibility_changed() -> void:
 	if not visible:
+		_stop_hold_shortcut()
 		return
 	# Containers only sort visible children, so wait for the layout pass before
 	# reading BeatYPosition / ShapeYPosition.
@@ -1713,21 +1766,6 @@ func _on_beat_column_gui_input(event: InputEvent) -> void:
 				_beat_drag_start(mb.position)
 			else:
 				_beat_drag_end()
-			return
-		if not mb.pressed:
-			return
-		if mb.button_index == MOUSE_BUTTON_WHEEL_UP:
-			if mb.ctrl_pressed:
-				_zoom_waveform(1)
-			else:
-				seek(timeline.value + TIMELINE_SCROLL_STEP)
-			get_viewport().set_input_as_handled()
-		elif mb.button_index == MOUSE_BUTTON_WHEEL_DOWN:
-			if mb.ctrl_pressed:
-				_zoom_waveform(-1)
-			else:
-				seek(timeline.value - TIMELINE_SCROLL_STEP)
-			get_viewport().set_input_as_handled()
 		return
 
 	var motion := event as InputEventMouseMotion
@@ -1765,11 +1803,26 @@ func _beat_drag_end() -> void:
 
 
 func _on_border_gui_input(event: InputEvent) -> void:
-	if event is InputEventMouseButton:
-		if event.button_index == MOUSE_BUTTON_LEFT and event.pressed:
-			_set_selected([])
-			_select_shape(-1)
-			get_viewport().set_input_as_handled()
+	var mb := event as InputEventMouseButton
+	if mb == null or not mb.pressed:
+		return
+	if mb.button_index == MOUSE_BUTTON_LEFT:
+		_set_selected([])
+		_select_shape(-1)
+		get_viewport().set_input_as_handled()
+		return
+	if mb.button_index == MOUSE_BUTTON_WHEEL_UP:
+		if mb.ctrl_pressed:
+			_zoom_waveform(1)
+		else:
+			seek(timeline.value + TIMELINE_SCROLL_STEP)
+		get_viewport().set_input_as_handled()
+	elif mb.button_index == MOUSE_BUTTON_WHEEL_DOWN:
+		if mb.ctrl_pressed:
+			_zoom_waveform(-1)
+		else:
+			seek(timeline.value - TIMELINE_SCROLL_STEP)
+		get_viewport().set_input_as_handled()
 
 
 func _on_timeline_gui_input(event: InputEvent) -> void:
