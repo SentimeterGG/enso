@@ -93,7 +93,9 @@ func _setup_details(metadata: Dictionary, chart_path: String):
 		0.04,
 		0.48,
 	)
-	_animate_banner(bg_path, Global.load_safely(bg_path))
+	var resource_call = Global.load_safely_async(bg_path)
+	var loaded_image = await resource_call.completed
+	_animate_banner(bg_path, loaded_image)
 
 
 func _animate_banner(path: String, tex: Texture2D) -> void:

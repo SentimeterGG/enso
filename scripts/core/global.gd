@@ -10,6 +10,14 @@ var settingsData = SettingsData.new()
 signal toggle_window
 
 
+class SafeResource:
+	signal completed(resource: Resource)
+	var result: Resource = null
+
+
+var resource_load_task_ids: Array[int] = []
+
+
 func _ready():
 	get_window().min_size = Vector2i(640, 360)
 	DirAccess.make_dir_recursive_absolute(save_file_path)
@@ -21,6 +29,15 @@ func _ready():
 			else DisplayServer.WINDOW_MODE_WINDOWED
 		)
 	)
+
+
+func _process(delta: float) -> void:
+	for i in range(resource_load_task_ids.size() - 1, -1, -1):
+		var id := resource_load_task_ids[i]
+		if WorkerThreadPool.is_task_completed(id):
+			WorkerThreadPool.wait_for_task_completion(id)
+
+			resource_load_task_ids.remove_at(i)
 
 
 func _unhandled_input(event: InputEvent) -> void:
@@ -148,6 +165,58 @@ func load_safely(path: String) -> Resource:
 
 	push_error("load_safely: unsupported file type: " + path)
 	return null
+
+
+func load_safely_async(path: String) -> SafeResource:
+	var safe_resource = SafeResource.new()
+	resource_load_task_ids.append(
+		WorkerThreadPool.add_task(_create_resource.bind(path, safe_resource))
+	)
+	return safe_resource
+
+
+func _create_resource(path: String, safe_resource: SafeResource) -> void:
+	var loaded_resource: Resource
+	if path.is_empty():
+		push_warning("load_safely: missing resource: " + path)
+		return
+
+	if path.begins_with("res://"):
+		if ResourceLoader.exists(path):
+			loaded_resource = load(path)
+			return
+		push_warning("load_safely: missing resource: " + path)
+		return
+
+	if not FileAccess.file_exists(path):
+		push_warning("load_safely: file not found: " + path)
+		return
+
+	match path.get_extension().to_lower():
+		# Images
+		"png", "jpg", "jpeg", "webp":
+			var img := Image.load_from_file(path)
+			if img == null or img.is_empty():
+				push_warning("load_safely: couldn't decode image: " + path)
+				return
+			loaded_resource = ImageTexture.create_from_image(img)
+		"ogv":
+			var video_resource := VideoStreamTheora.new()
+			video_resource.file = path
+			loaded_resource = video_resource
+		"opus":
+			loaded_resource = AudioStreamOpus.load_from_file(path)
+		"mp3":
+			loaded_resource = AudioStreamMP3.load_from_file(path)
+		"ogg":
+			loaded_resource = AudioStreamOggVorbis.load_from_file(path)
+
+		"wav":
+			loaded_resource = AudioStreamWAV.load_from_file(path)
+		_:
+			push_error("load_safely: unsupported file type: " + path)
+	safe_resource.result = loaded_resource
+	safe_resource.completed.emit.call_deferred(loaded_resource)
 
 
 func _find_charts_in(base_dir: String) -> Array[String]:

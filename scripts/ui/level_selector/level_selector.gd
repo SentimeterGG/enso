@@ -108,7 +108,8 @@ func _play_chart_preview(chart: ChartData) -> void:
 	if song.is_empty():
 		return
 
-	var stream := Global.load_safely(song)
+	var stream_call := Global.load_safely_async(song)
+	var stream = await stream_call.completed
 	if stream == null:
 		return
 

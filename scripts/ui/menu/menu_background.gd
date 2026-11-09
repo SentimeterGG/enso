@@ -97,11 +97,12 @@ func _process(delta: float) -> void:
 
 
 func change(path: Variant = null) -> void:
+	print(path)
 	if _is_empty_path(path):
 		clear_background()
 		return
 
-	var new_tex := _load_background_texture(String(path))
+	var new_tex := await _load_background_texture(String(path))
 	if new_tex == null:
 		return
 
@@ -123,11 +124,10 @@ func _is_empty_path(path: Variant) -> bool:
 
 
 func _load_background_texture(path: String) -> Texture2D:
-	var tex := Global.load_safely(path) as Texture2D
-
+	var promise = Global.load_safely_async(path)
+	var tex: Texture2D = await promise.completed
 	if tex == null:
 		push_error("menu_background.change: failed to load '%s'" % path)
-
 	return tex
 
 
