@@ -97,7 +97,6 @@ func _process(delta: float) -> void:
 
 
 func change(path: Variant = null) -> void:
-	print(path)
 	if _is_empty_path(path):
 		clear_background()
 		return

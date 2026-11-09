@@ -11,6 +11,11 @@ var _flash_time_left: float = 0.0
 var note_splash_scene = preload("res://scenes/ui/splash_note.tscn")
 var last_beat_id = ""
 
+var _pool: Array = []
+var _cursor: int = 0
+var _pool_ready: bool = false
+var _pending_free: Array = []
+
 
 func _ready() -> void:
 	beat_receptor_clicked.texture = SkinManager.beat_receptor_clicked
@@ -35,22 +40,76 @@ func _on_draw_draw_direction_changes() -> void:
 	try_hit()
 
 
+func _ensure_pool() -> void:
+	if _pool_ready:
+		return
+	if _column == null or _column.get_child_count() == 0:
+		return
+	_pool_ready = true
+	_pool.clear()
+	for child in _column.get_children():
+		if child.has_method("is_judged") and child.has_method("hit"):
+			_pool.append(child)
+	_pool.sort_custom(
+		func(a, b):
+			return float(a.hit_time) < float(b.hit_time),
+	)
+	_cursor = 0
+
+
+func _advance_cursor(music_time: float, window_sec: float) -> void:
+	_ensure_pool()
+	var n := _pool.size()
+	var i := _cursor
+	while i < n:
+		var node = _pool[i]
+		if not is_instance_valid(node):
+			i += 1
+			continue
+		if node.has_method("is_judged") and bool(node.call("is_judged")):
+			i += 1
+			continue
+		var ht := float(node.get("hit_time"))
+		var err := music_time - ht
+		if err > window_sec:
+			node.call("miss")
+			_pending_free.append(node)
+			_judge.call("_on_beat_column_beat_hit", err, str(node.get("beat_id")))
+			i += 1
+			continue
+		break
+	_cursor = i
+
+
 func try_hit() -> void:
 	var note_splash = note_splash_scene.instantiate()
 	if not BgMusic.playing:
 		return
 	var music_time: float = BgMusic.get_playback_position()
 	var window_sec := HitResult.bad_window_ms(_od()) / 1000.0
+	_advance_cursor(music_time, window_sec)
+
 	var best: Node = null
 	var best_err := window_sec + 1.0
-	for child in _column.get_children():
-		if not child.has_method("is_judged") or child.call("is_judged"):
+	var i := _cursor
+	var n := _pool.size()
+	while i < n:
+		var node = _pool[i]
+		if not is_instance_valid(node):
+			i += 1
 			continue
-		var ht := float(child.get("hit_time"))
+		if node.has_method("is_judged") and bool(node.call("is_judged")):
+			i += 1
+			continue
+		var ht := float(node.get("hit_time"))
+		if ht > music_time + window_sec:
+			break
 		var err: float = music_time - ht
 		if absf(err) <= window_sec and absf(err) < absf(best_err):
-			best = child
+			best = node
 			best_err = err
+		i += 1
+
 	if best != null:
 		if last_beat_id != "" and last_beat_id != best.get("beat_id"):
 			best.call("vibrate")
@@ -71,19 +130,19 @@ func _sweep_misses() -> void:
 		return
 	var music_time: float = BgMusic.get_playback_position()
 	var window_sec := HitResult.bad_window_ms(_od()) / 1000.0
-	for child in _column.get_children():
-		if not is_instance_valid(child):
+	_advance_cursor(music_time, window_sec)
+
+	var i := 0
+	while i < _pending_free.size():
+		var node = _pending_free[i]
+		if not is_instance_valid(node):
+			_pending_free.remove_at(i)
 			continue
-		if child.has_method("is_awaiting_free") and bool(child.call("is_awaiting_free")):
-			if child.has_method("is_offscreen") and bool(child.call("is_offscreen")):
-				child.queue_free()
+		if node.has_method("is_offscreen") and bool(node.call("is_offscreen")):
+			node.queue_free()
+			_pending_free.remove_at(i)
 			continue
-		if not child.has_method("is_judged") or bool(child.call("is_judged")):
-			continue
-		var err: float = music_time - float(child.get("hit_time"))
-		if err > window_sec:
-			child.call("miss")
-			_judge.call("_on_beat_column_beat_hit", err, str(child.get("beat_id")))
+		i += 1
 
 
 func _flash() -> void:
