@@ -69,7 +69,9 @@ func _on_level_item_hovered(chart_path: String) -> void:
 	level_details.refresh(chart_path)
 	_preview_chart_path = chart_path
 
-	var chart := ChartParser.load(chart_path)
+	var chart := ChartData.new()
+	chart.chart_path = chart_path
+	chart.metadata = ChartParser.parse_metadata(chart_path)
 	if chart.is_empty():
 		return
 
