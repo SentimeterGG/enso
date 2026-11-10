@@ -111,7 +111,9 @@ func choose_random_chart() -> ChartData:
 		push_warning("global: no complete charts available for random pick.")
 		return null
 	var picked: String = paths[randi() % paths.size()]
-	var chart := ChartParser.load(picked)
+	var chart := ChartData.new()
+	chart.chart_path = picked
+	chart.metadata = ChartParser.parse_metadata(picked)
 	if chart == null or chart.is_empty():
 		push_warning("global: failed to load random chart: " + picked)
 		return null
@@ -182,11 +184,20 @@ func _create_resource(path: String, safe_resource: SafeResource) -> void:
 		return
 
 	if path.begins_with("res://"):
-		if ResourceLoader.exists(path):
-			loaded_resource = load(path)
+		if not FileAccess.file_exists(path):
+			push_warning("load_safely: missing resource: " + path)
 			return
-		push_warning("load_safely: missing resource: " + path)
-		return
+
+		ResourceLoader.load_threaded_request(path)
+		while true:
+			var res := ResourceLoader.load_threaded_get(path)
+			if res != null:
+				loaded_resource = res
+				break
+			if (res == null and not ResourceLoader.load_threaded_get(path)):
+				OS.delay_msec(5)
+			else:
+				break
 
 	if not FileAccess.file_exists(path):
 		push_warning("load_safely: file not found: " + path)
@@ -215,6 +226,9 @@ func _create_resource(path: String, safe_resource: SafeResource) -> void:
 			loaded_resource = AudioStreamWAV.load_from_file(path)
 		_:
 			push_error("load_safely: unsupported file type: " + path)
+	if loaded_resource == null:
+		push_warning("load_safely: failed to load resource: " + path)
+		return
 	safe_resource.result = loaded_resource
 	safe_resource.completed.emit.call_deferred(loaded_resource)
 

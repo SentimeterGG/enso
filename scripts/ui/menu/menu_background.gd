@@ -100,7 +100,6 @@ func change(path: Variant = null) -> void:
 	if _is_empty_path(path):
 		clear_background()
 		return
-
 	var new_tex := await _load_background_texture(String(path))
 	if new_tex == null:
 		return

@@ -32,7 +32,7 @@ var _importer: ChartImporter
 func _ready() -> void:
 	BgMusic.FADE_DURATION = 1.6
 	BgMusic.change_song(null)
-	VolumePopup.hide_pop_up()
+	VolumePopup.can_popup = false
 	viewport_size = get_viewport_rect().size
 	viewport_width = viewport_size.x
 	_exporter = ChartExporter.new(metadata_group, mapping_group)
@@ -197,4 +197,3 @@ func _exit_tree() -> void:
 func _on_import_popup_file_selected(path: String) -> void:
 	if _importer.import_archive(path):
 		_update_discord_activity()
-
