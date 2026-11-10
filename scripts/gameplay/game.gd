@@ -4,7 +4,7 @@ class_name gameplay_manager
 @export var CHART_PATH := "res://levels/Wasurete Yaranai by kessoku band mapped by ENSO Team/chart.enso"
 
 var video_bg_visible = false
-
+var _end_song_position = 0
 var _video_fade_tween: Tween = null
 
 @onready var draw_manager: Line2D = %draw
@@ -25,6 +25,15 @@ func _ready() -> void:
 	_load_gameplay_chart()
 	_setup_video_background()
 	_initialize_note_engine()
+
+
+func _process(_delta: float) -> void:
+	if BgMusic.playing:
+		return
+	if _end_song_position > 0 and BgMusic.get_playback_position() >= _end_song_position:
+		BgMusic.stop()
+		draw_manager.stop()
+		animator.play("Outro")
 
 
 func _on_animator_animation_finished(anim_name: StringName) -> void:
@@ -51,8 +60,11 @@ func _load_gameplay_chart() -> void:
 		Global.current_chart = LevelLoader.load_chart(CHART_PATH)
 
 	var video_path: String = Global.current_chart.get_video_background()
+	_end_song_position = Global.current_chart.get_end_song_position()
 	if not video_path.is_empty():
-		video_stream_player.stream = Global.load_safely(video_path)
+		var video_call = Global.load_safely_async(video_path)
+		var video_stream = await video_call.completed
+		video_stream_player.stream = video_stream
 
 
 func _setup_video_background() -> void:
@@ -82,7 +94,8 @@ func _start_gameplay_sequence() -> void:
 	target_shape.clear_points()
 	draw_manager.start()
 
-	BgMusic.connect("finished", _on_bg_music_finished)
+	if _end_song_position != 0:
+		BgMusic.connect("finished", _on_bg_music_finished)
 	accuracy_manager.reset()
 	accuracy_manager.get_od()
 	Global.call_if_exists(health_bar, "reset_health")

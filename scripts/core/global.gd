@@ -31,7 +31,7 @@ func _ready():
 	)
 
 
-func _process(delta: float) -> void:
+func _process(_delta: float) -> void:
 	for i in range(resource_load_task_ids.size() - 1, -1, -1):
 		var id := resource_load_task_ids[i]
 		if WorkerThreadPool.is_task_completed(id):

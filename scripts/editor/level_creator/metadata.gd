@@ -19,10 +19,14 @@ extends Control
 @onready var _load_bg_dialog: FileDialog = %LoadBG
 @onready var _preview_player: AudioStreamPlayer = $PreviewPlayer
 @onready var _beat_player: AudioStreamPlayer = $BeatPlayer
+@onready var _end_song_player: AudioStreamPlayer = $EndSongPlayer
+@onready var _end_song_slider: HSlider = %EndSongSlider
+@onready var _end_song_label: LineEdit = %EndSongEdit
 const NUDGE_MS := 10
 const AUDITION_SEC := 0.05
 var _preview_audition_id := 0
 var _beat_audition_id := 0
+var _end_song_audition_id := 0
 
 
 func _ready() -> void:
@@ -30,6 +34,7 @@ func _ready() -> void:
 	_on_preview_changed(_preview_slider.value)
 	_on_beat_changed(_beat_slider.value)
 	_on_diff_changed(_diff_spin.value)
+	_on_end_song_value_changed(_end_song_slider.value)
 	_preview_label.text_submitted.connect(_on_preview_text_submitted)
 	_preview_label.focus_exited.connect(_on_preview_edit_focus_exited)
 	_beat_label.text_submitted.connect(_on_beat_text_submitted)
@@ -118,6 +123,10 @@ func _apply_chart_timing(metadata: Dictionary) -> void:
 	if metadata.has("overall_difficulty"):
 		_diff_spin.value = int(metadata["overall_difficulty"])
 		_on_diff_changed(_diff_spin.value)
+	if metadata.has("end_song_position"):
+		var end_pos := int(metadata["end_song_position"])
+		_end_song_slider.set_value_no_signal(end_pos)
+		_end_song_label.text = _format_ms(end_pos)
 
 
 func _replace_color_scheme(raw: String) -> void:
@@ -144,8 +153,7 @@ func is_export_ready() -> bool:
 
 func _has_required_fields() -> bool:
 	return (
-		_field_has_text(_name_edit)
-		and _field_has_text(_source_edit)
+		_field_has_text(_name_edit) and _field_has_text(_source_edit)
 		and _field_has_text(_mapper_edit)
 	)
 
@@ -176,6 +184,7 @@ func when_export(_dest_dir: String = "") -> Dictionary:
 		"bpm": _spin_int(_bpm_spin, 120),
 		"overall_difficulty": _spin_int(_diff_spin, 0),
 		"color_scheme": _collect_colors(),
+		"end_song_position": _slider_int(_end_song_slider, 0),
 	}
 
 
@@ -225,29 +234,36 @@ func _sync_song_ranges(stream: AudioStream) -> void:
 	if duration_ms > 0:
 		_preview_slider.max_value = duration_ms
 		_beat_slider.max_value = duration_ms
+		_end_song_slider.max_value = duration_ms
 	_preview_slider.set_value_no_signal(clampi(int(_preview_slider.value), 0, duration_ms))
 	_beat_slider.set_value_no_signal(clampi(int(_beat_slider.value), 0, duration_ms))
 	_preview_label.text = _format_ms(int(_preview_slider.value))
 	_beat_label.text = _format_ms(int(_beat_slider.value))
+	_end_song_label.text = _format_ms(int(_end_song_slider.value))
 
 
 func _on_preview_play() -> void:
-	_toggle(_preview_player, _beat_player, _preview_slider)
+	_toggle(_preview_player, [_beat_player, _end_song_player], _preview_slider)
 
 
 func _on_beat_play() -> void:
-	_toggle(_beat_player, _preview_player, _beat_slider)
+	_toggle(_beat_player, [_preview_player, _end_song_player], _beat_slider)
 
 
-func _toggle(player: AudioStreamPlayer, other: AudioStreamPlayer, slider: HSlider) -> void:
+func _on_end_song_play() -> void:
+	_toggle(_end_song_player, [_preview_player, _beat_player], _end_song_slider)
+
+
+func _toggle(player: AudioStreamPlayer, others: Array[AudioStreamPlayer], slider: HSlider) -> void:
 	if player.stream == null:
 		return
 	_bump_audition_id(player)
 	if player.playing and not player.stream_paused:
 		player.stream_paused = true
 		return
-	if other.playing and not other.stream_paused:
-		other.stop()
+	for other in others:
+		if other.playing and not other.stream_paused:
+			other.stop()
 	player.stream_paused = false
 	player.play(_slider_seconds(slider))
 
@@ -265,6 +281,14 @@ func _on_preview_nudge_minus() -> void:
 
 func _on_preview_nudge_plus() -> void:
 	_do_nudge(_preview_slider, _preview_label, _preview_player, 1.0)
+
+
+func _on_end_song_nudge_plus() -> void:
+	_do_nudge(_end_song_slider, _end_song_label, _end_song_player, -1.0)
+
+
+func _on_end_song_nudge_minus() -> void:
+	_do_nudge(_end_song_slider, _end_song_label, _end_song_player, 1.0)
 
 
 func _on_beat_nudge_minus() -> void:
@@ -314,7 +338,9 @@ func _play_audition(player: AudioStreamPlayer, from_ms: int, duration_sec: float
 func _bump_audition_id(player: AudioStreamPlayer) -> void:
 	if player == _preview_player:
 		_preview_audition_id += 1
-	else:
+	elif player == _end_song_player:
+		_end_song_audition_id += 1
+	elif player == _beat_player:
 		_beat_audition_id += 1
 
 
@@ -504,9 +530,11 @@ func _on_load_video_bg_file_selected(path: String) -> void:
 
 func _on_browse_video_bg_button_pressed() -> void:
 	_load_video_bg_dialog.popup_centered(Vector2i(600, 400))
-	pass # Replace with function body.
 
 
 func _on_browse_bg_path_pressed() -> void:
 	_load_bg_dialog.popup_centered(Vector2i(600, 400))
-	pass # Replace with function body.
+
+
+func _on_end_song_value_changed(value: float) -> void:
+	_end_song_label.text = _format_ms(int(value))

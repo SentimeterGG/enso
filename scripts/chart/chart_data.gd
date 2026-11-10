@@ -137,6 +137,10 @@ func get_bpm() -> float:
 	return float(metadata.get("bpm", 0.0)) / 60.0
 
 
+func get_end_song_position() -> float:
+	return float(metadata.get("end_song_position", 0)) / 1000.0
+
+
 func beat_offset() -> float:
 	return float(metadata.get("beat0", 0.0)) / 1000.0
 

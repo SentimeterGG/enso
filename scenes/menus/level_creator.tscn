@@ -161,6 +161,9 @@ bus = &"Music"
 [node name="BeatPlayer" type="AudioStreamPlayer" parent="LevelCreator/METADATA" unique_id=699933190]
 bus = &"Music"
 
+[node name="EndSongPlayer" type="AudioStreamPlayer" parent="LevelCreator/METADATA" unique_id=1041731666]
+bus = &"Music"
+
 [node name="HBoxContainer" type="HBoxContainer" parent="LevelCreator/METADATA" unique_id=1085279188]
 layout_mode = 1
 anchors_preset = 15
@@ -544,6 +547,72 @@ icon_alignment = 1
 expand_icon = true
 
 [node name="BeatGotoEnd" type="Button" parent="LevelCreator/METADATA/HBoxContainer/MarginContainer/ScrollContainer/MarginContainer/VBoxContainer/timing_section/start_beat/VBoxContainer/control_button" unique_id=2051192508]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(60, 60)
+layout_mode = 2
+focus_mode = 0
+theme = ExtResource("1_evwkm")
+text = ">"
+icon_alignment = 1
+expand_icon = true
+
+[node name="end_song_position" type="VBoxContainer" parent="LevelCreator/METADATA/HBoxContainer/MarginContainer/ScrollContainer/MarginContainer/VBoxContainer/timing_section" unique_id=567640994]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="LevelCreator/METADATA/HBoxContainer/MarginContainer/ScrollContainer/MarginContainer/VBoxContainer/timing_section/end_song_position" unique_id=1760496617]
+layout_mode = 2
+theme = ExtResource("1_evwkm")
+text = "End Song Position (0 = Full Song)"
+
+[node name="VBoxContainer" type="VBoxContainer" parent="LevelCreator/METADATA/HBoxContainer/MarginContainer/ScrollContainer/MarginContainer/VBoxContainer/timing_section/end_song_position" unique_id=1791799736]
+layout_mode = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="LevelCreator/METADATA/HBoxContainer/MarginContainer/ScrollContainer/MarginContainer/VBoxContainer/timing_section/end_song_position/VBoxContainer" unique_id=274510705]
+layout_mode = 2
+theme_override_constants/separation = 21
+
+[node name="EndSongSlider" type="HSlider" parent="LevelCreator/METADATA/HBoxContainer/MarginContainer/ScrollContainer/MarginContainer/VBoxContainer/timing_section/end_song_position/VBoxContainer/HBoxContainer" unique_id=1979665668]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 4
+theme = ExtResource("1_evwkm")
+max_value = 10000.0
+
+[node name="EndSongEdit" type="LineEdit" parent="LevelCreator/METADATA/HBoxContainer/MarginContainer/ScrollContainer/MarginContainer/VBoxContainer/timing_section/end_song_position/VBoxContainer/HBoxContainer" unique_id=1407222952]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(240, 0)
+layout_mode = 2
+theme = ExtResource("1_evwkm")
+placeholder_text = "0:00.000"
+
+[node name="control_button" type="HBoxContainer" parent="LevelCreator/METADATA/HBoxContainer/MarginContainer/ScrollContainer/MarginContainer/VBoxContainer/timing_section/end_song_position/VBoxContainer" unique_id=1843704268]
+custom_minimum_size = Vector2(0, 30)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+
+[node name="EndSongGotoStart" type="Button" parent="LevelCreator/METADATA/HBoxContainer/MarginContainer/ScrollContainer/MarginContainer/VBoxContainer/timing_section/end_song_position/VBoxContainer/control_button" unique_id=217638834]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(60, 60)
+layout_mode = 2
+focus_mode = 0
+theme = ExtResource("1_evwkm")
+text = "<"
+icon_alignment = 1
+expand_icon = true
+
+[node name="EndSongPlay" type="Button" parent="LevelCreator/METADATA/HBoxContainer/MarginContainer/ScrollContainer/MarginContainer/VBoxContainer/timing_section/end_song_position/VBoxContainer/control_button" unique_id=2044576752]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(60, 0)
+layout_mode = 2
+focus_mode = 0
+theme = ExtResource("1_evwkm")
+icon = SubResource("AtlasTexture_4jr3h")
+icon_alignment = 1
+expand_icon = true
+
+[node name="EndSongStop" type="Button" parent="LevelCreator/METADATA/HBoxContainer/MarginContainer/ScrollContainer/MarginContainer/VBoxContainer/timing_section/end_song_position/VBoxContainer/control_button" unique_id=687184329]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(60, 60)
 layout_mode = 2
@@ -1285,6 +1354,10 @@ autowrap_mode = 2
 [connection signal="pressed" from="LevelCreator/METADATA/HBoxContainer/MarginContainer/ScrollContainer/MarginContainer/VBoxContainer/timing_section/start_beat/VBoxContainer/control_button/BeatGotoStart" to="LevelCreator/METADATA" method="_on_beat_nudge_minus"]
 [connection signal="pressed" from="LevelCreator/METADATA/HBoxContainer/MarginContainer/ScrollContainer/MarginContainer/VBoxContainer/timing_section/start_beat/VBoxContainer/control_button/BeatPlay" to="LevelCreator/METADATA" method="_on_beat_play"]
 [connection signal="pressed" from="LevelCreator/METADATA/HBoxContainer/MarginContainer/ScrollContainer/MarginContainer/VBoxContainer/timing_section/start_beat/VBoxContainer/control_button/BeatGotoEnd" to="LevelCreator/METADATA" method="_on_beat_nudge_plus"]
+[connection signal="value_changed" from="LevelCreator/METADATA/HBoxContainer/MarginContainer/ScrollContainer/MarginContainer/VBoxContainer/timing_section/end_song_position/VBoxContainer/HBoxContainer/EndSongSlider" to="LevelCreator/METADATA" method="_on_end_song_value_changed"]
+[connection signal="pressed" from="LevelCreator/METADATA/HBoxContainer/MarginContainer/ScrollContainer/MarginContainer/VBoxContainer/timing_section/end_song_position/VBoxContainer/control_button/EndSongGotoStart" to="LevelCreator/METADATA" method="_on_end_song_nudge_minus"]
+[connection signal="pressed" from="LevelCreator/METADATA/HBoxContainer/MarginContainer/ScrollContainer/MarginContainer/VBoxContainer/timing_section/end_song_position/VBoxContainer/control_button/EndSongPlay" to="LevelCreator/METADATA" method="_on_end_song_play"]
+[connection signal="pressed" from="LevelCreator/METADATA/HBoxContainer/MarginContainer/ScrollContainer/MarginContainer/VBoxContainer/timing_section/end_song_position/VBoxContainer/control_button/EndSongStop" to="LevelCreator/METADATA" method="_on_end_song_nudge_plus"]
 [connection signal="mouse_entered" from="LevelCreator/METADATA/HBoxContainer/Draw Area" to="." method="_on_draw_area_mouse_entered"]
 [connection signal="mouse_exited" from="LevelCreator/METADATA/HBoxContainer/Draw Area" to="." method="_on_draw_area_mouse_exited"]
 [connection signal="mouse_entered" from="LevelCreator/MAPPING" to="." method="_on_mapping_mouse_entered"]
