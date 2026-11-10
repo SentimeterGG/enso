@@ -1,7 +1,21 @@
 [gd_resource type="Theme" format=3 uid="uid://cpocn8agag6ib"]
 
+[ext_resource type="Texture2D" uid="uid://bwbk0ok8jj44m" path="res://assets/textures/ui/icons/icons.png" id="2_wqpp3"]
 [ext_resource type="StyleBox" uid="uid://c2cmb6hfbb7qr" path="res://resources/themes/default_panel.tres" id="6_ukpo5"]
 [ext_resource type="FontFile" uid="uid://ded6dx6x7vtyp" path="res://resources/fonts/pixel_default.res" id="7_ukpo5"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_vap3t"]
+content_margin_left = 12.0
+content_margin_top = 8.0
+content_margin_right = 12.0
+content_margin_bottom = 8.0
+bg_color = Color(0.050980393, 0.050980393, 0.050980393, 0.7529412)
+border_width_left = 3
+border_width_top = 3
+border_width_right = 3
+border_width_bottom = 3
+border_color = Color(0.17641899, 0.17641914, 0.17641902, 1)
+corner_detail = 1
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_pbjln"]
 content_margin_left = 4.0
@@ -15,17 +29,18 @@ border_width_right = 3
 border_width_bottom = 3
 border_color = Color(1, 0, 0, 1)
 
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_c6ojw"]
-content_margin_left = 4.0
-content_margin_top = 4.0
-content_margin_right = 4.0
-content_margin_bottom = 4.0
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_xjlw1"]
+content_margin_left = 12.0
+content_margin_top = 8.0
+content_margin_right = 12.0
+content_margin_bottom = 8.0
 bg_color = Color(0.050980393, 0.050980393, 0.050980393, 0.7529412)
 border_width_left = 3
 border_width_top = 3
 border_width_right = 3
 border_width_bottom = 3
 border_color = Color(1, 0, 0, 1)
+corner_detail = 1
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_4uuxi"]
 content_margin_left = 12.0
@@ -38,6 +53,7 @@ border_width_top = 3
 border_width_right = 3
 border_width_bottom = 3
 border_color = Color(0.43137255, 0.43137255, 0.43137255, 1)
+corner_detail = 1
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_8g10x"]
 content_margin_left = 4.0
@@ -196,12 +212,21 @@ border_color = Color(0.43137255, 0.43137255, 0.43137255, 1)
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_qwyi2"]
 bg_color = Color(1, 0, 0, 1)
 
+[sub_resource type="AtlasTexture" id="AtlasTexture_wqpp3"]
+atlas = ExtResource("2_wqpp3")
+region = Rect2(96, 16, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_mmgvl"]
+atlas = ExtResource("2_wqpp3")
+region = Rect2(128, 16, 32, 32)
+
 [resource]
 default_font = ExtResource("7_ukpo5")
 default_font_size = 32
 Button/constants/align_to_largest_stylebox = 8
+Button/styles/disabled = SubResource("StyleBoxFlat_vap3t")
 Button/styles/focus = SubResource("StyleBoxFlat_pbjln")
-Button/styles/hover = SubResource("StyleBoxFlat_c6ojw")
+Button/styles/hover = SubResource("StyleBoxFlat_xjlw1")
 Button/styles/normal = SubResource("StyleBoxFlat_4uuxi")
 Button/styles/pressed = SubResource("StyleBoxFlat_8g10x")
 HBoxContainer/constants/separation = 12
@@ -240,4 +265,23 @@ PopupMenu/styles/panel = ExtResource("6_ukpo5")
 PopupMenu/styles/separator = SubResource("StyleBoxLine_wbptu")
 ProgressBar/styles/background = SubResource("StyleBoxFlat_7b4tk")
 ProgressBar/styles/fill = SubResource("StyleBoxFlat_qwyi2")
+SpinBox/constants/buttons_vertical_separation = 12
+SpinBox/constants/buttons_width = 62
+SpinBox/constants/field_and_buttons_separation = 12
+SpinBox/icons/down = SubResource("AtlasTexture_wqpp3")
+SpinBox/icons/down_disabled = SubResource("AtlasTexture_wqpp3")
+SpinBox/icons/down_hover = SubResource("AtlasTexture_wqpp3")
+SpinBox/icons/down_pressed = SubResource("AtlasTexture_wqpp3")
+SpinBox/icons/up = SubResource("AtlasTexture_mmgvl")
+SpinBox/icons/up_disabled = SubResource("AtlasTexture_mmgvl")
+SpinBox/icons/up_hover = SubResource("AtlasTexture_mmgvl")
+SpinBox/icons/up_pressed = SubResource("AtlasTexture_mmgvl")
+SpinBox/styles/down_background = SubResource("StyleBoxFlat_4uuxi")
+SpinBox/styles/down_background_disabled = SubResource("StyleBoxFlat_vap3t")
+SpinBox/styles/down_background_hovered = SubResource("StyleBoxFlat_xjlw1")
+SpinBox/styles/down_background_pressed = SubResource("StyleBoxFlat_8g10x")
+SpinBox/styles/up_background = SubResource("StyleBoxFlat_4uuxi")
+SpinBox/styles/up_background_disabled = SubResource("StyleBoxFlat_vap3t")
+SpinBox/styles/up_background_hovered = SubResource("StyleBoxFlat_xjlw1")
+SpinBox/styles/up_background_pressed = SubResource("StyleBoxFlat_8g10x")
 VBoxContainer/constants/separation = 12
