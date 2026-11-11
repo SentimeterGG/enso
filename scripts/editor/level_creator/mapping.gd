@@ -60,6 +60,7 @@ var _current_difficulty: String = ""
 @onready var metadata_group: Control = %METADATA
 @onready var hitsound: AudioStreamPlayer = %HitSound
 @onready var _line_generator: ColorRect = %LineGenerator
+@onready var _beat_column: Control = $Border/VBoxContainer/beat_column
 @onready var _beat_y_position: Control = $Border/VBoxContainer/beat_column/BeatYPosition
 @onready var _shape_y_position: Control = $Border/VBoxContainer/shape_column/ShapeYPosition
 @onready var _beat_bg: TextureRect = %BeatBG
@@ -331,8 +332,17 @@ func _on_marker_clicked(beat_ms: int) -> void:
 
 func _input(event: InputEvent) -> void:
 	if event is InputEventMouseMotion:
+		var motion := event as InputEventMouseMotion
+		if _beat_dragging and _beat_column != null:
+			var local_pos := (
+				_beat_column.get_global_transform_with_canvas().affine_inverse()
+				* motion.position
+			)
+			_beat_drag_move(local_pos)
+			get_viewport().set_input_as_handled()
+			return
 		if _drag_beat >= 0:
-			_handle_beat_drag(event as InputEventMouseMotion)
+			_handle_beat_drag(motion)
 	elif event is InputEventMouseButton:
 		_handle_mouse_button(event as InputEventMouseButton)
 
@@ -359,6 +369,7 @@ func _handle_mouse_button(mb: InputEventMouseButton) -> void:
 	if mb.button_index != MOUSE_BUTTON_LEFT or mb.pressed:
 		return
 	_end_beat_drag()
+	_beat_drag_end()
 
 
 func _on_marker_drag_started(beat_ms: int) -> void:
@@ -367,6 +378,18 @@ func _on_marker_drag_started(beat_ms: int) -> void:
 	_drag_beat = beat_ms
 	_drag_moved = false
 	_drag_history_recorded = false
+
+
+func _on_marker_hold_started(_beat_ms: int) -> void:
+	# Holding a beat point still (without dragging it) starts a timeline scrub.
+	if _drag_moved:
+		return
+	_drag_beat = -1
+	_drag_moved = false
+	_drag_history_recorded = false
+	if _beat_column == null:
+		return
+	_beat_drag_start(_beat_column.get_local_mouse_position(), false)
 
 
 func _end_beat_drag() -> void:
@@ -1553,6 +1576,7 @@ func _rebuild_markers() -> void:
 		_markers_root.add_child(marker)
 		marker.clicked.connect(_on_marker_clicked)
 		marker.drag_started.connect(_on_marker_drag_started)
+		marker.hold_started.connect(_on_marker_hold_started)
 		_marker_nodes[t] = marker
 	_refresh_marker_selection()
 
@@ -1773,7 +1797,7 @@ func _on_beat_column_gui_input(event: InputEvent) -> void:
 		_beat_drag_move(motion.position)
 
 
-func _beat_drag_start(pos: Vector2) -> void:
+func _beat_drag_start(pos: Vector2, mark_handled: bool = true) -> void:
 	if _beat_dragging:
 		return
 	_beat_dragging = true
@@ -1781,7 +1805,8 @@ func _beat_drag_start(pos: Vector2) -> void:
 	_beat_drag_start_time = current_time()
 	_beat_drag_was_playing = mapping_player.playing and not mapping_player.stream_paused
 	Input.set_default_cursor_shape(Input.CURSOR_HSIZE)
-	get_viewport().set_input_as_handled()
+	if mark_handled:
+		get_viewport().set_input_as_handled()
 
 
 func _beat_drag_move(pos: Vector2) -> void:
