@@ -1,0 +1,48 @@
+Third-Party Asset Inventory — ENSO
+==================================
+
+This file lists third-party assets bundled with ENSO and their licensing.
+
+The GNU AGPL-3.0 license covering the game's source code does NOT apply to
+these assets. Each asset remains under its own license, and you must comply
+with that license to use or redistribute it. The source code license does
+not grant you any rights to these assets.
+
+Fonts
+-----
+- assets/fonts/ttf/PixelCode*.ttf
+    PixelCode pixel font family.
+    Copyright (c) 2022, Qwerasd
+    License: SIL Open Font License, Version 1.1 (OFL-1.1)
+    License file: assets/fonts/ttf/LICENSE
+
+- assets/fonts/ithaca.medium.ttf
+    Ithaca font.
+    Copyright (c) 2025, GGBotNet
+    License: SIL Open Font License, Version 1.1 (OFL-1.1)
+    License file: assets/fonts/LICENSE
+
+Textures / UI / Sprites
+-----------------------
+- assets/textures/*   (backgrounds, UI icons, buttons, grabber assets, etc.)
+- assets/skin/*       (default skin assets)
+
+Graphics created by the ENSO Team are All Rights Reserved (see
+assets/LICENSE). Any third-party textures or sprites should be listed here
+with their license and attribution as they are added.
+
+Music / Charts / Levels
+-----------------------
+- levels/*   (bundled charts and songs)
+
+Charts and audio may be original or third-party. Third-party music/charts
+retain their original licenses. List them here with attribution as they are
+added.
+
+How to use
+----------
+Before redistributing ENSO (including forks), review each third-party asset
+above, obtain the required license, and include its required attribution.
+The AGPL-3.0 source code license does not grant rights to these assets.
+
+Questions? Open an issue at https://github.com/SentimeterGG/enso/issues

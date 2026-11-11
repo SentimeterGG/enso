@@ -1,0 +1,48 @@
+ENSO Art & Brand Assets — All Rights Reserved
+=============================================
+
+Copyright © 2026 ENSO Team. All rights reserved.
+
+## 1. Ownership
+
+The following assets are the exclusive property of the ENSO Team and are NOT covered by the GNU AGPL-3.0 license that covers the game's source code (see the LICENSE file at the repository root):
+
+- The ENSO logo, `icon.svg`, and all branding (logos, wordmarks, icons).
+- Original artwork, sprites, textures, and UI graphics created by the ENSO Team.
+- Original music, charts, and sound effects created by or owned by the ENSO Team.
+
+These assets are **All Rights Reserved**.
+
+Except for the permissions expressly granted below, you may NOT use, copy, modify, distribute, or create derivative works of these assets without explicit written permission from the ENSO Team.
+
+## 2. Contributor Permission
+
+The ENSO Team grants contributors a limited, non-exclusive, worldwide permission to view, reproduce, download, and modify ENSO assets solely for developing, testing, and submitting contributions to the official ENSO project.
+
+This permission includes using GitHub's public repository and forking features, including maintaining public forks, to facilitate collaboration and contributions to the official ENSO project.
+
+This permission does not authorize the use or redistribution of ENSO assets in independently distributed game builds, standalone asset packs, unrelated projects, or other uses outside the scope of this permission.
+
+## 3. GitHub Terms of Service
+
+Nothing in this license is intended to restrict rights granted to GitHub users under GitHub's Terms of Service, including the rights associated with viewing and forking public repositories through GitHub's platform.
+
+These platform permissions do not grant additional rights to use ENSO assets outside the scope of the applicable platform terms and permissions granted by the ENSO Team.
+
+## 4. Trademarks
+
+The ENSO name and logo are trademarks of the ENSO Team. This license does not grant any trademark rights.
+
+Do not use the ENSO name or logo in a way that suggests endorsement, sponsorship, or affiliation with the ENSO Team without explicit permission.
+
+## 5. Third-Party Assets
+
+Third-party assets (including fonts, music, charts, and sprites not created or owned by the ENSO Team) remain under their respective licenses.
+
+See `assets/THIRD-PARTY` for the inventory and attribution requirements.
+
+These assets are not covered by this license, and their respective license terms apply.
+
+## 6. Source Code
+
+For ENSO's source code licensing terms, see the LICENSE file at the repository root (GNU AGPL-3.0).

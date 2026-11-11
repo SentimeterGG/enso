@@ -7,7 +7,7 @@
 <p align="center">
   <a href="https://github.com/SentimeterGG/enso/releases"><img src="https://img.shields.io/github/v/release/SentimeterGG/enso?label=Release&color=5865F2" alt="Latest release"></a>
   <a href="https://godotengine.org/download"><img src="https://img.shields.io/badge/Godot-4.7-%23478CBF?logo=godot-engine&logoColor=white" alt="Godot 4.7"></a>
-  <a href="LICENSE"><img src="https://img.shields.io/badge/License-ENSO%20Attribution-5865F2" alt="License: ENSO Attribution"></a>
+  <a href="LICENSE"><img src="https://img.shields.io/badge/License-AGPL-3.0-blue" alt="License: AGPL-3.0"></a>
 </p>
 
 ---
@@ -203,12 +203,34 @@ This repository uses a **commit → rebase → merge** workflow (see [`IMPORTANT
 
 ## License
 
-ENSO is released under the [ENSO Attribution License](LICENSE), based on the MIT License.
+### Source code — GNU AGPL-3.0
 
-You are free to use, modify, and redistribute the game — including creating your own forks — as long as you:
+ENSO's source code (GDScript under `scripts/`, scenes under `scenes/`) is licensed under the
+[GNU Affero General Public License v3.0](LICENSE) (AGPL-3.0).
 
-- **Credit the original project** and include a link to [github.com/SentimeterGG/enso](https://github.com/SentimeterGG/enso) in your README, documentation, About screen, or in-game credits.
-- Keep the copyright and license notice in copies of the Software.
+This is a strong copyleft license. If you distribute modified versions of ENSO's AGPL-3.0-licensed source code, you must comply with the AGPL-3.0, including its requirements to provide the corresponding source code. Godot Engine itself remains MIT-licensed and is not covered by this license.
 
-> [!NOTE]
-> Music, charts, fonts, and other third-party assets bundled with the game may have their own licensing terms. The license above covers the Software only.
+Third-party editor addons under `addons/` keep their own licenses (currently MIT and Apache-2.0).
+They are used as separate libraries and are not relicensed by AGPL-3.0.
+
+### Art, logo & other assets — All Rights Reserved
+
+The ENSO logo (`icon.svg`), branding, original artwork, sprites, textures, UI graphics, and original music and charts created by or specifically owned by the ENSO Team are the exclusive property of the ENSO Team and are **All Rights Reserved** (see [assets/LICENSE](assets/LICENSE)).
+
+They are **not** covered by AGPL-3.0. You may not use, copy, modify, or redistribute them except as expressly permitted below or with explicit written permission from the ENSO Team.
+
+The ENSO name and logo are trademarks of the ENSO Team. No trademark rights are granted under this license.
+
+The ENSO Team grants contributors a limited, non-exclusive, worldwide permission to view, reproduce, download, and modify ENSO assets solely for developing, testing, and submitting contributions to the official ENSO project.
+
+This permission includes the use of GitHub's public repository and forking features, including maintaining public forks, solely to facilitate collaboration and contributions to the official ENSO project.
+
+This permission does not authorize the redistribution of ENSO assets outside the official project's development and collaboration workflow, including their use in independently distributed game builds, standalone asset packs, or unrelated projects.
+
+All other rights to these assets remain reserved by the ENSO Team. Any use beyond the permissions expressly granted above requires prior written permission from the ENSO Team.
+
+### Third-party assets
+
+Bundled third-party assets (e.g. fonts under `assets/fonts/`) remain under their own licenses.
+See [assets/THIRD-PARTY](assets/THIRD-PARTY) for the inventory and attribution requirements. The
+AGPL-3.0 source code license does not grant you any rights to these assets.
