@@ -26,6 +26,7 @@ var _drag_beat := -1
 var _drag_moved := false
 var _drag_history_recorded := false
 var _suppress_click := false
+var _suppress_shape_click := false
 var _selected_shape := -1
 var _shapes: Array[Dictionary] = []
 var _shape_nodes: Array = []
@@ -505,21 +506,41 @@ func _select_shape(idx: int) -> void:
 func _refresh_shape_highlight() -> void:
 	for i in range(_shape_nodes.size()):
 		var node = _shape_nodes[i]
-		if is_instance_valid(node) and node is CanvasItem:
+		if not is_instance_valid(node):
+			continue
+		if node is CanvasItem:
 			node.self_modulate = (
 				SHAPE_SELECTED_MODULATE if i == _selected_shape else SHAPE_BASE_MODULATE
 			)
+		if node.has_method("set_selected"):
+			node.set_selected(i == _selected_shape)
 
 
 func _on_shape_gui_input(event: InputEvent, node: Control) -> void:
 	if event is InputEventMouseButton:
 		var mb := event as InputEventMouseButton
-		if mb.button_index == MOUSE_BUTTON_LEFT and not mb.pressed:
-			var idx := _shape_nodes.find(node)
-			if idx < 0:
-				return
-			_select_shape(-1 if idx == _selected_shape else idx)
+		if mb.button_index != MOUSE_BUTTON_LEFT:
+			return
+		if mb.pressed:
+			_suppress_shape_click = false
+			return
+		if _suppress_shape_click:
+			_suppress_shape_click = false
 			node.accept_event()
+			return
+		var idx := _shape_nodes.find(node)
+		if idx < 0:
+			return
+		_select_shape(-1 if idx == _selected_shape else idx)
+		node.accept_event()
+
+
+func _on_shape_hold_started(_node: Control) -> void:
+	# Holding an unselected shape point starts a timeline scrub.
+	_suppress_shape_click = true
+	if _beat_column == null:
+		return
+	_beat_drag_start(_beat_column.get_local_mouse_position(), false)
 
 
 func _delete_selected_shape() -> void:
@@ -831,6 +852,7 @@ func _rebuild_shape_nodes() -> void:
 	for data in _shapes:
 		_spawn_shape_from_data(data)
 	_rebuild_beat_shape_map()
+	_refresh_shape_highlight()
 
 
 func _clean_shape_times(times: Array) -> Array[int]:
@@ -853,6 +875,7 @@ func _spawn_shape_node(shape_name: String, times: Array) -> Control:
 	_position_shape_node(shape_node, times)
 	shape_node.add_child(_make_shape_tag(shape_name, times.size()))
 	shape_node.gui_input.connect(_on_shape_gui_input.bind(shape_node))
+	shape_node.hold_started.connect(_on_shape_hold_started.bind(shape_node))
 	_shapes_root.add_child(shape_node)
 	return shape_node
 

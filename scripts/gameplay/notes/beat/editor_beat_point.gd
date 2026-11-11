@@ -52,17 +52,15 @@ func _on_button_pressed() -> void:
 
 func _process(_delta: float) -> void:
 	if (
-		button.mouse_filter == Control.MOUSE_FILTER_IGNORE
-		and not _hold_ignore
+		button.mouse_filter == Control.MOUSE_FILTER_IGNORE and not _hold_ignore
 		and Time.get_ticks_msec() >= _restore_filter_at_ms
 	):
 		button.mouse_filter = Control.MOUSE_FILTER_STOP
 
 	if (
-		not _is_selected
-		and _left_press_ms >= 0
+		not _is_selected and _left_press_ms >= 0
 		and Input.is_mouse_button_pressed(MOUSE_BUTTON_LEFT)
-		and Time.get_ticks_msec() - _left_press_ms >= 300
+		and Time.get_ticks_msec() - _left_press_ms >= 150
 	):
 		_left_press_ms = -1
 		_hold_ignore = true
