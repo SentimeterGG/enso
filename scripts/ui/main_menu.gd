@@ -37,7 +37,7 @@ func _ready() -> void:
 	DiscordRPC.set_activity("in Main Menu", "Chilling...")
 	_set_bg()
 	_set_version_label()
-	VolumePopup.can_popup = true
+	VolumePopup.show()
 	if Global.first_time_playing:
 		_set_random_music()
 		Global.first_time_playing = false

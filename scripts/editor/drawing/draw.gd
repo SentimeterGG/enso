@@ -81,7 +81,7 @@ func _input(event: InputEvent) -> void:
 		if event is InputEventMouseButton and _pointer_over_button():
 			return
 		begin(get_global_mouse_position())
-		VolumePopup.hide_pop_up()
+		VolumePopup.get_child(0).call_deferred("_hide_popup")
 	elif event.is_action_released("fire") and drawing:
 		end()
 	elif event is InputEventMouseMotion:

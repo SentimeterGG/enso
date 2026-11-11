@@ -1,5 +1,4 @@
 extends Control
-
 signal chart_imported(chart: ChartData)
 signal export_requested(dest_dir: String)
 
@@ -35,7 +34,7 @@ var _android_pick_target: String = ""
 func _ready() -> void:
 	BgMusic.FADE_DURATION = 1.6
 	BgMusic.change_song(null)
-	VolumePopup.can_popup = false
+	VolumePopup.hide()
 	viewport_size = get_viewport_rect().size
 	viewport_width = viewport_size.x
 	_exporter = ChartExporter.new(metadata_group, mapping_group)
@@ -88,7 +87,6 @@ func _on_mapping_pressed() -> void:
 
 
 func _on_metadata_pressed() -> void:
-	VolumePopup.can_popup = true
 	mapping_button.disabled = false
 	metadata_button.disabled = true
 	_switch_to(SCENES.METADATA)

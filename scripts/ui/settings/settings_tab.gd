@@ -8,8 +8,7 @@ extends Control
 func _ready() -> void:
 	DiscordRPC.set_activity("in Settings", "Tweaking some stuff...")
 	GlobalBackground.change(null)
-	VolumePopup.hide_pop_up()
-	VolumePopup.can_popup = false
+	VolumePopup.hide()
 
 
 func _on_animation_player_animation_finished(anim_name: StringName) -> void:

@@ -1,13 +1,11 @@
 [gd_scene format=3 uid="uid://b3a4x7kuktiyl"]
 
-[ext_resource type="Script" uid="uid://byxlugy0ekp6x" path="res://scripts/ui/volume/volume_popup_parent.gd" id="1_b55le"]
 [ext_resource type="Theme" uid="uid://cpocn8agag6ib" path="res://resources/themes/Theme.tres" id="1_ikcgv"]
 [ext_resource type="Script" uid="uid://ddudl54judp0i" path="res://scripts/ui/volume/volume_popup.gd" id="2_xrokr"]
 [ext_resource type="AudioStream" uid="uid://c3onj2qko1sg7" path="res://assets/audio/sfx/ENSO-Hitsound.opus" id="4_b55le"]
 
 [node name="volume_popup" type="CanvasLayer" unique_id=1643796485]
 layer = 2
-script = ExtResource("1_b55le")
 
 [node name="volume_popup" type="Control" parent="." unique_id=1567621822]
 layout_mode = 3
