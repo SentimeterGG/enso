@@ -1,4 +1,5 @@
 extends Control
+
 @onready var _name_edit: LineEdit = %SongNameEdit
 @onready var _source_edit: LineEdit = %SongAuthorEdit
 @onready var _mapper_edit: LineEdit = %MapperEdit
@@ -24,6 +25,9 @@ extends Control
 @onready var _end_song_label: LineEdit = %EndSongEdit
 const NUDGE_MS := 10
 const AUDITION_SEC := 0.05
+
+var android_picker: Object
+var _android_pick_target: String = ""
 var _preview_audition_id := 0
 var _beat_audition_id := 0
 var _end_song_audition_id := 0
@@ -45,6 +49,9 @@ func _ready() -> void:
 	var initial_song := _song_edit.text.strip_edges()
 	if not initial_song.is_empty():
 		_load_song(initial_song)
+	if Engine.has_singleton("GodotFilePicker"):
+		android_picker = Engine.get_singleton("GodotFilePicker")
+		android_picker.file_picked.connect(_on_file_android_picked)
 
 
 func _process(_delta: float) -> void:
@@ -67,7 +74,11 @@ func _sync_slider(player: AudioStreamPlayer, slider: HSlider, label: LineEdit) -
 
 
 func _on_browse_pressed() -> void:
-	_load_dialog.popup_centered(Vector2i(600, 400))
+	if android_picker:
+		_android_pick_target = "song"
+		android_picker.openFilePicker("audio/*")
+	else:
+		_load_dialog.popup_centered(Vector2i(600, 400))
 
 
 func _on_song_file_selected(path: String) -> void:
@@ -529,11 +540,36 @@ func _on_load_video_bg_file_selected(path: String) -> void:
 
 
 func _on_browse_video_bg_button_pressed() -> void:
-	_load_video_bg_dialog.popup_centered(Vector2i(600, 400))
+	if android_picker:
+		_android_pick_target = "video_bg"
+		android_picker.openFilePicker("video/*")
+	else:
+		_load_video_bg_dialog.popup_centered(Vector2i(600, 400))
 
 
 func _on_browse_bg_path_pressed() -> void:
-	_load_bg_dialog.popup_centered(Vector2i(600, 400))
+	if android_picker:
+		_android_pick_target = "bg"
+		android_picker.openFilePicker("image/*")
+	else:
+		_load_bg_dialog.popup_centered(Vector2i(600, 400))
+
+
+func _on_file_android_picked(temp_path: String, _mime_type: String) -> void:
+	if temp_path.is_empty():
+		_android_pick_target = ""
+		return
+	match _android_pick_target:
+		"song":
+			_song_edit.text = temp_path
+			_load_song(temp_path)
+		"bg":
+			_bg_edit.text = temp_path
+		"video_bg":
+			_video_bg_edit.text = temp_path
+		_:
+			pass
+	_android_pick_target = ""
 
 
 func _on_end_song_value_changed(value: float) -> void:

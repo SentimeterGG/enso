@@ -28,6 +28,9 @@ var _importer: ChartImporter
 @onready var _export_button: Button = %ExportButton
 @onready var _draw: Line2D = $draw
 
+var android_picker: Object
+var _android_pick_target: String = ""
+
 
 func _ready() -> void:
 	BgMusic.FADE_DURATION = 1.6
@@ -41,6 +44,9 @@ func _ready() -> void:
 	_importer = ChartImporter.new(mapping_group)
 	_importer.chart_imported.connect(_forward_chart_imported)
 	_importer.toast_requested.connect(_on_toast_requested)
+	if Engine.has_singleton("GodotFilePicker"):
+		android_picker = Engine.get_singleton("GodotFilePicker")
+		android_picker.file_picked.connect(_on_file_android_picked)
 	_switch_to(SCENES.METADATA)
 	_sync_export_button()
 	_update_discord_activity()
@@ -76,7 +82,6 @@ func _process(_delta: float) -> void:
 
 
 func _on_mapping_pressed() -> void:
-	VolumePopup.can_popup = false
 	mapping_button.disabled = true
 	metadata_button.disabled = false
 	_switch_to(SCENES.MAPPING)
@@ -115,7 +120,11 @@ func _sync_export_button() -> void:
 
 
 func _on_import_file_pressed() -> void:
-	_import_dialog.popup_centered(Vector2i(600, 400))
+	if android_picker:
+		_android_pick_target = "import"
+		android_picker.openFilePicker("*/*")
+	else:
+		_import_dialog.popup_centered(Vector2i(600, 400))
 
 
 func _on_export_button_pressed() -> void:
@@ -126,6 +135,19 @@ func _on_export_popup_file_selected(path: String) -> void:
 	_exporter.export_to(path)
 
 
+func _on_file_android_picked(temp_path: String, _mime_type: String) -> void:
+	if temp_path.is_empty():
+		_android_pick_target = ""
+		return
+	match _android_pick_target:
+		"import":
+			if _importer.import_archive(temp_path):
+				_update_discord_activity()
+		_:
+			pass
+	_android_pick_target = ""
+
+
 func _on_draw_guessed_shape(shape: String) -> void:
 	if shape == "circle":
 		get_tree().call_deferred("change_scene_to_file", "res://scenes/menus/main_menu.tscn")
@@ -133,32 +155,10 @@ func _on_draw_guessed_shape(shape: String) -> void:
 
 func _on_draw_area_mouse_entered() -> void:
 	_draw.start()
-	pass # Replace with function body.
 
 
 func _on_draw_area_mouse_exited() -> void:
 	_draw.stop()
-	pass # Replace with function body.
-
-
-func _on_scroll_container_mouse_entered() -> void:
-	VolumePopup.can_popup = false
-	pass # Replace with function body.
-
-
-func _on_scroll_container_mouse_exited() -> void:
-	VolumePopup.can_popup = true
-	pass # Replace with function body.
-
-
-func _on_mapping_mouse_entered() -> void:
-	VolumePopup.can_popup = false
-	pass # Replace with function body.
-
-
-func _on_mapping_mouse_exited() -> void:
-	VolumePopup.can_popup = true
-	pass # Replace with function body.
 
 
 func _on_song_name_edit_text_submitted(_new_text: String) -> void:

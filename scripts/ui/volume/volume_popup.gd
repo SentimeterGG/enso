@@ -64,17 +64,12 @@ func save_volume():
 
 
 func _unhandled_input(event: InputEvent) -> void:
-	if event is InputEventMouseButton and event.pressed:
-		if (
-			event.button_index == MOUSE_BUTTON_WHEEL_UP
-			and not _mouse_over_slider() and get_parent().can_popup
-		):
-			_scroll_volume(VOLUME_STEP)
-		elif (
-			event.button_index == MOUSE_BUTTON_WHEEL_DOWN
-			and not _mouse_over_slider() and get_parent().can_popup
-		):
-			_scroll_volume(-VOLUME_STEP)
+	if get_parent().can_popup:
+		if event is InputEventMouseButton and event.pressed:
+			if (event.button_index == MOUSE_BUTTON_WHEEL_UP and not _mouse_over_slider()):
+				_scroll_volume(VOLUME_STEP)
+			elif (event.button_index == MOUSE_BUTTON_WHEEL_DOWN and not _mouse_over_slider()):
+				_scroll_volume(-VOLUME_STEP)
 
 
 func _scroll_volume(delta: float) -> void:
