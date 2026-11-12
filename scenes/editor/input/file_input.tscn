@@ -1,0 +1,38 @@
+[gd_scene format=3 uid="uid://6v75d86k476t"]
+
+[ext_resource type="Script" uid="uid://cficoccub2f68" path="res://scripts/editor/input/file_input.gd" id="1_hmaqt"]
+[ext_resource type="Theme" uid="uid://cpocn8agag6ib" path="res://resources/themes/Theme.tres" id="2_hmaqt"]
+[ext_resource type="Texture2D" uid="uid://bwbk0ok8jj44m" path="res://assets/textures/ui/icons/icons.png" id="2_mbcjh"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_puj65"]
+atlas = ExtResource("2_mbcjh")
+region = Rect2(48, 16, 16, 16)
+
+[node name="file_input" type="VBoxContainer" unique_id=1750465399]
+script = ExtResource("1_hmaqt")
+
+[node name="Label" type="Label" parent="." unique_id=573009477]
+layout_mode = 2
+theme = ExtResource("2_hmaqt")
+text = "Label Name"
+
+[node name="HBoxContainer" type="HBoxContainer" parent="." unique_id=889179636]
+layout_mode = 2
+theme_override_constants/separation = 10
+
+[node name="output" type="LineEdit" parent="HBoxContainer" unique_id=798785409]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+theme = ExtResource("2_hmaqt")
+
+[node name="browse" type="Button" parent="HBoxContainer" unique_id=516803368]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(68, 0)
+layout_mode = 2
+focus_mode = 0
+icon = SubResource("AtlasTexture_puj65")
+icon_alignment = 1
+expand_icon = true
+
+[connection signal="pressed" from="HBoxContainer/browse" to="." method="_on_browse_pressed"]

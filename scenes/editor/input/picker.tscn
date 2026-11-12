@@ -1,0 +1,56 @@
+[gd_scene format=3 uid="uid://buagwb7d8n8yh"]
+
+[ext_resource type="Theme" uid="uid://cpocn8agag6ib" path="res://resources/themes/Theme.tres" id="1_8nlud"]
+[ext_resource type="Script" uid="uid://cjlvncyin13kb" path="res://scripts/editor/input/picker.gd" id="1_jq4my"]
+
+[node name="picker_input" type="VBoxContainer" unique_id=1457410038]
+theme_override_constants/separation = 24
+script = ExtResource("1_jq4my")
+
+[node name="Label" type="Label" parent="." unique_id=1685682914]
+layout_mode = 2
+theme = ExtResource("1_8nlud")
+text = "LabelName"
+
+[node name="VBoxContainer" type="VBoxContainer" parent="." unique_id=231335707]
+custom_minimum_size = Vector2(0, 600)
+layout_mode = 2
+
+[node name="picker" type="ColorPicker" parent="VBoxContainer" unique_id=2061296645]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+theme = ExtResource("1_8nlud")
+theme_override_constants/sv_width = 768
+theme_override_constants/sv_height = 768
+sampler_visible = false
+color_modes_visible = false
+sliders_visible = false
+presets_visible = false
+
+[node name="AddColorButton" type="Button" parent="VBoxContainer" unique_id=454778134]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(30, 0)
+layout_mode = 2
+size_flags_vertical = 8
+focus_mode = 0
+theme = ExtResource("1_8nlud")
+text = "Add
+"
+
+[node name="ScrollContainer" type="ScrollContainer" parent="." unique_id=1513249282]
+custom_minimum_size = Vector2(0, 150)
+layout_mode = 2
+
+[node name="output" type="HBoxContainer" parent="ScrollContainer" unique_id=681235871]
+unique_name_in_owner = true
+editor_description = "spawn bunch of 50x50 color rect horizontally with a color selected from Color Picker"
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+offset_transform_scale = Vector2(0.5, 0.5)
+offset_transform_pivot_ratio = Vector2(0, 0)
+theme_override_constants/separation = 21
+
+[connection signal="pressed" from="VBoxContainer/AddColorButton" to="." method="_on_add_color_button_pressed"]

@@ -64,6 +64,8 @@ func save_volume():
 
 
 func _unhandled_input(event: InputEvent) -> void:
+	if not _is_visible:
+		return
 	if event is InputEventMouseButton and event.pressed:
 		if (event.button_index == MOUSE_BUTTON_WHEEL_UP and not _mouse_over_slider()):
 			_scroll_volume(VOLUME_STEP)
@@ -144,6 +146,8 @@ func _restart_hide_timer() -> void:
 
 
 func _adjust_master_volume(delta: float) -> void:
+	if not _is_visible:
+		return
 	var bus_index: int = AudioServer.get_bus_index("Master")
 	if bus_index == -1:
 		return
@@ -175,6 +179,8 @@ func _sync_sliders_to_audio() -> void:
 
 
 func _on_music_changed(value: float) -> void:
+	if not _is_visible:
+		return
 	_set_bus_volume("Music", value)
 	_update_label(music_slider, music_label)
 	_restart_hide_timer()
@@ -182,6 +188,8 @@ func _on_music_changed(value: float) -> void:
 
 
 func _on_master_changed(value: float) -> void:
+	if not _is_visible:
+		return
 	_set_bus_volume("Master", value)
 	_update_label(master_slider, master_label)
 	_restart_hide_timer()
@@ -189,6 +197,8 @@ func _on_master_changed(value: float) -> void:
 
 
 func _on_effects_changed(value: float) -> void:
+	if not _is_visible:
+		return
 	_set_bus_volume("Effect", value)
 	_update_label(effects_slider, effects_label)
 	_restart_hide_timer()

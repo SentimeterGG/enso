@@ -94,7 +94,7 @@ func _start_gameplay_sequence() -> void:
 	target_shape.clear_points()
 	draw_manager.start()
 
-	if _end_song_position != 0:
+	if _end_song_position == 0:
 		BgMusic.connect("finished", _on_bg_music_finished)
 	accuracy_manager.reset()
 	accuracy_manager.get_od()

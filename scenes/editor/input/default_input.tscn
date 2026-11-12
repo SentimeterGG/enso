@@ -1,0 +1,19 @@
+[gd_scene format=3 uid="uid://d0whpshb4q78u"]
+
+[ext_resource type="Theme" uid="uid://cpocn8agag6ib" path="res://resources/themes/Theme.tres" id="1_gwbrh"]
+[ext_resource type="Script" uid="uid://vqrio0x4m1y8" path="res://scripts/editor/input/default_input.gd" id="1_p1frn"]
+
+[node name="default_input" type="VBoxContainer" unique_id=673346788]
+script = ExtResource("1_p1frn")
+
+[node name="Label" type="Label" parent="." unique_id=1004917386]
+layout_mode = 2
+theme = ExtResource("1_gwbrh")
+text = "Label Name"
+
+[node name="output" type="LineEdit" parent="." unique_id=1495386212]
+unique_name_in_owner = true
+layout_mode = 2
+theme = ExtResource("1_gwbrh")
+
+[connection signal="text_changed" from="output" to="." method="_on_output_text_changed"]

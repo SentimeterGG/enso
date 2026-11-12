@@ -1,3 +1,4 @@
+# Handle Export/Import and switching Scenes
 extends Control
 signal chart_imported(chart: ChartData)
 signal export_requested(dest_dir: String)
@@ -15,8 +16,6 @@ var viewport_width: float
 var _exporter: ChartExporter
 var _importer: ChartImporter
 
-@onready var _name_edit: LineEdit = %SongNameEdit
-@onready var _source_edit: LineEdit = %SongAuthorEdit
 @onready var level_creator_group: Control = %LevelCreator
 @onready var mapping_button: Button = %MappingButton
 @onready var metadata_button: Button = %MetadataButton
@@ -167,17 +166,19 @@ func _on_song_author_edit_text_submitted(_new_text: String) -> void:
 	_update_discord_activity()
 
 
-func _on_song_fields_changed(_new_text: String) -> void:
-	_update_discord_activity()
-
-
 func _update_discord_activity() -> void:
 	var song_name := ""
 	var source := ""
-	if _name_edit != null:
-		song_name = _name_edit.text.strip_edges()
-	if _source_edit != null:
-		source = _source_edit.text.strip_edges()
+	var fields: Array
+	if fields.is_empty():
+		fields = metadata_group.fields
+	for field in fields:
+		if field.name == "name":
+			var song: String = field._take_data()
+			song_name = song
+		if field.name == "source":
+			var source_text: String = field._take_data()
+			source = source_text
 	var state := ""
 	if not song_name.is_empty() and not source.is_empty():
 		state = song_name + " - " + source

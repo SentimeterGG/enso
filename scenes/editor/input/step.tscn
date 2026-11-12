@@ -1,0 +1,19 @@
+[gd_scene format=3 uid="uid://layknoctmjty"]
+
+[ext_resource type="Theme" uid="uid://cpocn8agag6ib" path="res://resources/themes/Theme.tres" id="1_qokkp"]
+[ext_resource type="Script" uid="uid://yi5hesyvspxg" path="res://scripts/editor/input/step.gd" id="1_rtn0c"]
+
+[node name="step_input" type="HBoxContainer" unique_id=1592031280]
+script = ExtResource("1_rtn0c")
+
+[node name="Label" type="Label" parent="." unique_id=1757615404]
+layout_mode = 2
+theme = ExtResource("1_qokkp")
+text = "LABEL:"
+
+[node name="output" type="SpinBox" parent="." unique_id=553198420]
+unique_name_in_owner = true
+layout_mode = 2
+theme = ExtResource("1_qokkp")
+max_value = 999.0
+value = 120.0

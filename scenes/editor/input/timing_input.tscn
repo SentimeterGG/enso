@@ -1,0 +1,79 @@
+[gd_scene format=3 uid="uid://cpd26hblk6csv"]
+
+[ext_resource type="Script" uid="uid://b0abssq12aoth" path="res://scripts/editor/input/timing_input.gd" id="1_3fwgq"]
+[ext_resource type="Theme" uid="uid://cpocn8agag6ib" path="res://resources/themes/Theme.tres" id="1_livrl"]
+[ext_resource type="Texture2D" uid="uid://bwbk0ok8jj44m" path="res://assets/textures/ui/icons/icons.png" id="2_3fwgq"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_4jr3h"]
+atlas = ExtResource("2_3fwgq")
+region = Rect2(16, 16, 16, 16)
+
+[node name="timing_input" type="VBoxContainer" unique_id=1746621220]
+script = ExtResource("1_3fwgq")
+
+[node name="Label" type="Label" parent="." unique_id=676781245]
+layout_mode = 2
+theme = ExtResource("1_livrl")
+text = "Label Name"
+
+[node name="VBoxContainer" type="VBoxContainer" parent="." unique_id=1256671898]
+layout_mode = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer" unique_id=1141522377]
+layout_mode = 2
+theme_override_constants/separation = 21
+
+[node name="slider" type="HSlider" parent="VBoxContainer/HBoxContainer" unique_id=1975404829]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 4
+theme = ExtResource("1_livrl")
+max_value = 300000.0
+
+[node name="output" type="LineEdit" parent="VBoxContainer/HBoxContainer" unique_id=1244311026]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(240, 0)
+layout_mode = 2
+theme = ExtResource("1_livrl")
+placeholder_text = "0:00.000"
+
+[node name="control_button" type="HBoxContainer" parent="VBoxContainer" unique_id=1212928623]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+
+[node name="start" type="Button" parent="VBoxContainer/control_button" unique_id=503025370]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(60, 60)
+layout_mode = 2
+focus_mode = 0
+theme = ExtResource("1_livrl")
+text = "<"
+icon_alignment = 1
+expand_icon = true
+
+[node name="play" type="Button" parent="VBoxContainer/control_button" unique_id=1869054665]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(60, 30)
+layout_mode = 2
+focus_mode = 0
+theme = ExtResource("1_livrl")
+icon = SubResource("AtlasTexture_4jr3h")
+icon_alignment = 1
+expand_icon = true
+
+[node name="end" type="Button" parent="VBoxContainer/control_button" unique_id=1441300129]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(60, 60)
+layout_mode = 2
+focus_mode = 0
+theme = ExtResource("1_livrl")
+text = ">"
+icon_alignment = 1
+expand_icon = true
+
+[connection signal="value_changed" from="VBoxContainer/HBoxContainer/slider" to="." method="_on_slider_value_changed"]
+[connection signal="pressed" from="VBoxContainer/control_button/start" to="." method="_on_start_pressed"]
+[connection signal="pressed" from="VBoxContainer/control_button/play" to="." method="_on_play_pressed"]
+[connection signal="pressed" from="VBoxContainer/control_button/end" to="." method="_on_end_pressed"]
