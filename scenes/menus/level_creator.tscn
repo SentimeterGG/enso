@@ -35,6 +35,10 @@ region = Rect2(64, 16, 16, 16)
 atlas = ExtResource("6_2vkcm")
 region = Rect2(80, 16, 16, 16)
 
+[sub_resource type="AtlasTexture" id="AtlasTexture_mgnmw"]
+atlas = ExtResource("6_2vkcm")
+region = Rect2(32, 32, 16, 16)
+
 [sub_resource type="AtlasTexture" id="AtlasTexture_nocn3"]
 atlas = ExtResource("6_2vkcm")
 region = Rect2(32, 16, 16, 16)
@@ -557,6 +561,25 @@ layout_mode = 2
 text = ""
 icon = SubResource("AtlasTexture_03co8")
 custom_tooltip_text = "Redo"
+
+[node name="ZoomControl" type="HBoxContainer" parent="LevelCreator/MAPPING/Controls" unique_id=1270229966]
+unique_name_in_owner = true
+editor_description = "zoom Control For column
+"
+layout_mode = 2
+size_flags_vertical = 4
+theme_override_constants/separation = 12
+alignment = 1
+
+[node name="HSlider" type="HSlider" parent="LevelCreator/MAPPING/Controls/ZoomControl" unique_id=2035340714]
+custom_minimum_size = Vector2(300, 0)
+layout_mode = 2
+value = 100.0
+
+[node name="TextureRect" type="TextureRect" parent="LevelCreator/MAPPING/Controls/ZoomControl" unique_id=269073360]
+layout_mode = 2
+texture = SubResource("AtlasTexture_mgnmw")
+expand_mode = 2
 
 [node name="AddDifficultyPopup" type="Control" parent="LevelCreator/MAPPING" unique_id=127616591]
 unique_name_in_owner = true

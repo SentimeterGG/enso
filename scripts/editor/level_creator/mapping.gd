@@ -81,6 +81,7 @@ var _current_difficulty: String = ""
 @onready var _add_diff_label: Label = %DiffLabel
 @onready var _rename_difficulty_popup: Control = %RenameDifficultyPopup
 @onready var _rename_diff_name_edit: LineEdit = $RenameDifficultyPopup/VBoxContainer/NewDifficultyLine
+@onready var _zoom_slider: HSlider = %ZoomControl.get_node("HSlider")
 
 
 func _ready() -> void:
@@ -109,6 +110,7 @@ func _ready() -> void:
 	)
 	_sync_timeline_range()
 	_update_scroll()
+	_setup_zoom_slider()
 	_refresh_shape_option()
 	_setup_custom_editor()
 
@@ -657,16 +659,37 @@ func _on_timeline_changed(v: float) -> void:
 	_update_scroll()
 
 
-func _zoom_waveform(steps: int) -> void:
-	if steps == 0:
+func _setup_zoom_slider() -> void:
+	if _zoom_slider == null:
 		return
-	var target := clampf(_view_pps * pow(ZOOM_FACTOR, steps), MIN_PX_PER_SEC, MAX_PX_PER_SEC)
-	if is_equal_approx(target, _view_pps):
+	_zoom_slider.min_value = MIN_PX_PER_SEC
+	_zoom_slider.max_value = MAX_PX_PER_SEC
+	_zoom_slider.step = 1.0
+	_zoom_slider.set_value_no_signal(_view_pps)
+	if not _zoom_slider.value_changed.is_connected(_on_zoom_slider_changed):
+		_zoom_slider.value_changed.connect(_on_zoom_slider_changed)
+
+
+func _on_zoom_slider_changed(value: float) -> void:
+	_apply_view_pps(value)
+
+
+func _apply_view_pps(target: float) -> void:
+	var clamped := clampf(target, MIN_PX_PER_SEC, MAX_PX_PER_SEC)
+	if is_equal_approx(clamped, _view_pps):
 		return
-	_view_pps = target
+	_view_pps = clamped
+	if _zoom_slider != null:
+		_zoom_slider.set_value_no_signal(_view_pps)
 	_rebuild_markers()
 	_refresh_shapes()
 	_update_scroll()
+
+
+func _zoom_waveform(steps: int) -> void:
+	if steps == 0:
+		return
+	_apply_view_pps(_view_pps * pow(ZOOM_FACTOR, steps))
 
 
 func add_beat_at_current() -> void:
