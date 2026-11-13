@@ -15,7 +15,10 @@ const HIDE_DELAY := 2.0
 @onready var effects_slider: HSlider = $CenterContainer/VBoxContainer/VBoxContainer3/HBoxContainer/Music
 @onready var effects_label: Label = $CenterContainer/VBoxContainer/VBoxContainer3/HBoxContainer/Label
 
-var _is_visible := false
+var _is_visible: bool:
+	get:
+		return get_parent().visible
+
 var _pop_tween: Tween
 var _hide_token := 0
 
@@ -81,9 +84,8 @@ func _scroll_volume(delta: float) -> void:
 
 func _show_popup() -> void:
 	_sync_sliders_to_audio()
-	if _is_visible:
+	if visible:
 		return
-	_is_visible = true
 
 	_kill_tween()
 	pivot_offset = size / 2.0
@@ -104,9 +106,8 @@ func _show_popup() -> void:
 
 
 func _hide_popup() -> void:
-	if not _is_visible:
+	if not visible:
 		return
-	_is_visible = false
 
 	_kill_tween()
 
