@@ -148,6 +148,8 @@ func _unhandled_key_input(event: InputEvent) -> void:
 		return
 	_stop_hold_shortcut()
 	match key_event.physical_keycode:
+		KEY_G:
+			_assign_shape()
 		KEY_M:
 			_run_with_difficulty(add_beat_at_current)
 		KEY_N:
@@ -296,7 +298,7 @@ func _apply_state(state: Dictionary) -> void:
 
 
 func _run_with_difficulty(action: Callable) -> void:
-	if _difficulty_option.selected == -1:
+	if _difficulty_option.selected == 0:
 		Notification.show_toast(
 			"Difficulty Missing",
 			"Must add difficulty first.",
@@ -595,6 +597,10 @@ func _strip_beat_from_shapes(ms: int) -> void:
 
 
 func _on_start_pressed() -> void:
+	_run_with_difficulty(_start_music)
+
+
+func _start_music():
 	timeline.step = 0.01
 	if mapping_player.stream == null:
 		return
@@ -779,6 +785,10 @@ func clear_beats() -> void:
 
 
 func _on_add_shape_pressed() -> void:
+	_assign_shape()
+
+
+func _assign_shape():
 	if not _can_add_shape():
 		return
 	var times := _selected.duplicate()
@@ -1645,7 +1655,6 @@ func _on_add_difficuly_pressed() -> void:
 	_add_diff_spin.value = 0
 	_add_difficulty_popup.visible = true
 	_add_diff_name_edit.grab_focus()
-	pass # Replace with function body.
 
 
 func _save_current_difficulty_state() -> void:
@@ -1663,6 +1672,11 @@ func _on_add_difficulty_confirmation_pressed() -> void:
 		_warn_invalid_difficulty(error)
 		return
 	_add_difficulty(raw_name, int(_add_diff_spin.value))
+	Notification.show_toast(
+		"Difficulty Added",
+		'Created "%s".' % raw_name,
+		NotificationToast.Kind.SUCCESS,
+	)
 	_add_diff_name_edit.text = ""
 	_add_difficulty_popup.visible = false
 

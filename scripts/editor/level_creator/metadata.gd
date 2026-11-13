@@ -5,6 +5,9 @@ var android_picker: Object
 var _awaiting_field = ""
 var fields: Array
 
+@onready var mapping_player: AudioStreamPlayer = %MappingPreviewPlayer
+@onready var mapping_group: Control = $"../MAPPING"
+
 
 func _ready() -> void:
 	fields = get_editor_input_children()
@@ -134,6 +137,11 @@ func _load_song(path: String) -> void:
 		push_error("Could not load audio: " + p)
 		return
 	BgMusic.stream = stream
+	mapping_player.stop()
+	mapping_player.stream_paused = false
+	mapping_player.stream = stream
+	if mapping_group != null and mapping_group.has_method("_sync_timeline_range"):
+		mapping_group.call("_sync_timeline_range")
 	var duration_ms := int(stream.get_length() * 1000.0)
 	for field in fields:
 		if field.has_method("_sync_range"):

@@ -781,6 +781,26 @@ offset_top = -154.0
 offset_right = 74.0
 offset_bottom = -22.0
 grow_vertical = 0
+mouse_filter = 2
+
+[node name="AddBeat2" type="HBoxContainer" parent="LevelCreator/MAPPING/BeatButtons" unique_id=1001233328]
+layout_mode = 2
+theme_override_constants/separation = 67
+
+[node name="AspectRatioContainer" type="AspectRatioContainer" parent="LevelCreator/MAPPING/BeatButtons/AddBeat2" unique_id=196376600]
+layout_mode = 2
+stretch_mode = 1
+alignment_horizontal = 0
+alignment_vertical = 0
+
+[node name="AddShapeButton" type="Button" parent="LevelCreator/MAPPING/BeatButtons/AddBeat2/AspectRatioContainer" unique_id=1872248744]
+custom_minimum_size = Vector2(0, 80)
+layout_mode = 2
+text = "G"
+
+[node name="Label" type="Label" parent="LevelCreator/MAPPING/BeatButtons/AddBeat2" unique_id=1673459908]
+layout_mode = 2
+text = "ASSIGN SHAPE"
 
 [node name="AddBeat" type="HBoxContainer" parent="LevelCreator/MAPPING/BeatButtons" unique_id=1948437199]
 layout_mode = 2
@@ -1085,6 +1105,7 @@ autowrap_mode = 2
 [connection signal="pressed" from="LevelCreator/MAPPING/EditDifficulty/HBoxContainer/Add Difficulty" to="LevelCreator/MAPPING" method="_on_add_difficuly_pressed"]
 [connection signal="pressed" from="LevelCreator/MAPPING/EditDifficulty/HBoxContainer/EditDifficultyNameButton" to="LevelCreator/MAPPING" method="_on_edit_difficulty_name_button_pressed"]
 [connection signal="pressed" from="LevelCreator/MAPPING/EditDifficulty/HBoxContainer/SaveChangesOnCurrentDiff" to="LevelCreator/MAPPING" method="_on_save_changes_on_current_diff_pressed"]
+[connection signal="pressed" from="LevelCreator/MAPPING/BeatButtons/AddBeat2/AspectRatioContainer/AddShapeButton" to="LevelCreator/MAPPING" method="_on_add_shape_pressed"]
 [connection signal="pressed" from="LevelCreator/MAPPING/BeatButtons/AddBeat/AspectRatioContainer/AddBeatButton" to="LevelCreator/MAPPING" method="_on_add_beat_button_pressed"]
 [connection signal="pressed" from="LevelCreator/MAPPING/BeatButtons/RemoveBeat/AspectRatioContainer/RemoveBeatButton" to="LevelCreator/MAPPING" method="_on_remove_beat_button_pressed"]
 [connection signal="pressed" from="TABS/MetadataButton" to="." method="_on_metadata_pressed"]
