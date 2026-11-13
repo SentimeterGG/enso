@@ -8,6 +8,8 @@ custom_minimum_size = Vector2(68, 0)
 focus_mode = 0
 theme = ExtResource("1_di1ux")
 text = "fdsjakfldsajfdslkajf"
+icon_alignment = 1
+expand_icon = true
 script = ExtResource("2_3xo2w")
 
 [connection signal="mouse_entered" from="." to="." method="_on_mouse_entered"]

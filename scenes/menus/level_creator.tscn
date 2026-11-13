@@ -23,25 +23,29 @@ border_width_top = 3
 border_width_bottom = 3
 border_color = Color(0.43137255, 0.43137255, 0.43137255, 1)
 
-[sub_resource type="InputEventKey" id="InputEventKey_8nwwt"]
-device = -1
-keycode = 32
-unicode = 32
-
-[sub_resource type="Shortcut" id="Shortcut_8nwwt"]
-events = [SubResource("InputEventKey_8nwwt")]
-
 [sub_resource type="AtlasTexture" id="AtlasTexture_4jr3h"]
 atlas = ExtResource("6_2vkcm")
 region = Rect2(16, 16, 16, 16)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_u832l"]
+[sub_resource type="AtlasTexture" id="AtlasTexture_6c0gx"]
 atlas = ExtResource("6_2vkcm")
 region = Rect2(64, 16, 16, 16)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_a5tis"]
+[sub_resource type="AtlasTexture" id="AtlasTexture_03co8"]
 atlas = ExtResource("6_2vkcm")
 region = Rect2(80, 16, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_nocn3"]
+atlas = ExtResource("6_2vkcm")
+region = Rect2(32, 16, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_4ts4t"]
+atlas = ExtResource("6_2vkcm")
+region = Rect2(96, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ddp7w"]
+atlas = ExtResource("6_2vkcm")
+region = Rect2(0, 32, 16, 16)
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_7fl6t"]
 
@@ -114,6 +118,7 @@ grow_vertical = 2
 
 [node name="METADATA" type="Control" parent="LevelCreator" unique_id=299311291]
 unique_name_in_owner = true
+visible = false
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -337,7 +342,6 @@ theme_override_font_sizes/font_size = 36
 text = "GO BACK"
 
 [node name="MAPPING" type="Control" parent="LevelCreator" unique_id=401597931]
-visible = false
 clip_contents = true
 layout_mode = 1
 anchors_preset = 15
@@ -435,6 +439,7 @@ offset_right = 655.75
 offset_bottom = -232.0
 grow_horizontal = 2
 grow_vertical = 0
+focus_mode = 0
 step = 5.0
 
 [node name="HBoxContainer" type="HBoxContainer" parent="LevelCreator/MAPPING" unique_id=1104214773]
@@ -452,32 +457,24 @@ grow_horizontal = 2
 grow_vertical = 0
 theme_override_constants/separation = 12
 
-[node name="go_to_start" type="Button" parent="LevelCreator/MAPPING/HBoxContainer" unique_id=81704370]
+[node name="go_to_prev_bet" parent="LevelCreator/MAPPING/HBoxContainer" unique_id=246098640 instance=ExtResource("15_4ts4t")]
 custom_minimum_size = Vector2(90, 0)
 layout_mode = 2
-size_flags_horizontal = 0
-focus_mode = 0
-theme = ExtResource("1_evwkm")
-text = "<<"
+text = "<"
+custom_tooltip_text = "Go To Prev Beat"
 
-[node name="start" type="Button" parent="LevelCreator/MAPPING/HBoxContainer" unique_id=2072190154]
+[node name="start" parent="LevelCreator/MAPPING/HBoxContainer" unique_id=1685203053 instance=ExtResource("15_4ts4t")]
 custom_minimum_size = Vector2(90, 0)
 layout_mode = 2
-size_flags_horizontal = 0
-focus_mode = 0
-theme = ExtResource("1_evwkm")
-shortcut = SubResource("Shortcut_8nwwt")
+text = ""
 icon = SubResource("AtlasTexture_4jr3h")
-icon_alignment = 1
-expand_icon = true
+custom_tooltip_text = "Play"
 
-[node name="go_to_end" type="Button" parent="LevelCreator/MAPPING/HBoxContainer" unique_id=926839668]
+[node name="go_to_next_beat" parent="LevelCreator/MAPPING/HBoxContainer" unique_id=1465638355 instance=ExtResource("15_4ts4t")]
 custom_minimum_size = Vector2(90, 0)
 layout_mode = 2
-size_flags_horizontal = 0
-focus_mode = 0
-theme = ExtResource("1_evwkm")
-text = ">>"
+text = ">"
+custom_tooltip_text = "Go To Next Beat"
 
 [node name="LineGenerator" type="ColorRect" parent="LevelCreator/MAPPING" unique_id=1950115273]
 unique_name_in_owner = true
@@ -518,34 +515,16 @@ grow_horizontal = 2
 grow_vertical = 0
 theme_override_constants/separation = 36
 
-[node name="DifficultyOption" type="OptionButton" parent="LevelCreator/MAPPING/Controls" unique_id=1804085255]
-unique_name_in_owner = true
-custom_maximum_size = Vector2(300, -1)
-layout_mode = 2
-focus_mode = 0
-
-[node name="Add Difficulty" parent="LevelCreator/MAPPING/Controls" unique_id=246098640 instance=ExtResource("15_4ts4t")]
-unique_name_in_owner = true
-layout_mode = 2
-text = "+"
-custom_tooltip_text = "Add Difficulty"
-
 [node name="ShapeOption" type="OptionButton" parent="LevelCreator/MAPPING/Controls" unique_id=1386991494]
 unique_name_in_owner = true
 layout_mode = 2
 focus_mode = 0
 theme = ExtResource("1_evwkm")
-item_count = 5
+disabled = true
+selected = 0
+item_count = 1
 popup/item_0/text = "L"
 popup/item_0/id = 0
-popup/item_1/text = "U"
-popup/item_1/id = 1
-popup/item_2/text = "Square"
-popup/item_2/id = 2
-popup/item_3/text = "HLine"
-popup/item_3/id = 3
-popup/item_4/text = "VLine"
-popup/item_4/id = 4
 
 [node name="Add Shape" type="Button" parent="LevelCreator/MAPPING/Controls" unique_id=1189623053]
 unique_name_in_owner = true
@@ -557,31 +536,32 @@ text = "Assign Shape"
 
 [node name="UndoRedo" type="HBoxContainer" parent="LevelCreator/MAPPING/Controls" unique_id=1369720725]
 layout_mode = 2
-theme_override_constants/separation = 60
+theme_override_constants/separation = 12
 
 [node name="AspectRatioContainer" type="AspectRatioContainer" parent="LevelCreator/MAPPING/Controls/UndoRedo" unique_id=66319824]
 layout_mode = 2
 stretch_mode = 1
 
-[node name="Undo" type="Button" parent="LevelCreator/MAPPING/Controls/UndoRedo/AspectRatioContainer" unique_id=964960529]
+[node name="custom_button" parent="LevelCreator/MAPPING/Controls/UndoRedo/AspectRatioContainer" unique_id=1658304519 instance=ExtResource("15_4ts4t")]
 layout_mode = 2
-icon = SubResource("AtlasTexture_u832l")
-icon_alignment = 1
-expand_icon = true
+text = ""
+icon = SubResource("AtlasTexture_6c0gx")
+custom_tooltip_text = "Undo"
 
 [node name="AspectRatioContainer2" type="AspectRatioContainer" parent="LevelCreator/MAPPING/Controls/UndoRedo" unique_id=1095446795]
 layout_mode = 2
 stretch_mode = 1
 
-[node name="Redo" type="Button" parent="LevelCreator/MAPPING/Controls/UndoRedo/AspectRatioContainer2" unique_id=1986189812]
+[node name="custom_button" parent="LevelCreator/MAPPING/Controls/UndoRedo/AspectRatioContainer2" unique_id=749304316 instance=ExtResource("15_4ts4t")]
 layout_mode = 2
-icon = SubResource("AtlasTexture_a5tis")
-icon_alignment = 1
-expand_icon = true
+text = ""
+icon = SubResource("AtlasTexture_03co8")
+custom_tooltip_text = "Redo"
 
 [node name="AddDifficultyPopup" type="Control" parent="LevelCreator/MAPPING" unique_id=127616591]
 unique_name_in_owner = true
 visible = false
+z_index = 3
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -655,9 +635,67 @@ layout_mode = 2
 [node name="AddDifficultyConfirmation" type="Button" parent="LevelCreator/MAPPING/AddDifficultyPopup/VBoxContainer/HBoxContainer" unique_id=983068802]
 layout_mode = 2
 size_flags_horizontal = 3
-text = "ADD DIFFICULTY"
+text = "ADD"
 
 [node name="CancelDifficultyCreation" type="Button" parent="LevelCreator/MAPPING/AddDifficultyPopup/VBoxContainer/HBoxContainer" unique_id=1509133763]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "CANCEL"
+
+[node name="RenameDifficultyPopup" type="Control" parent="LevelCreator/MAPPING" unique_id=2121804288]
+unique_name_in_owner = true
+editor_description = "Rename Difficulty Popup"
+visible = false
+z_index = 3
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="ColorRect" type="ColorRect" parent="LevelCreator/MAPPING/RenameDifficultyPopup" unique_id=608141761]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 0.82500005)
+
+[node name="VBoxContainer" type="VBoxContainer" parent="LevelCreator/MAPPING/RenameDifficultyPopup" unique_id=108425298]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -131.5
+offset_top = -74.0
+offset_right = 131.5
+offset_bottom = 74.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/separation = 12
+
+[node name="Label" type="Label" parent="LevelCreator/MAPPING/RenameDifficultyPopup/VBoxContainer" unique_id=252663553]
+layout_mode = 2
+text = "Rename Difficulty Name"
+
+[node name="NewDifficultyLine" type="LineEdit" parent="LevelCreator/MAPPING/RenameDifficultyPopup/VBoxContainer" unique_id=1648913062]
+editor_description = "New Difficulty Line Edit"
+layout_mode = 2
+placeholder_text = "New Name"
+
+[node name="HBoxContainer" type="HBoxContainer" parent="LevelCreator/MAPPING/RenameDifficultyPopup/VBoxContainer" unique_id=1069330213]
+layout_mode = 2
+
+[node name="RenameDifficultyConfirmation" type="Button" parent="LevelCreator/MAPPING/RenameDifficultyPopup/VBoxContainer/HBoxContainer" unique_id=2044471310]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "RENAME"
+
+[node name="CancelDifficultyRename" type="Button" parent="LevelCreator/MAPPING/RenameDifficultyPopup/VBoxContainer/HBoxContainer" unique_id=823675769]
 layout_mode = 2
 size_flags_horizontal = 3
 text = "CANCEL"
@@ -672,20 +710,43 @@ offset_top = 104.0
 offset_right = 543.0
 offset_bottom = 172.0
 grow_horizontal = 2
-
-[node name="DifficultyNameEdit" type="LineEdit" parent="LevelCreator/MAPPING/EditDifficulty" unique_id=2096317875]
-layout_mode = 2
-size_flags_horizontal = 3
-placeholder_text = "Difficulty Name"
+theme_override_constants/separation = 32
 alignment = 1
 
-[node name="EditDifficultyNameButton" type="Button" parent="LevelCreator/MAPPING/EditDifficulty" unique_id=1661337057]
+[node name="DifficultyOption" type="OptionButton" parent="LevelCreator/MAPPING/EditDifficulty" unique_id=1804085255]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(520, 0)
+custom_maximum_size = Vector2(700, -1)
 layout_mode = 2
-text = "Edit"
+focus_mode = 0
+alignment = 1
+selected = 0
+item_count = 1
+popup/item_0/text = "CREATE  A DIFFICULTY"
+popup/item_0/id = 0
+popup/item_0/disabled = true
 
-[node name="SaveChangesOnCurrentDiff" type="Button" parent="LevelCreator/MAPPING/EditDifficulty" unique_id=1933988719]
+[node name="HBoxContainer" type="HBoxContainer" parent="LevelCreator/MAPPING/EditDifficulty" unique_id=81544557]
 layout_mode = 2
-text = "Save"
+
+[node name="Add Difficulty" parent="LevelCreator/MAPPING/EditDifficulty/HBoxContainer" unique_id=1072741159 instance=ExtResource("15_4ts4t")]
+unique_name_in_owner = true
+layout_mode = 2
+text = ""
+icon = SubResource("AtlasTexture_nocn3")
+custom_tooltip_text = "Add Difficulty"
+
+[node name="EditDifficultyNameButton" parent="LevelCreator/MAPPING/EditDifficulty/HBoxContainer" unique_id=1323914410 instance=ExtResource("15_4ts4t")]
+layout_mode = 2
+text = ""
+icon = SubResource("AtlasTexture_4ts4t")
+custom_tooltip_text = "Rename Difficulty"
+
+[node name="SaveChangesOnCurrentDiff" parent="LevelCreator/MAPPING/EditDifficulty/HBoxContainer" unique_id=1979242876 instance=ExtResource("15_4ts4t")]
+layout_mode = 2
+text = ""
+icon = SubResource("AtlasTexture_ddp7w")
+custom_tooltip_text = "Save Difficulty"
 
 [node name="BeatButtons" type="VBoxContainer" parent="LevelCreator/MAPPING" unique_id=439215938]
 layout_mode = 1
@@ -986,16 +1047,21 @@ autowrap_mode = 2
 [connection signal="gui_input" from="LevelCreator/MAPPING/Border" to="LevelCreator/MAPPING" method="_on_border_gui_input"]
 [connection signal="gui_input" from="LevelCreator/MAPPING/Border/VBoxContainer/beat_column" to="LevelCreator/MAPPING" method="_on_beat_column_gui_input"]
 [connection signal="gui_input" from="LevelCreator/MAPPING/MappingPreviewCurrentPos" to="LevelCreator/MAPPING" method="_on_timeline_gui_input"]
+[connection signal="pressed" from="LevelCreator/MAPPING/HBoxContainer/go_to_prev_bet" to="LevelCreator/MAPPING" method="_on_go_to_prev_beat"]
 [connection signal="pressed" from="LevelCreator/MAPPING/HBoxContainer/start" to="LevelCreator/MAPPING" method="_on_start_pressed"]
-[connection signal="item_selected" from="LevelCreator/MAPPING/Controls/DifficultyOption" to="LevelCreator/MAPPING" method="_on_difficulty_option_item_selected"]
-[connection signal="pressed" from="LevelCreator/MAPPING/Controls/Add Difficulty" to="LevelCreator/MAPPING" method="_on_add_difficuly_pressed"]
-[connection signal="pressed" from="LevelCreator/MAPPING/Controls/UndoRedo/AspectRatioContainer/Undo" to="LevelCreator/MAPPING" method="_on_undo_pressed"]
-[connection signal="pressed" from="LevelCreator/MAPPING/Controls/UndoRedo/AspectRatioContainer2/Redo" to="LevelCreator/MAPPING" method="_on_redo_pressed"]
+[connection signal="pressed" from="LevelCreator/MAPPING/HBoxContainer/go_to_next_beat" to="LevelCreator/MAPPING" method="_on_go_to_next_beat"]
+[connection signal="pressed" from="LevelCreator/MAPPING/Controls/Add Shape" to="LevelCreator/MAPPING" method="_on_add_shape_pressed"]
+[connection signal="pressed" from="LevelCreator/MAPPING/Controls/UndoRedo/AspectRatioContainer/custom_button" to="LevelCreator/MAPPING" method="_on_undo_pressed"]
+[connection signal="pressed" from="LevelCreator/MAPPING/Controls/UndoRedo/AspectRatioContainer2/custom_button" to="LevelCreator/MAPPING" method="_on_redo_pressed"]
 [connection signal="value_changed" from="LevelCreator/MAPPING/AddDifficultyPopup/VBoxContainer/OverallDifficulty/HBoxContainer/DiffSpin" to="LevelCreator/MAPPING" method="_on_diff_spin_value_changed"]
 [connection signal="pressed" from="LevelCreator/MAPPING/AddDifficultyPopup/VBoxContainer/HBoxContainer/AddDifficultyConfirmation" to="LevelCreator/MAPPING" method="_on_add_difficulty_confirmation_pressed"]
 [connection signal="pressed" from="LevelCreator/MAPPING/AddDifficultyPopup/VBoxContainer/HBoxContainer/CancelDifficultyCreation" to="LevelCreator/MAPPING" method="_on_cancel_difficulty_creation_pressed"]
-[connection signal="pressed" from="LevelCreator/MAPPING/EditDifficulty/EditDifficultyNameButton" to="LevelCreator/MAPPING" method="_on_edit_difficulty_name_button_pressed"]
-[connection signal="pressed" from="LevelCreator/MAPPING/EditDifficulty/SaveChangesOnCurrentDiff" to="LevelCreator/MAPPING" method="_on_save_changes_on_current_diff_pressed"]
+[connection signal="pressed" from="LevelCreator/MAPPING/RenameDifficultyPopup/VBoxContainer/HBoxContainer/RenameDifficultyConfirmation" to="LevelCreator/MAPPING" method="_on_rename_difficulty_confirmation_pressed"]
+[connection signal="pressed" from="LevelCreator/MAPPING/RenameDifficultyPopup/VBoxContainer/HBoxContainer/CancelDifficultyRename" to="LevelCreator/MAPPING" method="_on_cancel_difficulty_rename_pressed"]
+[connection signal="item_selected" from="LevelCreator/MAPPING/EditDifficulty/DifficultyOption" to="LevelCreator/MAPPING" method="_on_difficulty_option_item_selected"]
+[connection signal="pressed" from="LevelCreator/MAPPING/EditDifficulty/HBoxContainer/Add Difficulty" to="LevelCreator/MAPPING" method="_on_add_difficuly_pressed"]
+[connection signal="pressed" from="LevelCreator/MAPPING/EditDifficulty/HBoxContainer/EditDifficultyNameButton" to="LevelCreator/MAPPING" method="_on_edit_difficulty_name_button_pressed"]
+[connection signal="pressed" from="LevelCreator/MAPPING/EditDifficulty/HBoxContainer/SaveChangesOnCurrentDiff" to="LevelCreator/MAPPING" method="_on_save_changes_on_current_diff_pressed"]
 [connection signal="pressed" from="LevelCreator/MAPPING/BeatButtons/AddBeat/AspectRatioContainer/AddBeatButton" to="LevelCreator/MAPPING" method="_on_add_beat_button_pressed"]
 [connection signal="pressed" from="LevelCreator/MAPPING/BeatButtons/RemoveBeat/AspectRatioContainer/RemoveBeatButton" to="LevelCreator/MAPPING" method="_on_remove_beat_button_pressed"]
 [connection signal="pressed" from="TABS/MetadataButton" to="." method="_on_metadata_pressed"]

@@ -3,6 +3,10 @@ extends EditorInput
 const NUDGE_MS := 10
 const AUDITION_SEC := 0.05
 
+@onready var _play_button: Button = %play
+
+var _play_atlas_unique: AtlasTexture = null
+
 
 func _format_ms(ms: int) -> String:
 	var total_s := floori(ms / 1000.0)
@@ -34,8 +38,24 @@ func _on_play_pressed() -> void:
 		return
 	if BgMusic.playing:
 		BgMusic.stop()
+		_playing(false)
 	else:
 		BgMusic.play(_slider_seconds())
+		_playing(true)
+
+
+func _playing(play: bool) -> void:
+	if _play_atlas_unique == null:
+		var icon := _play_button.icon
+		if icon is AtlasTexture:
+			_play_atlas_unique = icon.duplicate() as AtlasTexture
+			_play_button.icon = _play_atlas_unique
+		else:
+			return
+	if play == true:
+		_play_atlas_unique.region = Rect2i(16, 32, 16, 16)
+	else:
+		_play_atlas_unique.region = Rect2i(16, 16, 16, 16)
 
 
 func _on_end_pressed() -> void:

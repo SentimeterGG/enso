@@ -65,9 +65,6 @@ var _current_difficulty: String = ""
 @onready var _beat_y_position: Control = $Border/VBoxContainer/beat_column/BeatYPosition
 @onready var _shape_y_position: Control = $Border/VBoxContainer/shape_column/ShapeYPosition
 @onready var _beat_bg: TextureRect = %BeatBG
-@onready var _btn_start: Button = $HBoxContainer/go_to_start
-@onready var _btn_play: Button = $HBoxContainer/start
-@onready var _btn_end: Button = $HBoxContainer/go_to_end
 @onready var _btn_add_shape: Button = %"Add Shape"
 @onready var _shape_option: OptionButton = %ShapeOption
 @onready var _difficulty_option: OptionButton = %DifficultyOption
@@ -82,11 +79,13 @@ var _current_difficulty: String = ""
 @onready var _add_diff_name_edit: LineEdit = %DifficultyName
 @onready var _add_diff_spin: SpinBox = %DiffSpin
 @onready var _add_diff_label: Label = %DiffLabel
-@onready var _edit_diff_name_edit: LineEdit = $EditDifficulty/DifficultyNameEdit
+@onready var _rename_difficulty_popup: Control = %RenameDifficultyPopup
+@onready var _rename_diff_name_edit: LineEdit = $RenameDifficultyPopup/VBoxContainer/NewDifficultyLine
 
 
 func _ready() -> void:
 	_add_difficulty_popup.visible = false
+	_rename_difficulty_popup.visible = false
 	_markers_root = Node2D.new()
 	_markers_root.name = "BeatMarkers"
 	add_child(_markers_root)
@@ -108,13 +107,6 @@ func _ready() -> void:
 		func(_v: bool) -> void:
 			_scrubbing = false,
 	)
-	_safe_connect(_btn_start, _on_go_to_start)
-	_safe_connect(_btn_end, _on_go_to_end)
-	_safe_connect(_btn_play, _on_start_pressed)
-	_safe_connect(_btn_add_shape, _on_add_shape_pressed)
-	for c in [_btn_start, _btn_play, _btn_end, _btn_add_shape, timeline, _shape_option]:
-		if c != null and c is Control:
-			(c as Control).focus_mode = Control.FOCUS_NONE
 	_sync_timeline_range()
 	_update_scroll()
 	_refresh_shape_option()
@@ -336,8 +328,7 @@ func _input(event: InputEvent) -> void:
 		var motion := event as InputEventMouseMotion
 		if _beat_dragging and _beat_column != null:
 			var local_pos := (
-				_beat_column.get_global_transform_with_canvas().affine_inverse()
-				* motion.position
+				_beat_column.get_global_transform_with_canvas().affine_inverse() * motion.position
 			)
 			_beat_drag_move(local_pos)
 			get_viewport().set_input_as_handled()
@@ -612,14 +603,33 @@ func _on_start_pressed() -> void:
 	mapping_player.play(timeline.value)
 
 
-func _on_go_to_start() -> void:
-	seek(0.0)
+func _on_go_to_prev_beat() -> void:
+	var current_ms := int(round(current_time() * 1000.0))
+	var prev_ms := -1
+	for t in beat_times_ms:
+		if t < current_ms:
+			prev_ms = t
+		else:
+			break
+	if prev_ms >= 0:
+		seek(float(prev_ms) / 1000.0)
+	else:
+		seek(0.0)
 
 
-func _on_go_to_end() -> void:
+func _on_go_to_next_beat() -> void:
 	if mapping_player.stream == null:
 		return
-	seek(mapping_player.stream.get_length())
+	var current_ms := int(round(current_time() * 1000.0))
+	var next_ms := -1
+	for t in beat_times_ms:
+		if t > current_ms:
+			next_ms = t
+			break
+	if next_ms >= 0:
+		seek(float(next_ms) / 1000.0)
+	else:
+		seek(mapping_player.stream.get_length())
 
 
 func seek(time_sec: float) -> void:
@@ -940,7 +950,7 @@ func _refresh_shape_option() -> void:
 	_fill_shape_options()
 	_select_shape_option_by_text(previous)
 	var valid := not _selected.is_empty() and _shape_option.item_count > 0
-	_shape_option.disabled = not valid and not _selected.is_empty()
+	_shape_option.disabled = _selected.is_empty()
 	if _btn_add_shape != null:
 		_btn_add_shape.disabled = not valid
 
@@ -1323,7 +1333,6 @@ func _ensure_chart_song(chart: ChartData) -> void:
 func _set_current_difficulty(diff_name: String) -> void:
 	_current_difficulty = diff_name
 	_save_current_difficulty_state()
-	_edit_diff_name_edit.text = diff_name
 
 
 func _select_difficulty_in_dropdown(diff_name: String) -> void:
@@ -1604,13 +1613,6 @@ func _rebuild_markers() -> void:
 	_refresh_marker_selection()
 
 
-func _safe_connect(btn: Button, method: Callable) -> void:
-	if btn == null:
-		return
-	if not btn.pressed.is_connected(method):
-		btn.pressed.connect(method)
-
-
 func _on_load_song_file_selected(path: String) -> void:
 	_load_song(path)
 
@@ -1653,7 +1655,6 @@ func _add_difficulty(diff_name: String, overall_difficulty: int) -> void:
 	_difficulty_option.select(_difficulty_option.item_count - 1)
 	_current_difficulty = diff_name
 	clear_beats() # fresh empty buffer for the new difficulty
-	_edit_diff_name_edit.text = diff_name
 
 
 func _difficulty_name_error(raw_name: String, excluded: String = "") -> String:
@@ -1698,19 +1699,9 @@ func _on_edit_difficulty_name_button_pressed() -> void:
 			2.6,
 		)
 		return
-	var new_name := _edit_diff_name_edit.text.strip_edges()
-	var error := _difficulty_name_error(new_name, _current_difficulty)
-	if not error.is_empty():
-		_warn_invalid_difficulty(error)
-		return
-	if new_name == _current_difficulty:
-		return
-	_rename_current_difficulty(new_name)
-	Notification.show_toast(
-		"Difficulty Renamed",
-		'Renamed to "%s".' % new_name,
-		NotificationToast.Kind.SUCCESS,
-	)
+	_rename_diff_name_edit.text = _current_difficulty
+	_rename_difficulty_popup.visible = true
+	_rename_diff_name_edit.grab_focus()
 
 
 func _rename_current_difficulty(new_name: String) -> void:
@@ -1718,7 +1709,6 @@ func _rename_current_difficulty(new_name: String) -> void:
 	difficulties.erase(_current_difficulty)
 	_replace_difficulty_option_text(_current_difficulty, new_name)
 	_current_difficulty = new_name
-	_edit_diff_name_edit.text = new_name
 
 
 func _replace_difficulty_option_text(old_name: String, new_name: String) -> void:
@@ -1740,7 +1730,6 @@ func _load_difficulty_state(name_diff: String) -> void:
 	_load_entry_beats(entry)
 	_load_entry_shapes(entry)
 	_current_difficulty = name_diff
-	_edit_diff_name_edit.text = name_diff
 	_rebuild_markers()
 	_refresh_shapes()
 	_set_selected([])
@@ -1879,3 +1868,24 @@ func _on_timeline_gui_input(event: InputEvent) -> void:
 		return
 	if mb.button_index == MOUSE_BUTTON_WHEEL_UP or mb.button_index == MOUSE_BUTTON_WHEEL_DOWN:
 		timeline.step = 1.0
+
+
+func _on_cancel_difficulty_rename_pressed() -> void:
+	_rename_difficulty_popup.visible = false
+
+
+func _on_rename_difficulty_confirmation_pressed() -> void:
+	var new_name := _rename_diff_name_edit.text.strip_edges()
+	var error := _difficulty_name_error(new_name, _current_difficulty)
+	if not error.is_empty():
+		_warn_invalid_difficulty(error)
+		return
+	_rename_current_difficulty(new_name)
+	_rename_diff_name_edit.text = ""
+	_rename_difficulty_popup.visible = false
+	Notification.show_toast(
+		"Difficulty Renamed",
+		'Renamed to "%s".' % new_name,
+		NotificationToast.Kind.SUCCESS,
+		2.6,
+	)

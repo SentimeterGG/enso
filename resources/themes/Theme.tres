@@ -85,29 +85,33 @@ _source = "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"12\" height=\"12\">
 "
 base_scale = 2.12
 
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_p17ma"]
-content_margin_left = 8.0
-content_margin_top = 4.0
-content_margin_right = 8.0
-content_margin_bottom = 4.0
-bg_color = Color(0.1, 0.1, 0.1, 0.3)
-corner_radius_top_left = 3
-corner_radius_top_right = 3
-corner_radius_bottom_right = 3
-corner_radius_bottom_left = 3
-corner_detail = 5
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_xjlw1"]
+content_margin_left = 24.0
+content_margin_top = 12.0
+content_margin_right = 12.0
+content_margin_bottom = 12.0
+bg_color = Color(0.050980393, 0.050980393, 0.050980393, 0.7529412)
+border_width_left = 3
+border_width_top = 3
+border_width_right = 3
+border_width_bottom = 3
+border_color = Color(0.17641899, 0.17641914, 0.17641902, 1)
+corner_detail = 1
+expand_margin_right = 18.0
 
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_arryu"]
-content_margin_left = 8.0
-content_margin_top = 4.0
-content_margin_right = 8.0
-content_margin_bottom = 4.0
-bg_color = Color(0.1, 0.1, 0.1, 0.3)
-corner_radius_top_left = 3
-corner_radius_top_right = 3
-corner_radius_bottom_right = 3
-corner_radius_bottom_left = 3
-corner_detail = 5
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_1fwn5"]
+content_margin_left = 24.0
+content_margin_top = 12.0
+content_margin_right = 12.0
+content_margin_bottom = 12.0
+bg_color = Color(0.050980393, 0.050980393, 0.050980393, 0.7529412)
+border_width_left = 3
+border_width_top = 3
+border_width_right = 3
+border_width_bottom = 3
+border_color = Color(0.17641899, 0.17641914, 0.17641902, 1)
+corner_detail = 1
+expand_margin_right = 18.0
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_5s8bg"]
 content_margin_left = 4.0
@@ -214,8 +218,8 @@ OptionButton/constants/h_separation = 4
 OptionButton/constants/modulate_arrow = 0
 OptionButton/constants/outline_size = 0
 OptionButton/icons/arrow = SubResource("DPITexture_ukpo5")
-OptionButton/styles/disabled = SubResource("StyleBoxFlat_p17ma")
-OptionButton/styles/disabled_mirrored = SubResource("StyleBoxFlat_arryu")
+OptionButton/styles/disabled = SubResource("StyleBoxFlat_xjlw1")
+OptionButton/styles/disabled_mirrored = SubResource("StyleBoxFlat_1fwn5")
 OptionButton/styles/focus = SubResource("StyleBoxFlat_5s8bg")
 OptionButton/styles/hover = SubResource("StyleBoxFlat_wqpp3")
 OptionButton/styles/hover_mirrored = SubResource("StyleBoxFlat_wqpp3")

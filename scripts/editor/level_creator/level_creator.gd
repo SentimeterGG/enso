@@ -48,6 +48,7 @@ func _ready() -> void:
 	_switch_to(SCENES.METADATA)
 	_sync_export_button()
 	_update_discord_activity()
+	GlobalBackground.set_base_alpha(0.5)
 
 
 func _input(event: InputEvent) -> void:
@@ -82,6 +83,7 @@ func _process(_delta: float) -> void:
 func _on_mapping_pressed() -> void:
 	mapping_button.disabled = true
 	metadata_button.disabled = false
+	BgMusic.change_song(null)
 	_switch_to(SCENES.MAPPING)
 
 

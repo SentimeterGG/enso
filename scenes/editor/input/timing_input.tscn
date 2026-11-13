@@ -55,8 +55,6 @@ unique_name_in_owner = true
 layout_mode = 2
 text = ""
 icon = SubResource("AtlasTexture_4jr3h")
-icon_alignment = 1
-expand_icon = true
 custom_tooltip_text = "Play"
 
 [node name="end" parent="VBoxContainer/control_button" unique_id=470752979 instance=ExtResource("3_vx4jc")]

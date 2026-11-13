@@ -68,6 +68,8 @@ func _setup_fields(metadata: Dictionary, base_dir: String = ""):
 					value = _resolve_asset_path(base_dir, value)
 				if key == "song":
 					_load_song(value)
+				if key == "bg":
+					GlobalBackground.change(value)
 				field._put_data(value)
 
 
@@ -82,6 +84,7 @@ func _resolve_asset_path(base_dir: String, path: String) -> String:
 func get_editor_input_children() -> Array[Node]:
 	var result = find_children("*", "EditorInput", true, false)
 	return result
+
 
 func _allowed_extensions(field_name: String) -> PackedStringArray:
 	match field_name:
@@ -115,6 +118,8 @@ func _on_file_dialog_file_selected(path: String) -> void:
 				field._put_data(path)
 			if field.name == "song":
 				_load_song(path)
+			if field.name == "bg":
+				GlobalBackground.change(path)
 			break
 	_awaiting_field = ""
 
