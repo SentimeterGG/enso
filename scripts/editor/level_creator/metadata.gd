@@ -83,16 +83,38 @@ func get_editor_input_children() -> Array[Node]:
 	var result = find_children("*", "EditorInput", true, false)
 	return result
 
+func _allowed_extensions(field_name: String) -> PackedStringArray:
+	match field_name:
+		"video_bg":
+			return ["ogv"]
+		"song":
+			return ["mp3", "ogg", "wav"]
+		"bg":
+			return ["png", "jpg", "jpeg", "webp"]
+		_:
+			return []
+
 
 func _on_file_dialog_file_selected(path: String) -> void:
 	if _awaiting_field == "":
+		return
+	var allowed := _allowed_extensions(_awaiting_field)
+	var ext := path.get_extension().to_lower()
+	if allowed.size() > 0 and not allowed.has(ext):
+		Notification.show_toast(
+			"Invalid File",
+			'Expected "%s" but got "%s".' % [", ".join(allowed), ext],
+			NotificationToast.Kind.WARN,
+			2.6,
+		)
+		_awaiting_field = ""
 		return
 	for field in fields:
 		if field.name == _awaiting_field:
 			if field.has_method("_put_data"):
 				field._put_data(path)
-		if field.name == "song":
-			_load_song(path)
+			if field.name == "song":
+				_load_song(path)
 			break
 	_awaiting_field = ""
 

@@ -3,6 +3,7 @@
 [ext_resource type="Script" uid="uid://b0abssq12aoth" path="res://scripts/editor/input/timing_input.gd" id="1_3fwgq"]
 [ext_resource type="Theme" uid="uid://cpocn8agag6ib" path="res://resources/themes/Theme.tres" id="1_livrl"]
 [ext_resource type="Texture2D" uid="uid://bwbk0ok8jj44m" path="res://assets/textures/ui/icons/icons.png" id="2_3fwgq"]
+[ext_resource type="PackedScene" uid="uid://cqr7r5of7tv3p" path="res://scenes/ui/button.tscn" id="3_vx4jc"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_4jr3h"]
 atlas = ExtResource("2_3fwgq")
@@ -43,35 +44,26 @@ layout_mode = 2
 size_flags_horizontal = 4
 size_flags_vertical = 4
 
-[node name="start" type="Button" parent="VBoxContainer/control_button" unique_id=503025370]
+[node name="start" parent="VBoxContainer/control_button" unique_id=246098640 instance=ExtResource("3_vx4jc")]
 unique_name_in_owner = true
-custom_minimum_size = Vector2(60, 60)
 layout_mode = 2
-focus_mode = 0
-theme = ExtResource("1_livrl")
 text = "<"
-icon_alignment = 1
-expand_icon = true
+custom_tooltip_text = "-10ms"
 
-[node name="play" type="Button" parent="VBoxContainer/control_button" unique_id=1869054665]
+[node name="play" parent="VBoxContainer/control_button" unique_id=913236056 instance=ExtResource("3_vx4jc")]
 unique_name_in_owner = true
-custom_minimum_size = Vector2(60, 30)
 layout_mode = 2
-focus_mode = 0
-theme = ExtResource("1_livrl")
+text = ""
 icon = SubResource("AtlasTexture_4jr3h")
 icon_alignment = 1
 expand_icon = true
+custom_tooltip_text = "Play"
 
-[node name="end" type="Button" parent="VBoxContainer/control_button" unique_id=1441300129]
+[node name="end" parent="VBoxContainer/control_button" unique_id=470752979 instance=ExtResource("3_vx4jc")]
 unique_name_in_owner = true
-custom_minimum_size = Vector2(60, 60)
 layout_mode = 2
-focus_mode = 0
-theme = ExtResource("1_livrl")
 text = ">"
-icon_alignment = 1
-expand_icon = true
+custom_tooltip_text = "+10ms"
 
 [connection signal="value_changed" from="VBoxContainer/HBoxContainer/slider" to="." method="_on_slider_value_changed"]
 [connection signal="pressed" from="VBoxContainer/control_button/start" to="." method="_on_start_pressed"]

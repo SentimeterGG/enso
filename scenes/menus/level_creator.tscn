@@ -15,6 +15,7 @@
 [ext_resource type="Texture2D" uid="uid://cbfdb6m0j6goq" path="res://assets/textures/ui/beat_bg.png" id="9_u832l"]
 [ext_resource type="AudioStream" uid="uid://c3onj2qko1sg7" path="res://assets/audio/sfx/ENSO-Hitsound.opus" id="10_u832l"]
 [ext_resource type="FontFile" uid="uid://ksap2ki2af7l" path="res://assets/fonts/ttf/PixelCode.ttf" id="11_5ur5l"]
+[ext_resource type="PackedScene" uid="uid://cqr7r5of7tv3p" path="res://scenes/ui/button.tscn" id="15_4ts4t"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_u832l"]
 bg_color = Color(0.05, 0.05, 0.05, 0)
@@ -523,13 +524,11 @@ custom_maximum_size = Vector2(300, -1)
 layout_mode = 2
 focus_mode = 0
 
-[node name="Add Difficulty" type="Button" parent="LevelCreator/MAPPING/Controls" unique_id=755108052]
+[node name="Add Difficulty" parent="LevelCreator/MAPPING/Controls" unique_id=246098640 instance=ExtResource("15_4ts4t")]
 unique_name_in_owner = true
-custom_minimum_size = Vector2(336, 0)
 layout_mode = 2
-focus_mode = 0
-theme = ExtResource("1_evwkm")
-text = "Add Difficulty"
+text = "+"
+custom_tooltip_text = "Add Difficulty"
 
 [node name="ShapeOption" type="OptionButton" parent="LevelCreator/MAPPING/Controls" unique_id=1386991494]
 unique_name_in_owner = true
@@ -554,7 +553,7 @@ custom_minimum_size = Vector2(224, 0)
 layout_mode = 2
 focus_mode = 0
 theme = ExtResource("1_evwkm")
-text = "Add Shape"
+text = "Assign Shape"
 
 [node name="UndoRedo" type="HBoxContainer" parent="LevelCreator/MAPPING/Controls" unique_id=1369720725]
 layout_mode = 2

@@ -3,6 +3,7 @@
 [ext_resource type="Script" uid="uid://cficoccub2f68" path="res://scripts/editor/input/file_input.gd" id="1_hmaqt"]
 [ext_resource type="Theme" uid="uid://cpocn8agag6ib" path="res://resources/themes/Theme.tres" id="2_hmaqt"]
 [ext_resource type="Texture2D" uid="uid://bwbk0ok8jj44m" path="res://assets/textures/ui/icons/icons.png" id="2_mbcjh"]
+[ext_resource type="PackedScene" uid="uid://cqr7r5of7tv3p" path="res://scenes/ui/button.tscn" id="3_2bkar"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_puj65"]
 atlas = ExtResource("2_mbcjh")
@@ -26,13 +27,12 @@ layout_mode = 2
 size_flags_horizontal = 3
 theme = ExtResource("2_hmaqt")
 
-[node name="browse" type="Button" parent="HBoxContainer" unique_id=516803368]
+[node name="browse" parent="HBoxContainer" unique_id=246098640 instance=ExtResource("3_2bkar")]
 unique_name_in_owner = true
-custom_minimum_size = Vector2(68, 0)
 layout_mode = 2
-focus_mode = 0
+text = ""
 icon = SubResource("AtlasTexture_puj65")
-icon_alignment = 1
 expand_icon = true
+custom_tooltip_text = "Browse"
 
 [connection signal="pressed" from="HBoxContainer/browse" to="." method="_on_browse_pressed"]

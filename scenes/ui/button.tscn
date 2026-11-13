@@ -1,0 +1,14 @@
+[gd_scene format=3 uid="uid://cqr7r5of7tv3p"]
+
+[ext_resource type="Theme" uid="uid://cpocn8agag6ib" path="res://resources/themes/Theme.tres" id="1_di1ux"]
+[ext_resource type="Script" uid="uid://kjbin4p1eoac" path="res://scripts/ui/button.gd" id="2_3xo2w"]
+
+[node name="custom_button" type="Button" unique_id=246098640]
+custom_minimum_size = Vector2(68, 0)
+focus_mode = 0
+theme = ExtResource("1_di1ux")
+text = "fdsjakfldsajfdslkajf"
+script = ExtResource("2_3xo2w")
+
+[connection signal="mouse_entered" from="." to="." method="_on_mouse_entered"]
+[connection signal="mouse_exited" from="." to="." method="_on_mouse_exited"]
