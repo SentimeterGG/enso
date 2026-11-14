@@ -12,7 +12,6 @@
 [ext_resource type="PackedScene" uid="uid://cpdjo67hyeq74" path="res://scenes/ui/ui_line.tscn" id="7_u832l"]
 [ext_resource type="PackedScene" uid="uid://layknoctmjty" path="res://scenes/editor/input/step.tscn" id="8_atsjg"]
 [ext_resource type="Script" uid="uid://dgs760t2d526n" path="res://scripts/editor/level_creator/mapping.gd" id="8_cixrd"]
-[ext_resource type="Texture2D" uid="uid://cbfdb6m0j6goq" path="res://assets/textures/ui/beat_bg.png" id="9_u832l"]
 [ext_resource type="AudioStream" uid="uid://c3onj2qko1sg7" path="res://assets/audio/sfx/ENSO-Hitsound.opus" id="10_u832l"]
 [ext_resource type="FontFile" uid="uid://ksap2ki2af7l" path="res://assets/fonts/ttf/PixelCode.ttf" id="11_5ur5l"]
 [ext_resource type="PackedScene" uid="uid://cqr7r5of7tv3p" path="res://scenes/ui/button.tscn" id="15_4ts4t"]
@@ -354,6 +353,7 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 size_flags_horizontal = 3
+offset_transform_enabled = true
 mouse_filter = 2
 script = ExtResource("8_cixrd")
 
@@ -394,19 +394,6 @@ anchor_right = 1.0
 anchor_bottom = 0.5
 grow_horizontal = 2
 grow_vertical = 2
-
-[node name="BeatBG" type="TextureRect" parent="LevelCreator/MAPPING/Border/VBoxContainer/beat_column" unique_id=2061861188]
-unique_name_in_owner = true
-visible = false
-modulate = Color(1, 1, 1, 0.36862746)
-layout_mode = 1
-anchors_preset = 9
-anchor_bottom = 1.0
-offset_right = 3656.25
-grow_vertical = 2
-texture = ExtResource("9_u832l")
-expand_mode = 3
-stretch_mode = 1
 
 [node name="Line" type="ColorRect" parent="LevelCreator/MAPPING/Border/VBoxContainer" unique_id=46451653]
 custom_minimum_size = Vector2(0, 3)
@@ -517,9 +504,27 @@ offset_right = 382.5
 offset_bottom = -328.0
 grow_horizontal = 2
 grow_vertical = 0
-theme_override_constants/separation = 36
+theme_override_constants/separation = 24
 
-[node name="ShapeOption" type="OptionButton" parent="LevelCreator/MAPPING/Controls" unique_id=1386991494]
+[node name="HBoxContainer" type="HBoxContainer" parent="LevelCreator/MAPPING/Controls" unique_id=586701441]
+layout_mode = 2
+theme_override_constants/separation = 30
+
+[node name="BPMOption" type="OptionButton" parent="LevelCreator/MAPPING/Controls/HBoxContainer" unique_id=1145325249]
+unique_name_in_owner = true
+layout_mode = 2
+focus_mode = 0
+theme = ExtResource("1_evwkm")
+selected = 0
+item_count = 3
+popup/item_0/text = "1:1 BPM"
+popup/item_0/id = 0
+popup/item_1/text = "2:1 BPM"
+popup/item_1/id = 1
+popup/item_2/text = "3:1 BPM"
+popup/item_2/id = 2
+
+[node name="ShapeOption" type="OptionButton" parent="LevelCreator/MAPPING/Controls/HBoxContainer" unique_id=1386991494]
 unique_name_in_owner = true
 layout_mode = 2
 focus_mode = 0
@@ -530,13 +535,11 @@ item_count = 1
 popup/item_0/text = "L"
 popup/item_0/id = 0
 
-[node name="Add Shape" type="Button" parent="LevelCreator/MAPPING/Controls" unique_id=1189623053]
+[node name="Add Shape" parent="LevelCreator/MAPPING/Controls/HBoxContainer" unique_id=274772713 instance=ExtResource("15_4ts4t")]
 unique_name_in_owner = true
-custom_minimum_size = Vector2(224, 0)
 layout_mode = 2
-focus_mode = 0
-theme = ExtResource("1_evwkm")
 text = "Assign Shape"
+custom_tooltip_text = "[G]"
 
 [node name="UndoRedo" type="HBoxContainer" parent="LevelCreator/MAPPING/Controls" unique_id=1369720725]
 layout_mode = 2
@@ -562,10 +565,16 @@ text = ""
 icon = SubResource("AtlasTexture_03co8")
 custom_tooltip_text = "Redo"
 
+[node name="AutoSnapButton" type="CheckButton" parent="LevelCreator/MAPPING/Controls" unique_id=1570135445]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Auto Snap "
+
 [node name="ZoomControl" type="HBoxContainer" parent="LevelCreator/MAPPING/Controls" unique_id=1270229966]
 unique_name_in_owner = true
 editor_description = "zoom Control For column
  "
+custom_maximum_size = Vector2(-1, 40)
 layout_mode = 2
 size_flags_vertical = 4
 theme_override_constants/separation = 12
@@ -792,15 +801,6 @@ layout_mode = 2
 stretch_mode = 1
 alignment_horizontal = 0
 alignment_vertical = 0
-
-[node name="AddShapeButton" type="Button" parent="LevelCreator/MAPPING/BeatButtons/AddBeat2/AspectRatioContainer" unique_id=1872248744]
-custom_minimum_size = Vector2(0, 80)
-layout_mode = 2
-text = "G"
-
-[node name="Label" type="Label" parent="LevelCreator/MAPPING/BeatButtons/AddBeat2" unique_id=1673459908]
-layout_mode = 2
-text = "ASSIGN SHAPE"
 
 [node name="AddBeat" type="HBoxContainer" parent="LevelCreator/MAPPING/BeatButtons" unique_id=1948437199]
 layout_mode = 2
@@ -1093,7 +1093,7 @@ autowrap_mode = 2
 [connection signal="pressed" from="LevelCreator/MAPPING/HBoxContainer/go_to_prev_bet" to="LevelCreator/MAPPING" method="_on_go_to_prev_beat"]
 [connection signal="pressed" from="LevelCreator/MAPPING/HBoxContainer/start" to="LevelCreator/MAPPING" method="_on_start_pressed"]
 [connection signal="pressed" from="LevelCreator/MAPPING/HBoxContainer/go_to_next_beat" to="LevelCreator/MAPPING" method="_on_go_to_next_beat"]
-[connection signal="pressed" from="LevelCreator/MAPPING/Controls/Add Shape" to="LevelCreator/MAPPING" method="_on_add_shape_pressed"]
+[connection signal="pressed" from="LevelCreator/MAPPING/Controls/HBoxContainer/Add Shape" to="LevelCreator/MAPPING" method="_on_add_shape_pressed"]
 [connection signal="pressed" from="LevelCreator/MAPPING/Controls/UndoRedo/AspectRatioContainer/custom_button" to="LevelCreator/MAPPING" method="_on_undo_pressed"]
 [connection signal="pressed" from="LevelCreator/MAPPING/Controls/UndoRedo/AspectRatioContainer2/custom_button" to="LevelCreator/MAPPING" method="_on_redo_pressed"]
 [connection signal="value_changed" from="LevelCreator/MAPPING/AddDifficultyPopup/VBoxContainer/OverallDifficulty/HBoxContainer/DiffSpin" to="LevelCreator/MAPPING" method="_on_diff_spin_value_changed"]
@@ -1105,7 +1105,6 @@ autowrap_mode = 2
 [connection signal="pressed" from="LevelCreator/MAPPING/EditDifficulty/HBoxContainer/Add Difficulty" to="LevelCreator/MAPPING" method="_on_add_difficuly_pressed"]
 [connection signal="pressed" from="LevelCreator/MAPPING/EditDifficulty/HBoxContainer/EditDifficultyNameButton" to="LevelCreator/MAPPING" method="_on_edit_difficulty_name_button_pressed"]
 [connection signal="pressed" from="LevelCreator/MAPPING/EditDifficulty/HBoxContainer/SaveChangesOnCurrentDiff" to="LevelCreator/MAPPING" method="_on_save_changes_on_current_diff_pressed"]
-[connection signal="pressed" from="LevelCreator/MAPPING/BeatButtons/AddBeat2/AspectRatioContainer/AddShapeButton" to="LevelCreator/MAPPING" method="_on_add_shape_pressed"]
 [connection signal="pressed" from="LevelCreator/MAPPING/BeatButtons/AddBeat/AspectRatioContainer/AddBeatButton" to="LevelCreator/MAPPING" method="_on_add_beat_button_pressed"]
 [connection signal="pressed" from="LevelCreator/MAPPING/BeatButtons/RemoveBeat/AspectRatioContainer/RemoveBeatButton" to="LevelCreator/MAPPING" method="_on_remove_beat_button_pressed"]
 [connection signal="pressed" from="TABS/MetadataButton" to="." method="_on_metadata_pressed"]

@@ -16,6 +16,11 @@ const SHAPE_BASE_MODULATE := Color(1, 1, 1, 0.16078432)
 const SHAPE_SELECTED_MODULATE := Color(1.0, 0.85, 0.2, 0.5)
 const SHAPE_CENTER_OFFSET_Y := 0.0
 const SHAPE_NOTES_SIZE := Vector2(126.0, 126.0)
+const BPM_LINE_WIDTH := 3.0
+const BPM_LINE_COLOR := Color(1, 1, 1, 0.36862746)
+const MIN_BPM_LINE_SPACING := 4.0
+const MAX_BPM_LINES := 512
+const AUTO_SNAP_WINDOW_RATIO := 0.25
 
 var beat_times_ms: Array[int] = []
 var difficulties: Dictionary = { }
@@ -38,13 +43,17 @@ var _beat_shape_map: Dictionary = { }
 var _scrubbing := false
 var _markers_root: Node2D = null
 var _shapes_root: Node2D = null
-var _beat_bg_tiles: Array[TextureRect] = []
+var _bpm_lines_root: Node2D = null
+var _bpm_line_nodes: Array[ColorRect] = []
 var _undo_stack: Array[Dictionary] = []
 var _redo_stack: Array[Dictionary] = []
 var _beat_dragging := false
 var _beat_drag_start_pos := Vector2.ZERO
 var _beat_drag_start_time := 0.0
 var _beat_drag_was_playing := false
+var _drag_group_origins: Array[int] = []
+var _drag_group_current: Array[int] = []
+var _drag_anchor_origin_ms := -1
 var _hold_action := 0 # 0 = none, 1 = undo, 2 = redo
 var _hold_key: Key = KEY_NONE
 var _hold_next_ms := 0
@@ -64,7 +73,8 @@ var _current_difficulty: String = ""
 @onready var _beat_column: Control = $Border/VBoxContainer/beat_column
 @onready var _beat_y_position: Control = $Border/VBoxContainer/beat_column/BeatYPosition
 @onready var _shape_y_position: Control = $Border/VBoxContainer/shape_column/ShapeYPosition
-@onready var _beat_bg: TextureRect = %BeatBG
+@onready var _bpm_option: OptionButton = %BPMOption
+@onready var _auto_snap_button: CheckButton = %AutoSnapButton
 @onready var _btn_add_shape: Button = %"Add Shape"
 @onready var _shape_option: OptionButton = %ShapeOption
 @onready var _difficulty_option: OptionButton = %DifficultyOption
@@ -87,6 +97,9 @@ var _current_difficulty: String = ""
 func _ready() -> void:
 	_add_difficulty_popup.visible = false
 	_rename_difficulty_popup.visible = false
+	_bpm_lines_root = Node2D.new()
+	_bpm_lines_root.name = "BpmLines"
+	add_child(_bpm_lines_root)
 	_markers_root = Node2D.new()
 	_markers_root.name = "BeatMarkers"
 	add_child(_markers_root)
@@ -96,7 +109,8 @@ func _ready() -> void:
 	visibility_changed.connect(_on_visibility_changed)
 	get_viewport().size_changed.connect(_on_viewport_size_changed)
 	_update_scroll()
-	_sync_beat_bg.call_deferred()
+	_setup_bpm_lines()
+	_request_layout_refresh()
 	timeline.min_value = 0.0
 	timeline.step = 0.01
 	timeline.value_changed.connect(_on_timeline_changed)
@@ -344,18 +358,27 @@ func _input(event: InputEvent) -> void:
 
 
 func _handle_beat_drag(motion: InputEventMouseMotion) -> void:
-	var target := _mouse_to_beat_ms(motion.position)
-	if target == _drag_beat:
+	_drag_selected_beats(motion.position, Input.is_key_pressed(KEY_CTRL))
+
+
+func _drag_selected_beats(mouse_pos: Vector2, snap_to_beat: bool) -> void:
+	if _drag_anchor_origin_ms < 0 or _drag_group_origins.is_empty():
 		return
-	if (
-		not _drag_history_recorded and beat_times_ms.has(_drag_beat)
-		and not beat_times_ms.has(target)
-	):
+	var target_anchor := _mouse_to_beat_ms(mouse_pos, snap_to_beat)
+	var delta := target_anchor - _drag_anchor_origin_ms
+	var targets: Array[int] = []
+	for origin in _drag_group_origins:
+		targets.append(origin + delta)
+	if targets == _drag_group_current:
+		return
+	if not _can_apply_beat_group_move(_drag_group_current, targets):
+		return
+	if not _drag_history_recorded:
 		_record_history()
 		_drag_history_recorded = true
-	if not _move_beat(_drag_beat, target):
-		return
-	_drag_beat = target
+	_apply_beat_group_move(_drag_group_current, targets)
+	_drag_group_current = targets
+	_drag_beat = target_anchor
 	if not _drag_moved:
 		_drag_moved = true
 		Input.set_default_cursor_shape(Input.CURSOR_HSIZE)
@@ -374,12 +397,17 @@ func _on_marker_drag_started(beat_ms: int) -> void:
 	_drag_beat = beat_ms
 	_drag_moved = false
 	_drag_history_recorded = false
+	# Every selected beat moves together; the grabbed beat drives the offset.
+	_drag_group_origins = _selected.duplicate()
+	_drag_group_current = _drag_group_origins.duplicate()
+	_drag_anchor_origin_ms = beat_ms
 
 
 func _on_marker_hold_started(_beat_ms: int) -> void:
 	# Holding a beat point still (without dragging it) starts a timeline scrub.
 	if _drag_moved:
 		return
+	_clear_beat_drag_group()
 	_drag_beat = -1
 	_drag_moved = false
 	_drag_history_recorded = false
@@ -396,10 +424,53 @@ func _end_beat_drag() -> void:
 	_drag_beat = -1
 	_drag_moved = false
 	_drag_history_recorded = false
+	_clear_beat_drag_group()
 
 
-func _mouse_to_beat_ms(mouse_pos: Vector2) -> int:
-	return int(round(_mouse_to_time_sec(mouse_pos) * 1000.0))
+func _clear_beat_drag_group() -> void:
+	_drag_group_origins.clear()
+	_drag_group_current.clear()
+	_drag_anchor_origin_ms = -1
+
+
+func _mouse_to_beat_ms(mouse_pos: Vector2, snap_to_beat: bool = false) -> int:
+	var t := _mouse_to_time_sec(mouse_pos)
+	if snap_to_beat:
+		t = _snap_time_to_bpm_grid(t)
+	return int(round(t * 1000.0))
+
+
+func _bpm_interval_sec() -> float:
+	var bpm := _current_bpm_value()
+	if bpm <= 0.0:
+		return 0.0
+	return (60.0 / bpm) / float(_bpm_subdivision())
+
+
+func _snap_time_to_bpm_grid(time_sec: float) -> float:
+	var interval := _bpm_interval_sec()
+	if interval <= 0.0:
+		return time_sec
+	var beat0 := _current_beat0_sec()
+	var snapped := beat0 + roundf((time_sec - beat0) / interval) * interval
+	snapped = maxf(0.0, snapped)
+	if mapping_player.stream != null:
+		snapped = minf(snapped, mapping_player.stream.get_length())
+	return snapped
+
+
+func _auto_snap_enabled() -> bool:
+	return _auto_snap_button != null and _auto_snap_button.button_pressed
+
+
+func _snap_time_near_bpm_line(time_sec: float) -> float:
+	var interval := _bpm_interval_sec()
+	if interval <= 0.0:
+		return time_sec
+	var snapped := _snap_time_to_bpm_grid(time_sec)
+	if absf(snapped - time_sec) > interval * AUTO_SNAP_WINDOW_RATIO:
+		return time_sec
+	return snapped
 
 
 func _mouse_to_time_sec(mouse_pos: Vector2) -> float:
@@ -413,44 +484,72 @@ func _mouse_to_time_sec(mouse_pos: Vector2) -> float:
 	return t
 
 
-func _move_beat(old_ms: int, new_ms: int) -> bool:
-	if new_ms == old_ms:
-		return true
-	if not beat_times_ms.has(old_ms) or beat_times_ms.has(new_ms):
-		return false
-	_replace_beat_time(old_ms, new_ms)
-	_retarget_marker(old_ms, new_ms)
-	_retarget_selected_beat(old_ms, new_ms)
-	if _retarget_shapes(old_ms, new_ms):
-		_rebuild_beat_shape_map()
-		_refresh_shapes()
+func _can_apply_beat_group_move(from_times: Array[int], to_times: Array[int]) -> bool:
+	var max_ms := 0
+	var has_limit := mapping_player.stream != null
+	if has_limit:
+		max_ms = int(mapping_player.stream.get_length() * 1000.0)
+	var from_set := { }
+	for t in from_times:
+		from_set[t] = true
+	var seen := { }
+	for t in to_times:
+		if t < 0:
+			return false
+		if has_limit and t > max_ms:
+			return false
+		if seen.has(t):
+			return false
+		seen[t] = true
+		if beat_times_ms.has(t) and not from_set.has(t):
+			return false
 	return true
 
 
-func _replace_beat_time(old_ms: int, new_ms: int) -> void:
-	beat_times_ms.erase(old_ms)
-	beat_times_ms.append(new_ms)
-	beat_times_ms.sort()
-
-
-func _retarget_marker(old_ms: int, new_ms: int) -> void:
-	var node = _marker_nodes.get(old_ms)
-	if node == null:
-		return
-	_marker_nodes.erase(old_ms)
-	_marker_nodes[new_ms] = node
-	node.beat_ms = new_ms
-	node.position = Vector2(float(new_ms) / 1000.0 * _px_per_sec(), _beat_y())
-
-
-func _retarget_selected_beat(old_ms: int, new_ms: int) -> void:
-	if not _selected.has(old_ms):
-		return
-	var sel := _selected.duplicate()
-	sel.erase(old_ms)
-	sel.append(new_ms)
-	sel.sort()
-	_selected = sel
+func _apply_beat_group_move(from_times: Array[int], to_times: Array[int]) -> void:
+	var from_set := { }
+	for t in from_times:
+		from_set[t] = true
+	# Remap markers in two phases: erase every old key first, then insert the new
+	# ones. Moving a beat onto another selected beat's old time would otherwise
+	# clobber that beat's node in _marker_nodes.
+	var moved_nodes := { }
+	for i in range(from_times.size()):
+		if from_times[i] == to_times[i]:
+			continue
+		var node = _marker_nodes.get(from_times[i])
+		if node != null:
+			moved_nodes[from_times[i]] = node
+	for old_ms in moved_nodes:
+		_marker_nodes.erase(old_ms)
+	for i in range(from_times.size()):
+		var old_ms := from_times[i]
+		if not moved_nodes.has(old_ms):
+			continue
+		var new_ms := to_times[i]
+		var node = moved_nodes[old_ms]
+		_marker_nodes[new_ms] = node
+		node.beat_ms = new_ms
+		node.position = Vector2(float(new_ms) / 1000.0 * _px_per_sec(), _beat_y())
+	var new_times: Array[int] = []
+	for t in beat_times_ms:
+		if not from_set.has(t):
+			new_times.append(t)
+	for t in to_times:
+		new_times.append(t)
+	new_times.sort()
+	beat_times_ms = new_times
+	var touched := false
+	for i in range(from_times.size()):
+		if from_times[i] == to_times[i]:
+			continue
+		if _retarget_shapes(from_times[i], to_times[i]):
+			touched = true
+	if touched:
+		_rebuild_beat_shape_map()
+		_refresh_shapes()
+	_selected = to_times.duplicate()
+	_selected.sort()
 	_refresh_marker_selection()
 
 
@@ -701,7 +800,10 @@ func _zoom_waveform(steps: int) -> void:
 func add_beat_at_current() -> void:
 	if mapping_player.stream == null:
 		return
-	var ms := int(round(current_time() * 1000.0))
+	var time_sec := current_time()
+	if _auto_snap_enabled():
+		time_sec = _snap_time_near_bpm_line(time_sec)
+	var ms := int(round(time_sec * 1000.0))
 	if beat_times_ms.has(ms):
 		return
 	_record_history()
@@ -1565,43 +1667,108 @@ func _update_scroll() -> void:
 	_markers_root.position = Vector2(scroll_x, 0.0)
 	if _shapes_root != null:
 		_shapes_root.position = Vector2(scroll_x, 0.0)
-	_sync_beat_bg()
+	_sync_bpm_lines()
 
 
-func _sync_beat_bg() -> void:
-	if _beat_bg == null or _markers_root == null:
-		return
-	var period := _beat_bg.size.x
-	if period <= 0.0:
-		return
-	var view_left := global_position.x
-	var needed := int(ceil(size.x / period)) + 2
-	_ensure_beat_bg_tiles(needed)
-	var start_x := view_left + fposmod(_markers_root.global_position.x - view_left, period) - period
-	for i in range(_beat_bg_tiles.size()):
-		var tile := _beat_bg_tiles[i]
-		if not is_instance_valid(tile):
+func _setup_bpm_lines() -> void:
+	if _bpm_option != null and not _bpm_option.item_selected.is_connected(_on_bpm_option_selected):
+		_bpm_option.item_selected.connect(_on_bpm_option_selected)
+
+
+func _on_bpm_option_selected(_index: int) -> void:
+	_update_scroll()
+
+
+func _bpm_subdivision() -> int:
+	if _bpm_option == null:
+		return 1
+	return maxi(1, _bpm_option.selected + 1)
+
+
+func _current_bpm_value() -> float:
+	var value = _metadata_field_value("bpm")
+	if value == null:
+		return 0.0
+	return float(value)
+
+
+func _current_beat0_sec() -> float:
+	var value = _metadata_field_value("beat0")
+	if value == null:
+		return 0.0
+	return float(value) / 1000.0
+
+
+func _metadata_field_value(field_name: String) -> Variant:
+	if metadata_group == null:
+		return null
+	var fields = metadata_group.get("fields")
+	if fields == null:
+		return null
+	for field in fields:
+		if field == null:
 			continue
-		tile.global_position = Vector2(start_x + float(i) * period, _beat_bg.global_position.y)
+		if str(field.name) == field_name and field.has_method("_take_data"):
+			return field._take_data()
+	return null
 
 
-func _ensure_beat_bg_tiles(count: int) -> void:
-	if _beat_bg == null:
+func _beat_column_rect() -> Rect2:
+	if _beat_column == null:
+		return Rect2()
+	return Rect2(_to_mapping(_beat_column.global_position), _beat_column.size)
+
+
+func _sync_bpm_lines() -> void:
+	if _bpm_lines_root == null or _markers_root == null:
 		return
-	var parent := _beat_bg.get_parent()
-	if parent == null:
+	_bpm_lines_root.position = _markers_root.position
+	var bpm := _current_bpm_value()
+	var interval := 0.0
+	if bpm > 0.0:
+		interval = (60.0 / bpm) / float(_bpm_subdivision())
+	var rect := _beat_column_rect()
+	var pps := _px_per_sec()
+	if interval <= 0.0 or rect.size.y <= 0.0 or pps <= 0.0:
+		_hide_bpm_lines()
 		return
-	while _beat_bg_tiles.size() < count:
-		if _beat_bg_tiles.is_empty():
-			_beat_bg_tiles.append(_beat_bg)
+	var spacing := interval * pps
+	if spacing < MIN_BPM_LINE_SPACING:
+		_hide_bpm_lines()
+		return
+	var view_width := size.x
+	if view_width <= 0.0:
+		view_width = get_viewport_rect().size.x
+	var needed := clampi(int(ceil(view_width / spacing)) + 3, 1, MAX_BPM_LINES)
+	_ensure_bpm_lines(needed)
+	var base_x := _current_beat0_sec() * pps
+	var scroll_x := _markers_root.position.x
+	var first := int(ceil((-spacing - scroll_x - base_x) / spacing))
+	for i in range(_bpm_line_nodes.size()):
+		var line := _bpm_line_nodes[i]
+		if i >= needed:
+			line.visible = false
 			continue
-		var tile := _beat_bg.duplicate() as TextureRect
-		tile.visible = true
-		tile.name = "BeatBGLoop%d" % _beat_bg_tiles.size()
-		tile.unique_name_in_owner = false
-		tile.mouse_filter = Control.MOUSE_FILTER_IGNORE
-		parent.add_child(tile)
-		_beat_bg_tiles.append(tile)
+		line.position = Vector2(base_x + float(first + i) * spacing, rect.position.y)
+		line.size = Vector2(BPM_LINE_WIDTH, rect.size.y)
+		line.visible = true
+
+
+func _hide_bpm_lines() -> void:
+	for line in _bpm_line_nodes:
+		if is_instance_valid(line):
+			line.visible = false
+
+
+func _ensure_bpm_lines(count: int) -> void:
+	while _bpm_line_nodes.size() < count:
+		var line := ColorRect.new()
+		line.name = "BpmLine%d" % _bpm_line_nodes.size()
+		line.color = BPM_LINE_COLOR
+		line.mouse_filter = Control.MOUSE_FILTER_IGNORE
+		line.size = Vector2(BPM_LINE_WIDTH, 1.0)
+		_bpm_lines_root.add_child(line)
+		_bpm_line_nodes.append(line)
 
 
 func _check_beats_passed_line_generator(_pos: float) -> void:
