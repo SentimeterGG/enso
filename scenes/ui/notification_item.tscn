@@ -1,0 +1,135 @@
+[gd_scene format=3 uid="uid://cuqfbwbad3dbk"]
+
+[ext_resource type="StyleBox" uid="uid://dqbqam4mckjki" path="res://resources/themes/Notification/warn.tres" id="1_5vrli"]
+[ext_resource type="Script" uid="uid://cfrg4twtv4eun" path="res://scripts/ui/notification.gd" id="2_rb2bf"]
+[ext_resource type="Texture2D" uid="uid://bwbk0ok8jj44m" path="res://assets/textures/ui/icons/icons.png" id="3_doskg"]
+[ext_resource type="Theme" uid="uid://cpocn8agag6ib" path="res://resources/themes/Theme.tres" id="4_m6c4y"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_pyblu"]
+atlas = ExtResource("3_doskg")
+region = Rect2(80, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_mltiy"]
+atlas = ExtResource("3_doskg")
+region = Rect2(64, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_avux6"]
+atlas = ExtResource("3_doskg")
+region = Rect2(48, 0, 16, 16)
+
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_pyblu"]
+load_path = "res://.godot/imported/icons.png-6a53ad3006597f12887cd7d7f5f0f211.ctex"
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_lerck"]
+atlas = SubResource("CompressedTexture2D_pyblu")
+region = Rect2(48, 32, 16, 16)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_8ldpm"]
+bg_color = Color(0.60038817, 0.60038817, 0.60038817, 0)
+border_width_top = 3
+border_width_right = 3
+border_width_bottom = 3
+border_color = Color(0.43137255, 0.43137255, 0.43137255, 1)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ehw80"]
+atlas = ExtResource("3_doskg")
+region = Rect2(80, 0, 16, 16)
+
+[node name="Notification" type="PanelContainer" unique_id=1225846454]
+z_index = 356
+custom_minimum_size = Vector2(711, 0)
+custom_maximum_size = Vector2(900, -1)
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -567.0
+offset_bottom = 129.0
+grow_horizontal = 0
+size_flags_horizontal = 8
+size_flags_vertical = 0
+theme_override_styles/panel = ExtResource("1_5vrli")
+script = ExtResource("2_rb2bf")
+icon_info = SubResource("AtlasTexture_pyblu")
+icon_success = SubResource("AtlasTexture_mltiy")
+icon_warn = SubResource("AtlasTexture_avux6")
+icon_loading = SubResource("AtlasTexture_lerck")
+
+[node name="Panel" type="Panel" parent="." unique_id=236193942]
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_8ldpm")
+
+[node name="Margin" type="MarginContainer" parent="." unique_id=34173631]
+layout_mode = 2
+size_flags_horizontal = 8
+size_flags_vertical = 0
+theme_override_constants/margin_left = 24
+theme_override_constants/margin_top = 21
+theme_override_constants/margin_right = 24
+theme_override_constants/margin_bottom = 24
+
+[node name="HBoxContainer" type="HBoxContainer" parent="Margin" unique_id=1297485801]
+custom_minimum_size = Vector2(0, 84)
+layout_mode = 2
+size_flags_horizontal = 8
+size_flags_vertical = 0
+theme_override_constants/separation = 24
+
+[node name="AspectRatioContainer" type="AspectRatioContainer" parent="Margin/HBoxContainer" unique_id=1916068763]
+layout_mode = 2
+size_flags_horizontal = 0
+
+[node name="Panel" type="Panel" parent="Margin/HBoxContainer/AspectRatioContainer" unique_id=554644537]
+custom_minimum_size = Vector2(84, 0)
+custom_maximum_size = Vector2(84, -1)
+layout_mode = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="Margin/HBoxContainer/AspectRatioContainer/Panel" unique_id=1522622536]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 6
+theme_override_constants/margin_top = 6
+theme_override_constants/margin_right = 6
+theme_override_constants/margin_bottom = 6
+
+[node name="TextureRect" type="TextureRect" parent="Margin/HBoxContainer/AspectRatioContainer/Panel/MarginContainer" unique_id=522671931]
+layout_mode = 2
+offset_transform_enabled = true
+texture = SubResource("AtlasTexture_ehw80")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Margin/HBoxContainer" unique_id=564114270]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 0
+theme_override_constants/separation = 2
+
+[node name="Title" type="Label" parent="Margin/HBoxContainer/VBoxContainer" unique_id=1066267431]
+layout_mode = 2
+size_flags_horizontal = 3
+theme = ExtResource("4_m6c4y")
+theme_override_font_sizes/font_size = 30
+autowrap_mode = 3
+
+[node name="Body" type="Label" parent="Margin/HBoxContainer/VBoxContainer" unique_id=254080985]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 0
+theme = ExtResource("4_m6c4y")
+theme_override_colors/font_color = Color(0.47788018, 0.47788012, 0.47788012, 1)
+theme_override_font_sizes/font_size = 24
+autowrap_mode = 2
+max_lines_visible = 3
+
+[node name="Button" type="Button" parent="." unique_id=2022654759]
+self_modulate = Color(1, 1, 1, 0)
+layout_mode = 2
+
+[node name="DurationVisual" type="ColorRect" parent="." unique_id=1061932069]
+custom_minimum_size = Vector2(0, 9)
+layout_mode = 2
+size_flags_vertical = 8
+
+[connection signal="pressed" from="Button" to="." method="_on_button_pressed"]

@@ -153,7 +153,7 @@ func _load_song(path: String) -> void:
 		return
 	_song_load_token += 1
 	var token := _song_load_token
-	var toast := Notification.show_loading(
+	var toast = Notification.show_loading(
 		"Loading song",
 		p.get_file(),
 		"Song ready",

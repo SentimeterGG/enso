@@ -82,6 +82,11 @@ toggle_window={
 ]
 }
 
+[input_devices]
+
+pointing/android/enable_long_press_as_right_click=true
+pointing/android/enable_pan_and_scale_gestures=true
+
 [physics]
 
 3d/physics_engine="Jolt Physics"
