@@ -1,4 +1,8 @@
 extends Node
+
+const DECODED_AUDIO_CACHE_LIMIT := 1
+const AUDIO_DECODE_CHUNK_FRAMES := 4096
+
 var current_chart: ChartData = null
 
 var first_time_playing: bool = true
@@ -16,6 +20,10 @@ class SafeResource:
 
 
 var resource_load_task_ids: Array[int] = []
+
+var _decoded_audio_cache: Dictionary = { }
+var _decoded_audio_cache_order: Array[String] = []
+var _decoded_audio_pending: Dictionary = { }
 
 
 func _ready():
@@ -185,6 +193,114 @@ func load_safely_async(path: String) -> SafeResource:
 		WorkerThreadPool.add_task(_create_resource.bind(path, safe_resource))
 	)
 	return safe_resource
+
+
+func load_audio_wav_async(path: String) -> SafeResource:
+	var p := path.strip_edges()
+	var safe_resource := SafeResource.new()
+	if p.is_empty():
+		safe_resource.completed.emit.call_deferred(null)
+		return safe_resource
+	var cache_key := _audio_wav_cache_key(p)
+	if _decoded_audio_cache.has(cache_key):
+		safe_resource.result = _decoded_audio_cache[cache_key]
+		safe_resource.completed.emit.call_deferred(safe_resource.result)
+		return safe_resource
+	if _decoded_audio_pending.has(cache_key):
+		return _decoded_audio_pending[cache_key] as SafeResource
+
+	var job := SafeResource.new()
+	_decoded_audio_pending[cache_key] = job
+	var mix_rate := AudioServer.get_mix_rate()
+	resource_load_task_ids.append(
+		WorkerThreadPool.add_task(_create_decoded_audio.bind(p, cache_key, job, mix_rate))
+	)
+	return job
+
+
+func _audio_wav_cache_key(path: String) -> String:
+	var modified := FileAccess.get_modified_time(path)
+	var length := -1
+	var file := FileAccess.open(path, FileAccess.READ)
+	if file != null:
+		length = file.get_length()
+		file.close()
+	return "%s|%d|%d" % [path, modified, length]
+
+
+func _create_decoded_audio(
+	path: String,
+	cache_key: String,
+	job: SafeResource,
+	mix_rate: int,
+) -> void:
+	var wav := _decode_audio_to_wav(path, mix_rate)
+	_finish_decoded_audio.call_deferred(cache_key, job, wav)
+
+
+func _finish_decoded_audio(cache_key: String, job: SafeResource, wav: AudioStreamWAV) -> void:
+	_decoded_audio_pending.erase(cache_key)
+	if wav != null:
+		_cache_decoded_audio(cache_key, wav)
+	job.result = wav
+	job.completed.emit(wav)
+
+
+func _cache_decoded_audio(cache_key: String, wav: AudioStreamWAV) -> void:
+	if not _decoded_audio_cache.has(cache_key):
+		_decoded_audio_cache_order.append(cache_key)
+	_decoded_audio_cache[cache_key] = wav
+	while _decoded_audio_cache_order.size() > DECODED_AUDIO_CACHE_LIMIT:
+		var old_key: String = _decoded_audio_cache_order.pop_front()
+		_decoded_audio_cache.erase(old_key)
+
+
+func _decode_audio_to_wav(path: String, mix_rate: int) -> AudioStreamWAV:
+	var stream := _load_resource(path) as AudioStream
+	if stream == null:
+		push_warning("decode_audio: could not load: " + path)
+		return null
+	if stream is AudioStreamWAV:
+		return stream as AudioStreamWAV
+
+	var playback := stream.instantiate_playback()
+	if playback == null:
+		push_warning("decode_audio: could not create playback: " + path)
+		return null
+	if mix_rate <= 0:
+		mix_rate = 44100
+
+	var total_frames := int(ceil(stream.get_length() * float(mix_rate)))
+	if total_frames <= 0:
+		push_warning("decode_audio: empty stream: " + path)
+		return null
+
+	playback.start(0.0)
+	var pcm := PackedByteArray()
+	var remaining := total_frames
+	while remaining > 0:
+		var frames := playback.mix_audio(1.0, mini(remaining, AUDIO_DECODE_CHUNK_FRAMES))
+		if frames.is_empty():
+			break
+		var base := pcm.size()
+		pcm.resize(base + frames.size() * 4)
+		for i in range(frames.size()):
+			var frame := frames[i]
+			pcm.encode_s16(base + i * 4, int(clampf(frame.x, -1.0, 1.0) * 32767.0))
+			pcm.encode_s16(base + i * 4 + 2, int(clampf(frame.y, -1.0, 1.0) * 32767.0))
+		remaining -= frames.size()
+	playback.stop()
+
+	if pcm.is_empty():
+		push_warning("decode_audio: no PCM data: " + path)
+		return null
+
+	var wav := AudioStreamWAV.new()
+	wav.format = AudioStreamWAV.FORMAT_16_BITS
+	wav.stereo = true
+	wav.mix_rate = mix_rate
+	wav.data = pcm
+	return wav
 
 
 func _create_resource(path: String, safe_resource: SafeResource) -> void:

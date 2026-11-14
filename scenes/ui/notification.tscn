@@ -17,6 +17,13 @@ region = Rect2(64, 0, 16, 16)
 atlas = ExtResource("2_mfwk2")
 region = Rect2(48, 0, 16, 16)
 
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_pyblu"]
+load_path = "res://.godot/imported/icons.png-6a53ad3006597f12887cd7d7f5f0f211.ctex"
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_lerck"]
+atlas = SubResource("CompressedTexture2D_pyblu")
+region = Rect2(48, 32, 16, 16)
+
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_8ldpm"]
 bg_color = Color(0.60038817, 0.60038817, 0.60038817, 0)
 border_width_top = 3
@@ -44,6 +51,7 @@ script = ExtResource("1")
 icon_info = SubResource("AtlasTexture_pyblu")
 icon_success = SubResource("AtlasTexture_mltiy")
 icon_warn = SubResource("AtlasTexture_avux6")
+icon_loading = SubResource("AtlasTexture_lerck")
 
 [node name="Panel" type="Panel" parent="." unique_id=1299414943]
 layout_mode = 2
@@ -84,6 +92,7 @@ theme_override_constants/margin_bottom = 6
 
 [node name="TextureRect" type="TextureRect" parent="Margin/HBoxContainer/AspectRatioContainer/Panel/MarginContainer" unique_id=1636987635]
 layout_mode = 2
+offset_transform_enabled = true
 texture = SubResource("AtlasTexture_ehw80")
 
 [node name="VBoxContainer" type="VBoxContainer" parent="Margin/HBoxContainer" unique_id=1477636644]

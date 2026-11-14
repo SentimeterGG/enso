@@ -1438,7 +1438,6 @@ func import_difficulty(diff_name: String, chart: ChartData) -> void:
 	_save_current_difficulty_state()
 	var clean_name := _clean_difficulty_name(diff_name)
 	_register_difficulty(clean_name, chart)
-	_ensure_chart_song(chart)
 	_import_beats_and_shapes(chart) # populates beat_times_ms / _shapes from the chart
 	_set_current_difficulty(clean_name)
 	_select_difficulty_in_dropdown(clean_name)
@@ -1455,14 +1454,6 @@ func _register_difficulty(diff_name: String, chart: ChartData) -> void:
 	difficulties[diff_name] = { "beats": [], "shapes": [], "overall_difficulty": overall }
 	if is_new:
 		_difficulty_option.add_item(diff_name)
-
-
-func _ensure_chart_song(chart: ChartData) -> void:
-	if mapping_player.stream != null:
-		return
-	var song := chart.song_path()
-	if not song.is_empty():
-		_load_song(song)
 
 
 func _set_current_difficulty(diff_name: String) -> void:
@@ -1555,18 +1546,6 @@ func _finish_import() -> void:
 	_request_layout_refresh()
 
 
-func _load_song(path: String) -> void:
-	var p := path.strip_edges()
-	if p.is_empty():
-		return
-	var stream: AudioStream = Global.load_safely(p)
-	mapping_player.stop()
-	mapping_player.stream_paused = false
-	mapping_player.stream = stream
-	_sync_timeline_range()
-	seek(0.0)
-
-
 func _px_per_sec() -> float:
 	return _view_pps
 
@@ -1600,8 +1579,6 @@ func _on_visibility_changed() -> void:
 	if not visible:
 		_stop_hold_shortcut()
 		return
-	# Containers only sort visible children, so wait for the layout pass before
-	# reading BeatYPosition / ShapeYPosition.
 	await get_tree().process_frame
 	_refresh_marker_positions()
 	_refresh_shape_positions()
@@ -1611,8 +1588,6 @@ func _on_visibility_changed() -> void:
 func _on_viewport_size_changed() -> void:
 	if not visible:
 		return
-	# Resizing re-sorts the Border containers, so let the layout settle before
-	# reading the moved BeatYPosition / ShapeYPosition anchors.
 	await get_tree().process_frame
 	await get_tree().process_frame
 	_refresh_marker_positions()
@@ -1811,10 +1786,6 @@ func _rebuild_markers() -> void:
 		marker.hold_started.connect(_on_marker_hold_started)
 		_marker_nodes[t] = marker
 	_refresh_marker_selection()
-
-
-func _on_load_song_file_selected(path: String) -> void:
-	_load_song(path)
 
 
 func _on_add_difficuly_pressed() -> void:

@@ -3,9 +3,30 @@ extends EditorInput
 const NUDGE_MS := 10
 const AUDITION_SEC := 0.05
 
+@onready var _start_button: Button = %start
 @onready var _play_button: Button = %play
+@onready var _end_button: Button = %end
 
 var _play_atlas_unique: AtlasTexture = null
+var _has_song := true
+
+
+func _ready() -> void:
+	_refresh_song_controls()
+
+
+func _process(_delta: float) -> void:
+	_refresh_song_controls()
+
+
+func _refresh_song_controls() -> void:
+	var has_song := BgMusic.stream != null
+	if has_song == _has_song:
+		return
+	_has_song = has_song
+	_start_button.disabled = not has_song
+	_play_button.disabled = not has_song
+	_end_button.disabled = not has_song
 
 
 func _format_ms(ms: int) -> String:
@@ -29,6 +50,8 @@ func _sync_range(duration_ms: int):
 
 
 func _on_start_pressed() -> void:
+	if BgMusic.stream == null:
+		return
 	_do_nudge(-1.0)
 	pass
 
@@ -59,6 +82,8 @@ func _playing(play: bool) -> void:
 
 
 func _on_end_pressed() -> void:
+	if BgMusic.stream == null:
+		return
 	_do_nudge(1.0)
 	pass
 

@@ -3,6 +3,7 @@ extends Control
 
 var android_picker: Object
 var _awaiting_field = ""
+var _song_load_token := 0
 var fields: Array
 
 @onready var mapping_player: AudioStreamPlayer = %MappingPreviewPlayer
@@ -150,15 +151,32 @@ func _load_song(path: String) -> void:
 	var p := path.strip_edges()
 	if p.is_empty():
 		return
-	var stream_call := Global.load_safely_async(path)
+	_song_load_token += 1
+	var token := _song_load_token
+	var toast := Notification.show_loading(
+		"Loading song",
+		p.get_file(),
+		"Song ready",
+		p.get_file(),
+		"Song load failed",
+		"Could not decode " + p.get_file(),
+	)
+	var stream_call = Global.load_audio_wav_async(p)
 	var stream: AudioStream = await stream_call.completed
+	if token != _song_load_token:
+		return
+	if not is_inside_tree():
+		toast.cancel()
+		return
 	if stream == null:
 		push_error("Could not load audio: " + p)
+		toast.finish(false)
 		return
 	BgMusic.stream = stream
 	mapping_player.stop()
 	mapping_player.stream_paused = false
 	mapping_player.stream = stream
+	toast.finish(true)
 	if mapping_group != null and mapping_group.has_method("_sync_timeline_range"):
 		mapping_group.call("_sync_timeline_range")
 	var duration_ms := int(stream.get_length() * 1000.0)
