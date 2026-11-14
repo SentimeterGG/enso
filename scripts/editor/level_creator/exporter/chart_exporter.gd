@@ -153,7 +153,7 @@ func _ensure_export_folder(out_dir: String) -> bool:
 
 func _copy_export_assets(data: Dictionary, out_dir: String) -> Dictionary:
 	var song_file := "song.mp3"
-	var src_song := str(data.get("song_src", "")).strip_edges()
+	var src_song := str(data.get("song", "")).strip_edges()
 	if not src_song.is_empty():
 		song_file = _resolve_song_filename(src_song)
 		_copy_song_into(src_song, out_dir.path_join(song_file))
