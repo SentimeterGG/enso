@@ -37,12 +37,12 @@ region = Rect2(80, 0, 16, 16)
 
 [node name="Notification" type="PanelContainer" unique_id=1225846454]
 z_index = 356
-custom_minimum_size = Vector2(711, 0)
 custom_maximum_size = Vector2(900, -1)
 anchors_preset = 1
 anchor_left = 1.0
 anchor_right = 1.0
-offset_left = -567.0
+offset_left = -159.0
+offset_right = 10.0
 offset_bottom = 129.0
 grow_horizontal = 0
 size_flags_horizontal = 8

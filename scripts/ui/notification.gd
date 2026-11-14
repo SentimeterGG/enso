@@ -18,7 +18,7 @@ const STYLES := {
 }
 
 const SHOW_SEC := 3.6
-const MIN_WIDTH := 711.0
+const MIN_WIDTH := 0.0
 const MAX_WIDTH := 900.0
 const SLIDE_IN := 0.28
 const SLIDE_OUT := 0.18

@@ -121,7 +121,6 @@ grow_vertical = 2
 
 [node name="METADATA" type="Control" parent="LevelCreator" unique_id=299311291]
 unique_name_in_owner = true
-visible = false
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -270,18 +269,21 @@ color = Color(0.48235294, 0.48235294, 0.48235294, 1)
 
 [node name="preview_start" parent="LevelCreator/METADATA/HBoxContainer/MarginContainer/ScrollContainer/MarginContainer/VBoxContainer/timing_section" unique_id=1746621220 instance=ExtResource("7_qx3et")]
 layout_mode = 2
+id = &"preview_start"
 
 [node name="Label" parent="LevelCreator/METADATA/HBoxContainer/MarginContainer/ScrollContainer/MarginContainer/VBoxContainer/timing_section/preview_start" index="0" unique_id=676781245]
 text = "Preview Start"
 
 [node name="beat0" parent="LevelCreator/METADATA/HBoxContainer/MarginContainer/ScrollContainer/MarginContainer/VBoxContainer/timing_section" unique_id=1610609191 instance=ExtResource("7_qx3et")]
 layout_mode = 2
+id = &"beat0"
 
 [node name="Label" parent="LevelCreator/METADATA/HBoxContainer/MarginContainer/ScrollContainer/MarginContainer/VBoxContainer/timing_section/beat0" index="0" unique_id=676781245]
 text = "First Beat Position"
 
 [node name="end_song_position" parent="LevelCreator/METADATA/HBoxContainer/MarginContainer/ScrollContainer/MarginContainer/VBoxContainer/timing_section" unique_id=361426408 instance=ExtResource("7_qx3et")]
 layout_mode = 2
+id = &"end_song"
 
 [node name="Label" parent="LevelCreator/METADATA/HBoxContainer/MarginContainer/ScrollContainer/MarginContainer/VBoxContainer/timing_section/end_song_position" index="0" unique_id=676781245]
 text = "End Song Position (0 = Full Song)"
@@ -345,6 +347,7 @@ theme_override_font_sizes/font_size = 36
 text = "GO BACK"
 
 [node name="MAPPING" type="Control" parent="LevelCreator" unique_id=401597931]
+visible = false
 clip_contents = true
 layout_mode = 1
 anchors_preset = 15
