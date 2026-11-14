@@ -454,7 +454,8 @@ layout_mode = 2
 text = "<"
 custom_tooltip_text = "Go To Prev Beat"
 
-[node name="start" parent="LevelCreator/MAPPING/HBoxContainer" unique_id=1685203053 instance=ExtResource("15_4ts4t")]
+[node name="start_timeline" parent="LevelCreator/MAPPING/HBoxContainer" unique_id=1685203053 instance=ExtResource("15_4ts4t")]
+unique_name_in_owner = true
 custom_minimum_size = Vector2(90, 0)
 layout_mode = 2
 text = ""
@@ -568,6 +569,7 @@ custom_tooltip_text = "Redo"
 [node name="AutoSnapButton" type="CheckButton" parent="LevelCreator/MAPPING/Controls" unique_id=1570135445]
 unique_name_in_owner = true
 layout_mode = 2
+focus_mode = 0
 text = "Auto Snap "
 
 [node name="ZoomControl" type="HBoxContainer" parent="LevelCreator/MAPPING/Controls" unique_id=1270229966]
@@ -1091,7 +1093,7 @@ autowrap_mode = 2
 [connection signal="gui_input" from="LevelCreator/MAPPING/Border/VBoxContainer/beat_column" to="LevelCreator/MAPPING" method="_on_beat_column_gui_input"]
 [connection signal="gui_input" from="LevelCreator/MAPPING/MappingPreviewCurrentPos" to="LevelCreator/MAPPING" method="_on_timeline_gui_input"]
 [connection signal="pressed" from="LevelCreator/MAPPING/HBoxContainer/go_to_prev_bet" to="LevelCreator/MAPPING" method="_on_go_to_prev_beat"]
-[connection signal="pressed" from="LevelCreator/MAPPING/HBoxContainer/start" to="LevelCreator/MAPPING" method="_on_start_pressed"]
+[connection signal="pressed" from="LevelCreator/MAPPING/HBoxContainer/start_timeline" to="LevelCreator/MAPPING" method="_on_start_pressed"]
 [connection signal="pressed" from="LevelCreator/MAPPING/HBoxContainer/go_to_next_beat" to="LevelCreator/MAPPING" method="_on_go_to_next_beat"]
 [connection signal="pressed" from="LevelCreator/MAPPING/Controls/HBoxContainer/Add Shape" to="LevelCreator/MAPPING" method="_on_add_shape_pressed"]
 [connection signal="pressed" from="LevelCreator/MAPPING/Controls/UndoRedo/AspectRatioContainer/custom_button" to="LevelCreator/MAPPING" method="_on_undo_pressed"]

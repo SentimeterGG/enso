@@ -705,9 +705,19 @@ func _start_music():
 		return
 	if mapping_player.playing:
 		mapping_player.stream_paused = not mapping_player.stream_paused
+		_playing(false)
 		return
 	mapping_player.stream_paused = false
+	_playing(true)
 	mapping_player.play(timeline.value)
+
+
+func _playing(play: bool) -> void:
+	var icon: AtlasTexture = %start_timeline.icon
+	if play == true:
+		icon.region = Rect2i(16, 32, 16, 16)
+	else:
+		icon.region = Rect2i(16, 16, 16, 16)
 
 
 func _on_go_to_prev_beat() -> void:
@@ -807,9 +817,9 @@ func add_beat_at_current() -> void:
 	if beat_times_ms.has(ms):
 		return
 	_record_history()
-	beat_times_ms.append(ms)
-	beat_times_ms.sort()
-	_rebuild_markers()
+	var insert_at := beat_times_ms.bsearch(ms)
+	beat_times_ms.insert(insert_at, ms)
+	_add_marker(ms)
 
 
 func remove_beat_at_current() -> void:
@@ -834,14 +844,14 @@ func _remove_selected_beats() -> void:
 		if beat_times_ms.has(t):
 			beat_times_ms.erase(t)
 			_strip_beat_from_shapes(t)
-	_rebuild_markers()
+			_remove_marker(t)
 	_set_selected([])
 
 
 func _remove_beat(beat_ms: int) -> void:
 	beat_times_ms.erase(beat_ms)
 	_strip_beat_from_shapes(beat_ms)
-	_rebuild_markers()
+	_remove_marker(beat_ms)
 	var sel := _selected.duplicate()
 	sel.erase(beat_ms)
 	_set_selected(sel)
@@ -1773,19 +1783,34 @@ func _rebuild_markers() -> void:
 	for child in _markers_root.get_children():
 		child.queue_free()
 	_marker_nodes.clear()
+	var live := { }
+	for t in beat_times_ms:
+		live[t] = true
 	for k in _hitsound_fired.keys():
-		if not beat_times_ms.has(k):
+		if not live.has(k):
 			_hitsound_fired.erase(k)
 	for t in beat_times_ms:
-		var marker = EDITOR_BEAT_POINT.instantiate()
-		marker.position = Vector2(float(t) / 1000.0 * _px_per_sec(), _beat_y())
-		marker.beat_ms = t
-		_markers_root.add_child(marker)
-		marker.clicked.connect(_on_marker_clicked)
-		marker.drag_started.connect(_on_marker_drag_started)
-		marker.hold_started.connect(_on_marker_hold_started)
-		_marker_nodes[t] = marker
+		_add_marker(t)
 	_refresh_marker_selection()
+
+
+func _add_marker(t: int) -> void:
+	var marker = EDITOR_BEAT_POINT.instantiate()
+	marker.position = Vector2(float(t) / 1000.0 * _px_per_sec(), _beat_y())
+	marker.beat_ms = t
+	_markers_root.add_child(marker)
+	marker.clicked.connect(_on_marker_clicked)
+	marker.drag_started.connect(_on_marker_drag_started)
+	marker.hold_started.connect(_on_marker_hold_started)
+	_marker_nodes[t] = marker
+
+
+func _remove_marker(t: int) -> void:
+	var marker = _marker_nodes.get(t)
+	_marker_nodes.erase(t)
+	_hitsound_fired.erase(t)
+	if marker != null and is_instance_valid(marker):
+		marker.queue_free()
 
 
 func _on_add_difficuly_pressed() -> void:

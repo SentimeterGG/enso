@@ -17,6 +17,7 @@ var _exporter: ChartExporter
 var _importer: ChartImporter
 
 @onready var level_creator_group: Control = %LevelCreator
+@onready var mapping_player: AudioStreamPlayer = %MappingPreviewPlayer
 @onready var mapping_button: Button = %MappingButton
 @onready var metadata_button: Button = %MetadataButton
 @onready var _save_dialog: FileDialog = %ExportPopup
@@ -90,6 +91,9 @@ func _on_mapping_pressed() -> void:
 func _on_metadata_pressed() -> void:
 	mapping_button.disabled = false
 	metadata_button.disabled = true
+	if mapping_player.playing:
+		mapping_player.stream_paused = not mapping_player.stream_paused
+		mapping_group.call_deferred("_playing", false)
 	_switch_to(SCENES.METADATA)
 
 
