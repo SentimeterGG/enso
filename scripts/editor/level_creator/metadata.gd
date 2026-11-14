@@ -14,6 +14,7 @@ func _ready() -> void:
 	FileDialogGlobal.file_selected.connect(_on_file_dialog_file_selected)
 	if Engine.has_singleton("GodotFilePicker"):
 		android_picker = Engine.get_singleton("GodotFilePicker")
+		android_picker.file_picked.connect(_on_file_android_picked)
 
 
 # Handle FileDialogPublic properties for video bg
@@ -101,7 +102,25 @@ func _allowed_extensions(field_name: String) -> PackedStringArray:
 			return []
 
 
+func _on_file_android_picked(temp_path: String, _mime_type: String) -> void:
+	if _awaiting_field.is_empty():
+		return
+	if temp_path.is_empty():
+		_awaiting_field = ""
+		return
+	_handle_after_file_selected(temp_path)
+
+
 func _on_file_dialog_file_selected(path: String) -> void:
+	if _awaiting_field.is_empty():
+		return
+	if path.is_empty():
+		_awaiting_field = ""
+		return
+	_handle_after_file_selected(path)
+
+
+func _handle_after_file_selected(path: String):
 	if _awaiting_field == "":
 		return
 	var allowed := _allowed_extensions(_awaiting_field)

@@ -122,13 +122,19 @@ func choose_random_chart() -> ChartData:
 
 
 func load_safely(path: String) -> Resource:
+	return _load_resource(path)
+
+
+func _load_resource(path: String) -> Resource:
 	if path.is_empty():
 		push_warning("load_safely: missing resource: " + path)
 		return null
 
 	if path.begins_with("res://"):
+		# Use the ResourceLoader for res:// paths so imported assets (e.g. .png -> .ctex)
+		# resolve correctly in exported builds such as Android.
 		if ResourceLoader.exists(path):
-			return load(path)
+			return ResourceLoader.load(path)
 
 		push_warning("load_safely: missing resource: " + path)
 		return null
@@ -137,6 +143,10 @@ func load_safely(path: String) -> Resource:
 		push_warning("load_safely: file not found: " + path)
 		return null
 
+	return _load_external_resource(path)
+
+
+func _load_external_resource(path: String) -> Resource:
 	match path.get_extension().to_lower():
 		# Images
 		"png", "jpg", "jpeg", "webp":
@@ -178,58 +188,11 @@ func load_safely_async(path: String) -> SafeResource:
 
 
 func _create_resource(path: String, safe_resource: SafeResource) -> void:
-	var loaded_resource: Resource
-	if path.is_empty():
-		push_warning("load_safely: missing resource: " + path)
-		return
-
-	if path.begins_with("res://"):
-		if not FileAccess.file_exists(path):
-			push_warning("load_safely: missing resource: " + path)
-			return
-
-		ResourceLoader.load_threaded_request(path)
-		while true:
-			var res := ResourceLoader.load_threaded_get(path)
-			if res != null:
-				loaded_resource = res
-				break
-			if (res == null and not ResourceLoader.load_threaded_get(path)):
-				OS.delay_msec(5)
-			else:
-				break
-
-	if not FileAccess.file_exists(path):
-		push_warning("load_safely: file not found: " + path)
-		return
-
-	match path.get_extension().to_lower():
-		# Images
-		"png", "jpg", "jpeg", "webp":
-			var img := Image.load_from_file(path)
-			if img == null or img.is_empty():
-				push_warning("load_safely: couldn't decode image: " + path)
-				return
-			loaded_resource = ImageTexture.create_from_image(img)
-		"ogv":
-			var video_resource := VideoStreamTheora.new()
-			video_resource.file = path
-			loaded_resource = video_resource
-		"opus":
-			loaded_resource = AudioStreamOpus.load_from_file(path)
-		"mp3":
-			loaded_resource = AudioStreamMP3.load_from_file(path)
-		"ogg":
-			loaded_resource = AudioStreamOggVorbis.load_from_file(path)
-
-		"wav":
-			loaded_resource = AudioStreamWAV.load_from_file(path)
-		_:
-			push_error("load_safely: unsupported file type: " + path)
+	var loaded_resource := _load_resource(path)
 	if loaded_resource == null:
 		push_warning("load_safely: failed to load resource: " + path)
-		return
 	safe_resource.result = loaded_resource
+	# Always complete so callers awaiting this resource are never left hanging.
 	safe_resource.completed.emit.call_deferred(loaded_resource)
 
 
